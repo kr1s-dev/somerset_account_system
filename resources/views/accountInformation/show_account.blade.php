@@ -193,23 +193,39 @@
                             <td><a href="{{ route('invoice.show',$journalEntry->invoice_id) }}"><strong>#{{$journalEntry->invoice_id}}</strong></a></td>
                           @elseif($journalEntry->receipt_id != NULL)
                             <td><a href="{{ route('receipt.show',$journalEntry->receipt_id) }}"><strong>#{{$journalEntry->receipt_id}}</strong></a></td>
-                          @else
+                          @elseif($journalEntry->expense_id != NULL)
                             <td><a href="{{ route('expense.show',$journalEntry->expense_id) }}"><strong>#{{$journalEntry->expense_id}}</strong></a></td>
+                          @else
+                            <td>N/A</td>
                           @endif
                           <td>{{$journalEntry->description}}</td>
-                          <td>{{$journalEntry->debit->account_sub_group_name}}</td>
-                          <td>{{$journalEntry->credit->account_sub_group_name}}</td>
+                          <td>
+                            @if($journalEntry->debit_title_id != NULL)
+                              {{$journalEntry->debit->account_sub_group_name}}
+                            @endif
+                          </td>
+                          <td>
+                            @if($journalEntry->credit_title_id != NULL)
+                              {{$journalEntry->credit->account_sub_group_name}}
+                            @endif
+                          </td>
                           
-                          @if($journalEntry->invoice_id != NULL)
-                            <td>{{$journalEntry->invoice->total_amount}}</td>
-                            <td>{{$journalEntry->invoice->total_amount}}</td>
-                          @elseif($journalEntry->receipt_id != NULL)
-                            <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
-                            <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
+                          @if($journalEntry->invoice_id != NULL || $journalEntry->receipt_id != NULL || $journalEntry->expense_id != NULL)
+                            @if($journalEntry->invoice_id != NULL)
+                              <td>{{$journalEntry->invoice->total_amount}}</td>
+                              <td>{{$journalEntry->invoice->total_amount}}</td>
+                            @elseif($journalEntry->receipt_id != NULL)
+                              <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
+                              <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
+                            @else
+                              <td>{{$journalEntry->expense->total_amount}}</td>
+                              <td>{{$journalEntry->expense->total_amount}}</td>
+                            @endif
                           @else
-                            <td>{{$journalEntry->expense->total_amount}}</td>
-                            <td>{{$journalEntry->expense->total_amount}}</td>
+                            <td>{{$journalEntry->debit_amount}}</td>
+                            <td>{{$journalEntry->credit_amount}}</td>
                           @endif
+                          
                         </tr>
                       @endforeach
                       <!--tr>

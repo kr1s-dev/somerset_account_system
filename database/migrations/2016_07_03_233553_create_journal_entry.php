@@ -27,10 +27,12 @@ class CreateJournalEntry extends Migration
                 $table->foreign('expense_id')->references('id')->on('expense_cash_voucher');
                 $table->String('type',255);
                 $table->string('description',255)->default('No Description');
-                $table->Integer('debit_title_id')->unsigned();
+                $table->Integer('debit_title_id')->unsigned()->nullable();
                 $table->foreign('debit_title_id')->references('id')->on('account_titles');
-                $table->Integer('credit_title_id')->unsigned();
+                $table->Integer('credit_title_id')->unsigned()->nullable();
                 $table->foreign('credit_title_id')->references('id')->on('account_titles');
+                $table->decimal('debit_amount',10,2)->default(0.00);
+                $table->decimal('credit_amount',10,2)->default(0.00);
                 $table->timestamps();
             });
         }

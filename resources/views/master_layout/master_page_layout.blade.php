@@ -80,7 +80,7 @@
                       <ul class="nav child_menu">
                          <!--li><a href="{{ route('account.create') }}">Create New Account</a></li>
                          <li><a href="{{ route('account.index') }}">View All Accounts</a></li-->
-                         <li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li>
+                         <!--li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li-->
                          <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
                          <li><a href="{{ route('account.index') }}">View Current Account</a></li>
                       </ul>
@@ -897,27 +897,44 @@
             e.preventDefault;
             var data= '';
             var isDup = checkIfDuplicate();
+            //Retrieving token for request
+            var _token = $('meta[name="csrf-token"]').attr('content');
+            var explanation = $('#explanation').val();
+            console.log(explanation);
             if(isDup){
                alert(isDup);
             }else{
-               $("#journal_entry_table tbody tr td").each(function() {
-               var input = $(this).find('input');
-               var select = $(this).find('select');
-               if(select.attr('name')){
+              $("#journal_entry_table tbody tr td").each(function() {
+                var input = $(this).find('input');
+                var select = $(this).find('select');
+                if(select.attr('name')){
                   data += (select.val() + ',');
-               }
-               if(input.attr('name')){
+                }
+                if(input.attr('name')){
                   if(input.val() != '0.00'){
                      data += (input.val() + ',');
                   }
-               }
-               // if(input.attr('name') == 'dr_amount'){
-               //    drTotalAmount += parseFloat(input.val());
-               // }else if(input.attr('name') == 'cr_amount'){
-               //    crTotalAmount += parseFloat(input.val());
-               // }
-               });
-               console.log(data);
+                }
+              });
+              data = data.slice(0,-1);
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': _token
+                },
+                url: '/journal/create',
+                type: 'POST',
+                data: { 'data':data,
+                            'explanation':explanation},
+                success: function(response)
+                {
+                    alert(response);
+                    //location.href="/expense/"+response;
+                }, error: function(xhr, ajaxOptions, thrownError){
+                  alert(xhr.status);
+                  alert(thrownError);
+                }
+              });
+              console.log(data);
             }
             return false;
           });
