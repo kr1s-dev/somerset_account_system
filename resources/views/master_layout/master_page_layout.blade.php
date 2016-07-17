@@ -339,13 +339,6 @@
             $('#nPaymentCost').val('')
           });
 
-          // $("#editTrans").click(function(e){
-          //   e.preventDefault();
-          //   $('#nPaymentItem').select2("val", "");
-          //   $('#nPaymentDesc').val('');
-          //   $('#nPaymentCost').val('')
-          // });
-          
           /*
           * @Author:      Kristopher N. Veraces
           * @Description: Adding table data in invoice 
@@ -487,7 +480,7 @@
           * @Date:        6/29/2016
           * @Note:        Add validation if duplicate item is inputted
           */
-           $('#itemsTable').on( 'click', '#editTrans', function( event ) {
+           $('#itemsTable').on( 'click', '#editTrans', function(event){
             var tr = $(this).closest('tr'); //get the parent tr
             arrayTd = $(tr).find('td'); //get data in a row
             $("#ePaymentItem").val((arrayTd[0].textContent).trim());
@@ -776,31 +769,242 @@
           });
 
           
-          // $("#generatePDF").click(function(e){
-          //   //Retrieving token for request
-          //   var _token = $('meta[name="csrf-token"]').attr('content');
-          //   var category = $('meta[name="category"]').attr('content');
-          //   var recordId = $('meta[name="recordId"]').attr('content');
-          //   $.ajax({
-          //     headers: {
-          //         'X-CSRF-TOKEN': _token
-          //     },
-          //     url: '/pdf',
-          //     type: 'POST',
-          //     data: { 'category':category,
-          //             'recordId': recordId},
-          //     success: function(response)
-          //     {
-          //         alert(response);
-          //         //location.href="/expense/"+_id;
-          //     }, error: function(xhr, ajaxOptions, thrownError){
-          //       alert(xhr.status);
-          //       alert(thrownError);
-          //     }
-          //   });
-          // });
+          /*
+          * @author:        Kristopher Veraces
+          * @description:   Disable fields dr or cr field depending on picklist value
+          */
+          $(document).on('change', "select[name='cr_dr']", function(e){
+            var ch = "";
+            $(this).closest('tr').find("td").each(function(colIndex, c) {
+               var select = $(this).find("select");
+               if(select.attr('name') == 'cr_dr'){
+                  ch = select.val();
+               }
+               var input = $(this).find("input");
+               var isCRFieldDisabled = true;
+               var isDRFieldDisabled = true;
+               if(input.attr('name')){
+                  if(ch=='CR'){
+                     isCRFieldDisabled = false;
+                  }else if(ch=='DR'){
+                     isDRFieldDisabled = false;
+                  }
 
-          
+                  if(input.attr('name').trim() == 'dr_amount'){
+                     input.attr('disabled',isDRFieldDisabled);
+                     input.val("0.00");
+                  }else if(input.attr('name').trim() == 'cr_amount'){
+                     input.attr('disabled',isCRFieldDisabled);
+                     input.val("0.00");  
+                  }
+               }
+            });
+          });
+
+          $(".select1_single").select2({
+            placeholder: "CR/DR",
+            allowClear: true
+          });
+
+          $(document).on('click', '.add-row', function(e){
+            e.preventDefault();
+            var isDuplicate = checkIfDuplicate();
+            var selectOptionVal = $('meta[name="account-list"]').attr('content');
+            var jsonParse = JSON.parse(selectOptionVal);
+            
+            // console.log(jsonParse);
+            if(isDuplicate){
+               alert(isDuplicate);
+            }else{
+               $('.ledger-body').append(
+                  '<tr>' +
+                     '<td>' +
+                        '<select name="cr_dr" class="form-control select1_single">' +
+                           '<option value=""></option>' + 
+                           '<option value="DR">DR</option>' +
+                           '<option value="CR">CR</option>' +
+                        '</select>' +
+                     '</td>' +
+                     '<td style="width: 20%;">' +
+                        '<select name="account_title" id="" class="form-control select2_single">' +
+                        '</select>' +
+                     '</td>' +
+                     '<td>' +
+                        '<input name="dr_amount" step="0.01" type="number" class="form-control" value = "0.00" disabled>' +
+                     '</td>'+
+                     '<td>' +
+                        '<input name="cr_amount" step="0.01" type="number" class="form-control" value = "0.00" disabled>' +
+                     '</td>' +
+                     '<td>' +
+                        '<button class="btn btn-default add-row">' +
+                           '<i class="fa fa-plus"></i> Add' +
+                       '</button> ' +
+                        '<button class="btn btn-default delete-row">' +
+                           '<i class="fa fa-trash"></i> Delete' +
+                        '</button>' +
+                     '</td>' +
+                  '</tr>'
+               );
+              
+            }
+
+            $('#journal_entry_table tr:last td').each(function(){
+              console.log('last table');
+              var selectTitle = $(this).find('select');
+              if(selectTitle.attr('name')){
+                if(selectTitle.attr('name') == 'account_title'){
+                  for(var i = 0; i < jsonParse.length; i++) {
+                    selectTitle.append($('<option>',{
+                      value: jsonParse[i]['id'],
+                      text: jsonParse[i]['account_sub_group_name']
+                    }));
+                  }
+                }
+              }
+              
+            });
+            
+            
+
+            
+
+            $(".select2_single").select2({
+              placeholder: "Select an account title",
+              allowClear: true
+            });
+
+            $(".select1_single").select2({
+               placeholder: "CR/DR",
+               allowClear: true
+            });
+          });
+            
+          $(".select2_single").select2({
+              placeholder: "Select an account title",
+              allowClear: true
+          });
+
+          $(document).on('click', '.delete-row', function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+          });
+
+          /*
+          * @author:        Kristopher Veraces
+          * @description:   Collect all data in tables then store to database
+          */
+          $("#sbmt_jour_entry").click(function(e){
+            e.preventDefault;
+            var data= '';
+            var isDup = checkIfDuplicate();
+            if(isDup){
+               alert(isDup);
+            }else{
+               $("#journal_entry_table tbody tr td").each(function() {
+               var input = $(this).find('input');
+               var select = $(this).find('select');
+               if(select.attr('name')){
+                  data += (select.val() + ',');
+               }
+               if(input.attr('name')){
+                  if(input.val() != '0.00'){
+                     data += (input.val() + ',');
+                  }
+               }
+               // if(input.attr('name') == 'dr_amount'){
+               //    drTotalAmount += parseFloat(input.val());
+               // }else if(input.attr('name') == 'cr_amount'){
+               //    crTotalAmount += parseFloat(input.val());
+               // }
+               });
+               console.log(data);
+            }
+            return false;
+          });
+
+          $("#computeTotal").click(function(e){
+            e.preventDefault;
+            var isDup = checkIfDuplicate();
+            if(isDup){
+               alert(isDup);
+            }else{
+               calculateAmountJournal();
+            }
+            return false;
+          });
+
+
+          /*
+          * @author:        Kristopher Veraces
+          * @description:   Compute Total Amount
+          */
+          function calculateAmountJournal(){
+            var drTotalAmount = 0;
+            var crTotalAmount = 0;
+            var count = 0;
+            //Get all amount in the table
+            $("#journal_entry_table tbody tr td").each(function() {
+               var input = $(this).find('input');
+               if(input.attr('name') == 'dr_amount'){
+                  drTotalAmount += parseFloat(input.val());
+               }else if(input.attr('name') == 'cr_amount'){
+                  crTotalAmount += parseFloat(input.val());
+               }
+            });
+            
+            //Putting the total amount in another table for viewing
+            $("#journal_total_amount tbody td").each(function(){
+               ++count;
+               if(count==2){
+                  $(this).text('PHP ' + drTotalAmount);
+               }else if(count==3){
+                  $(this).text('PHP ' + crTotalAmount);
+               }
+            });
+          }
+
+         /*
+         * @author:        Kristopher Veraces
+         * @description:   Validation in Journal 
+                              -Checks if duplicated account title is inputted
+                              -Checks if credit or debit amount in not zero
+         */
+          function checkIfDuplicate(){
+            var accountTitles =  [];
+            var tAccountTitle = NaN;
+            var is_duplicate = NaN;
+            var amount = 0;
+            $('#journal_entry_table tbody').find('tr').each(function(rowIndex, r){
+               amount = 0;
+               $(this).find('td').each(function (colIndex, c) {
+                  var selectAccountTitle = $(this).find("select");
+                  var input = $(this).find("input");
+
+                  if((input.attr('name') == 'dr_amount' || input.attr('name') == 'cr_amount') && amount==0){
+                     amount = input.val() == ''?0:input.val();
+                  }
+                  if(selectAccountTitle.attr('name')=='account_title'){
+                     tAccountTitle = selectAccountTitle.val();
+                  }
+                  
+               });
+               //console.log(amount);
+               if(amount <= 0){
+                  is_duplicate = 'CR/DR amount must be greater than zero';
+                  return true;
+               }
+
+               if(tAccountTitle){
+                  if($.inArray(tAccountTitle,accountTitles) != -1){
+                     is_duplicate = 'Duplicate Account Title Detected';
+                     return true;
+                  }else{
+                     accountTitles.push(tAccountTitle);
+                  } 
+               }
+            });
+            return is_duplicate;
+          }
       });
     </script>
   </body>

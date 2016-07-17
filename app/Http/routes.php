@@ -12,8 +12,8 @@
 */
 //Route for login page
 Route::get('/', function () {
-    // /return view('auth.password');
-    return Redirect::to('auth/login');
+    return view('journal.journal_create');
+    //return Redirect::to('auth/login');
 });
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');
@@ -54,6 +54,10 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
 
     //Expense routes
     Route::resource('expense','expense\ExpenseController');
+
+    //Journal Entry Routes
+    Route::get('journal/create' ,['as'=>'journal','uses'=>'journal\JournalEntryController@getJournalEntry']);
+    Route::post('journal/create' ,'journal\JournalEntryController@postJournalEntry');
     
     //Account info routes
     Route::resource('account','accountInformation\AccountInformationController');

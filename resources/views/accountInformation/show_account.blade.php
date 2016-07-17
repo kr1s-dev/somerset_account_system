@@ -168,7 +168,7 @@
                         <!--li><a href="../receipt/create.html">Receipt</a></li>
                         <li><a href="../income/create.html">Income</a></li-->
                         <li><a href="{{route('expense.create')}}">Expense</a></li>
-                        <li><a href="">Journal Entry</a></li>
+                        <li><a href="{{route('journal')}}">Journal Entry</a></li>
                       </ul>
                     </div>
                   </div>
