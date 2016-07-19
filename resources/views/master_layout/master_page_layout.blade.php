@@ -382,6 +382,7 @@
                 tdTableData[2].textContent = (parseFloat(tdTableData[2].textContent.trim()) + parseFloat(nPaymentCost));
               }
               calculateAmount();
+              return true;
             }else{
               if(!paymentType)
                 errorMessage+='\nNo Payment Type';
@@ -392,6 +393,7 @@
               }
               
               alert('Invalid Data:' + errorMessage);
+              return false;
             }
             
           });
@@ -759,12 +761,15 @@
           */
           $('#nPaymentItem').on('change',function(){
             var selectOptionVal = $( "#nPaymentItem option:selected" ).attr('name');
-            if(selectOptionVal){
-              $('#nPaymentCost').prop('readonly', true);
-              $('#nPaymentCost').val(parseFloat(selectOptionVal) + '.00');
-            }else{
-              $('#nPaymentCost').prop('readonly', false);
-              $('#nPaymentCost').val(parseFloat('0') + '.00');
+            if(selectOptionVal ){
+              if(parseFloat(selectOptionVal) > 0){
+                $('#nPaymentCost').prop('readonly', true);
+                $('#nPaymentCost').val(parseFloat(selectOptionVal) + '.00');
+              }else{
+                $('#nPaymentCost').prop('readonly', false);
+                $('#nPaymentCost').val(parseFloat('0') + '.00');
+              }
+              
             }
           });
 

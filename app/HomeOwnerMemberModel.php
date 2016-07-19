@@ -28,6 +28,7 @@ class HomeOwnerMemberModel extends Model
     						'companion_mobile_no',
     						'companion_occupation',
     						'companion_office_tel_no',
+                            'companion_date_of_birth',
     						'home_owner_id',
     						'relationship',
                             'companion_gender'];

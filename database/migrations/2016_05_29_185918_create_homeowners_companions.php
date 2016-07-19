@@ -31,6 +31,7 @@ class CreateHomeownersCompanions extends Migration
                 $table->string('companion_email_address',255);
                 $table->string('relationship',255);
                 $table->string('companion_gender',255);
+                $table->string('companion_date_of_birth',255);
                 $table->timestamps();
             });
         }

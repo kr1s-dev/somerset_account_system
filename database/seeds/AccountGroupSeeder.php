@@ -29,14 +29,17 @@ class AccountGroupSeeder extends Seeder
         $accountAssetTitles = array();
         $accountAssetTitles[] = array('account_group_id'=>1,
                                         'account_sub_group_name'=>'Account Receivables',
+                                        'default_value'=>0,
                                         'created_at' => date('m/d/y'),
                                         'updated_at' => date('m/d/y'));
         $accountAssetTitles[] = array('account_group_id'=>1,
                                         'account_sub_group_name'=>'Cash',
+                                        'default_value'=>0,
                                         'created_at' => date('m/d/y'),
                                         'updated_at' => date('m/d/y'));
         $accountAssetTitles[] = array('account_group_id'=>5,
                                         'account_sub_group_name'=>'Association Dues',
+                                        'default_value'=>450,
                                         'created_at' => date('m/d/y'),
                                         'updated_at' => date('m/d/y'));
         DB::table('account_titles')->insert($accountAssetTitles);
