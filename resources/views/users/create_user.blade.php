@@ -20,7 +20,7 @@
             </div>
             <div class="x_content">
                	
-               	{!! Form::open(['url'=>'users','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+               	{!! Form::open(['url'=>'users','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
                     @include('users.user_form',['submitButton'=>'Register']);
                	{!! Form::close() !!}
             </div>

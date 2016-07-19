@@ -101,7 +101,7 @@
                       </tbody>
                   </table>
                 </div>
-                {!! Form::open(['url'=>'receipt','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+                {!! Form::open(['url'=>'receipt','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
                  	<input type="hidden" name="payment_id" value="{{$homeOwnerInvoice->id}}">
                   <div class="form-group">
                     <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">Amount Paid:

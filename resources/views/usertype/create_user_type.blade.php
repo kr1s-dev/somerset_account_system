@@ -22,7 +22,7 @@
 	               	<div class="col-md-9 col-md-offset-3">
 	                 	<h4>All fields marked with * are required</h4>
 	               	</div>
-	               	{!! Form::open(['url'=>'usertypes','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+	               	{!! Form::open(['url'=>'usertypes','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
 	                    @include('usertype.user_type_form',['submitButton'=>'Submit']);
 	               	{!! Form::close() !!}
 	            </div>

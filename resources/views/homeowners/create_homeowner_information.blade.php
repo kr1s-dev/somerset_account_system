@@ -21,7 +21,7 @@
                	<div class="col-md-9 col-md-offset-3">
                  	<h4>All fields marked with * are required</h4>
                	</div>
-               	{!! Form::open(['url'=>'homeowners','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+               	{!! Form::open(['url'=>'homeowners','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
                     @include('homeowners.homeowner_form',['submitButton'=>'Register']);
                	{!! Form::close() !!}
             </div>

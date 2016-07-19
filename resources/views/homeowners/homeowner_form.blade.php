@@ -50,9 +50,9 @@
    </div>
 </div>
 <div class="form-group">
-   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
+   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email <span class="required">*</span> </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input id="middle-name" name="member_email_address" class="form-control col-md-7 col-xs-12" type="email" value="{{ count($errors) > 0? old('member_email_address'):($homeOwner->member_email_address) }}">
+      <input id="middle-name" required="required" name="member_email_address" class="form-control col-md-7 col-xs-12" type="email" value="{{ count($errors) > 0? old('member_email_address'):($homeOwner->member_email_address) }}">
    </div>
 </div>
 <!--div class="form-group">

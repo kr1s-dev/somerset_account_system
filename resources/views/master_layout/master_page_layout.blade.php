@@ -228,7 +228,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          @include('flash::message');
+          @include('flash::message')
           @yield('content')
         </div>
         
