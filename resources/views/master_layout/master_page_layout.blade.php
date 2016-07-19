@@ -62,6 +62,16 @@
                       </ul>
                     </li>
                     <li>
+                      <a><i class="fa fa-table"></i> Accounts <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                         <!--li><a href="{{ route('account.create') }}">Create New Account</a></li>
+                         <li><a href="{{ route('account.index') }}">View All Accounts</a></li-->
+                         <!--li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li-->
+                         <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
+                         <li><a href="{{ route('account.index') }}">View Current Account</a></li>
+                      </ul>
+                    </li>
+                    <li>
                       <a><i class="fa fa-files-o"></i> Invoice <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                          <li><a href="{{ route('invoice.create') }}">Create New Invoice</a></li>
@@ -73,16 +83,6 @@
                       <ul class="nav child_menu">
                          <!--li><a href="{{ route('receipt.create') }}">Create New Receipt</a></li-->
                          <li><a href="{{ route('receipt.index') }}">View All Receipts</a></li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a><i class="fa fa-table"></i> Accounts <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">
-                         <!--li><a href="{{ route('account.create') }}">Create New Account</a></li>
-                         <li><a href="{{ route('account.index') }}">View All Accounts</a></li-->
-                         <!--li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li-->
-                         <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
-                         <li><a href="{{ route('account.index') }}">View Current Account</a></li>
                       </ul>
                     </li>
                     <li>
@@ -874,7 +874,7 @@
             
 
             $(".select2_single").select2({
-              placeholder: "Select an account title",
+              placeholder: "Select a value",
               allowClear: true
             });
 
@@ -885,7 +885,7 @@
           });
             
           $(".select2_single").select2({
-              placeholder: "Select an account title",
+              placeholder: "Select a value",
               allowClear: true
           });
 

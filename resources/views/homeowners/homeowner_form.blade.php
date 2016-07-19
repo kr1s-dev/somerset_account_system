@@ -9,10 +9,10 @@
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Middle Name <span class="required">*</span>
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Middle Name
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="text" id="last-name" name="middle_name" required="required" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('middle_name'):($homeOwner->middle_name) }}">
+      <input type="text" id="last-name" name="middle_name" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('middle_name'):($homeOwner->middle_name) }}">
    </div>
 </div>
 <div class="form-group">
@@ -30,17 +30,17 @@
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Residence Tel. No. <span class="required">*</span>
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Residence Tel. No. 
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="text" id="last-name" name="residence_tel_no" required="required" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
+      <input type="text" id="last-name" name="residence_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. <span class="required">*</span>
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. 
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="text" id="last-name" name="member_office_tel_no" required="required" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
+      <input type="text" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
@@ -50,9 +50,9 @@
    </div>
 </div>
 <div class="form-group">
-   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email <span class="required">*</span></label>
+   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input id="middle-name" name="member_email_address" class="form-control col-md-7 col-xs-12" type="text" value="{{ count($errors) > 0? old('member_email_address'):($homeOwner->member_email_address) }}">
+      <input id="middle-name" name="member_email_address" class="form-control col-md-7 col-xs-12" type="email" value="{{ count($errors) > 0? old('member_email_address'):($homeOwner->member_email_address) }}">
    </div>
 </div>
 <!--div class="form-group">
@@ -75,7 +75,7 @@
          <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
          <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
          </label>
-         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
          <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
          </label>
       </div>
@@ -92,7 +92,7 @@
 <div class="form-group">
    <label for="address" class="control-label col-md-3 col-sm-3 col-xs-12">Address<span class="required">*</span></label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input id="address" name="member_address" class="form-control col-md-7 col-xs-12" type="text" name="phone-number" value="{{ count($errors) > 0? old('member_address'):($homeOwner->member_address) }}">
+      <input id="address" required="required" name="member_address" class="form-control col-md-7 col-xs-12" type="text" name="phone-number" value="{{ count($errors) > 0? old('member_address'):($homeOwner->member_address) }}">
    </div>
 </div>
 

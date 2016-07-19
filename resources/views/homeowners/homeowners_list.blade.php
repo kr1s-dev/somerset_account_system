@@ -41,7 +41,7 @@
 		                				<a href="{{ route('homeowners.edit',$eHomeOwners->id) }}" role="button" class="btn btn-default">
 		                					<i class="fa fa-pencil"></i> 
 		                				</a>
-		                				{!! Form::model($eHomeOwners, ['method'=>'DELETE','action' => ['homeownerinformation\HomeOwnerInformationController@destroy',$eHomeOwners->id] , 'class' => 'form-horizontal form-label-left']) !!}
+		                				{!! Form::model($eHomeOwners, ['method'=>'DELETE','action' => ['homeownerinformation\HomeOwnerInformationController@destroy',$eHomeOwners->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
 						                    <button type="submit" class="btn btn-default"><i class="fa fa-trash" onclick="return confirm('Are you sure you want to delete this item?');"></i> </button>
 						               	{!! Form::close() !!}
 		              				</td>

@@ -19,10 +19,10 @@
          </div>
       </div>
       <div class="form-group">
-         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Middle Name <span class="required">*</span>
+         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Middle Name 
          </label>
          <div class="col-md-9 col-sm-6 col-xs-12">
-            <input type="text" name="middle_name" value="{{ count($errors) > 0? old('middle_name'):($nHomeOwnerMember->middle_name) }}" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+            <input type="text" name="middle_name" value="{{ count($errors) > 0? old('middle_name'):($nHomeOwnerMember->middle_name) }}" id="first-name" class="form-control col-md-7 col-xs-12">
          </div>
       </div>
       <div class="form-group">
@@ -39,7 +39,7 @@
                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                <input type="radio" name="companion_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
                </label>
-               <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+               <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                <input type="radio" name="companion_gender" value="Female" data-parsley-multiple="gender"> Female
                </label>
             </div>

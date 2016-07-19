@@ -4822,3 +4822,7 @@ ul.notifications {
 .panel-body .actions .btn {
  margin-left: 10px;
 }
+
+.form-wrapper {
+  display:inline;
+}
