@@ -12,8 +12,8 @@
 */
 //Route for login page
 Route::get('/', function () {
-    return view('journal.journal_create');
-    //return Redirect::to('auth/login');
+    //return view('journal.journal_create');
+    return Redirect::to('auth/login');
 });
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');

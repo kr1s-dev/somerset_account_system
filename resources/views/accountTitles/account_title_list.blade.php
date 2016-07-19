@@ -63,12 +63,17 @@
 				            						</a>
 				            					</td>
 				            					<td >
-				            						{{$accountTitle->opening_balance}}
+				            						
 				            					</td>
 				            				</tr>
 			            				@endforeach
 		            				@endif
 		            			@endforeach
+		            			<tr>
+		            				<td colspan="3" style="text-indent: 50px;">
+		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            				</td>
+		            			</tr>
 	            			@endif
 	            		@endforeach
 	            		<tr>
@@ -105,6 +110,11 @@
 			            				@endforeach
 		            				@endif
 		            			@endforeach
+		            			<tr>
+		            				<td colspan="3" style="text-indent: 50px;">
+		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            				</td>
+		            			</tr>
 	            			@endif
 	            		@endforeach
 	            		<tr>
@@ -124,6 +134,11 @@
 		            					</td>
 		            				</tr>
 		            			@endforeach
+		            			<tr>
+		            				<td colspan="3" style="text-indent: 50px;">
+		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            				</td>
+		            			</tr>
 	            			@endif
 	            			
 	            		@endforeach
@@ -140,10 +155,15 @@
 		            						</a>
 		            					</td>
 		            					<td >
-		            						{{$accountTitle->opening_balance}}
+		            						
 		            					</td>
 		            				</tr>
 		            			@endforeach
+		            			<tr>
+		            				<td colspan="3" style="text-indent: 50px;">
+		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            				</td>
+		            			</tr>
 	            			@endif
 	            			
 	            		@endforeach
@@ -160,12 +180,16 @@
 		            						</a>
 		            					</td>
 		            					<td >
-		            						{{$accountTitle->opening_balance}}
+		            						
 		            					</td>
 		            				</tr>
 		            			@endforeach
+		            			<tr>
+		            				<td colspan="3" style="text-indent: 50px;">
+		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            				</td>
+		            			</tr>
 	            			@endif
-	            			
 	            		@endforeach
 	            	</tbody>
 	            </table>
@@ -173,5 +197,5 @@
 	          </div>
 	        </div>
 	    </div>
-		</div>
+	</div>
 @endsection

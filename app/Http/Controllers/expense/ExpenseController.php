@@ -62,7 +62,7 @@ class ExpenseController extends Controller
         $nReceiptId = $this->insertRecord('expense_cash_voucher',array('paid_to' => $paidTo,
                                                                         'total_amount' => $totalAmount));
 
-        $dataToInsert = $this->populateListOfToInsertItems($data,'Expense','expense_cash_voucher_id',$nReceiptId,'expense_cash_voucher');
+        $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$nReceiptId,'expense_cash_voucher');
         $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
         //Create journal entry
         $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
@@ -170,6 +170,7 @@ class ExpenseController extends Controller
     {
         $toDeleteItems = array();
         $eExpense = $this->getExpense($id);
+        $toDeleteJournalEntry = array();
         $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
         $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
         foreach ($eExpenseItemsList as $eExpenseItem) {

@@ -367,9 +367,21 @@ trait UtilityHelper
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         if($typeName=='Invoice' || $typeName=='Expense'){
              foreach ($dataList as $data) {
+                //for debit in journal
                 $journalEntryList[] = array($foreignKey=>$foreignValue,
                                         'type' => $typeName,
                                         'debit_title_id'=> $typeName=='Expense'?$data['account_title_id']:$accountReceivableTitle->id,
+                                        'credit_title_id'=> null,
+                                        'description'=> $description,
+                                        'created_at' => $data['created_at'],
+                                        'updated_at' => date('Y-m-d'),
+                                        'created_by' => $this->getLogInUserId(),
+                                        'updated_by' => $this->getLogInUserId());
+
+                //for credit in journal
+                $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                        'type' => $typeName,
+                                        'debit_title_id'=> null,
                                         'credit_title_id'=> $typeName=='Expense'?$cashTitle->id:$data['account_title_id'],
                                         'description'=> $description,
                                         'created_at' => $data['created_at'],
@@ -378,9 +390,21 @@ trait UtilityHelper
                                         'updated_by' => $this->getLogInUserId());
             }
         }else{
+            //for debit in journal
             $journalEntryList[] = array($foreignKey=>$foreignValue,
                                     'type' => $typeName,
                                     'debit_title_id'=>$cashTitle->id,
+                                    'credit_title_id'=>null,
+                                    'description'=> $description,
+                                    'created_at' => date('Y-m-d'),
+                                    'updated_at' => date('Y-m-d'),
+                                    'created_by' => $this->getLogInUserId(),
+                                    'updated_by' => $this->getLogInUserId());
+
+            //for credit in journal
+            $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                    'type' => $typeName,
+                                    'debit_title_id'=>null,
                                     'credit_title_id'=>$accountReceivableTitle->id,
                                     'description'=> $description,
                                     'created_at' => date('Y-m-d'),
