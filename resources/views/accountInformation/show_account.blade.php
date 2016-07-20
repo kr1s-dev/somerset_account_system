@@ -211,36 +211,8 @@
                               {{$journalEntry->credit->account_sub_group_name}}
                             @endif
                           </td>
-                          
-                          @if($journalEntry->invoice_id != NULL || $journalEntry->receipt_id != NULL || $journalEntry->expense_id != NULL)
-                            @if($journalEntry->debit_title_id != NULL)
-                              @if($journalEntry->invoice_id != NULL)
-                                <td>{{$journalEntry->invoice->total_amount}}</td>
-                                <td></td>
-                              @elseif($journalEntry->receipt_id != NULL)
-                                <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
-                                <td></td>
-                              @else
-                                <td>{{$journalEntry->expense->total_amount}}</td>
-                                <td></td>
-                              @endif
-                            @elseif($journalEntry->credit_title_id != NULL)
-                              @if($journalEntry->invoice_id != NULL)
-                                <td></td>
-                                <td>{{$journalEntry->invoice->total_amount}}</td>
-                              @elseif($journalEntry->receipt_id != NULL)
-                                <td></td>
-                                <td>{{$journalEntry->receipt->invoice->total_amount}}</td>
-                              @else
-                                <td></td>
-                                <td>{{$journalEntry->expense->total_amount}}</td>
-                              @endif
-                            @endif
-                          @else
-                            <td>{{$journalEntry->debit_amount}}</td>
-                            <td>{{$journalEntry->credit_amount}}</td>
-                          @endif
-                          
+                          <td>{{$journalEntry->debit_amount}}</td>
+                          <td>{{$journalEntry->credit_amount}}</td>
                         </tr>
                       @endforeach
                       <!--tr>

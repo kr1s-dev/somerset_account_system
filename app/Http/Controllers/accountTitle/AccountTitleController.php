@@ -44,7 +44,7 @@ class AccountTitleController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource with parent Account Title Id.
      *
      * @return \Illuminate\Http\Response
      */
@@ -53,6 +53,23 @@ class AccountTitleController extends Controller
         //
         $accountGroupList = $this->getAccountTitleGroup(null);
         $eAccountTitle = $this->getAccountTitles($id);
+        $accountTitle = $this->setAccountTitleModel();
+        return view('accountTitles.create_account_title',
+                        compact('accountGroupList',
+                                'eAccountTitle',
+                                'accountTitle'));
+
+    }
+
+    /**
+     * Show the form for creating a new resource with Account Group Id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createWithGroupParent($id){
+        //echo 'hi';
+        $accountGroupList = $this->getAccountGroups($id);
+        $eAccountTitle = $this->setAccountTitleModel();
         $accountTitle = $this->setAccountTitleModel();
         return view('accountTitles.create_account_title',
                         compact('accountGroupList',
@@ -73,6 +90,11 @@ class AccountTitleController extends Controller
             unset($input['account_title_name']);
         }
 
+        if(array_key_exists('account_group_name', $input)){
+            unset($input['account_group_name']);
+        }
+
+        
         if(empty($input['description']))
             $input['description'] = 'No Description';
         $accounttileId = $this->insertRecord('account_titles',$input);

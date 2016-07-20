@@ -71,7 +71,7 @@
 		            			@endforeach
 		            			<tr>
 		            				<td colspan="3" style="text-indent: 50px;">
-		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            					<a href="accounttitle/create/group/{{$accountGroup->id}}"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
 		            				</td>
 		            			</tr>
 	            			@endif
@@ -112,7 +112,7 @@
 		            			@endforeach
 		            			<tr>
 		            				<td colspan="3" style="text-indent: 50px;">
-		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            					<a href="accounttitle/create/group/{{$accountGroup->id}}"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
 		            				</td>
 		            			</tr>
 	            			@endif
@@ -123,24 +123,37 @@
 	            		@foreach($taccountGroupList as $accountGroup)
 	            			@if(strpos($accountGroup->account_group_name, 'Equity'))
 		            			@foreach($accountGroup->accountTitles as $accountTitle)
-	            					<tr>
-		            					<td colspan="2" style="text-indent: 50px;">
-		            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
-		            							{{$accountTitle->account_sub_group_name}}
-		            						</a>
-		            					</td>
-		            					<td >
-		            						{{$accountTitle->opening_balance}}
-		            					</td>
-		            				</tr>
+		            				@if(is_null($accountTitle->account_title_id))
+		            					<tr>
+			            					<td colspan="2" style="text-indent: 50px;">
+			            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
+			            							{{$accountTitle->account_sub_group_name}}
+			            						</a>
+			            					</td>
+			            					<td>
+			            						{{$accountTitle->opening_balance}}
+			            					</td>
+			            				</tr>
+			            				@foreach($accountTitle->accountTitleChildren as $accountTitlechild)
+			            					<tr>
+				            					<td colspan="2" style="text-indent: 70px;">
+				            						<a href="{{ route('accounttitle.show',$accountTitlechild->id) }}">
+				            							{{$accountTitlechild->account_sub_group_name}}
+				            						</a>
+				            					</td>
+				            					<td >
+				            						{{$accountTitle->opening_balance}}
+				            					</td>
+				            				</tr>
+			            				@endforeach
+		            				@endif
 		            			@endforeach
 		            			<tr>
 		            				<td colspan="3" style="text-indent: 50px;">
-		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            					<a href="accounttitle/create/group/{{$accountGroup->id}}"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
 		            				</td>
 		            			</tr>
 	            			@endif
-	            			
 	            		@endforeach
 	            		<tr>
 	            			<td colspan="3"><strong>REVENUES</strong></td>
@@ -148,20 +161,34 @@
 	            		@foreach($taccountGroupList as $accountGroup)
 	            			@if($accountGroup->account_group_name == 'Revenues')
             					@foreach($accountGroup->accountTitles as $accountTitle)
-	            					<tr>
-		            					<td colspan="2"style="text-indent: 50px;">
-		            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
-		            							{{$accountTitle->account_sub_group_name}}
-		            						</a>
-		            					</td>
-		            					<td >
-		            						
-		            					</td>
-		            				</tr>
+		            				@if(is_null($accountTitle->account_title_id))
+		            					<tr>
+			            					<td colspan="2" style="text-indent: 50px;">
+			            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
+			            							{{$accountTitle->account_sub_group_name}}
+			            						</a>
+			            					</td>
+			            					<td>
+			            						{{$accountTitle->opening_balance}}
+			            					</td>
+			            				</tr>
+			            				@foreach($accountTitle->accountTitleChildren as $accountTitlechild)
+			            					<tr>
+				            					<td colspan="2" style="text-indent: 70px;">
+				            						<a href="{{ route('accounttitle.show',$accountTitlechild->id) }}">
+				            							{{$accountTitlechild->account_sub_group_name}}
+				            						</a>
+				            					</td>
+				            					<td >
+				            						{{$accountTitle->opening_balance}}
+				            					</td>
+				            				</tr>
+			            				@endforeach
+		            				@endif
 		            			@endforeach
 		            			<tr>
 		            				<td colspan="3" style="text-indent: 50px;">
-		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            					<a href="accounttitle/create/group/{{$accountGroup->id}}"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
 		            				</td>
 		            			</tr>
 	            			@endif
@@ -173,20 +200,34 @@
 	            		@foreach($taccountGroupList as $accountGroup)
 	            			@if($accountGroup->account_group_name == 'Expenses')
             					@foreach($accountGroup->accountTitles as $accountTitle)
-	            					<tr>
-		            					<td colspan="2" style="text-indent: 50px;">
-		            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
-		            							{{$accountTitle->account_sub_group_name}}
-		            						</a>
-		            					</td>
-		            					<td >
-		            						
-		            					</td>
-		            				</tr>
+		            				@if(is_null($accountTitle->account_title_id))
+		            					<tr>
+			            					<td colspan="2" style="text-indent: 50px;">
+			            						<a href="{{ route('accounttitle.show',$accountTitle->id) }}">
+			            							{{$accountTitle->account_sub_group_name}}
+			            						</a>
+			            					</td>
+			            					<td>
+			            						{{$accountTitle->opening_balance}}
+			            					</td>
+			            				</tr>
+			            				@foreach($accountTitle->accountTitleChildren as $accountTitlechild)
+			            					<tr>
+				            					<td colspan="2" style="text-indent: 70px;">
+				            						<a href="{{ route('accounttitle.show',$accountTitlechild->id) }}">
+				            							{{$accountTitlechild->account_sub_group_name}}
+				            						</a>
+				            					</td>
+				            					<td >
+				            						{{$accountTitle->opening_balance}}
+				            					</td>
+				            				</tr>
+			            				@endforeach
+		            				@endif
 		            			@endforeach
 		            			<tr>
 		            				<td colspan="3" style="text-indent: 50px;">
-		            					<a href="#"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
+		            					<a href="accounttitle/create/group/{{$accountGroup->id}}"><strong><u><em>Add {{$accountGroup->account_group_name}}</em></u></strong></a>
 		            				</td>
 		            			</tr>
 	            			@endif

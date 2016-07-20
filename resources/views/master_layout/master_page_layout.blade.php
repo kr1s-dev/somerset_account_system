@@ -267,7 +267,7 @@
           var exTableRowIndex;
           var arrayTd;
 
-          if($('#accountgroup option:selected').text() == 'Revenues'){
+          if($('#accountgroup option:selected').text() == 'Revenues' || $('input[name="account_group_name"]').val() == 'Revenues'){
             $('#default_value_form').show();
           }
 

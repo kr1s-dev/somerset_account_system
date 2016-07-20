@@ -81,7 +81,8 @@ class InvoiceController extends Controller
                                                                             'invoice_id',
                                                                             $nInvoiceId,
                                                                             'Created invoice for homeowner ' .
-                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name));
+                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
+                                                                            $totalAmount));
         flash()->success('Record successfully created');
 
         return $nInvoiceId;
@@ -163,7 +164,8 @@ class InvoiceController extends Controller
                                                                             'invoice_id',
                                                                             $id,
                                                                             'Created invoice for homeowner ' .
-                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name));
+                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
+                                                                            $totalAmount));
         flash()->success('Record successfully updated');
         return $id;
     }

@@ -73,6 +73,8 @@ class ReceiptController extends Controller
         $invoiceid = $request->input('payment_id');
         //Updates Invoice Record
         $this->updateRecord('home_owner_invoice',array('id'=>$invoiceid),array('is_paid' => 1));
+        //get invoice
+        $eInvoice = $this->getHomeOwnerInvoice($invoiceid);
 
 
         $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
@@ -86,7 +88,8 @@ class ReceiptController extends Controller
                                                                             'Receipt',
                                                                             'receipt_id',
                                                                             $receiptId,
-                                                                            'Created Receipt for invoice #'. $this->formatString($invoiceid)));
+                                                                            'Created Receipt for invoice #'. $this->formatString($invoiceid),
+                                                                            $eInvoice->total_amount));
         // //create journal entry
         // $this->insertRecord('journal_entry',array('receipt_id'=>$receiptId,
         //                                             'type'=>'Receipt',

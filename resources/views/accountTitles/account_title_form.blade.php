@@ -17,11 +17,16 @@
     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Parent Group <span class="required">*</span>
     </label>
     <div class="col-md-9 col-sm-6 col-xs-12">
-      <select id="accountgroup" name="account_group_id" class="select2_single form-control" tabindex="-1">
-        @foreach($accountGroupList as $key => $value)
-          <option value="{{$key}}">{{$value}}</option>
-        @endforeach
-      </select>
+      @if(count($accountGroupList) == 1)
+        <input type="hidden" name="account_group_id" value="{{$accountGroupList->id}}">
+        <input name="account_group_name" value="{{ count($errors) > 0? old('account_group_name'):($accountGroupList->account_group_name) }}" type="text" class="form-control col-md-7 col-xs-12" readonly>
+      @else
+        <select id="accountgroup" name="account_group_id" class="select2_single form-control" tabindex="-1">
+          @foreach($accountGroupList as $key => $value)
+            <option value="{{$key}}">{{$value}}</option>
+          @endforeach
+        </select>
+      @endif
     </div>
   </div>
 @endif

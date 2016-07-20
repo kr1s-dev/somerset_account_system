@@ -69,7 +69,8 @@ class ExpenseController extends Controller
                                                                             'Expense',
                                                                             'expense_id',
                                                                             $nReceiptId,
-                                                                            'Created Cash Voucher for ' . $paidTo));
+                                                                            'Created Cash Voucher for ' . $paidTo,
+                                                                            $totalAmount));
         flash()->success('Record successfully created');
     }
 
@@ -104,18 +105,6 @@ class ExpenseController extends Controller
                         compact('eExpense',
                                 'eExpenseId',
                                 'expenseAccount'));
-        // $tExpenseAccountTitlesList = array();
-        // $eExpense = $this->getExpense($id);
-        // $eExpenseId = $this->formatString($eExpense->id);
-        // $eCashier = $this->getObjectFirstRecord('users',array('id'=>$eExpense->created_by));
-        // $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
-        // $expenseAccountTitleGroupId = $this->getObjectFirstRecord('account_groups',array('account_group_name'=>'Expense'));
-        // $eExpenseAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=> $expenseAccountTitleGroupId->id));     
-        // foreach ($eExpenseAccountTitlesList as $eIncomeAccountTitle) {
-        //     $tExpenseAccountTitlesList[$eIncomeAccountTitle->id] = $eIncomeAccountTitle->account_sub_group_name;
-        // }
-        // if($eCashier->home_owner_id != NULL){
-        //     $eCashier = $this->getObjectFirstRecord('home_owner_member_information',array('id'=>$eCashier->home_owner_id));
         // }
     }
 
@@ -155,7 +144,8 @@ class ExpenseController extends Controller
                                                                             'Expense',
                                                                             'expense_id',
                                                                             $id,
-                                                                            'Created Cash Voucher for ' . $paidTo));
+                                                                            'Created Cash Voucher for ' . $paidTo,
+                                                                            $totalAmount));
         flash()->success('Record successfully updated');
 
     }

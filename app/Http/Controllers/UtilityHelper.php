@@ -361,40 +361,82 @@ trait UtilityHelper
     * @Author:      Kristopher N. Veraces
     * @Description: Create Journal Entry
     */
-    public function createJournalEntry($dataList,$typeName,$foreignKey,$foreignValue,$description){
+    public function createJournalEntry($dataList,$typeName,$foreignKey,$foreignValue,$description,$amount){
+        $count = 0;
+        $dataCreated;
         $journalEntryList = array();
         $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Account Receivables'));
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
-        if($typeName=='Invoice' || $typeName=='Expense'){
+        if($typeName=='Invoice'){
              foreach ($dataList as $data) {
-                //for debit in journal
-                $journalEntryList[] = array($foreignKey=>$foreignValue,
+                    if($count==0){
+                        //for debit in journal
+                        $journalEntryList[] = array($foreignKey=>$foreignValue,
                                         'type' => $typeName,
                                         'debit_title_id'=> $typeName=='Expense'?$data['account_title_id']:$accountReceivableTitle->id,
                                         'credit_title_id'=> null,
+                                        'debit_amount' => $amount,
+                                        'credit_amount'=> 0.00,
                                         'description'=> $description,
                                         'created_at' => $data['created_at'],
                                         'updated_at' => date('Y-m-d'),
                                         'created_by' => $this->getLogInUserId(),
                                         'updated_by' => $this->getLogInUserId());
+                    }
+                    
+                
+                
+                
 
-                //for credit in journal
+                    //for credit in journal
+                    $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                            'type' => $typeName,
+                                            'debit_title_id'=> null,
+                                            'credit_title_id'=> $typeName=='Expense'?$cashTitle->id:$data['account_title_id'],
+                                            'debit_amount' => 0.00,
+                                            'credit_amount'=> $data['amount'],
+                                            'description'=> $description,
+                                            'created_at' => $data['created_at'],
+                                            'updated_at' => date('Y-m-d'),
+                                            'created_by' => $this->getLogInUserId(),
+                                            'updated_by' => $this->getLogInUserId());
+                $count++;
+            }
+        }else if($typeName=='Expense'){
+            foreach ($dataList as $data) {
+                $dataCreated = $data['created_at'];
+                //for debit in journal
                 $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                            'type' => $typeName,
+                                            'debit_title_id'=> $typeName=='Expense'?$data['account_title_id']:$accountReceivableTitle->id,
+                                            'credit_title_id'=> null,
+                                            'debit_amount' => $data['amount'],
+                                            'credit_amount'=> 0.00,
+                                            'description'=> $description,
+                                            'created_at' => $data['created_at'],
+                                            'updated_at' => date('Y-m-d'),
+                                            'created_by' => $this->getLogInUserId(),
+                                            'updated_by' => $this->getLogInUserId());  
+            }
+            $journalEntryList[] = array($foreignKey=>$foreignValue,
                                         'type' => $typeName,
                                         'debit_title_id'=> null,
-                                        'credit_title_id'=> $typeName=='Expense'?$cashTitle->id:$data['account_title_id'],
+                                        'credit_title_id'=> $cashTitle->id,
+                                        'debit_amount' => 0.00,
+                                        'credit_amount'=> $amount,
                                         'description'=> $description,
-                                        'created_at' => $data['created_at'],
+                                        'created_at' => $dataCreated,
                                         'updated_at' => date('Y-m-d'),
                                         'created_by' => $this->getLogInUserId(),
                                         'updated_by' => $this->getLogInUserId());
-            }
         }else{
             //for debit in journal
             $journalEntryList[] = array($foreignKey=>$foreignValue,
                                     'type' => $typeName,
                                     'debit_title_id'=>$cashTitle->id,
                                     'credit_title_id'=>null,
+                                    'debit_amount' => $amount,
+                                    'credit_amount'=>0.00,
                                     'description'=> $description,
                                     'created_at' => date('Y-m-d'),
                                     'updated_at' => date('Y-m-d'),
@@ -406,6 +448,8 @@ trait UtilityHelper
                                     'type' => $typeName,
                                     'debit_title_id'=>null,
                                     'credit_title_id'=>$accountReceivableTitle->id,
+                                    'debit_amount' => 0.00,
+                                    'credit_amount'=> $amount,
                                     'description'=> $description,
                                     'created_at' => date('Y-m-d'),
                                     'updated_at' => date('Y-m-d'),

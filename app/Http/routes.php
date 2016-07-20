@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
     //Account title routes
     Route::resource('accounttitle','accountTitle\AccountTitleController');
     Route::get('accounttitle/create/{id}','accountTitle\AccountTitleController@createWithParent');
+    Route::get('accounttitle/create/group/{id}','accountTitle\AccountTitleController@createWithGroupParent');
 
     //PDF Generation
     Route::post('pdf','pdf\PDFGeneratorController@postGeneratePDF');
