@@ -173,7 +173,7 @@
                     </div>
                   </div>
                   <br>
-                  <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                  <table id="datatable" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>Date</th>
@@ -198,7 +198,6 @@
                             <td>{{date('m/d/Y',strtotime($journalEntry->expense->created_at))}}</td>
                             <td><a href="{{ route('expense.show',$journalEntry->expense_id) }}"><strong>#{{$journalEntry->expense_id}}</strong></a></td>
                           @else
-                            <td>{{date('m/d/Y',strtotime($journalEntry->created_at))}}</td>
                             <td></td>
                           @endif
                           <td>{{$journalEntry->description}}</td>

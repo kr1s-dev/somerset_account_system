@@ -841,7 +841,7 @@
                $('.ledger-body').append(
                   '<tr>' +
                      '<td>' +
-                        '<select name="cr_dr" class="form-control select1_single">' +
+                        '<select style="width: 95px;" name="cr_dr" class="form-control select1_single">' +
                            '<option value=""></option>' + 
                            '<option value="DR">DR</option>' +
                            '<option value="CR">CR</option>' +
