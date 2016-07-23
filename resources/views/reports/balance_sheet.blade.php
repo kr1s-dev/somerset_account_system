@@ -120,10 +120,17 @@
 			              						<td> <strong> Total Equity </strong></td>
 					              				<td align="right"> PHP {{number_format($totalEquity,2)}} </td>
 			              					@endif
-					              			
 					              		</tr>
 			              			@endif
 			              		@endforeach
+			              		<tr>
+              						<td></td>
+		              				<td align="right"></td>
+			              		</tr>
+			              		<tr>
+              						<td> <strong> Total Equity and Liabilities </strong></td>
+		              				<td align="right"> PHP {{number_format($totalLiability + $totalEquity,2)}} </td>
+			              		</tr>
 			              	</tbody>
 			            </table>
 	        		</div>
