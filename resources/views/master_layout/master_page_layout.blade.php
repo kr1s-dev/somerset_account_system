@@ -99,6 +99,7 @@
                         <li><a href="">General Ledger</a></li-->
                         <li><a href="{{ route('incomestatement') }}">Income Statement</a></li>
                         <li><a href="{{ route('ownersequity') }}">Statement of Owners Equity</a></li>
+                        <li><a href="{{ route('balancesheet') }}">Balance Sheet</a></li>
                         <!--li><a href="">Balance Sheet</a></li>
                         <li><a href="">Trial Balance</a></li-->
                       </ul>

@@ -71,20 +71,16 @@ class PDFGeneratorController extends Controller
 
 	private function generateIncomeStatementPDF($monthFilter,$yearFilter){
 		$yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
-    	$monthArray = $this->monthsGenerator();
+        $monthArray = $this->monthsGenerator();
 
-    	$incStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','5',$yearFilter),
-    													$monthFilter,
-    													$yearFilter);
-    	$expStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','6',$yearFilter),
-    													$monthFilter,
-    													$yearFilter);
-    	
-    	$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
-    	$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+        $incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',$monthFilter,$yearFilter);
+        $expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',$monthFilter,$yearFilter);
 
-    	$incTotalSum = $this->getTotalSum($incomeItemsList);
-    	$expTotalSum = $this->getTotalSum($expenseItemsList);
+        $incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+        $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+
+        $incTotalSum = $this->getTotalSum($incomeItemsList);
+        $expTotalSum = $this->getTotalSum($expenseItemsList);
     	
 
 		return PDF::loadView('pdf.income_statement_pdf',
@@ -99,31 +95,24 @@ class PDFGeneratorController extends Controller
 
 	private function generateOwnerEquityStatementPDF($monthFilter,$yearFilter){
 		$yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
-    	$monthArray = $this->monthsGenerator();
+        $monthArray = $this->monthsGenerator();
 
-    	$incStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','5'),
-    													$monthFilter,
-    													$yearFilter);
-    	$expStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','6'),
-    													$monthFilter,
-    													$yearFilter);
+        $incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',$monthFilter,$yearFilter);
+        $expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',$monthFilter,$yearFilter);
 
-    	$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
-    	$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+        $incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+        $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
 
-    	$incTotalSum = $this->getTotalSum($incomeItemsList);
-    	$expTotalSum = $this->getTotalSum($expenseItemsList);
+        $incTotalSum = $this->getTotalSum($incomeItemsList);
+        $expTotalSum = $this->getTotalSum($expenseItemsList);
 
-    	$totalProfit = ($incTotalSum  - $expTotalSum);
+        $totalProfit = ($incTotalSum  - $expTotalSum);
 
-    	$ownerEquityItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','7'),
-    													$monthFilter,
-    													$yearFilter);
+        $ownerEquityItemsList = $this->getJournalEntryRecordsWithFilter('7',$monthFilter,$yearFilter);
 
-    	$equityItemsList = $this->getItemsAmountList($ownerEquityItemsList,'Equity');
+        $equityItemsList = $this->getItemsAmountList($ownerEquityItemsList,'Equity');
 
-    	$eqTotalSum = ($this->getTotalSum($equityItemsList)) + $totalProfit ;
-
+        $eqTotalSum = ($this->getTotalSum($equityItemsList)) + $totalProfit ;
     	//print_r($equityItemsList);
     	return PDF::loadView('pdf.owners_equity_statement_pdf',
     					compact('yearFilter',

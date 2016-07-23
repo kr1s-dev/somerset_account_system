@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
     Route::post('reports/incomestatement','reports\ReportController@postGenerateIncomeStatement');
     Route::get('reports/ownersequitystatement',['as'=>'ownersequity','uses'=>'reports\ReportController@getGenerateOwnersEquityStatement']);
     Route::post('reports/ownersequitystatement','reports\ReportController@postGenerateOwnersEquityStatement');
+    Route::get('reports/balancesheet',['as'=>'balancesheet','uses'=>'reports\ReportController@getGenerateBalanceSheet']);
+    Route::post('reports/balancesheet','reports\ReportController@postGenerateBalanceSheet');
     
 
 });

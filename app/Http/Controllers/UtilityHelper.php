@@ -466,38 +466,51 @@ trait UtilityHelper
     * @Description: Get all records in the journal table
     */
 
-    public function getJournalEntryRecordsWithYearFilter($tableName,$accountGroupId){
-        return JournalEntryModel::orWhere(function($query) use ($accountGroupId){
-                                    $query->whereHas('credit',function($q) use ($accountGroupId){
-                                        $q->where('account_group_id', '=', $accountGroupId);
-                                    })
-                                    ->orWhereHas('debit',function($q) use ($accountGroupId){
-                                        $q->where('account_group_id', '=', $accountGroupId);
-                                    });
-                                });      
-    }
-
-    public function getRecordsWithFilter($query,$monthFilter,$yearFilter){
+    public function getJournalEntryRecordsWithFilter($accountGroupId,$monthFilter,$yearFilter){
         $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
-        $records;
+        $query = null;
+        if(!is_null($accountGroupId)){
+            $query = JournalEntryModel::orWhere(function($query) use ($accountGroupId){
+                                                    $query->whereHas('credit',function($q) use ($accountGroupId){
+                                                        $q->where('account_group_id', '=', $accountGroupId);
+                                                    })
+                                                    ->orWhereHas('debit',function($q) use ($accountGroupId){
+                                                        $q->where('account_group_id', '=', $accountGroupId);
+                                                    });
+                                                });
+        }
+
         if(empty($monthFilter)){
-            $records = $query->whereYear('created_at','=',$yearFilter)  
-                                ->get();
+            $query  = $query==NULL? JournalEntryModel::whereYear('created_at','=',$yearFilter) : 
+                            $query->whereYear('created_at','=',$yearFilter);
         }else{
             $monthFilter = $monthFilter==NULL?date('m'):date($monthFilter); 
-            $records = $query->whereYear('created_at','=',$yearFilter)
-                            ->whereMonth('created_at','=',$monthFilter)
-                            ->get();
+            $query  = $query==NULL? JournalEntryModel::whereYear('created_at','=',$yearFilter)
+                                                        ->whereMonth('created_at','=',$monthFilter) : 
+                                                            $query->whereYear('created_at','=',$yearFilter)
+                                                                    ->whereMonth('created_at','=',$monthFilter);
+            // $query->whereYear('created_at','=',$yearFilter)
+            //                     ->whereMonth('created_at','=',$monthFilter)
+            //                     ->get();
         }
-        return $records;
+        return $query->get();
+              
     }
+
 
 
     public function getItemsAmountList($arrayToProcessList,$typeOfData){
         $data = array();
-        if($typeOfData == 'Equity' || $typeOfData=='Assets'){
+        if($typeOfData == 'Equity'){
             $accountGroup =  AccountGroupModel::where('account_group_name', 'like', '%'.$typeOfData.'%')
                                                 ->get();
+            foreach ($accountGroup as $accountGrp) {
+                foreach ($accountGrp->accountTitles as $accountTitle) {
+                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                }
+            }
+        }else if(is_null($typeOfData)){
+            $accountGroup =  $this->getAccountGroups(null);
             foreach ($accountGroup as $accountGrp) {
                 foreach ($accountGrp->accountTitles as $accountTitle) {
                     $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
@@ -507,14 +520,15 @@ trait UtilityHelper
 
         if(!empty($arrayToProcessList)){
             foreach ($arrayToProcessList as $arrayToProcess) {
+                $typeOfData = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->group->account_group_name : $arrayToProcess->credit->group->account_group_name;
                 $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
                 $accountTitle = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->account_sub_group_name : $arrayToProcess->credit->account_sub_group_name;
                 if(array_key_exists($accountTitle,$data)){
-                    $data[$accountTitle] += ($typeOfData == 'Income' ||  $typeOfData == 'Equity'? ($amount * -1)  : $amount);
+                    $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') ? 
+                                                ($amount * -1)  : $amount);
                 }else{
-                    $data[$accountTitle] = $typeOfData == 'Income' ? ($amount * -1)  : $amount;
+                    $data[$accountTitle] = $typeOfData == 'Revenues' ? ($amount * -1)  : $amount;
                 }
-                
             }
         }
         
