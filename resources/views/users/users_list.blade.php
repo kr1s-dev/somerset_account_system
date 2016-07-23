@@ -74,7 +74,7 @@
 						                <a href="{{ route('users.edit',$user->id) }}" role="button" class="btn btn-default">
 						                <i class="fa fa-pencil"></i> 
 						                </a>
-						                {!! Form::model($user, ['method'=>'DELETE','action' => ['user\UserController@destroy',$user->id] , 'class' => 'form-horizontal form-label-left']) !!}
+						                {!! Form::model($user, ['method'=>'DELETE','action' => ['user\UserController@destroy',$user->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
 						                    <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </button>
 						               	{!! Form::close() !!}
 						            </td>
