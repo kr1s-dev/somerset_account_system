@@ -12,7 +12,6 @@
 */
 //Route for login page
 Route::get('/', function () {
-    //return view('journal.journal_create');
     return Redirect::to('auth/login');
 });
 // Authentication routes...
@@ -73,6 +72,8 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
     //Report viewing
     Route::get('reports/incomestatement',['as'=>'incomestatement','uses'=>'reports\ReportController@getGenerateIncomeStatement']);
     Route::post('reports/incomestatement','reports\ReportController@postGenerateIncomeStatement');
+    Route::get('reports/ownersequitystatement',['as'=>'ownersequity','uses'=>'reports\ReportController@getGenerateOwnersEquityStatement']);
+    Route::post('reports/ownersequitystatement','reports\ReportController@postGenerateOwnersEquityStatement');
     
 
 });

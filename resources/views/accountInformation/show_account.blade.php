@@ -211,8 +211,15 @@
                               {{$journalEntry->credit->account_sub_group_name}}
                             @endif
                           </td>
-                          <td>{{$journalEntry->debit_amount}}</td>
-                          <td>{{$journalEntry->credit_amount}}</td>
+                          <td>
+                            @if($journalEntry->debit_amount>0)
+                              {{$journalEntry->debit_amount}}
+                            @endif
+                          </td>
+                          <td>
+                            @if($journalEntry->credit_amount>0)
+                              {{$journalEntry->credit_amount}}
+                            @endif</td>
                         </tr>
                       @endforeach
                       <!--tr>

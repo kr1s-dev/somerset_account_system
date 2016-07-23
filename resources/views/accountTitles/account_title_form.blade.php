@@ -18,8 +18,9 @@
     </label>
     <div class="col-md-9 col-sm-6 col-xs-12">
       @if(count($accountGroupList) == 1)
-        <input type="hidden" name="account_group_id" value="{{$accountGroupList->id}}">
-        <input name="account_group_name" value="{{ count($errors) > 0? old('account_group_name'):($accountGroupList->account_group_name) }}" type="text" class="form-control col-md-7 col-xs-12" readonly>
+        <select id="accountgroup" name="account_group_id" class="select2_single form-control" tabindex="-1" disabled>
+          <option value="{{$accountGroupList->id}}">{{$accountGroupList->account_group_name}}</option>
+        </select>
       @else
         <select id="accountgroup" name="account_group_id" class="select2_single form-control" tabindex="-1">
           @foreach($accountGroupList as $key => $value)
@@ -38,7 +39,7 @@
     <input name="account_sub_group_name" value="{{ count($errors) > 0? old('account_sub_group_name'):($accountTitle->account_sub_group_name) }}" type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" required="required" placeholder="Account Title (e.g Accounts Receivable)">
   </div>
 </div>
-<div class="form-group" style="display:none;">
+<div class="form-group" id="opening_balance_form" style="display:none;">
   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Opening Balance
   </label>
   <div class="col-md-9 col-sm-6 col-xs-12">

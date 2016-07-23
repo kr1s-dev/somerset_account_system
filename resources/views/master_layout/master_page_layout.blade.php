@@ -97,7 +97,8 @@
                       <ul class="nav child_menu">
                         <!--li><a href="">General Journal</a></li>
                         <li><a href="">General Ledger</a></li-->
-                        <li><a href="{{ route('incomestatement') }}">Profit and Loss</a></li>
+                        <li><a href="{{ route('incomestatement') }}">Income Statement</a></li>
+                        <li><a href="{{ route('ownersequity') }}">Statement of Owners Equity</a></li>
                         <!--li><a href="">Balance Sheet</a></li>
                         <li><a href="">Trial Balance</a></li-->
                       </ul>
@@ -269,7 +270,17 @@
 
           if($('#accountgroup option:selected').text() == 'Revenues' || $('input[name="account_group_name"]').val() == 'Revenues'){
             $('#default_value_form').show();
+            $('#opening_balance_form').hide();
           }
+
+          
+          if($('#accountgroup option:selected').text().toLowerCase().indexOf('assets') >= 0 || 
+              $('#accountgroup option:selected').text().toLowerCase().indexOf('liabilities') >= 0 || 
+              $('#accountgroup option:selected').text().toLowerCase().indexOf('equity') >= 0){
+            $('#opening_balance_form').show();
+            $('#default_value_form').hide();
+          }
+          
 
           $('#datatable').dataTable();
           $(".select2_single").select2({
@@ -741,10 +752,15 @@
           */
           $('#accountgroup').change(function(){
             var groupName = $('#accountgroup option:selected').text();
+
             if(groupName == 'Revenues'){
               $('#default_value_form').show();
-            }
-            else{
+              $('#opening_balance_form').hide();
+            }else if(groupName == 'Expenses'){
+              $('#opening_balance_form').hide();
+              $('#default_value_form').hide();
+            }else{
+              $('#opening_balance_form').show();
               $('#default_value_form').hide();
             }
           });
@@ -932,8 +948,8 @@
                             'explanation':explanation},
                 success: function(response)
                 {
-                    alert(response);
-                    //location.href="/expense/"+response;
+                    //alert(response);
+                    location.href="/account";
                 }, error: function(xhr, ajaxOptions, thrownError){
                   alert(xhr.status);
                   alert(thrownError);

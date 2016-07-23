@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Income Statement for
+		            <h3><i class="fa fa-users"></i> Statement of Changes in Equity for the period
 		            	@if(!empty($monthFilter))
 		            		{{$monthArray[$monthFilter]}}, 
 		            	@endif 
@@ -23,7 +23,7 @@
 		    		<div class="col-md-12">
 		    			<div class="pull-right">
 		    				
-		    				{!! Form::open(['url'=>'reports/incomestatement','method'=>'POST']) !!}
+		    				{!! Form::open(['url'=>'reports/ownersequitystatement','method'=>'POST']) !!}
 		    					<select name="month_filter" class="select2_single form-control" tabindex="-1" id="howeOwnersList">
 				        			<option></option>
 			    					@foreach($monthArray as $key => $value)
@@ -49,67 +49,50 @@
 		    	</div>
 		    	<br>
 	        	<div class="row">
-	        		<div class="col-md-6">
+	        		<div class="col-md-12">
 	        			<table class="table table-striped table-bordered">
-			              	<thead>
-				                <tr>
-				                  	<th colspan="2"><h3>Income</h3></th>
-				                </tr>
-			              	</thead>
 			              	<tbody>
-			              		@foreach($incomeItemsList as $key => $value)
+			              		@foreach($equityItemsList as $key => $value)
 			              			<tr>
-			              				<td>
+			              				<td width="75%">
 			              					{{$key}}
 			              				</td>
 			              				<td align="right">
-			              					PHP {{number_format($value,2)}}
+			              					PHP 
+			              					@if($value>0)
+			              						{{number_format($value,2)}}
+			              					@else
+			              						({{number_format(($value*-1),2)}})
+			              					@endif
 			              				</td>
 			              			</tr>
 			              		@endforeach
-			              		<tr>
-			              			<td colspan="2" align="right">
-			              				<strong> Total Amount: PHP {{number_format($incTotalSum,2)}} </strong>
-			              			</td>
-			              		</tr>
+		              			<tr>
+		              				<td>
+		              					Profits for the period
+		              				</td>
+		              				<td align="right">
+		              					PHP 
+		              					@if($totalProfit>0)
+		              						{{number_format($totalProfit,2)}}
+		              					@else
+		              						({{number_format(($totalProfit*-1),2)}})
+		              					@endif
+		              				</td>
+		              			</tr>
 
 			              	</tbody>
 
 			            </table>
 	        		</div>
-	        		<div class="col-md-6">
-	        			<table class="table table-striped table-bordered">
-			              	<thead>
-				                <tr>
-				                  	<th colspan="2"><h3>Expense</h3></th>
-				                </tr>
-			              	</thead>
-			              	<tbody>
-				                @foreach($expenseItemsList as $key => $value)
-			              			<tr>
-			              				<td>
-			              					{{$key}}
-			              				</td>
-			              				<td align="right">
-			              					PHP {{number_format($value)}}
-			              				</td>
-			              			</tr>
-			              		@endforeach
-			              		<tr>
-			              			<td colspan="2" align="right">
-			              				<strong> Total Amount: PHP {{number_format($expTotalSum,2)}} </strong>
-			              			</td>
-			              		</tr>
-			              	</tbody>
-			            </table>
-	        		</div>
+	        		
 	        	</div>
         		<div class="pull-right">
-        			<strong>NET INCOME: PHP {{ number_format($incTotalSum - $expTotalSum,2) }} </strong>
+        			<strong>Balance at the end of the Period: PHP {{ number_format($eqTotalSum,2) }} </strong>
         		</div>
         		<div style="margin-top:50px">
         			{!! Form::open(['url'=>'pdf','method'=>'POST','target'=>'_blank']) !!}
-	                    @include('pdf.pdf_form',['category'=>'income_statement_report',
+	                    @include('pdf.pdf_form',['category'=>'owner_equity_statement_report',
 	                    							'recordId'=>null,
 	                    							'month_filter'=>$monthFilter,
 	                    							'year_filter'=>$yearFilter])

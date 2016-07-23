@@ -15,6 +15,7 @@ use App\ReceiptModel;
 use App\AccountDetailModel;
 use App\AccountGroupModel;
 use App\AccountTitleModel;
+use App\JournalEntryModel;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -177,17 +178,6 @@ trait UtilityHelper
         }
         
     }
-
-    /*
-    * @Author:      Kristopher N. Veraces
-    * @Description: Get all records in the table with raw query
-    */
-    public function getObjectRecordsWithRawWhere($tableName,$rawWhereClause,$arrayValue){
-        return DB::table($tableName)
-                    ->whereRaw($rawWhereClause,$arrayValue)
-                    ->get();
-    }
-
 
     /*
     * @Author:      Kristopher N. Veraces
@@ -383,11 +373,6 @@ trait UtilityHelper
                                         'created_by' => $this->getLogInUserId(),
                                         'updated_by' => $this->getLogInUserId());
                     }
-                    
-                
-                
-                
-
                     //for credit in journal
                     $journalEntryList[] = array($foreignKey=>$foreignValue,
                                             'type' => $typeName,
@@ -461,10 +446,84 @@ trait UtilityHelper
     }
 
 
+    public function monthsGenerator(){
+        $monthArray = array('01'=>'January',
+                            '02'=>'February',
+                            '03'=>'March',
+                            '04'=>'April',
+                            '05'=>'May',
+                            '06'=>'June',
+                            '07'=>'July',
+                            '08'=>'August',
+                            '09'=>'September',
+                            '10'=>'October',
+                            '11'=>'November',
+                            '12'=>'December');
+        return $monthArray;
+    }
+    /*
+    * @Author:      Kristopher N. Veraces
+    * @Description: Get all records in the journal table
+    */
+
+    public function getJournalEntryRecordsWithYearFilter($tableName,$accountGroupId){
+        return JournalEntryModel::orWhere(function($query) use ($accountGroupId){
+                                    $query->whereHas('credit',function($q) use ($accountGroupId){
+                                        $q->where('account_group_id', '=', $accountGroupId);
+                                    })
+                                    ->orWhereHas('debit',function($q) use ($accountGroupId){
+                                        $q->where('account_group_id', '=', $accountGroupId);
+                                    });
+                                });      
+    }
+
+    public function getRecordsWithFilter($query,$monthFilter,$yearFilter){
+        $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
+        $records;
+        if(empty($monthFilter)){
+            $records = $query->whereYear('created_at','=',$yearFilter)  
+                                ->get();
+        }else{
+            $monthFilter = $monthFilter==NULL?date('m'):date($monthFilter); 
+            $records = $query->whereYear('created_at','=',$yearFilter)
+                            ->whereMonth('created_at','=',$monthFilter)
+                            ->get();
+        }
+        return $records;
+    }
 
 
+    public function getItemsAmountList($arrayToProcessList,$typeOfData){
+        $data = array();
+        if($typeOfData == 'Equity' || $typeOfData=='Assets'){
+            $accountGroup =  AccountGroupModel::where('account_group_name', 'like', '%'.$typeOfData.'%')
+                                                ->get();
+            foreach ($accountGroup as $accountGrp) {
+                foreach ($accountGrp->accountTitles as $accountTitle) {
+                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                }
+            }
+        }
 
+        if(!empty($arrayToProcessList)){
+            foreach ($arrayToProcessList as $arrayToProcess) {
+                $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
+                $accountTitle = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->account_sub_group_name : $arrayToProcess->credit->account_sub_group_name;
+                if(array_key_exists($accountTitle,$data)){
+                    $data[$accountTitle] += ($typeOfData == 'Income' ||  $typeOfData == 'Equity'? ($amount * -1)  : $amount);
+                }else{
+                    $data[$accountTitle] = $typeOfData == 'Income' ? ($amount * -1)  : $amount;
+                }
+                
+            }
+        }
+        
+        return $data;
+    }
 
+    public function getTotalSum($arrayData){
+        return count($arrayData)>0?array_sum($arrayData):0;
+    }
 
 
 }

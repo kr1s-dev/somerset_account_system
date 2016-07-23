@@ -31,6 +31,9 @@ class PDFGeneratorController extends Controller
     		case 'income_statement_report':
     		 	return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
     		 	break;
+    		case 'owner_equity_statement_report':
+    		 	return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
+    		 	break;
     		default:
     			# code...
     			break;
@@ -67,57 +70,22 @@ class PDFGeneratorController extends Controller
 	}
 
 	private function generateIncomeStatementPDF($monthFilter,$yearFilter){
-		$monthArray = array('01'=>'January',
-    						'02'=>'February',
-    						'03'=>'March',
-    						'04'=>'April',
-    						'05'=>'May',
-    						'06'=>'June',
-    						'07'=>'July',
-    						'08'=>'August',
-    						'09'=>'September',
-    						'10'=>'October',
-    						'11'=>'November',
-    						'12'=>'December');
+		$yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
+    	$monthArray = $this->monthsGenerator();
 
-		$incomeItemsList = array();
-    	$expenseItemsList = array();
-		if(empty($monthFilter)){
-			//Get Income Statements
-	    	$incStatementItemsList = HomeOwnerPendingPaymentModel::whereYear('created_at','=',date($yearFilter))->get();
+    	$incStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','5',$yearFilter),
+    													$monthFilter,
+    													$yearFilter);
+    	$expStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','6',$yearFilter),
+    													$monthFilter,
+    													$yearFilter);
+    	
+    	$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+    	$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
 
-			$expStatementItemsList = ExpenseItemModel::whereYear('created_at','=',date($yearFilter))->get();
-		}else{
-    		//Get Income Statements
-	    	$incStatementItemsList = HomeOwnerPendingPaymentModel::whereYear('created_at','=',date($yearFilter))
-						    												->whereMonth('created_at','=',date($monthFilter))
-						    												->get();
-
-			$expStatementItemsList = ExpenseItemModel::whereYear('created_at','=',date($yearFilter))
-						    												->whereMonth('created_at','=',date($monthFilter))
-						    												->get();
-		}
-		
-		
-		foreach ($incStatementItemsList as $incStatementItem) {
-			if(array_key_exists($incStatementItem->accountTitle->account_sub_group_name,$incomeItemsList)){
-				$incomeItemsList[$incStatementItem->accountTitle->account_sub_group_name] = ($incomeItemsList[$incStatementItem->accountTitle->account_sub_group_name] + $incStatementItem->amount);
-			}else{
-				$incomeItemsList[$incStatementItem->accountTitle->account_sub_group_name] = $incStatementItem->amount;
-			}
-		}
-
-
-		foreach ($expStatementItemsList as $expStatementItem) {
-			if(array_key_exists($expStatementItem->accountTitle->account_sub_group_name,$expenseItemsList)){
-				$expenseItemsList[$expStatementItem->accountTitle->account_sub_group_name] = ($expenseItemsList[$expStatementItem->accountTitle->account_sub_group_name] + $expStatementItem->amount);
-			}else{
-				$expenseItemsList[$expStatementItem->accountTitle->account_sub_group_name] = $expStatementItem->amount;
-			}
-		}
-
-		$incTotalSum = count($incomeItemsList)>0?array_sum($incomeItemsList):0;
-		$expTotalSum = count($expenseItemsList)>0?array_sum($expenseItemsList):0;
+    	$incTotalSum = $this->getTotalSum($incomeItemsList);
+    	$expTotalSum = $this->getTotalSum($expenseItemsList);
+    	
 
 		return PDF::loadView('pdf.income_statement_pdf',
 								compact('incomeItemsList',
@@ -128,5 +96,44 @@ class PDFGeneratorController extends Controller
 								'yearFilter',
 								'monthFilter'));
 	}
+
+	private function generateOwnerEquityStatementPDF($monthFilter,$yearFilter){
+		$yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
+    	$monthArray = $this->monthsGenerator();
+
+    	$incStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','5'),
+    													$monthFilter,
+    													$yearFilter);
+    	$expStatementItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','6'),
+    													$monthFilter,
+    													$yearFilter);
+
+    	$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+    	$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+
+    	$incTotalSum = $this->getTotalSum($incomeItemsList);
+    	$expTotalSum = $this->getTotalSum($expenseItemsList);
+
+    	$totalProfit = ($incTotalSum  - $expTotalSum);
+
+    	$ownerEquityItemsList = $this->getRecordsWithFilter($this->getJournalEntryRecordsWithYearFilter('journal_entry','7'),
+    													$monthFilter,
+    													$yearFilter);
+
+    	$equityItemsList = $this->getItemsAmountList($ownerEquityItemsList,'Equity');
+
+    	$eqTotalSum = ($this->getTotalSum($equityItemsList)) + $totalProfit ;
+
+    	//print_r($equityItemsList);
+    	return PDF::loadView('pdf.owners_equity_statement_pdf',
+    					compact('yearFilter',
+    							'monthFilter',
+    							'monthArray',
+    							'eqTotalSum',
+    							'equityItemsList',
+    							'totalProfit'));
+	}
+
+
 
 }
