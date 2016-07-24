@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use DB;
+use Mail;
 use App\User;
 use Validator;
 use Illuminate\Http\Request;
@@ -185,7 +186,9 @@ class AuthController extends Controller
     public function postRegister(Request $request)
     {
         $confirmation_code = trim(str_random(30));
-        $guestUserType = $this->getObjectFirstRecord('user_type',array('type'=>'Guest'));
+        $guestUserType = DB::table('user_type')
+                        ->where(array('type'=>'Guest'))
+                        ->first();
         $data = $request->all();
         $data['confirmation_code'] = $confirmation_code;
         $data['user_type_id'] = $guestUserType->id;
@@ -211,5 +214,14 @@ class AuthController extends Controller
         
         flash()->success('An email is sent to your account for verification.');
         return redirect('auth/login');
+    }
+
+    public function sendEmailVerification($toAddress,$name,$confirmation_code){
+        Mail::send('emails.user_verifier',$confirmation_code, function($message) use ($toAddress, $name){
+            $message->from('SomersetAccountingSystem@noreply.com','User Verification');
+            $message->to($toAddress, $name)
+                        ->subject('Verify your Account');
+        });
+
     }
 }
