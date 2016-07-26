@@ -113,10 +113,10 @@
 			              				</tr>
 			              				@endforeach
 			              				<tr>
-			              					@if(strpos($key, 'Liabilities') !== false)
+			              					@if(strpos($key, 'Non Current Liabilities') !== false)
 			              						<td> <strong> Total Liabilities </strong></td>
 					              				<td align="right"> PHP {{number_format($totalLiability,2)}} </td>
-			              					@else
+			              					@elseif(strpos($key, 'Equity') !== false)
 			              						<td> <strong> Total Equity </strong></td>
 					              				<td align="right"> PHP {{number_format($totalEquity,2)}} </td>
 			              					@endif

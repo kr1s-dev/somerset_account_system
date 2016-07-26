@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\reports;
 
 use Illuminate\Http\Request;
-use App\HomeOwnerPendingPaymentModel;
-use App\ExpenseItemModel;
+use App\ReceiptModel;
+use App\ExpenseModel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
@@ -43,7 +43,16 @@ class ReportController extends Controller
 
     public function getGenerateBalanceSheet(){
         return $this->generateBalanceSheet(null,null);
+    }
 
+    public function postGenerateSubsidiaryLedger(Request $request){
+        $monthFilter = $request->input('month_filter');
+        $yearFilter = $request->input('year_filter');
+        return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$request->input('type'));
+    }
+
+    public function getGenerateSubsidiaryLedger($type){
+        return $this->generateSubsidiaryLedger(null,null,$type);
     }
 
 
@@ -105,6 +114,7 @@ class ReportController extends Controller
         $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
         $monthArray = $this->monthsGenerator();
         $accountTitlesList =  $this->getAccountTitles(null);
+        $accountTitleGroupList = $this->getAccountGroups(null);
         $fBalanceSheetItemsList = array();
         $totalAssets = 0;
         $totalEquity = 0;
@@ -125,10 +135,15 @@ class ReportController extends Controller
         //print_r($aTitleItemsList);
         $eBalanceSheetItemsList = $this->getItemsAmountList($aTitleItemsList,null);
 
-        foreach ($accountTitlesList as $accountTitle) {
-            if(!array_key_exists($accountTitle->group->account_group_name,$fBalanceSheetItemsList)){
-                $fBalanceSheetItemsList[$accountTitle->group->account_group_name] = array();
+
+        foreach ($accountTitleGroupList as $accountTitleGroup) {
+            if(!array_key_exists($accountTitleGroup->account_group_name,$fBalanceSheetItemsList)){
+                $fBalanceSheetItemsList[$accountTitleGroup->account_group_name] = array();
             }
+        }
+
+        foreach ($accountTitlesList as $accountTitle) {
+            
 
             if (array_key_exists($accountTitle->account_sub_group_name,$eBalanceSheetItemsList)) {
                 if(array_key_exists($accountTitle->group->account_group_name,$fBalanceSheetItemsList)){
@@ -159,5 +174,47 @@ class ReportController extends Controller
                                 'totalAssets',
                                 'totalEquity',
                                 'totalLiability'));
+    }
+
+    public function generateSubsidiaryLedger($monthFilter,$yearFilter,$type){
+        $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
+        $monthArray = $this->monthsGenerator();
+        $listOfItem = array(); //Key => Payee, Value => array(Items)
+        $itemsList = array();
+        $query;
+        if($type=='homeowner'){
+            $query = ReceiptModel::whereYear('created_at','=',$yearFilter);
+        }else if($type=='vendor'){
+            $query = ExpenseModel::whereYear('created_at','=',$yearFilter);
+        }
+
+        if(!empty($monthFilter))
+            $query->whereMonth('created_at','=',$monthFilter);
+        
+        $itemsList = $query->get();
+        
+        foreach ($itemsList as $item) {
+            $payeeName = $type=='homeowner' ? $item->invoice->homeOwner->first_name . ' ' . 
+                                $item->invoice->homeOwner->middle_name . ' ' .
+                                $item->invoice->homeOwner->last_name : $item->paid_to;
+
+            
+            foreach (($type=='homeowner'? $item->invoice->invoiceItems : $item->expenseItems)  as $val) {
+                if(array_key_exists($payeeName, $listOfItem)){
+                    $tItems = $listOfItem[$payeeName];
+                    $tItems[] = $val;
+                    $listOfItem[$payeeName] = $tItems;
+                }else{
+                    $listOfItem[$payeeName] = array($val);
+                }
+            }
+        }
+
+        return view('reports.subsidiary_ledger',
+                        compact('listOfItem',
+                                'monthArray',
+                                'yearFilter',
+                                'monthFilter',
+                                'type'));
     }
 }

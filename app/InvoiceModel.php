@@ -37,4 +37,8 @@ class InvoiceModel extends Model
     public function invoiceItems(){
         return $this->hasMany('App\HomeOwnerPendingPaymentModel','invoice_id');
     }
+
+    public function receipt(){
+        return $this->hasOne('App\ReceiptModel','payment_id');
+    }
 }

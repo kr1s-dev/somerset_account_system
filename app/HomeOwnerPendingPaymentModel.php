@@ -31,4 +31,8 @@ class HomeOwnerPendingPaymentModel extends Model
     public function accountTitle(){
         return $this->belongsTo('App\AccountTitleModel','account_title_id');
     }
+
+    public function invoice(){
+        return $this->belongsTo('App\InvoiceModel','invoice_id');
+    }
 }

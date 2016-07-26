@@ -523,6 +523,14 @@ trait UtilityHelper
                 $typeOfData = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->group->account_group_name : $arrayToProcess->credit->group->account_group_name;
                 $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
                 $accountTitle = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->account_sub_group_name : $arrayToProcess->credit->account_sub_group_name;
+                if(strpos($typeOfData, 'Revenues') !== false){
+                    if($arrayToProcess->invoice_id != NULL && $arrayToProcess->invoice->is_paid){
+                        $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
+                    }else{
+                        $amount = 0;
+                    }
+                }
+
                 if(array_key_exists($accountTitle,$data)){
                     $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') ? 
                                                 ($amount * -1)  : $amount);
@@ -531,7 +539,6 @@ trait UtilityHelper
                 }
             }
         }
-        
         return $data;
     }
 
