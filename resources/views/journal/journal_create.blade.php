@@ -42,6 +42,7 @@
                      <thead>
                            <th>Dr/Cr</th>
                            <th>Account Title</th>
+                           <th>Description</th>
                            <th>Dr Amount</th>
                            <th>Cr Amount</th>
                            <th>Actions</th>
@@ -61,6 +62,9 @@
                                           <option value="{{$accountTitle->id}}">{{$accountTitle->account_sub_group_name}}</option>
                                        @endforeach
                                     </select>
+                                 </td>
+                                 <td>
+                                    <textarea class="form-control" id="explanation" cols="50" rows="2" style="resize: none;"></textarea>
                                  </td>
                                  <td>
                                     <input name="dr_amount" step="0.01" type="number" class="form-control" value="0.00" disabled>

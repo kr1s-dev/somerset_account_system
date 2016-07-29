@@ -853,16 +853,19 @@
                         '<select name="account_title" id="" class="form-control select2_single">' +
                         '</select>' +
                      '</td>' +
-                     '<td>' +
+                      '<td>' +
+                        '<textarea class="form-control" id="explanation" cols="50" rows="2" style="resize: none;"></textarea>'+
+                      '</td>'+
+                      '<td>' +
                         '<input name="dr_amount" step="0.01" type="number" class="form-control" value = "0.00" disabled>' +
-                     '</td>'+
-                     '<td>' +
+                      '</td>'+
+                      '<td>' +
                         '<input name="cr_amount" step="0.01" type="number" class="form-control" value = "0.00" disabled>' +
-                     '</td>' +
-                     '<td>' +
+                      '</td>' +
+                      '<td>' +
                         '<button class="btn btn-default add-row">' +
                            '<i class="fa fa-plus"></i> Add' +
-                       '</button> ' +
+                      '</button> ' +
                         '<button class="btn btn-default delete-row">' +
                            '<i class="fa fa-trash"></i> Delete' +
                         '</button>' +
@@ -931,6 +934,12 @@
               $("#journal_entry_table tbody tr td").each(function() {
                 var input = $(this).find('input');
                 var select = $(this).find('select');
+                var textArea = $(this).find('textarea');
+
+                if(textArea.attr('id')){
+                  data += (textArea.val() + ',');
+                }
+
                 if(select.attr('name')){
                   data += (select.val() + ',');
                 }
@@ -941,6 +950,7 @@
                 }
               });
               data = data.slice(0,-1);
+              console.log('data');
               $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': _token
@@ -952,7 +962,7 @@
                 success: function(response)
                 {
                     //alert(response);
-                    location.href="/account";
+                    //location.href="/account";
                 }, error: function(xhr, ajaxOptions, thrownError){
                   alert(xhr.status);
                   alert(thrownError);

@@ -41,12 +41,12 @@
 	                   				<a href="{{ route('users.edit',$eUser->id) }}" class="btn btn-primary pull-right">
 	                      				<i class="fa fa-pencil"></i> Edit
 	                   				</a>
-	                   				@if($eUser->is_active)
-	                   					<a href="{{ route('users.edit',$eUser->id) }}" class="btn btn-primary pull-right">
+	                   				@if($eUser->is_active && $eUser->id != Auth::id())
+	                   					<a href="{{ route('users.deactivateUser',$eUser->id) }}" class="btn btn-primary pull-right" onclick="return confirm('Are you sure you want to deactivate this user?');">
 		                      				<i class="fa fa-lock"></i> Deactivate User
 		                   				</a>
 	                   				@endif
-	                   				<a href="{{ route('users.edit',$eUser->id) }}" class="btn btn-primary pull-right">
+	                   				<a href="{{ route('users.resetpassword',$eUser->id) }}" class="btn btn-primary pull-right">
 	                      				<i class="fa fa-key"></i> Reset Password
 	                   				</a>
 	                   				

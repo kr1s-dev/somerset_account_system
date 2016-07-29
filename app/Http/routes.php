@@ -12,7 +12,8 @@
 */
 //Route for login page
 Route::get('/', function () {
-    return Redirect::to('auth/login');
+    return view('assets/create_asset');
+    //return Redirect::to('auth/login');
 });
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');
@@ -35,6 +36,8 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 Route::group(['middleware' => 'auth' , 'web'], function () {
     //Users routes
     Route::resource('users','user\UserController');
+    Route::get('users/deactivateUser/{id}', ['as'=>'users.deactivateUser','uses' => 'user\UserController@deactivateUser']);
+    Route::get('users/resetpassword/{id}', ['as'=>'users.resetpassword','uses' => 'user\UserController@resetPassword']);
     Route::resource('usertypes','usertype\UserTypeController');
 
     //Homeowner routes
@@ -53,6 +56,9 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
 
     //Expense routes
     Route::resource('expense','expense\ExpenseController');
+
+    //Asset routes
+    Route::resource('assets','assets\AssetController');
 
     //Journal Entry Routes
     Route::get('journal/create' ,['as'=>'journal','uses'=>'journal\JournalEntryController@getJournalEntry']);

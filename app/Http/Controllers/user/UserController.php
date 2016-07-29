@@ -4,13 +4,17 @@ namespace App\Http\Controllers\user;
 
 use Validator;
 use Request;
+use Illuminate\Mail\Message;
 use App\Http\Requests\user\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
-    use UtilityHelper;
+    use UtilityHelper,ResetsPasswords;
 
     /**
      * Check if user is logged in
@@ -191,6 +195,45 @@ class UserController extends Controller
         $this->deleteRecord('users',$todeleteId);
         flash()->success('Record succesfully deleted')->important();
         return redirect('users');
+    }
+
+
+    /**
+    * Deactivate User
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    **/
+    public function deactivateUser($id){
+        $user = $this->getUser($id);
+        $user->is_active = 0;
+        $user->save();
+        flash()->success('User succesfully deactivated')->important();
+        return redirect('users');
+    }
+
+    /**
+    * Reset User Password
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    **/
+    public function resetPassword($id){
+        $user = $this->getUser($id);
+        $emails = array('email'=>$user->email);
+        $response = Password::sendResetLink($emails, function (Message $message) {
+            $message->subject($this->getEmailSubject());
+            $message->from('SomersetAccountingSystem@noreply.com','Reset Password');
+        });
+
+        switch ($response) {
+            case Password::RESET_LINK_SENT:
+                $user->is_active = 1;
+                $user->save();
+                flash()->success('A reset link is sent into you email.')->important();
+                return redirect('users');
+                //return redirect()->back()->with('status', trans($response));
+            case Password::INVALID_USER:
+                return redirect()->back()->withErrors(['email' => trans($response)]);
+        }
     }
 
 }

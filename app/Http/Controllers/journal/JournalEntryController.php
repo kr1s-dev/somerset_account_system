@@ -37,7 +37,9 @@ class JournalEntryController extends Controller
     			$type = $dataToInsert;
     		}else if($count==2){
     			$accountTitleId = $dataToInsert;
-    		}else if($count==3){
+            }else if($count==3){
+                $description = $dataToInsert;
+    		}else if($count==4){
     			$amount = $dataToInsert;
     			$count = 0;
     			if($type=='DR'){
@@ -49,7 +51,7 @@ class JournalEntryController extends Controller
     											'credit_amount'=>0.00,
     											'debit_title_id'=>$accountTitleId,
     											'debit_amount'=>$amount,
-    											'description'=>$explanation);
+    											'description'=>$description);
     			}else if($type=='CR'){
     				$toInsertItems[] = array('created_by' => $this->getLogInUserId(),
                                             	'updated_by' => $this->getLogInUserId(),
@@ -59,7 +61,7 @@ class JournalEntryController extends Controller
     											'debit_amount'=>0.00,
     											'credit_title_id'=>$accountTitleId,
     											'credit_amount'=>$amount,
-    											'description'=>$explanation);
+    											'description'=>$description);
     			}
     		}
     	}
