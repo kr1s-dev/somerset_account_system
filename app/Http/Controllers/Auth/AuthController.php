@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Lang;
 
 class AuthController extends Controller
 {
-    protected $redirectTo = '/users';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -166,12 +165,14 @@ class AuthController extends Controller
     */
     public function userTypeRedirectPath(){
         $userType = Auth::user()->userType->type;
-        if($userType=='Administrator' || $userType=='Guest'){
+        if($userType=='Administrator'){
             return redirect()->intended('/users'); 
         }else if($userType=='Accountant'){
             return redirect()->intended('/account'); 
         }else if($userType=='Cashier'){
             return redirect()->intended('/invoice'); 
+        }else if($userType=='Guest'){
+
         }
     }
 

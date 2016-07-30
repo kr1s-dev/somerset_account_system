@@ -51,8 +51,6 @@
                       <ul class="nav child_menu">
                         <li><a href="{{ route('announcement.index') }}">View All Announcements</a></li>
                         <li><a href="{{ route('announcement.create') }}">Create New Announcement</a></li>
-                        <!--li><a href="{{ route('usertypes.index') }}">View All User Types</a></li>
-                        <li><a href="{{ route('usertypes.create') }}">Create New User Type</a></li-->
                       </ul>
                     </li>
                     <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>

@@ -87,5 +87,6 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
     Route::get('reports/subledger/{type}',['as'=>'subledger','uses'=>'reports\ReportController@getGenerateSubsidiaryLedger']);
     Route::post('reports/subledger','reports\ReportController@postGenerateSubsidiaryLedger');
     
-
+    //Guest View
+    
 });
