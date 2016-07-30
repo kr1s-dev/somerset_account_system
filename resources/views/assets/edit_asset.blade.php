@@ -3,7 +3,7 @@
 	<div class="">
       	<div class="page-title">
          	<div class="title_left">
-            	<h3><i class="fa fa-home"></i> Assets</h3>
+            	<h3><i class="fa fa-archive"></i> Assets</h3>
          	</div>
       	</div>
       	<div class="clearfix"></div>
@@ -18,7 +18,7 @@
                		<div class="clearfix"></div>
             	</div>
             	<div class="x_content">
-               	{!! Form::model($eAsset, ['method'=>'PATCH','action' => ['assets\AssetController@update',$eAsset->id] , 'class' => 'form-horizontal form-label-left']) !!}
+               	{!! Form::model($assetModel, ['method'=>'PATCH','action' => ['assets\AssetController@update',$assetModel->id] , 'class' => 'form-horizontal form-label-left']) !!}
                     @include('assets.asset_form',['submitButton'=>'Update Asset']);
                   {!! Form::close() !!}
             	</div>

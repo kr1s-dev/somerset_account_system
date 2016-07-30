@@ -16,6 +16,8 @@ use App\AccountDetailModel;
 use App\AccountGroupModel;
 use App\AccountTitleModel;
 use App\JournalEntryModel;
+use App\AssetsModel;
+use App\AnnouncementModel;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -46,6 +48,14 @@ trait UtilityHelper
 
     public function setAccountTitleModel(){
         return new AccountTitleModel;
+    }
+
+    public function setAssetModel(){
+        return new AssetsModel;
+    }
+
+    public function setAnnouncementModel(){
+        return new AnnouncementModel;
     }
 
     //Get List of Users/ A certain user
@@ -97,6 +107,16 @@ trait UtilityHelper
     //Get specific HomeOwnerMember
     public function getHomeOwnerMemberInformation($id){
         return HomeOwnerMemberModel::findOrFail($id);   
+    }
+
+    //Get List of Assets / or certain Asset
+    public function getAssetModel($id){
+        return $id==null?AssetsModel::all():AssetsModel::findOrFail($id);   
+    }
+
+    //Get List of Announcements / or certain Announcement
+    public function getAnnouncementModel($id){
+        return $id==null?AnnouncementModel::all():AnnouncementModel::findOrFail($id);
     }
 
     //Get List of HomeOwnerMember
@@ -544,6 +564,18 @@ trait UtilityHelper
 
     public function getTotalSum($arrayData){
         return count($arrayData)>0?array_sum($arrayData):0;
+    }
+
+    public function getAllItems($id){
+        $assetItems = $this->getObjectRecords('asset_items',array('account_title_id'=>$id));
+        $totalVal = 0;
+        if(count($assetItems) > 0 ){
+            foreach ($assetItems as $value) {
+                $totalVal += $value->net_value;
+            }
+        }
+
+        $this->updateRecord('account_titles',$id,array('opening_balance'=>$totalVal));
     }
 
 

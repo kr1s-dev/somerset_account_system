@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Income Statement for
+		            <h3><i class="fa fa-users"></i> Balance Sheet for
 		            	@if(!empty($monthFilter))
 		            		{{$monthArray[$monthFilter]}}, 
 		            	@endif 
@@ -113,7 +113,7 @@
 			              				</tr>
 			              				@endforeach
 			              				<tr>
-			              					@if(strpos($key, 'Non Current Liabilities') !== false)
+			              					@if(strpos($key, 'Fixed Liabilities') !== false)
 			              						<td> <strong> Total Liabilities </strong></td>
 					              				<td align="right"> PHP {{number_format($totalLiability,2)}} </td>
 			              					@elseif(strpos($key, 'Equity') !== false)

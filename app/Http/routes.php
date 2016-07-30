@@ -12,8 +12,7 @@
 */
 //Route for login page
 Route::get('/', function () {
-    return view('assets/create_asset');
-    //return Redirect::to('auth/login');
+    return Redirect::to('auth/login');
 });
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');
@@ -59,6 +58,9 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
 
     //Asset routes
     Route::resource('assets','assets\AssetController');
+
+    //Announcements routes
+    Route::resource('announcement','announcement\AnnouncementController');
 
     //Journal Entry Routes
     Route::get('journal/create' ,['as'=>'journal','uses'=>'journal\JournalEntryController@getJournalEntry']);

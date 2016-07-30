@@ -13,9 +13,9 @@ class AccountGroupSeeder extends Seeder
     {
         //
         $accountGoupNames = array('Current Assets',
-                                    'Non Current Assets',
+                                    'Fixed Assets',
                                     'Current Liabilities',
-                                    'Non Current Liabilities',
+                                    'Fixed Liabilities',
                                     'Revenues',
                                     'Expenses',
                                     'Owners Equity');

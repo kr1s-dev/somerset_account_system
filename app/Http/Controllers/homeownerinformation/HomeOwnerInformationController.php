@@ -46,9 +46,23 @@ class HomeOwnerInformationController extends Controller
      */
     public function store(HomeOwnerRequest $request)
     {
+        $confirmation_code = array('confirmation_code'=>str_random(30));
         $input = $this->addAndremoveKey(Request::all(),true);
         $homeOwnerId = $this->insertRecord('home_owner_information',$input);
-        flash()->success('Homeowner has been successfully created');
+
+        //Create User for HomeOwner
+        $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
+                                        'user_type_id'=>4,
+                                        'confirmation_code'=> $confirmation_code['confirmation_code'],
+                                        'email'=> $input['email'],);
+        $userId = $this->insertRecord('users',$inputwithHomeOwner);
+
+        //Send email verification
+        $this->sendEmailVerification($input['email'],
+                                        $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
+                                        $confirmation_code);
+
+        flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
         return redirect('homeowners/' . $homeOwnerId);
     }
 

@@ -18,7 +18,8 @@
     </label>
     <div class="col-md-9 col-sm-6 col-xs-12">
       @if(count($accountGroupList) == 1)
-        <select id="accountgroup" name="account_group_id" class="select2_single form-control" tabindex="-1" disabled>
+        <input type="hidden" name="account_group_id" value="{{$accountGroupList->id}}">
+        <select id="accountgroup" class="select2_single form-control" tabindex="-1" disabled>
           <option value="{{$accountGroupList->id}}">{{$accountGroupList->account_group_name}}</option>
         </select>
       @else

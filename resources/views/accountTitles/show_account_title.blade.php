@@ -63,7 +63,7 @@
                    					<tr>
                     					<td class="data-title"><strong>Opening Balance</strong></td>
                               <td>
-                                @if($accountGroupList->account_group_name == 'Asset' || $accountGroupList->account_group_name == 'Expense')
+                                @if(strpos($accountGroupList->account_group_name, 'Assets') || strpos($accountGroupList->account_group_name, 'Expenses'))
                                   Dr 
                                 @else
                                   Cr

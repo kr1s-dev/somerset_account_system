@@ -35,7 +35,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-home"></i> <span>Somerset Accounting System</span></a>
+              <a href="#" class="site_title"><i class="fa fa-home"></i> <span>Somerset Accounting System</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -47,6 +47,14 @@
                 <ul class="nav side-menu">
                   <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard </a></li>
                   @if(Auth::user()->userType->type == 'Administrator')
+                    <li><a><i class="fa fa-bullhorn"></i> Announcements <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{{ route('announcement.index') }}">View All Announcements</a></li>
+                        <li><a href="{{ route('announcement.create') }}">Create New Announcement</a></li>
+                        <!--li><a href="{{ route('usertypes.index') }}">View All User Types</a></li>
+                        <li><a href="{{ route('usertypes.create') }}">Create New User Type</a></li-->
+                      </ul>
+                    </li>
                     <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{ route('users.index') }}">View All Users</a></li>
@@ -69,6 +77,13 @@
                          <!--li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li-->
                          <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
                          <li><a href="{{ route('account.index') }}">View Current Account</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a><i class="fa fa-archive"></i> Assets Registry<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                         <li><a href="{{ route('assets.create') }}">Create Assets</a></li>
+                         <li><a href="{{ route('assets.index') }}">View All Assets</a></li>
                       </ul>
                     </li>
                     <li>
@@ -1056,6 +1071,21 @@
             });
             return is_duplicate;
           }
+
+        /*
+         * @author:        Kristopher Veraces
+         * @description:   Shows Depreciation Information if radio button is Yes
+         */
+        $("input[name=subject_to_depreciation]:radio").change(function(e){
+          if($(this).val() == 'Yes')
+            $("#depreDetails").show();
+          else{
+            $("input[name=monthly_depreciation]").val("");
+            $("input[name=months_remaining]").val("");
+            $("#depreDetails").hide();
+          }
+            
+        });
       });
     </script>
   </body>

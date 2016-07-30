@@ -19,12 +19,15 @@ class CreateAssetsTable extends Migration
                 $table->foreign('created_by')->references('id')->on('users');
                 $table->Integer('updated_by')->unsigned();
                 $table->foreign('updated_by')->references('id')->on('users');
-                $table->Integer('invoice_id')->unsigned()->nullable();
                 $table->Integer('account_title_id')->unsigned();
                 $table->foreign('account_title_id')->references('id')->on('account_titles');
+                $table->String('item_name');
                 $table->Integer('quantity')->default(0);
-                $table->String('reference',255);
-                $table->Decimal('cost',10,2)->default(0);
+                $table->String('date_acquired');
+                $table->String('description',255);
+                $table->Decimal('original_cost',10,2)->default(0);
+                $table->Boolean('subject_to_depreciation',255);
+                $table->Decimal('monthly_depreciation',10,2)->default(0);
                 $table->Integer('months_remaining')->default(0);
                 $table->Decimal('accumulated_depreciation',10,2)->default(0);
                 $table->Decimal('net_value',10,2)->default(0);

@@ -3,7 +3,7 @@
 	<div class="">
       	<div class="page-title">
          	<div class="title_left">
-            	<h3><i class="fa fa-home"></i> Assets</h3>
+            	<h3><i class="fa fa-archive"></i> Assets</h3>
          	</div>
       	</div>
       	<div class="clearfix"></div>
@@ -18,9 +18,9 @@
                		<div class="clearfix"></div>
             	</div>
             	<div class="x_content">
-               		{!! Form::open(['url'=>'assets','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
-	                    @include('assets.asset_form',['submitButton'=>'Submit']);
-	               	{!! Form::close() !!}
+            		{!! Form::open(['url'=>'assets','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+                    @include('assets.asset_form',['submitButton'=>'Submit']);
+               	{!! Form::close() !!}
             	</div>
          	</div>
       	</div>
