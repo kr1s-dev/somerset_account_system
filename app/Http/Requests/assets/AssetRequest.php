@@ -24,8 +24,6 @@ class AssetRequest extends Request
      */
     public function rules()
     {
-        //$assets = $this->assets;
-        $dateValidator = date('m/d/Y',strtotime('+2 day'));
         switch($this->method())
         {
             case 'GET': break;
@@ -34,23 +32,27 @@ class AssetRequest extends Request
             case 'POST':{
                 return ['account_title_id'=>'required',
                         'item_name'=>'required',
-                        'quantity'=>'required',
                         'description'=>'required',
-                        'date_acquired'=>'required|before:'.$dateValidator,
-                        'original_cost'=>'required',
-                        'subject_to_depreciation'=>'required',
-                        'monthly_depreciation' => 'required_if:subject_to_depreciation,Yes',];
+                        'quantity'=>'required',
+                        'total_cost'=>'required',
+                        'net_value'=>'required',
+                        'useful_life'=>'required',
+                        'mode_of_acquisition'=>'required',
+                        'interest' => 'required_if:mode_of_acquisition,Payable|required_if:mode_of_acquisition,Both',
+                        'down_payment' => 'required_if:mode_of_acquisition,Both',];
             }
             //for update
             case 'PATCH':{  
                 return ['account_title_id'=>'required',
                         'item_name'=>'required',
-                        'quantity'=>'required',
                         'description'=>'required',
-                        'date_acquired'=>'required|before:'.$dateValidator,
-                        'original_cost'=>'required',
-                        'subject_to_depreciation'=>'required',
-                        'monthly_depreciation' => 'required_if:subject_to_depreciation,Yes',];
+                        'quantity'=>'required',
+                        'total_cost'=>'required',
+                        'net_value'=>'required',
+                        'useful_life'=>'required',
+                        'mode_of_acquisition'=>'required',
+                        'interest' => 'required_if:mode_of_acquisition,Payable|required_if:mode_of_acquisition,Both',
+                        'down_payment' => 'required_if:mode_of_acquisition,Both',];
             }
             //default
             default: break;

@@ -47,20 +47,16 @@
 	                      					<td>{{$assetModel->description}}</td>
 	                   					</tr>
 	                   					<tr>
-	                      					<td class="data-title"><strong>Date Acquired</strong></td>
-	                      					<td>{{$assetModel->date_acquired}}</td>
+	                      					<td class="data-title"><strong>Total Cost</strong></td>
+	                      					<td>PHP {{number_format($assetModel->total_cost,2)}}</td>
 	                   					</tr>
 	                   					<tr>
-	                      					<td class="data-title"><strong>Original Cost</strong></td>
-	                      					<td>PHP {{number_format($assetModel->original_cost,2)}}</td>
-	                   					</tr>
-	                   					<tr>
-	                      					<td class="data-title"><strong>Subject to Depreciation</strong></td>
+	                      					<td class="data-title"><strong>Mode of Acquisition</strong></td>
 	                      					<td>
-	                      						@if($assetModel->subject_to_depreciation)
-	                      							Yes
+	                      						@if($assetModel->mode_of_acquisition == 'Both')
+	                      							Cash and Accounts Payable
 	                      						@else
-	                      							No
+	                      							{{$assetModel->mode_of_acquisition}}
 	                      						@endif
 	                      					</td>
 	                   					</tr>
@@ -70,10 +66,10 @@
 	                   					</tr>
 	                   					<tr>
 	                      					<td class="data-title"><strong>Month/s Remaining</strong></td>
-	                      					<td>{{$assetModel->months_remaining}}</td>
+	                      					<td>{{$assetModel->useful_life}}</td>
 	                   					</tr>
 	                   					<tr>
-	                      					<td class="data-title"><strong>Net Value</strong></td>
+	                      					<td class="data-title"><strong>Current Net Market Value</strong></td>
 	                      					<td>PHP {{number_format($assetModel->net_value,2)}}</td>
 	                   					</tr>
 	                   					<tr>

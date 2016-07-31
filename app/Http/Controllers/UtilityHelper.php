@@ -552,7 +552,7 @@ trait UtilityHelper
                 // }
 
                 if(array_key_exists($accountTitle,$data)){
-                    $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') ? 
+                    $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') | strpos($typeOfData, 'Liabilities') ? 
                                                 ($amount * -1)  : $amount);
                 }else{
                     $data[$accountTitle] = $typeOfData == 'Revenues' ? ($amount * -1)  : $amount;

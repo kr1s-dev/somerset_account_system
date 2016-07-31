@@ -4,6 +4,7 @@ namespace App\Http\Controllers\announcement;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
@@ -12,6 +13,19 @@ use App\Http\Requests\announcement\AnnouncementRequest;
 class AnnouncementController extends Controller
 {
     use UtilityHelper;
+    
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        if(Auth::user()->userType->type==='Administrator')
+            $this->middleware('user.type:announcement');
+        elseif(Auth::user()->userType->type==='Guest')
+            $this->middleware('user.type:announcement')->only('show');
+    }
+    
     /**
      * Display a listing of the resource.
      *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\pdf;
 
 use PDF;
+use Auth;
 use App\HomeOwnerPendingPaymentModel;
 use App\ExpenseItemModel;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\Http\Controllers\UtilityHelper;
 class PDFGeneratorController extends Controller
 {
 	use UtilityHelper;
+
     public function postGeneratePDF(Request $request){
     	$category = $request->input('category');
     	$recordId = $request->input('recordId');
@@ -26,16 +28,25 @@ class PDFGeneratorController extends Controller
     		 	return $this->generateInvoicePDF($recordId)->stream('invoice_'. date('m_d_y') .'.pdf');
     		 	break;
     		case 'expense':
-    		 	return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
+                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+    		 	    return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
+                else
+                    return view('errors.503');
     		 	break;
     		case 'income_statement_report':
-    		 	return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-    		 	break;
+                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+    		 	    return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
+    		 	else
+                    return view('errors.503');
+                break;
     		case 'owner_equity_statement_report':
-    		 	return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-    		 	break;
+                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+    		 	    return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
+    		 	else
+                    return view('errors.503');
+                break;
     		default:
-    			# code...
+    			return view('errors.503');
     			break;
     	}
 	}

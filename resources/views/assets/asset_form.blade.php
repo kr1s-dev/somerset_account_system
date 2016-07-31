@@ -19,13 +19,6 @@
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Quantity <span class="required">*</span>
-   </label>
-   <div class="col-md-3 col-sm-6 col-xs-12">
-      <input type="number" id="first-name" name="quantity" value="{{ count($errors) > 0? old('quantity'):($assetModel->quantity) }}" required="required" class="form-control col-md-7 col-xs-12">
-   </div>
-</div>
-<div class="form-group">
    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description <span class="required">*</span>
    </label>
    <div class="col-md-6 col-sm-6 col-xs-12">
@@ -33,60 +26,86 @@
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Date Acquired <span class="required">*</span>
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Quantity <span class="required">*</span>
    </label>
    <div class="col-md-3 col-sm-6 col-xs-12">
-      <input id="" name="date_acquired" value="{{ count($errors) > 0? old('date_acquired'):($assetModel->date_acquired) }}" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+      <input type="number" min="1" id="first-name" name="quantity" value="{{ count($errors) > 0? old('quantity'):($assetModel->quantity) }}" required="required" class="form-control col-md-7 col-xs-12">
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Original Cost<span class="required">*</span>
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Cost<span class="required">*</span>
    </label>
    <div class="col-md-3 col-sm-6 col-xs-12">
-      <input type="number" id="first-name" name="original_cost" value="{{ count($errors) > 0? old('original_cost'):($assetModel->original_cost) }}" required="required" class="form-control col-md-7 col-xs-12">
+      <input type="number" min="1" id="first-name" name="total_cost" value="{{ count($errors) > 0? old('total_cost'):($assetModel->total_cost) }}" required="required" class="form-control col-md-7 col-xs-12">
    </div>
 </div>
-@if($submitButton == 'Update Asset')
-   <input type="hidden" name="subject_to_depreciation" value="{{ count($errors) > 0? old('subject_to_depreciation'):($assetModel->subject_to_depreciation) }}" >
-   @if($assetModel->subject_to_depreciation)
-      <div id="depreDetails">
-         <div class="form-group">
-            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Monthly Depreciation<span class="required">*</span></label>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-               <input id="monthly_depreciation" name="monthly_depreciation" value="{{ count($errors) > 0? old('monthly_depreciation'):($assetModel->monthly_depreciation) }}" class="form-control col-md-7 col-xs-12" type="number" name="phone-number">
-            </div>
-         </div>
+<div class="form-group">
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Market Value<span class="required">*</span>
+   </label>
+   <div class="col-md-3 col-sm-6 col-xs-12">
+      <input type="number" min="0" id="first-name" name="net_value" value="{{ count($errors) > 0? old('net_value'):($assetModel->net_value) }}" required="required" class="form-control col-md-7 col-xs-12">
+   </div>
+</div>
+<!--div class="form-group">
+   <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject to Depreciation?</label>
+   <div class="col-md-6 col-sm-6 col-xs-12">
+      <div id="deprecChoice" class="btn-group" data-toggle="buttons">
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <input type="radio" name="subject_to_depreciation" value="No" data-parsley-multiple="gender">No
+         </label>
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <input type="radio" name="subject_to_depreciation" value="Yes" data-parsley-multiple="gender"> Yes
+         </label>
       </div>
-   @endif
-@else
+   </div>
+</div-->
+<div class="form-group">
+   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Useful Life(mos)<span class="required">*</span></label>
+   <div class="col-md-3 col-sm-6 col-xs-12">
+      <input id="monthly_depreciation" name="useful_life" value="{{ count($errors) > 0? old('useful_life'):($assetModel->useful_life) }}" class="form-control col-md-7 col-xs-12" type="number" name="phone-number" min="0">
+   </div>
+</div>
+<div class="form-group">
+   <label class="control-label col-md-3 col-sm-3 col-xs-12">Mode of Acquisition</label>
+   <div class="col-md-6 col-sm-6 col-xs-12">
+      <div id="deprecChoice" class="btn-group" data-toggle="buttons">
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
+         </label>
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <input type="radio" name="mode_of_acquisition" value="Payable" data-parsley-multiple="gender"> Payable
+         </label>
+         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+         <input type="radio" name="mode_of_acquisition" value="Both" data-parsley-multiple="gender"> Both
+         </label>
+      </div>
+   </div>
+</div>
+<div id="interestPercent" style="display:none;">
    <div class="form-group">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject to Depreciation?</label>
-      <div class="col-md-6 col-sm-6 col-xs-12">
-         <div id="deprecChoice" class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-            <input type="radio" name="subject_to_depreciation" value="No" data-parsley-multiple="gender">No
-            </label>
-            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-            <input type="radio" name="subject_to_depreciation" value="Yes" data-parsley-multiple="gender"> Yes
-            </label>
-         </div>
+      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Interest (%)
+      </label>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+         <input type="number" min="0" id="first-name" name="interest" value="{{ count($errors) > 0? old('interest'):($assetModel->interest) }}" class="form-control col-md-7 col-xs-12" >
       </div>
    </div>
-   <div id="depreDetails" style="display:none;">
-      <div class="form-group">
-         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Monthly Depreciation<span class="required">*</span></label>
-         <div class="col-md-3 col-sm-6 col-xs-12">
-            <input id="monthly_depreciation" name="monthly_depreciation" value="{{ count($errors) > 0? old('monthly_depreciation'):($assetModel->monthly_depreciation) }}" class="form-control col-md-7 col-xs-12" type="number" name="phone-number">
-         </div>
+</div>
+
+<div id="downPayment" style="display:none;">
+   <div class="form-group">
+      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Down Payment (PHP)
+      </label>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+         <input type="number" min="0" id="first-name" name="down_payment" value="{{ count($errors) > 0? old('downPayment'):($assetModel->downPayment) }}" class="form-control col-md-7 col-xs-12" >
       </div>
    </div>
-@endif
+</div>
 
 <div class="ln_solid"></div>
 
 <div class="form-group">
   <div class="col-md-9 col-sm-6 col-xs-12 col-md-offset-3">
-    <a role="button" href="./list.html" class="btn btn-primary">Cancel</a>
+    <a role="button" href="#" class="btn btn-primary">Cancel</a>
     <button type="submit" class="btn btn-success">{{ $submitButton }}</button>
   </div>
 </div>

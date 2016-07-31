@@ -12,6 +12,16 @@ use App\AccountDetailModel;
 class AccountInformationController extends Controller
 {
     use UtilityHelper;
+
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:accountinformation');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +68,7 @@ class AccountInformationController extends Controller
      */
     public function create()
     {
-        
+        echo 'hi';
     }
 
     /**

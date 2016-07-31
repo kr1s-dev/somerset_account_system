@@ -12,6 +12,15 @@ use App\Http\Controllers\UtilityHelper;
 class ReportController extends Controller
 {
     use UtilityHelper;
+    
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:reports');
+    }
 
 	public function postGenerateIncomeStatement(Request $request){
 		$monthFilter = $request->input('month_filter');

@@ -16,14 +16,17 @@ class UserController extends Controller
 {
     use UtilityHelper,ResetsPasswords;
 
+
+    
     /**
      * Check if user is logged in
      * Check the usertype of logged in user
      *
-     */
+    */
     public function __construct(){
-        $this->middleware('userType');
+        $this->middleware('user.type:users');
     }
+
 
     /**
      * Display a listing of the resource.

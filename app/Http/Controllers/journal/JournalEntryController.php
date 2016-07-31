@@ -9,6 +9,16 @@ use App\Http\Controllers\UtilityHelper;
 class JournalEntryController extends Controller
 {
     use UtilityHelper;
+
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:journal');
+    }
+
     //Return a view page for journal Entry
     public function getJournalEntry(){
         $accountTitlesList = $this->getAccountTitles(null);

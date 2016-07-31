@@ -10,6 +10,15 @@ use App\Http\Controllers\UtilityHelper;
 class ReceiptController extends Controller
 {
     use UtilityHelper;
+
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:receipts');
+    }
     /**
      * Display a listing of the resource.
      *

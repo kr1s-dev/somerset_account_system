@@ -57,8 +57,6 @@
                       <ul class="nav child_menu">
                         <li><a href="{{ route('users.index') }}">View All Users</a></li>
                         <li><a href="{{ route('users.create') }}">Create New User</a></li>
-                        <!--li><a href="{{ route('usertypes.index') }}">View All User Types</a></li>
-                        <li><a href="{{ route('usertypes.create') }}">Create New User Type</a></li-->
                       </ul>
                     </li>
                     <li><a><i class="fa fa-home"></i> Homeowners <span class="fa fa-chevron-down"></span></a>
@@ -70,9 +68,6 @@
                     <li>
                       <a><i class="fa fa-table"></i> Accounts <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                         <!--li><a href="{{ route('account.create') }}">Create New Account</a></li>
-                         <li><a href="{{ route('account.index') }}">View All Accounts</a></li-->
-                         <!--li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li-->
                          <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
                          <li><a href="{{ route('account.index') }}">View Current Account</a></li>
                       </ul>
@@ -94,7 +89,6 @@
                     <li>
                       <a><i class="fa fa-money"></i> Receipts <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                         <!--li><a href="{{ route('receipt.create') }}">Create New Receipt</a></li-->
                          <li><a href="{{ route('receipt.index') }}">View All Receipts</a></li>
                       </ul>
                     </li>
@@ -139,10 +133,29 @@
                     <li>
                       <a><i class="fa fa-table"></i> Accounts <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                         <!--li><a href="{{ route('account.create') }}">Create New Account</a></li>
-                         <li><a href="{{ route('account.index') }}">View All Accounts</a></li-->
-                         <li><a href="{{ route('accounttitle.create') }}">Create New Account Title</a></li>
                          <li><a href="{{ route('accounttitle.index') }}">View All Account Title</a></li>
+                         <li><a href="{{ route('account.index') }}">View Current Account</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a><i class="fa fa-archive"></i> Assets Registry<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                         <li><a href="{{ route('assets.create') }}">Create Assets</a></li>
+                         <li><a href="{{ route('assets.index') }}">View All Assets</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a><i class="fa fa-files-o"></i> Invoice <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                         <li><a href="{{ route('invoice.create') }}">Create New Invoice</a></li>
+                         <li><a href="{{ route('invoice.index') }}">View All Invoices</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a><i class="fa fa-money"></i> Receipts <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                         <!--li><a href="{{ route('receipt.create') }}">Create New Receipt</a></li-->
+                         <li><a href="{{ route('receipt.index') }}">View All Receipts</a></li>
                       </ul>
                     </li>
                     <li>
@@ -150,6 +163,20 @@
                       <ul class="nav child_menu">
                         <li><a href="{{ route('expense.create') }}">Create New Expense</a></li>
                         <li><a href="{{ route('expense.index') }}">View All Expenses</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a><i class="fa fa-credit-card"></i> Reports <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <!--li><a href="">General Journal</a></li>
+                        <li><a href="">General Ledger</a></li-->
+                        <li><a href="{{ route('incomestatement') }}">Income Statement</a></li>
+                        <li><a href="{{ route('ownersequity') }}">Statement of Owners Equity</a></li>
+                        <li><a href="{{ route('balancesheet') }}">Balance Sheet</a></li>
+                        <li><a href="{{ route('subledger','homeowner') }}">Subsidiary Ledger (Home Owner)</a></li>
+                        <li><a href="{{ route('subledger','vendor') }}">Subsidiary Ledger (Vendor Data)</a></li>
+                        <!--li><a href="">Balance Sheet</a></li>
+                        <li><a href="">Trial Balance</a></li-->
                       </ul>
                     </li>
                   @endif
@@ -1074,13 +1101,19 @@
          * @author:        Kristopher Veraces
          * @description:   Shows Depreciation Information if radio button is Yes
          */
-        $("input[name=subject_to_depreciation]:radio").change(function(e){
-          if($(this).val() == 'Yes')
-            $("#depreDetails").show();
-          else{
-            $("input[name=monthly_depreciation]").val("");
-            $("input[name=months_remaining]").val("");
-            $("#depreDetails").hide();
+        $("input[name=mode_of_acquisition]:radio").change(function(e){
+          $("input[name=interest]").val("");
+          $("input[name=downPayment]").val("");
+          if($(this).val() == 'Both'){
+            $("#interestPercent").show();
+            $("#downPayment").show();
+          }
+          else if($(this).val() == 'Payable'){
+            $("#interestPercent").show();
+            $("#downPayment").hide();
+          }else{
+            $("#interestPercent").hide();
+            $("#downPayment").hide();
           }
             
         });

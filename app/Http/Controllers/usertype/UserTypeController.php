@@ -14,6 +14,16 @@ use App\Http\Controllers\UtilityHelper;
 class UserTypeController extends Controller
 {
     use UtilityHelper;
+
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:usertype');
+    }
+
     /**
      * Display a listing of the resource.
      *

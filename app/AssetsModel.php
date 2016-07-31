@@ -20,13 +20,17 @@ class AssetsModel extends Model
     protected $fillable = ['created_by',
     						'updated_by',
     						'account_title_id',
+    						'item_name',
+    						'description',
+    						'total_cost',
     						'quantity',
-    						'reference',
-    						'cost',
     						'monthly_depreciation',
-    						'months_remaining',
-    						'accumulated_depreciation',
-    						'net_value'];
+    						'useful_life',
+    						'mode_of_acquisition',
+                            'interest',
+                            'down_payment',
+                            'accumulated_depreciation',
+                            'net_value'];
 
    	
 }

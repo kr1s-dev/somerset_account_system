@@ -32,8 +32,8 @@ Route::get('password/reset/{token}','Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Uses authentication middleware, to avoid uneccessary access if not login
-Route::group(['middleware' => 'auth' , 'web'], function () {
-    //Users routes
+Route::group(['middleware' => 'auth'], function () {
+    //Users Routes
     Route::resource('users','user\UserController');
     Route::get('users/deactivateUser/{id}', ['as'=>'users.deactivateUser','uses' => 'user\UserController@deactivateUser']);
     Route::get('users/resetpassword/{id}', ['as'=>'users.resetpassword','uses' => 'user\UserController@resetPassword']);
@@ -67,7 +67,7 @@ Route::group(['middleware' => 'auth' , 'web'], function () {
     Route::post('journal/create' ,'journal\JournalEntryController@postJournalEntry');
     
     //Account info routes
-    Route::resource('account','accountInformation\AccountInformationController');
+    Route::resource('account','accountInformation\AccountInformationController',['only' => ['index']]);
 
     //Account title routes
     Route::resource('accounttitle','accountTitle\AccountTitleController');

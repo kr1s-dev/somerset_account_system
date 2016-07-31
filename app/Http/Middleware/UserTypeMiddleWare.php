@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
 
-class UserTypeMiddleWare
+class UserTypeMiddleware
 {
     /**
      * Handle an incoming request.
@@ -14,14 +13,28 @@ class UserTypeMiddleWare
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next,$objectToAccess)
     {
-        $userType = Auth::user()->userType->type; 
-        if($userType=='Accountant'){
-            return redirect('/account'); 
-        }else if($userType=='Cashier'){
-            return redirect('/invoice'); 
+        $usertype = $request->user()->userType->type;
+        if($objectToAccess == 'users' || $objectToAccess == 'usertype' 
+                || $objectToAccess == 'homeownermember' || $objectToAccess == 'homeownerinfo'){
+            if($usertype === 'Administrator')
+                return $next($request);
+        }elseif($objectToAccess == 'reports' || $objectToAccess == 'journal' 
+                || $objectToAccess == 'asset' || $objectToAccess == 'accounttitle'
+                || $objectToAccess == 'accountinformation') {
+            if($usertype === 'Administrator' || $usertype === 'Accountant')
+                return $next($request);
+        }elseif($objectToAccess == 'receipts' || $objectToAccess == 'invoice' 
+                || $objectToAccess == 'expense') {
+            if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier')
+                return $next($request);
+        }elseif($objectToAccess == 'announcement'){
+            if($usertype === 'Administrator' || $usertype === 'Guest')
+                return $next($request);
         }
-        return $next($request);
+
+        return view('errors.503');
+        
     }
 }

@@ -11,6 +11,15 @@ use App\Http\Requests\assets\AssetRequest;
 class AssetController extends Controller
 {
     use UtilityHelper;
+
+    /**
+     * Check if user is logged in
+     * Check the usertype of logged in user
+     *
+    */
+    public function __construct(){
+        $this->middleware('user.type:asset');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -52,24 +61,58 @@ class AssetController extends Controller
      */
     public function store(AssetRequest $request)
     {
-        $input = $this->addAndremoveKey(Request::all(),true);   
-        $dateToday = new \DateTime(date('m/d/y'));
-        $dateAcquired = new \DateTime($input['date_acquired']);
-        $interval = ($dateToday->diff($dateAcquired)->m + $dateToday->diff($dateAcquired)->y*12);
-        $input['subject_to_depreciation'] = $input['subject_to_depreciation'] == 'Yes' ? 1 : 0;
-        if($input['subject_to_depreciation']){
-            if( $interval != 0){
-                $input['accumulated_depreciation'] = ($interval * $input['monthly_depreciation']);
-                $input['net_value'] = $input['original_cost'] - $input['accumulated_depreciation'] < 0 ? 0 
-                                        : $input['original_cost'] - $input['accumulated_depreciation'];
-            }else{
-                $input['net_value'] = $input['original_cost'];
-            }
-            $input['months_remaining'] = $input['net_value'] / $input['monthly_depreciation'];
+        $creditTitleId = array();
+        $journalEntryList = array();
+        $input = $this->addAndremoveKey($request->all(),true);   
+        $description = 'Both item: ' . ($input['item_name']);
+        $input['monthly_depreciation'] = $input['net_value'] / $input['useful_life'];
+        if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
+            $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
+            if($input['mode_of_acquisition'] == 'Both')
+                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+        }else{
+            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         }
+            
         
         $assetId = $this->insertRecord('asset_items',$input);
         $this->getAllItems($input['account_title_id']);
+
+        //Create Journal Entry
+        //Debit Entry
+        $journalEntryList[] = array('debit_title_id'=>$input['account_title_id'],
+                                    'credit_title_id'=>null,
+                                    'debit_amount' => $input['total_cost'],
+                                    'credit_amount'=>0.00,
+                                    'description'=> $description,
+                                    'created_at' => date('Y-m-d'),
+                                    'updated_at' => date('Y-m-d'),
+                                    'created_by' => $this->getLogInUserId(),
+                                    'updated_by' => $this->getLogInUserId());
+        //Credit Entry
+        for ($i=0; $i < count($creditTitleId) ; $i++) { 
+            $amount = $input['total_cost'];
+            if($input['mode_of_acquisition'] == 'Both'){
+                if($creditTitleId[$i]->account_sub_group_name == 'Cash')
+                    $amount = $input['down_payment'];
+                else if($creditTitleId[$i]->account_sub_group_name == 'Accounts Payable'){
+                        $amount = ($input['total_cost'] - $input['down_payment']);
+                }
+            }
+            
+            $journalEntryList[] = array('debit_title_id'=>null,
+                                    'credit_title_id'=>$creditTitleId[$i]->id,
+                                    'debit_amount' => 0.00,
+                                    'credit_amount'=>$amount,
+                                    'description'=> $description,
+                                    'created_at' => date('Y-m-d'),
+                                    'updated_at' => date('Y-m-d'),
+                                    'created_by' => $this->getLogInUserId(),
+                                    'updated_by' => $this->getLogInUserId());
+        }
+
+        $this->insertBulkRecord('journal_entry',$journalEntryList);
         flash()->success('Record successfully created')->important();
         return redirect('assets/'.$assetId);
     }
@@ -112,20 +155,10 @@ class AssetController extends Controller
      */
     public function update(AssetRequest $request, $id)
     {
-        $input = $this->addAndremoveKey(Request::all(),false);   
-        $dateToday = new \DateTime(date('m/d/y'));
-        $dateAcquired = new \DateTime($input['date_acquired']);
-        $interval = ($dateToday->diff($dateAcquired)->m + $dateToday->diff($dateAcquired)->y*12);
-        if($input['subject_to_depreciation']){
-            if( $interval != 0){
-                $input['accumulated_depreciation'] = ($interval * $input['monthly_depreciation']);
-                $input['net_value'] = $input['original_cost'] - $input['accumulated_depreciation'] < 0 ? 0 
-                                        : $input['original_cost'] - $input['accumulated_depreciation'];
-            }else{
-                $input['net_value'] = $input['original_cost'];
-            }
-            $input['months_remaining'] = $input['net_value'] / $input['monthly_depreciation'];
-        }
+        $input = $this->addAndremoveKey($request->all(),false);   
+        $input['monthly_depreciation'] = $input['net_value'] / $input['useful_life'];
+        if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable')
+            $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
 
         $this->updateRecord('asset_items',$id,$input);
         $this->getAllItems($input['account_title_id']);

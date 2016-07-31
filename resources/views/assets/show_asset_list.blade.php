@@ -29,9 +29,7 @@
                      		<tr>
                         		<th>Asset No.</th>
                         		<th>Item Name</th>
-                        		<th>Date Acquired</th>
-                        		<th>Original Cost (PHP)</th>
-                        		<th style="width: 2%;">Subject to Depreciation?</th>
+                        		<th style="width: 2%;">Mode of Acquisition</th>
                         		<th style="width: 2%;">Monthly Depreciation</th>
                         		<th>Net Amount (PHP)</th>
                         		<th>Actions</th>
@@ -41,16 +39,14 @@
                   			@foreach($assetModelsList as $assetModel)
                   				<tr>
                   					<td><a href="{{route('assets.show',$assetModel->id)}}"><strong>{{sprintf("%'.07d\n", $assetModel->id)}}</strong></a></td>	
-                  					<td> {{ $assetModel->item_name }}</td>	
-                  					<td> {{ $assetModel->date_acquired }}</td>	
-                  					<td>PHP {{ number_format($assetModel->original_cost,2) }}</td>	
-                  					<td> 
-                  						@if($assetModel->subject_to_depreciation)
-                  							Yes
-                  						@else
-                  							No
-                  						@endif
-                  					</td>	
+                  					<td> {{ $assetModel->item_name }}</td>		
+                                 <td>
+                                    @if($assetModel->mode_of_acquisition == 'Both')
+                                       Cash and Accounts Payable
+                                    @else
+                                       {{$assetModel->mode_of_acquisition}}
+                                    @endif
+                                 </td>
                   					<td>PHP {{ number_format($assetModel->monthly_depreciation,2) }}</td>	
                   					<td>PHP {{ number_format($assetModel->net_value,2) }}</td>	
                   					<td align="center">

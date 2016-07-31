@@ -42,6 +42,11 @@ class AccountGroupSeeder extends Seeder
                                         'default_value'=>450,
                                         'created_at' => date('m/d/y'),
                                         'updated_at' => date('m/d/y'));
+        $accountAssetTitles[] = array('account_group_id'=>3,
+                                        'account_sub_group_name'=>'Accounts Payable',
+                                        'default_value'=>0,
+                                        'created_at' => date('m/d/y'),
+                                        'updated_at' => date('m/d/y'));
         DB::table('account_titles')->insert($accountAssetTitles);
 
     }
