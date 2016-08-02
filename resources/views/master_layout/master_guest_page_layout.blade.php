@@ -44,9 +44,9 @@
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <ul class="nav side-menu">
-                  <li><a href="../dashboard/list.html"><i class="fa fa-dashboard"></i> Dashboard </a></li>
-                  <li><a href="../transaction-history/list.html"><i class="fa fa-clock-o"></i> Transaction History </a></li>
-                  <li><a href="./list.html"><i class="fa fa-money"></i> Pending Payments </a></li>
+                  <li><a href="{{route('guestdashboard')}}"><i class="fa fa-dashboard"></i> Dashboard </a></li>
+                  <li><a href="{{route('guesttransactionhistory')}}"><i class="fa fa-clock-o"></i> Transaction History </a></li>
+                  <li><a href="{{route('guestpendingpayments')}}"><i class="fa fa-money"></i> Pending Payments </a></li>
                   <li><a href="#"><i class="fa fa-user"></i> My Profile </a></li>
                 </ul>
                 </ul>

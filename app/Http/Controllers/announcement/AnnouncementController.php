@@ -23,7 +23,7 @@ class AnnouncementController extends Controller
         if(Auth::user()->userType->type==='Administrator')
             $this->middleware('user.type:announcement');
         elseif(Auth::user()->userType->type==='Guest')
-            $this->middleware('user.type:announcement')->only('show');
+            $this->middleware('user.type:announcement',['only' => ['show']]);
     }
     
     /**

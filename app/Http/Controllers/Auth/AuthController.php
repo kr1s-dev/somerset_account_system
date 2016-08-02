@@ -172,7 +172,7 @@ class AuthController extends Controller
         }else if($userType=='Cashier'){
             return redirect()->intended('/invoice'); 
         }else if($userType=='Guest'){
-
+            return redirect()->intended('/guest-dashboard');
         }
     }
 

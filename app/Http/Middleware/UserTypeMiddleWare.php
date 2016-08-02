@@ -25,12 +25,14 @@ class UserTypeMiddleware
                 || $objectToAccess == 'accountinformation') {
             if($usertype === 'Administrator' || $usertype === 'Accountant')
                 return $next($request);
-        }elseif($objectToAccess == 'receipts' || $objectToAccess == 'invoice' 
-                || $objectToAccess == 'expense') {
+        }elseif($objectToAccess == 'receipts' || $objectToAccess == 'expense') {
             if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier')
                 return $next($request);
         }elseif($objectToAccess == 'announcement'){
             if($usertype === 'Administrator' || $usertype === 'Guest')
+                return $next($request);
+        }elseif($objectToAccess == 'invoice'){
+            if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier'|| $usertype === 'Guest')
                 return $next($request);
         }
 

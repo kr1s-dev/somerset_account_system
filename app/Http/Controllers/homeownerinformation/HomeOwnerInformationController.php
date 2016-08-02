@@ -60,14 +60,14 @@ class HomeOwnerInformationController extends Controller
         $homeOwnerId = $this->insertRecord('home_owner_information',$input);
 
         //Create User for HomeOwner
-        $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
+        $inputwithHomeOwner = array('home_owner_id'=>$homeOwnerId,
                                         'user_type_id'=>4,
                                         'confirmation_code'=> $confirmation_code['confirmation_code'],
-                                        'email'=> $input['email'],);
+                                        'email'=> $input['member_email_address'],);
         $userId = $this->insertRecord('users',$inputwithHomeOwner);
 
         //Send email verification
-        $this->sendEmailVerification($input['email'],
+        $this->sendEmailVerification($input['member_email_address'],
                                         $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
                                         $confirmation_code);
 
@@ -140,7 +140,10 @@ class HomeOwnerInformationController extends Controller
     public function destroy($id)
     {
         $todeleteId = array($id);
+        $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
+        $this->deleteRecord('users',array($user->id));
         $this->deleteRecord('home_owner_information',$todeleteId);
+
         flash()->success('Record has been successfully deleted')->important();
         return redirect('homeowners');
     }

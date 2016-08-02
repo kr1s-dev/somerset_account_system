@@ -88,5 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('reports/subledger','reports\ReportController@postGenerateSubsidiaryLedger');
     
     //Guest View
-    
+    Route::get('guest-dashboard',['as'=>'guestdashboard','uses'=>'guest\GuestController@getDashBoard']);
+    Route::get('guest-pending-payments',['as'=>'guestpendingpayments','uses'=>'guest\GuestController@getHomeOwnerPendingPayments']);
+    Route::get('guest-transaction-history',['as'=>'guesttransactionhistory','uses'=>'guest\GuestController@getTransactionHistory']);
 });

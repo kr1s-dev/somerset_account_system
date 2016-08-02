@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\invoice;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,10 @@ class InvoiceController extends Controller
      *
     */
     public function __construct(){
-        $this->middleware('user.type:invoice');
+        if(Auth::user()->userType->type==='Guest')
+            $this->middleware('user.type:invoice',['only' => ['show']]);
+        else
+            $this->middleware('user.type:invoice');
     }
     
     /**
@@ -73,7 +77,7 @@ class InvoiceController extends Controller
         $totalAmount = $request->input('totalAmount');
         $paymentDueDate = $request->input('paymentDueDate');
         $homeownerid = $request->input('homeownerid');
-        $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>1));
+        $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$homeownerid));
         //$accountDetailId = $request->input('accountDetailId');
         //End of getting data from ajax request
 
@@ -95,7 +99,7 @@ class InvoiceController extends Controller
                                                                             $totalAmount));
         flash()->success('Record successfully created');
 
-        return $nInvoiceId;
+        //return $nInvoiceId;
     }
 
     /**
