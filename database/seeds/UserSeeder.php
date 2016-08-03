@@ -23,8 +23,8 @@ class UserSeeder extends Seeder
         				'created_at'=>date('m/d/y'),
         				'updated_at'=>date('m/d/y'),
                         'is_active'=>1,
-                        'created_by'=>1,
-                        'updated_by'=>1);
+                        'created_by'=>null,
+                        'updated_by'=>null);
     	DB::table('users')->insert($nUser);
     }
 }

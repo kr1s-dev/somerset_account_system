@@ -39,11 +39,18 @@
       <input type="number" min="1" id="first-name" name="total_cost" value="{{ count($errors) > 0? old('total_cost'):($assetModel->total_cost) }}" required="required" class="form-control col-md-7 col-xs-12">
    </div>
 </div>
-<div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Market Value<span class="required">*</span>
+<!--div class="form-group">
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Total Cost<span class="required">*</span>
    </label>
    <div class="col-md-3 col-sm-6 col-xs-12">
       <input type="number" min="0" id="first-name" name="net_value" value="{{ count($errors) > 0? old('net_value'):($assetModel->net_value) }}" required="required" class="form-control col-md-7 col-xs-12">
+   </div>
+</div-->
+<div class="form-group">
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Salvage Value<span class="required">*</span>
+   </label>
+   <div class="col-md-3 col-sm-6 col-xs-12">
+      <input type="number" min="0" id="first-name" name="salvage_value" value="{{ count($errors) > 0? old('salvage_value'):($assetModel->salvage_value) }}" required="required" class="form-control col-md-7 col-xs-12">
    </div>
 </div>
 <!--div class="form-group">

@@ -150,20 +150,22 @@ class ReportController extends Controller
                 $fBalanceSheetItemsList[$accountTitleGroup->account_group_name] = array();
             }
         }
-
+        //print_r($eBalanceSheetItemsList);
         foreach ($accountTitlesList as $accountTitle) {
             
 
             if (array_key_exists($accountTitle->account_sub_group_name,$eBalanceSheetItemsList)) {
                 if(array_key_exists($accountTitle->group->account_group_name,$fBalanceSheetItemsList)){
                     $tArray = $fBalanceSheetItemsList[$accountTitle->group->account_group_name];
-                    $tArray[$accountTitle->account_sub_group_name] = strpos($accountTitle->account_sub_group_name, 'Capital') ? 
+                    $tArray[$accountTitle->account_sub_group_name] = strpos($accountTitle->account_sub_group_name, 'Capital') || $accountTitle->account_sub_group_name === 'Capital'? 
                                                                         ($eBalanceSheetItemsList[$accountTitle->account_sub_group_name] + $totalProfit) 
                                                                             : $eBalanceSheetItemsList[$accountTitle->account_sub_group_name];
                     $fBalanceSheetItemsList[$accountTitle->group->account_group_name] = $tArray;
                 }
             }
         }
+
+        //print_r($fBalanceSheetItemsList);
         
         foreach (array_keys($fBalanceSheetItemsList) as $key) {
             if(strpos($key, 'Assets')){

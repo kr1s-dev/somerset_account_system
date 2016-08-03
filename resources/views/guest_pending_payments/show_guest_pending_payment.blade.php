@@ -33,7 +33,7 @@
             <tbody>
               @foreach($pendingPaymentsList as $pendingPayment)
                 <tr>
-                  <td><a href="{{ route('invoice.show',$pendingPayment->id) }}"><strong>{{sprintf("%'.07d\n", $pendingPayment->id)}}</strong></a></td>
+                  <td><a href="{{ route('guestinvoice',$pendingPayment->id) }}"><strong>{{sprintf("%'.07d\n", $pendingPayment->id)}}</strong></a></td>
                   <td>{{number_format($pendingPayment->total_amount,2)}}</td>
                   <td>{{date('m/d/y',strtotime($pendingPayment->payment_due_date))}}</td>
                   <td>{{date('m/d/Y',strtotime($pendingPayment->created_at))}}</td>

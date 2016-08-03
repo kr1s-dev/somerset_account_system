@@ -24,6 +24,7 @@ class CreateAssetsTable extends Migration
                 $table->String('item_name',255);
                 $table->String('description',255);
                 $table->Decimal('total_cost')->default(0);
+                $table->Decimal('salvage_value')->default(0);
                 $table->Integer('quantity')->default(0);
                 $table->Decimal('monthly_depreciation',10,2)->default(0);
                 $table->Integer('useful_life')->default(0);

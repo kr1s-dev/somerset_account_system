@@ -112,9 +112,16 @@ class InvoiceController extends Controller
     { 
         $invoice = $this->getHomeOwnerInvoice($id);
         $invoiceNumber = $this->formatString($id);
-        return view('invoices.show_invoice',
+        if(Auth::user()->userType->type==='Guest'){
+            return view('guest_show_invoice.show_guest_invoice',
                         compact('invoice',
                                 'invoiceNumber'));
+        }else{
+            return view('invoices.show_invoice',
+                        compact('invoice',
+                                'invoiceNumber'));
+        }
+        
     }
 
     /**

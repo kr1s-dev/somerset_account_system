@@ -52,7 +52,7 @@
               </thead>
               <tbody>
                 @foreach($transactionHistoryList as $transactionHistory)
-                  <td><a href="{{route('invoice.show',$transactionHistory->id)}}"> <strong> {{sprintf("%'.07d\n", $transactionHistory->id)}} </strong></a></td>
+                  <td><a href="{{route('guestinvoice',$transactionHistory->id)}}"> <strong> {{sprintf("%'.07d\n", $transactionHistory->id)}} </strong></a></td>
                   <td>{{$transactionHistory->total_amount}}</td>
                   <td>{{date('m/d/y',strtotime($transactionHistory->payment_due_date))}}</td>
                   <td>{{date('m/d/Y',strtotime($transactionHistory->updated_at))}}</td>

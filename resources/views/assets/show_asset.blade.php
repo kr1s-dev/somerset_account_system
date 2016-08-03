@@ -51,6 +51,10 @@
 	                      					<td>PHP {{number_format($assetModel->total_cost,2)}}</td>
 	                   					</tr>
 	                   					<tr>
+	                      					<td class="data-title"><strong>Salvage Value</strong></td>
+	                      					<td>PHP {{number_format($assetModel->salvage_value,2)}}</td>
+	                   					</tr>
+	                   					<tr>
 	                      					<td class="data-title"><strong>Mode of Acquisition</strong></td>
 	                      					<td>
 	                      						@if($assetModel->mode_of_acquisition == 'Both')

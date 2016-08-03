@@ -532,9 +532,12 @@ trait UtilityHelper
         }else if(is_null($typeOfData)){
             $accountGroup =  $this->getAccountGroups(null);
             foreach ($accountGroup as $accountGrp) {
-                foreach ($accountGrp->accountTitles as $accountTitle) {
-                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                if($accountGrp->account_group_name != 'Fixed Assets'){
+                    foreach ($accountGrp->accountTitles as $accountTitle) {
+                        $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                    }
                 }
+                
             }
         }
 

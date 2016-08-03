@@ -60,17 +60,21 @@
                                   <td>{{$accountTitle->default_value  }}</td>
                               </tr>
                             @endif
-                   					<tr>
-                    					<td class="data-title"><strong>Opening Balance</strong></td>
-                              <td>
-                                @if(strpos($accountGroupList->account_group_name, 'Assets') || strpos($accountGroupList->account_group_name, 'Expenses'))
-                                  Dr 
-                                @else
-                                  Cr
-                                @endif
-                                {{$accountTitle->opening_balance}}
-                              </td>
-                   					</tr>
+                            @if($accountTitle->group->account_group_name == 'Revenues' || $accountTitle->group->account_group_name == 'Expenses' || $accountTitle->account_title_id != NULL)
+                            @else
+                              <tr>
+                                <td class="data-title"><strong>Opening Balance</strong></td>
+                                <td>
+                                  @if(strpos($accountGroupList->account_group_name, 'Assets') || strpos($accountGroupList->account_group_name, 'Expenses'))
+                                    Dr 
+                                  @else
+                                    Cr
+                                  @endif
+                                  {{$accountTitle->opening_balance}}
+                                </td>
+                              </tr>
+                            @endif
+                   					
                             @if($accountTitle->group->account_group_name == 'Revenues')
                             <tr>
                               <td class="data-title"><strong>Default Revenue</strong></td>

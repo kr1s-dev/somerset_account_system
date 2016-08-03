@@ -63,18 +63,19 @@ class AssetController extends Controller
     {
         $creditTitleId = array();
         $journalEntryList = array();
-        $input = $this->addAndremoveKey($request->all(),true);   
+        $input = $this->addAndremoveKey($request->all(),true);  
+        $input['net_value'] =  $input['total_cost'];
         $description = 'Both item: ' . ($input['item_name']);
-        $input['monthly_depreciation'] = $input['net_value'] / $input['useful_life'];
         if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
             $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+            $input['net_value'] = $input['total_cost'];
             $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
             if($input['mode_of_acquisition'] == 'Both')
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         }else{
             $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         }
-            
+        $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
         
         $assetId = $this->insertRecord('asset_items',$input);
         $this->getAllItems($input['account_title_id']);

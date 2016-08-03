@@ -30,7 +30,8 @@ class AssetsModel extends Model
                             'interest',
                             'down_payment',
                             'accumulated_depreciation',
-                            'net_value'];
+                            'net_value',
+                            'salvage_value'];
 
    	
 }

@@ -45,8 +45,8 @@
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <ul class="nav side-menu">
-                  <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard </a></li>
                   @if(Auth::user()->userType->type == 'Administrator')
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard </a></li>
                     <li><a><i class="fa fa-bullhorn"></i> Announcements <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{ route('announcement.index') }}">View All Announcements</a></li>

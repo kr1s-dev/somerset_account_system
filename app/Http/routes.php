@@ -91,4 +91,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('guest-dashboard',['as'=>'guestdashboard','uses'=>'guest\GuestController@getDashBoard']);
     Route::get('guest-pending-payments',['as'=>'guestpendingpayments','uses'=>'guest\GuestController@getHomeOwnerPendingPayments']);
     Route::get('guest-transaction-history',['as'=>'guesttransactionhistory','uses'=>'guest\GuestController@getTransactionHistory']);
+    Route::get('guest-invoice/{id}',['as'=>'guestinvoice','uses'=>'invoice\InvoiceController@show']);
 });

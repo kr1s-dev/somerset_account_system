@@ -97,16 +97,16 @@ class UserController extends Controller
         $input = $this->addAndremoveKey(Request::all(),true);
         $input['confirmation_code'] = $confirmation_code['confirmation_code'];
 
-        if(empty($input['home_owner_id'])){
-            $input['home_owner_id'] = NULL;
-            $userId = $this->insertRecord('users',$input);
-        }else{
-            $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
-                                        'user_type_id'=>$input['user_type_id'],
-                                        'confirmation_code'=> $confirmation_code['confirmation_code'],
-                                        'email'=> $input['email'],);
-            $userId = $this->insertRecord('users',$inputwithHomeOwner);
-        }
+        //if(empty($input['home_owner_id'])){
+        $input['home_owner_id'] = NULL;
+        $userId = $this->insertRecord('users',$input);
+        // }else{
+        //     $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
+        //                                 'user_type_id'=>$input['user_type_id'],
+        //                                 'confirmation_code'=> $confirmation_code['confirmation_code'],
+        //                                 'email'=> $input['email'],);
+        //     $userId = $this->insertRecord('users',$inputwithHomeOwner);
+        // }
         
         //Send email verification
         $this->sendEmailVerification($input['email'],
