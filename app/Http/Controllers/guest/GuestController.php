@@ -20,12 +20,13 @@ class GuestController extends Controller
     }
 
     public function getTransactionHistory(){
+        $arrayMonth = $this->monthsGenerator();
         $outstandingBalance = 0;
         $totalDuesPaid = 0;
         $lastTransaction = 0;
         $pendingPaymentsList = $this->getObjectRecords('home_owner_invoice',array('home_owner_id'=>$this->getHomeOwner(),
                                                                                     'is_paid'=>0));
-        $transactionHistory = DB::table('home_owner_invoice')->where('home_owner_id','=','$this->getHomeOwner()->id')
+        $transactionHistory = DB::table('home_owner_invoice')->where('home_owner_id','=',$this->getHomeOwner())
                                                                 ->where('is_paid','=',1)
                                                                 ->orderBy('created_at','desc')
                                                                 ->first();
@@ -50,10 +51,12 @@ class GuestController extends Controller
                                 'totalDuesPaid',
                                 'announcementsList',
                                 'transactionHistory',
-                                'transactionHistoryList'));
+                                'transactionHistoryList',
+                                'arrayMonth'));
     }
 
     public function getDashBoard(){
+        $arrayMonth = $this->monthsGenerator();
         $outstandingBalance = 0;
         $totalDuesPaid = 0;
         $lastTransaction = 0;
@@ -84,7 +87,8 @@ class GuestController extends Controller
                                 'totalDuesPaid',
                                 'announcementsList',
                                 'lastTransaction',
-                                'transactionHistory'));
+                                'transactionHistory',
+                                'arrayMonth'));
     }
 
 

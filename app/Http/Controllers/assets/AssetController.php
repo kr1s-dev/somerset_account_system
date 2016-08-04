@@ -78,7 +78,7 @@ class AssetController extends Controller
         $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
         
         $assetId = $this->insertRecord('asset_items',$input);
-        $this->getAllItems($input['account_title_id']);
+        //$this->getAllItems($input['account_title_id']);
 
         //Create Journal Entry
         //Debit Entry
@@ -162,7 +162,7 @@ class AssetController extends Controller
             $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
 
         $this->updateRecord('asset_items',$id,$input);
-        $this->getAllItems($input['account_title_id']);
+        //$this->getAllItems($input['account_title_id']);
         flash()->success('Record successfully Updated')->important();
         return redirect('assets/'.$id);
         

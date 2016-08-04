@@ -11,13 +11,13 @@
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-money"></i> Outstanding Balance (PHP)</span>
         <div class="count">{{number_format($outstandingBalance,2)}}</div>
-        <span class="count_bottom">For the month of July</span>
+        <span class="count_bottom">For the month of {{$arrayMonth[date('m')]}}</span>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Last Transaction (PHP)</span>
         <div class="count">{{number_format($lastTransaction,2)}}</div>
         @if($lastTransaction!=0)
-          <span class="count_bottom">Tendered last {{$transactionHistory->updated_at}}</span>
+          <span class="count_bottom">Tendered last {{date('m/d/y',strtotime($transactionHistory->updated_at))}}</span>
         @endif
       </div>
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
@@ -41,7 +41,7 @@
             No Announcements
           @else
             @foreach($announcementsList as $announcement)
-              <h3><a href="{{route('announcement.show',$announcement->id)}}"><strong>{{$announcement->headline}}</strong><a/></h3>
+              <h3><a href="{{route('guestannouncement',$announcement->id)}}"><strong>{{$announcement->headline}}</strong><a/></h3>
               <h5>{{date('m/d/y',strtotime($announcement->created_at))}}</h5>
               <p>{{$announcement->message}}</p>
               <p>- Somerset Homeowners' Association</p>

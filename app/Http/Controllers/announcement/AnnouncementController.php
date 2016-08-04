@@ -73,8 +73,14 @@ class AnnouncementController extends Controller
     public function show($id)
     {
         $announcement = $this->getAnnouncementModel($id);
-        return view('announcement.show_announcement',
+        if(Auth::user()->userType->type==='Guest'){
+             return view('guest_announcement.show_guest_announcement',
                         compact('announcement'));
+        }else{
+             return view('announcement.show_announcement',
+                        compact('announcement'));
+        }
+
     }
 
     /**

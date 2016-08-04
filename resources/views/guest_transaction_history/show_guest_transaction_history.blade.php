@@ -13,12 +13,13 @@
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-money"></i> Outstanding Balance (PHP)</span>
         <div class="count">{{number_format($outstandingBalance,2)}}</div>
+        <span class="count_bottom">For the month of {{$arrayMonth[date('m')]}}</span>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Last Transaction (PHP)</span>
         @if($transactionHistory!=NULL)
           <div class="count">{{number_format($transactionHistory->total_amount,2)}}</div>
-          <span class="count_bottom">{{$transactionHistory->created_at}}</span>
+          <span class="count_bottom">Tendered last {{date('m/d/y',strtotime($transactionHistory->updated_at))}}</span>
         @else
           <div class="count">{{number_format(0,2)}}</div>
         @endif
