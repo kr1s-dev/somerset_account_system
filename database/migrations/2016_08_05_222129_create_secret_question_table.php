@@ -15,7 +15,7 @@ class CreateSecretQuestionTable extends Migration
         if(!Schema::hasTable('secret_question')){
             Schema::create('secret_question', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('secret_question',255);
+                $table->string('secret_question',255)->unique();
                 $table->timestamps();
             });
         }

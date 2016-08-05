@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountSubGroups extends Migration
+class CreateAccountTitlesTable extends Migration
 {
     /**
      * Run the migrations.

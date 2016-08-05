@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeownersInformation extends Migration
+class CreateHomeOwnerInformationTable extends Migration
 {
     /**
      * Run the migrations.

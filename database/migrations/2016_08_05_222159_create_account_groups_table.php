@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpenseCashVoucher extends Migration
+class CreateAccountGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateExpenseCashVoucher extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('expense_cash_voucher')){
-            Schema::create('expense_cash_voucher', function (Blueprint $table) {
+        if(!Schema::hasTable('account_groups')){
+            Schema::create('account_groups', function (Blueprint $table) {
                 $table->increments('id');
-                $table->Integer('created_by')->unsigned();
+                $table->string('account_group_name',255)->unique();
+                $table->string('description',255)->default('No Description');
+                $table->Integer('created_by')->unsigned()->nullable();
                 $table->foreign('created_by')->references('id')->on('users');
-                $table->Integer('updated_by')->unsigned();
+                $table->Integer('updated_by')->unsigned()->nullable();
                 $table->foreign('updated_by')->references('id')->on('users');
-                $table->string('paid_to',255);
-                $table->decimal('total_amount',10,2)->default(0.00);
                 $table->timestamps();
             });
         }
@@ -33,7 +33,7 @@ class CreateExpenseCashVoucher extends Migration
      */
     public function down()
     {
-        //Drop Table of home_owner_payment_transaction if exist
-        Schema::dropIfExists('expense_cash_voucher');
+        //Drop Table of account_groups if exist
+        Schema::dropIfExists('account_groups');
     }
 }

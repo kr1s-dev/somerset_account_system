@@ -300,9 +300,9 @@ trait UtilityHelper
         unset($arrayData['_method'],
                 $arrayData['_token']);
         if($isInsert){
-            $arrayData['created_at'] = date('Y-m-d');
+            $arrayData['created_at'] = date('Y-m-d H:i:sa');
         }
-        $arrayData['updated_at'] = date('Y-m-d');
+        $arrayData['updated_at'] = date('Y-m-d H:i:sa');
         return $arrayData;
     }
 
@@ -379,32 +379,29 @@ trait UtilityHelper
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         if($typeName=='Invoice'){
              foreach ($dataList as $data) {
-                    if($count==0){
-                        //for debit in journal
-                        $journalEntryList[] = array($foreignKey=>$foreignValue,
-                                        'type' => $typeName,
-                                        'debit_title_id'=> $typeName=='Expense'?$data['account_title_id']:$accountReceivableTitle->id,
-                                        'credit_title_id'=> null,
-                                        'debit_amount' => $amount,
-                                        'credit_amount'=> 0.00,
-                                        'description'=> $description,
-                                        'created_at' => $data['created_at'],
-                                        'updated_at' => date('Y-m-d'),
-                                        'created_by' => $this->getLogInUserId(),
-                                        'updated_by' => $this->getLogInUserId());
-                    }
-                    //for credit in journal
-                    $journalEntryList[] = array($foreignKey=>$foreignValue,
-                                            'type' => $typeName,
-                                            'debit_title_id'=> null,
-                                            'credit_title_id'=> $typeName=='Expense'?$cashTitle->id:$data['account_title_id'],
-                                            'debit_amount' => 0.00,
-                                            'credit_amount'=> $data['amount'],
-                                            'description'=> $description,
-                                            'created_at' => $data['created_at'],
-                                            'updated_at' => date('Y-m-d'),
-                                            'created_by' => $this->getLogInUserId(),
-                                            'updated_by' => $this->getLogInUserId());
+                $credit_title_id = null;
+                $debit_title_id = null;
+                $debit_amount = 0;
+                $credit_amount = 0; 
+                if($count==0){
+                    $debit_title_id = $accountReceivableTitle->id;
+                    $debit_amount = $amount;
+                }else{
+                    $credit_title_id = $data['account_title_id'];
+                    $credit_amount = $data['amount'];
+                }
+
+                $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                    'type' => $typeName,
+                                    'debit_title_id'=> $debit_title_id,
+                                    'credit_title_id'=> $credit_title_id,
+                                    'debit_amount' => $debit_amount,
+                                    'credit_amount'=> $credit_amount,
+                                    'description'=> $description,
+                                    'created_at' => $data['created_at'],
+                                    'updated_at' => date('Y-m-d'),
+                                    'created_by' => $this->getLogInUserId(),
+                                    'updated_by' => $this->getLogInUserId());
                 $count++;
             }
         }else if($typeName=='Expense'){
@@ -413,7 +410,7 @@ trait UtilityHelper
                 //for debit in journal
                 $journalEntryList[] = array($foreignKey=>$foreignValue,
                                             'type' => $typeName,
-                                            'debit_title_id'=> $typeName=='Expense'?$data['account_title_id']:$accountReceivableTitle->id,
+                                            'debit_title_id'=> $data['account_title_id'],
                                             'credit_title_id'=> null,
                                             'debit_amount' => $data['amount'],
                                             'credit_amount'=> 0.00,
@@ -509,9 +506,6 @@ trait UtilityHelper
                                                         ->whereMonth('created_at','=',$monthFilter) : 
                                                             $query->whereYear('created_at','=',$yearFilter)
                                                                     ->whereMonth('created_at','=',$monthFilter);
-            // $query->whereYear('created_at','=',$yearFilter)
-            //                     ->whereMonth('created_at','=',$monthFilter)
-            //                     ->get();
         }
         return $query->get();
               
@@ -532,12 +526,9 @@ trait UtilityHelper
         }else if(is_null($typeOfData)){
             $accountGroup =  $this->getAccountGroups(null);
             foreach ($accountGroup as $accountGrp) {
-                if($accountGrp->account_group_name != 'Fixed Assets'){
-                    foreach ($accountGrp->accountTitles as $accountTitle) {
-                        $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
-                    }
+                foreach ($accountGrp->accountTitles as $accountTitle) {
+                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
                 }
-                
             }
         }
 
@@ -546,13 +537,6 @@ trait UtilityHelper
                 $typeOfData = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->group->account_group_name : $arrayToProcess->credit->group->account_group_name;
                 $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
                 $accountTitle = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->account_sub_group_name : $arrayToProcess->credit->account_sub_group_name;
-                // if(strpos($typeOfData, 'Revenues') !== false){
-                //     if($arrayToProcess->invoice_id != NULL && $arrayToProcess->invoice->is_paid){
-                //         $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
-                //     }else{
-                //         $amount = 0;
-                //     }
-                // }
 
                 if(array_key_exists($accountTitle,$data)){
                     $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') | strpos($typeOfData, 'Liabilities') ? 
@@ -569,17 +553,45 @@ trait UtilityHelper
         return count($arrayData)>0?array_sum($arrayData):0;
     }
 
-    public function getAllItems($id){
-        $assetItems = $this->getObjectRecords('asset_items',array('account_title_id'=>$id));
-        $totalVal = 0;
-        if(count($assetItems) > 0 ){
-            foreach ($assetItems as $value) {
-                $totalVal += $value->net_value;
+
+
+    public function assetJournalEntry($debitTitleId,$creditTitleId,$description,$asset,$data,$isInsert){
+        //Create Journal Entry
+        //Debit Entry
+        $journalEntryList[] = array('debit_title_id'=>$debitTitleId,
+                                    'asset_id' => $isInsert?$asset:$asset->id,
+                                    'credit_title_id'=>null,
+                                    'debit_amount' => $data['total_cost'],
+                                    'credit_amount'=>0.00,
+                                    'description'=> $description,
+                                    'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
+                                    'updated_at' => date('Y-m-d H:i:sa'),
+                                    'created_by' => $this->getLogInUserId(),
+                                    'updated_by' => $this->getLogInUserId());
+        //Credit Entry
+        for ($i=0; $i < count($creditTitleId) ; $i++) { 
+            $amount = $data['total_cost'];
+            if($data['mode_of_acquisition'] == 'Both'){
+                if($creditTitleId[$i]->account_sub_group_name == 'Cash')
+                    $amount = $data['down_payment'];
+                else if($creditTitleId[$i]->account_sub_group_name == 'Accounts Payable'){
+                        $amount = ($data['total_cost'] - $data['down_payment']);
+                }
             }
+            
+            $journalEntryList[] = array('debit_title_id'=>null,
+                                        'asset_id' => $isInsert?$asset:$asset->id,
+                                        'credit_title_id'=>$creditTitleId[$i]->id,
+                                        'debit_amount' => 0.00,
+                                        'credit_amount'=>$amount,
+                                        'description'=> $description,
+                                        'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
+                                        'updated_at' => date('Y-m-d H:i:sa'),
+                                        'created_by' => $this->getLogInUserId(),
+                                        'updated_by' => $this->getLogInUserId());
         }
 
-        $this->updateRecord('account_titles',$id,array('opening_balance'=>$totalVal));
+        $this->insertBulkRecord('journal_entry',$journalEntryList);
     }
-
 
 }

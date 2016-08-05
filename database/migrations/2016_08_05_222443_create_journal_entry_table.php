@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJournalEntry extends Migration
+class CreateJournalEntryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -25,6 +25,8 @@ class CreateJournalEntry extends Migration
                 $table->foreign('receipt_id')->references('id')->on('home_owner_payment_transaction');
                 $table->Integer('expense_id')->unsigned()->nullable();
                 $table->foreign('expense_id')->references('id')->on('expense_cash_voucher');
+                $table->Integer('asset_id')->unsigned()->nullable();
+                $table->foreign('asset_id')->references('id')->on('asset_items');
                 $table->String('type',255);
                 $table->string('description',255)->default('No Description');
                 $table->Integer('debit_title_id')->unsigned()->nullable();

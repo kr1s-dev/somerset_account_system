@@ -197,9 +197,6 @@ class AuthController extends Controller
         $validator = $this->validator($data);
 
         if ($validator->fails()) {
-            // $this->throwValidationException(
-            //     $request, $validator
-            // );
             return redirect('auth/login#signup')
                     ->withInput($request->input())
                     ->withErrors($validator, $this->errorBag());
@@ -223,6 +220,5 @@ class AuthController extends Controller
             $message->to($toAddress, $name)
                         ->subject('Verify your Account');
         });
-
     }
 }
