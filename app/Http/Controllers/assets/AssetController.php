@@ -86,41 +86,6 @@ class AssetController extends Controller
                                             $assetId,
                                             $input,
                                             true);
-        //Debit Entry
-        // $journalEntryList[] = array('debit_title_id'=>$input['account_title_id'],
-        //                             'asset_id' => $assetId,
-        //                             'credit_title_id'=>null,
-        //                             'debit_amount' => $input['total_cost'],
-        //                             'credit_amount'=>0.00,
-        //                             'description'=> $description,
-        //                             'created_at' => date('Y-m-d H:i:sa'),
-        //                             'updated_at' => date('Y-m-d H:i:sa'),
-        //                             'created_by' => $this->getLogInUserId(),
-        //                             'updated_by' => $this->getLogInUserId());
-        // //Credit Entry
-        // for ($i=0; $i < count($creditTitleId) ; $i++) { 
-        //     $amount = $input['total_cost'];
-        //     if($input['mode_of_acquisition'] == 'Both'){
-        //         if($creditTitleId[$i]->account_sub_group_name == 'Cash')
-        //             $amount = $input['down_payment'];
-        //         else if($creditTitleId[$i]->account_sub_group_name == 'Accounts Payable'){
-        //                 $amount = ($input['total_cost'] - $input['down_payment']);
-        //         }
-        //     }
-            
-        //     $journalEntryList[] = array('debit_title_id'=>null,
-        //                                 'asset_id' => $assetId,
-        //                                 'credit_title_id'=>$creditTitleId[$i]->id,
-        //                                 'debit_amount' => 0.00,
-        //                                 'credit_amount'=>$amount,
-        //                                 'description'=> $description,
-        //                                 'created_at' => date('Y-m-d H:i:sa'),
-        //                                 'updated_at' => date('Y-m-d H:i:sa'),
-        //                                 'created_by' => $this->getLogInUserId(),
-        //                                 'updated_by' => $this->getLogInUserId());
-        // }
-
-        // $this->insertBulkRecord('journal_entry',$journalEntryList);
         flash()->success('Record successfully created')->important();
         return redirect('assets/'.$assetId);
     }
@@ -193,42 +158,7 @@ class AssetController extends Controller
                                             $asset,
                                             $input,
                                             false);
-        //Debit Entry
-        // $journalEntryList[] = array('debit_title_id'=>$input['account_title_id'],
-        //                             'asset_id' => $assetId,
-        //                             'credit_title_id'=>null,
-        //                             'debit_amount' => $input['total_cost'],
-        //                             'credit_amount'=>0.00,
-        //                             'description'=> $description,
-        //                             'created_at' => date('Y-m-d H:i:sa'),
-        //                             'updated_at' => date('Y-m-d H:i:sa'),
-        //                             'created_by' => $this->getLogInUserId(),
-        //                             'updated_by' => $this->getLogInUserId());
-        // //Credit Entry
-        // for ($i=0; $i < count($creditTitleId) ; $i++) { 
-        //     $amount = $input['total_cost'];
-        //     if($input['mode_of_acquisition'] == 'Both'){
-        //         if($creditTitleId[$i]->account_sub_group_name == 'Cash')
-        //             $amount = $input['down_payment'];
-        //         else if($creditTitleId[$i]->account_sub_group_name == 'Accounts Payable'){
-        //                 $amount = ($input['total_cost'] - $input['down_payment']);
-        //         }
-        //     }
-            
-        //     $journalEntryList[] = array('debit_title_id'=>null,
-        //                                 'asset_id' => $assetId,
-        //                                 'credit_title_id'=>$creditTitleId[$i]->id,
-        //                                 'debit_amount' => 0.00,
-        //                                 'credit_amount'=>$amount,
-        //                                 'description'=> $description,
-        //                                 'created_at' => date('Y-m-d H:i:sa'),
-        //                                 'updated_at' => date('Y-m-d H:i:sa'),
-        //                                 'created_by' => $this->getLogInUserId(),
-        //                                 'updated_by' => $this->getLogInUserId());
-        // }
-        // $this->insertBulkRecord('journal_entry',$journalEntryList);
-
-
+        
         $this->updateRecord('asset_items',$id,$input);
         flash()->success('Record successfully Updated')->important();
         return redirect('assets/'.$id);
