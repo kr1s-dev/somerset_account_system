@@ -194,10 +194,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $todeleteId = array($id);
-        $this->deleteRecord('users',$todeleteId);
-        flash()->success('Record succesfully deleted')->important();
-        return redirect('users');
+        $this->deactivateUser($id);
+        // $todeleteId = array($id);
+        // $this->deleteRecord('users',$todeleteId);
+        // flash()->success('Record succesfully deleted')->important();
+        // return redirect('users');
     }
 
 

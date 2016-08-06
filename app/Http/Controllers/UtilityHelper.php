@@ -378,31 +378,33 @@ trait UtilityHelper
         $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Account Receivables'));
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         if($typeName=='Invoice'){
+            
              foreach ($dataList as $data) {
-                $credit_title_id = null;
-                $debit_title_id = null;
-                $debit_amount = 0;
-                $credit_amount = 0; 
                 if($count==0){
-                    $debit_title_id = $accountReceivableTitle->id;
-                    $debit_amount = $amount;
-                }else{
-                    $credit_title_id = $data['account_title_id'];
-                    $credit_amount = $data['amount'];
+                         $journalEntryList[] = array($foreignKey=>$foreignValue,
+                                            'type' => $typeName,
+                                            'debit_title_id'=> $accountReceivableTitle->id,
+                                            'credit_title_id'=> null,
+                                            'debit_amount' => $amount,
+                                            'credit_amount'=> 0.00,
+                                            'description'=> $description,
+                                            'created_at' => $data['created_at'],
+                                            'updated_at' => date('Y-m-d'),
+                                            'created_by' => $this->getLogInUserId(),
+                                            'updated_by' => $this->getLogInUserId());
                 }
 
                 $journalEntryList[] = array($foreignKey=>$foreignValue,
-                                    'type' => $typeName,
-                                    'debit_title_id'=> $debit_title_id,
-                                    'credit_title_id'=> $credit_title_id,
-                                    'debit_amount' => $debit_amount,
-                                    'credit_amount'=> $credit_amount,
-                                    'description'=> $description,
-                                    'created_at' => $data['created_at'],
-                                    'updated_at' => date('Y-m-d'),
-                                    'created_by' => $this->getLogInUserId(),
-                                    'updated_by' => $this->getLogInUserId());
-                $count++;
+                                            'type' => $typeName,
+                                            'debit_title_id'=> null,
+                                            'credit_title_id'=> $data['account_title_id'],
+                                            'debit_amount' => 0.00,
+                                            'credit_amount'=> $data['amount'],
+                                            'description'=> $description,
+                                            'created_at' => $data['created_at'],
+                                            'updated_at' => date('Y-m-d'),
+                                            'created_by' => $this->getLogInUserId(),
+                                            'updated_by' => $this->getLogInUserId());
             }
         }else if($typeName=='Expense'){
             foreach ($dataList as $data) {
@@ -478,11 +480,11 @@ trait UtilityHelper
                             '12'=>'December');
         return $monthArray;
     }
+    
     /*
     * @Author:      Kristopher N. Veraces
     * @Description: Get all records in the journal table
     */
-
     public function getJournalEntryRecordsWithFilter($accountGroupId,$monthFilter,$yearFilter){
         $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
         $query = null;
@@ -562,6 +564,7 @@ trait UtilityHelper
                                     'asset_id' => $isInsert?$asset:$asset->id,
                                     'credit_title_id'=>null,
                                     'debit_amount' => $data['total_cost'],
+                                    'type' => 'asset',
                                     'credit_amount'=>0.00,
                                     'description'=> $description,
                                     'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
@@ -584,6 +587,7 @@ trait UtilityHelper
                                         'credit_title_id'=>$creditTitleId[$i]->id,
                                         'debit_amount' => 0.00,
                                         'credit_amount'=>$amount,
+                                        'type' => 'asset',
                                         'description'=> $description,
                                         'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
                                         'updated_at' => date('Y-m-d H:i:sa'),

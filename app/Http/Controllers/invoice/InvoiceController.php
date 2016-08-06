@@ -90,6 +90,7 @@ class InvoiceController extends Controller
         //Insert items in the table
         $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
         //Create journal entry
+        
         $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
                                                                             'Invoice',
                                                                             'invoice_id',
@@ -99,7 +100,7 @@ class InvoiceController extends Controller
                                                                             $totalAmount));
         flash()->success('Record successfully created');
 
-        //return $nInvoiceId;
+        return $nInvoiceId;
     }
 
     /**

@@ -72,7 +72,7 @@
 			              					<td><a href="{{route('receipt.show',$val->invoice->receipt->id)}}"><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->id)}}</strong></em></a></td>
 			              					<td>{{$key}}</td>
 				              				<td>PHP {{number_format($val->amount,2)}}</td>
-				              				<td>{{$val->remarks}}</td>	
+				              				<td>{{$val->invoice->remarks}}</td>	
 				              				<td>{{$val->accountTitle->account_sub_group_name}}</td>	
 				              			</tr>
 				              			@endforeach

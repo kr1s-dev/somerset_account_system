@@ -469,6 +469,7 @@
               var tData = '';
               var totalAmount = 0;
               var paymentDueDate = $('#paymentDueDate').val();
+              
               //Retrieving token for request
               var _token = $('meta[name="csrf-token"]').attr('content');
               console.log(_token);
@@ -480,48 +481,52 @@
               var homeOwnerId = $("#homeowners option:selected" ).val();
               
               if(homeOwnerId){
-                var table = $('#itemsTable tbody');
-                //Get all data in the table
-                table.find('tr').each(function(rowIndex, r){
-                  //var cols = [];
-                  console.log('Enter 1st loop');
-                  $(this).find('td').each(function (colIndex, c) {
-                    console.log('Enter 2nd loop' + c.textContent);
-                    if(c.textContent!=' ')
-                      data+=(c.textContent+',');
-                    });
-                    //data+= (tData.substring(0,tData.length - 1) + '|');
-                });
-                data = data.substring(0,data.length - 1);
-                console.log(data);
-                //Retrieving total amount of invoice
-                $("#amountCalc tbody td").each(function(){
-                  totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
-                });
-                console.log(totalAmount + ' ' + homeOwnerId + ' ' + paymentDueDate);
-                if(data){
-                  //Creating an ajax request to the server
-                  $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': _token
-                    },
-                    url: '/invoice',
-                    type: 'POST',
-                    data: { 'data':data,
-                            'homeownerid': homeOwnerId,
-                            'totalAmount': totalAmount,
-                            'paymentDueDate': paymentDueDate},
-                    success: function(response)
-                    {
-                      //alert(response);s
-                      location.href="/invoice/"+response;
-                    }, error: function(xhr, ajaxOptions, thrownError){
-                      alert(xhr.status);
-                      alert(thrownError);
-                    }
+                if(paymentDueDate >=  getTodaysDate()){
+                  var table = $('#itemsTable tbody');
+                  //Get all data in the table
+                  table.find('tr').each(function(rowIndex, r){
+                    //var cols = [];
+                    console.log('Enter 1st loop');
+                    $(this).find('td').each(function (colIndex, c) {
+                      console.log('Enter 2nd loop' + c.textContent);
+                      if(c.textContent!=' ')
+                        data+=(c.textContent+',');
+                      });
+                      //data+= (tData.substring(0,tData.length - 1) + '|');
                   });
+                  data = data.substring(0,data.length - 1);
+                  console.log(data);
+                  //Retrieving total amount of invoice
+                  $("#amountCalc tbody td").each(function(){
+                    totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
+                  });
+                  console.log(totalAmount + ' ' + homeOwnerId + ' ' + paymentDueDate);
+                  if(data){
+                    //Creating an ajax request to the server
+                    $.ajax({
+                      headers: {
+                          'X-CSRF-TOKEN': _token
+                      },
+                      url: '/invoice',
+                      type: 'POST',
+                      data: { 'data':data,
+                              'homeownerid': homeOwnerId,
+                              'totalAmount': totalAmount,
+                              'paymentDueDate': paymentDueDate},
+                      success: function(response)
+                      {
+                        //alert(response);
+                        location.href="/invoice/"+response;
+                      }, error: function(xhr, ajaxOptions, thrownError){
+                        alert(xhr.status);
+                        alert(thrownError);
+                      }
+                    });
+                  }else{
+                    alert('Please Input data into table.');
+                  }
                 }else{
-                  alert('Please Input data into table.');
+                  alert('Payment Due Date must be greater than or equal today');
                 }
               }else{
                 alert('Must choose an Associated Homeowner');
@@ -691,29 +696,34 @@
               totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
             });
             console.log(totalAmount);
-            if(data){
-              //Creating an ajax request to the server
-              $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': _token
-                },  
-                url: '/invoice/'+_id,
-                type: 'PUT',
-                data: { 'data':data,
-                        'paymentDueDate':paymentDueDate,
-                        'totalAmount': totalAmount},
-                success: function(response)
-                {
-                    //alert(response);
-                    location.href="/invoice/"+_id;
-                }, error: function(xhr, ajaxOptions, thrownError){
-                  alert(xhr.status);
-                  alert(thrownError);
-                }
-              });
+            if(paymentDueDate >=  getTodaysDate()){
+              if(data){
+                //Creating an ajax request to the server
+                $.ajax({
+                  headers: {
+                      'X-CSRF-TOKEN': _token
+                  },  
+                  url: '/invoice/'+_id,
+                  type: 'PUT',
+                  data: { 'data':data,
+                          'paymentDueDate':paymentDueDate,
+                          'totalAmount': totalAmount},
+                  success: function(response)
+                  {
+                      //alert(response);
+                      location.href="/invoice/"+_id;
+                  }, error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.status);
+                    alert(thrownError);
+                  }
+                });
+              }else{
+                alert('Please Input data into table.');
+              }
             }else{
-              alert('Please Input data into table.');
+              alert('Payment Due Date must be greater than or equal today');
             }
+            
           });
 
           /*
@@ -1117,6 +1127,24 @@
           }
             
         });
+
+        function getTodaysDate(){
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth()+1; //January is 0!
+          var yyyy = today.getFullYear();
+
+          if(dd<10) {
+              dd='0'+dd
+          } 
+
+          if(mm<10) {
+              mm='0'+mm
+          } 
+
+          today = mm+'/'+dd+'/'+yyyy;
+          return today;
+        }
       });
     </script>
   </body>
