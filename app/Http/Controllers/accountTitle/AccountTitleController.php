@@ -95,6 +95,15 @@ class AccountTitleController extends Controller
     public function store(AccountTitleRequest $request)
     {
         $input = $this->addAndremoveKey(Request::all(),true);
+        if(array_key_exists('subject_to_vat', $input))
+            $input['subject_to_vat'] = ($input['subject_to_vat']==='on'?1:0);
+        else
+            $input['subject_to_vat'] = 0;
+
+        if(!($input['subject_to_vat']))
+            $input['vat_percent'] = 0;
+
+        
         if(array_key_exists('account_title_name', $input)){
             unset($input['account_title_name']);
         }
@@ -160,9 +169,30 @@ class AccountTitleController extends Controller
      */
     public function update(AccountTitleRequest $request, $id)
     {
-        //
+        $input = $this->addAndremoveKey(Request::all(),false);
+    
+        if(array_key_exists('subject_to_vat', $input))
+            $input['subject_to_vat'] = ($input['subject_to_vat']==='on'?1:0);
+        else
+            $input['subject_to_vat'] = 0;
+
+        if(!($input['subject_to_vat']))
+            $input['vat_percent'] = 0;
+        
+        if(array_key_exists('account_title_name', $input)){
+            unset($input['account_title_name']);
+        }
+
+        if(array_key_exists('account_group_name', $input)){
+            unset($input['account_group_name']);
+        }
+
+        
+        if(empty($input['description']))
+            $input['description'] = 'No Description';
+
         $accountTitle = $this->getAccountTitles($id);
-        $accountTitle->update($request->all());
+        $accountTitle->update($input);
         flash()->success('Record successfully updated');
         return redirect('accounttitle/'.$id);
     }

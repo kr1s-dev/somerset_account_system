@@ -32,11 +32,15 @@ class AccountTitleRequest extends Request
             //for insert
             case 'POST':{
                 return ['account_sub_group_name' => 'unique:account_titles',
-                            'account_group_id' => 'required',];
+                            'account_group_id' => 'required',
+                            'default_value' => 'required_if:subject_to_vat,on',
+                            'vat_percent' => 'required_if:subject_to_vat,on',];
             }
             //for update
             case 'PATCH':{  
-                return['account_sub_group_name' => 'unique:account_titles,account_sub_group_name,' . $accountTitle->id];
+                return['account_sub_group_name' => 'unique:account_titles,account_sub_group_name,' . $accountTitle->id,
+                        'default_value' => 'required_if:subject_to_vat,on',
+                        'vat_percent' => 'required_if:subject_to_vat,on',];
             }
             //default
             default: break;

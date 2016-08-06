@@ -312,9 +312,21 @@
           var arrayTd;
 
           if($('#accountgroup option:selected').text() == 'Revenues' || $('input[name="account_group_name"]').val() == 'Revenues'){
+            $('#subject_to_vat_chckbox').show();
             $('#default_value_form').show();
             $('#opening_balance_form').hide();
           }
+
+          if($("input[name='subject_to_vat']").is(':checked'))
+            $('#vat_percent_form').show();
+            
+
+          $("input[name='subject_to_vat']").change(function() {
+            if(this.checked)
+              $('#vat_percent_form').show();
+            else
+              $('#vat_percent_form').hide();
+          }); 
 
           
           if($('#accountgroup option:selected').text().toLowerCase().indexOf('assets') >= 0 || 
@@ -808,11 +820,14 @@
 
             if(groupName == 'Revenues'){
               $('#default_value_form').show();
+              $('#subject_to_vat_chckbox').show();
               $('#opening_balance_form').hide();
             }else if(groupName == 'Expenses'){
+              $('#subject_to_vat_chckbox').hide();
               $('#opening_balance_form').hide();
               $('#default_value_form').hide();
             }else{
+              $('#subject_to_vat_chckbox').hide();
               $('#opening_balance_form').show();
               $('#default_value_form').hide();
             }

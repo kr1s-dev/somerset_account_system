@@ -38,7 +38,7 @@ class HomeOwnerRequest extends Request
                         'residence_tel_no' => 'required|min:7|max:11',
                         'member_office_tel_no' => 'required|min:7|max:11',
                         'member_mobile_no' => 'required|min:11|max:13',
-                        'member_date_of_birth' => 'required|after:today',
+                        'member_date_of_birth' => 'required|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information',
                         'member_gender' => 'required',];
@@ -52,7 +52,7 @@ class HomeOwnerRequest extends Request
                         'residence_tel_no' => 'required|min:7|max:11',
                         'member_office_tel_no' => 'required|min:7|max:11',
                         'member_mobile_no' => 'required|min:11|max:13',
-                        'member_date_of_birth' => 'required|date|after:today',
+                        'member_date_of_birth' => 'required|date|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information,member_email_address,' . $homeOwner->id,
                         'member_gender' => 'required',];

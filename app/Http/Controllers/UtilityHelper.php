@@ -375,7 +375,7 @@ trait UtilityHelper
         $count = 0;
         $dataCreated;
         $journalEntryList = array();
-        $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Account Receivables'));
+        $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
         if($typeName=='Invoice'){
             

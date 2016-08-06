@@ -23,7 +23,9 @@ class AccountTitleModel extends Model
                             'description',
                             'opening_balance',
                             'default_value',
-                            'account_title_id'];
+                            'account_title_id',
+                            'vat_percent',
+                            'subject_to_vat'];
 
     public function group(){
         return $this->belongsTo('App\AccountGroupModel','account_group_id');

@@ -72,7 +72,7 @@
 			              					<td><a href="{{route('receipt.show',$val->invoice->receipt->id)}}"><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->id)}}</strong></em></a></td>
 			              					<td>{{$key}}</td>
 				              				<td>PHP {{number_format($val->amount,2)}}</td>
-				              				<td>{{$val->invoice->remarks}}</td>	
+				              				<td>{{$val->remarks}}</td>	
 				              				<td>{{$val->accountTitle->account_sub_group_name}}</td>	
 				              			</tr>
 				              			@endforeach
@@ -117,10 +117,11 @@
         		</div>
         		<div style="margin-top:50px">
         			{!! Form::open(['url'=>'pdf','method'=>'POST','target'=>'_blank']) !!}
-	                    @include('pdf.pdf_form',['category'=>'income_statement_report',
+	                    @include('pdf.pdf_form',['category'=>'subsidiary_ledger_report',
 	                    							'recordId'=>null,
 	                    							'month_filter'=>$monthFilter,
-	                    							'year_filter'=>$yearFilter])
+	                    							'year_filter'=>$yearFilter,
+	                    							'type'=>$type])
 	                {!! Form::close() !!}
         		</div>
           	</div>

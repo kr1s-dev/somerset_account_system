@@ -20,7 +20,9 @@ class ExpenseItemModel extends Model
     protected $fillable = ['expense_cash_voucher_id',
     						'account_title_id',
     						'remarks',
-    						'amount'];
+    						'amount',
+                            'created_by',
+                            'updated_by'];
 
     public function accountTitle(){
         return $this->belongsTo('App\AccountTitleModel','account_title_id');
@@ -28,5 +30,13 @@ class ExpenseItemModel extends Model
 
     public function expense(){
         return $this->belongsTo('App\ExpenseModel','expense_cash_voucher_id');
+    }
+
+    public function userCreateInfo(){
+        return $this->belongsTo('App\User','created_by');
+    }
+
+    public function userUpdateInfo(){
+        return $this->belongsTo('App\User','updated_by');
     }
 }

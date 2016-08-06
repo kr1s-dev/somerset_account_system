@@ -140,7 +140,7 @@
         		</div>
         		<div style="margin-top:50px">
         			{!! Form::open(['url'=>'pdf','method'=>'POST','target'=>'_blank']) !!}
-	                    @include('pdf.pdf_form',['category'=>'income_statement_report',
+	                    @include('pdf.pdf_form',['category'=>'balance_sheet_report',
 	                    							'recordId'=>null,
 	                    							'month_filter'=>$monthFilter,
 	                    							'year_filter'=>$yearFilter])

@@ -57,7 +57,7 @@
                             @if($accountGroupList->account_group_name == '')
                               <tr>
                                 <td class="data-title"><strong>Account Title Name</strong></td>
-                                  <td>{{$accountTitle->default_value  }}</td>
+                                <td>{{$accountTitle->default_value}}</td>
                               </tr>
                             @endif
                             @if($accountTitle->group->account_group_name == 'Revenues' || $accountTitle->group->account_group_name == 'Expenses' || $accountTitle->account_title_id != NULL)
@@ -76,12 +76,28 @@
                             @endif
                    					
                             @if($accountTitle->group->account_group_name == 'Revenues')
-                            <tr>
-                              <td class="data-title"><strong>Default Revenue</strong></td>
-                              <td>
-                                PHP {{number_format($accountTitle->default_value,2)}}
-                              </td>
-                            </tr>
+                              <tr>
+                                <td class="data-title"><strong>Default Revenue</strong></td>
+                                <td>
+                                  PHP {{number_format($accountTitle->default_value,2)}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="data-title"><strong>Subject to VAT</strong></td>
+                                <td>
+                                  @if($accountTitle->subject_to_vat)
+                                    Yes
+                                  @else
+                                    No
+                                  @endif
+                                </td>
+                              </tr>
+                              @if($accountTitle->subject_to_vat)
+                                <tr>
+                                  <td class="data-title"><strong>VAT Percent</strong></td>
+                                  <td>{{number_format($accountTitle->vat_percent,2)}}%</td>
+                                </tr>
+                              @endif
                             @endif
                             <tr>
                                 <td class="data-title"><strong>Description</strong></td>

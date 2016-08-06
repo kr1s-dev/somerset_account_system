@@ -21,32 +21,49 @@ class AccountGroupSeeder extends Seeder
                                     'Owners Equity');
         $accountGroupsList = array();
     	for ($i=0; $i < count($accountGoupNames) ; $i++) { 
-    	    $accountGroupsList[] = array('account_group_name' => $accountGoupNames[$i]);
+    	    $accountGroupsList[] = array('account_group_name' => $accountGoupNames[$i],
+                                            'created_at' => date('Y-m-d h:i:sa'),
+                                            'updated_at' => date('Y-m-d h:i:sa'));
     	}
     	DB::table('account_groups')->insert($accountGroupsList);
         
         //insert account titles
         $accountAssetTitles = array();
         $accountAssetTitles[] = array('account_group_id'=>1,
-                                        'account_sub_group_name'=>'Account Receivables',
+                                        'account_sub_group_name'=>'Accounts Receivable',
                                         'default_value'=>0,
-                                        'created_at' => date('m/d/y'),
-                                        'updated_at' => date('m/d/y'));
+                                        'subject_to_vat'=>0,
+                                        'vat_percent'=>0,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>1,
                                         'account_sub_group_name'=>'Cash',
                                         'default_value'=>0,
-                                        'created_at' => date('m/d/y'),
-                                        'updated_at' => date('m/d/y'));
+                                        'subject_to_vat'=>0,
+                                        'vat_percent'=>0,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>5,
                                         'account_sub_group_name'=>'Association Dues',
-                                        'default_value'=>450,
-                                        'created_at' => date('m/d/y'),
-                                        'updated_at' => date('m/d/y'));
+                                        'default_value'=>448,
+                                        'subject_to_vat'=>1,
+                                        'vat_percent'=>12,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>3,
                                         'account_sub_group_name'=>'Accounts Payable',
                                         'default_value'=>0,
-                                        'created_at' => date('m/d/y'),
-                                        'updated_at' => date('m/d/y'));
+                                        'subject_to_vat'=>0,
+                                        'vat_percent'=>0,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
+        $accountAssetTitles[] = array('account_group_id'=>7,
+                                        'account_sub_group_name'=>'Somerset Capital',
+                                        'default_value'=>0,
+                                        'subject_to_vat'=>0,
+                                        'vat_percent'=>0,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
         DB::table('account_titles')->insert($accountAssetTitles);
 
     }
