@@ -44,24 +44,15 @@
                              <h6>{{$dateToday}} - {{$dateNextYear}}</h6>
                           </div>
                         </div>
-                        <div class="ln_solid"></div>
-                        <div class="row">
-                         <div class="col-md-4 col-xs-12">
-                             <h5>C/L Balance</h5>
-                          </div>
-                          <div class="col-md-8 col-xs-12">
-                             <h6>PHP 0</h6>
-                          </div>
-                        </div>
-                           <div class="row">
-                             <div class="col-md-4 col-xs-12">
-                                 <h5></h5>
-                              </div>
-                              <div class="col-md-8 col-xs-12">
-                                 <h6></h6>
-                              </div>
-                           </div>
-                           <div class="ln_solid"></div>
+                         <div class="row">
+                           <div class="col-md-4 col-xs-12">
+                               <h5></h5>
+                            </div>
+                            <div class="col-md-8 col-xs-12">
+                               <h6></h6>
+                            </div>
+                         </div>
+                         <div class="ln_solid"></div>
                         </div>
                      </div>
                   </div>
@@ -118,7 +109,13 @@
                             <h5>Assets</h5>
                           </div>
                           <div class="col-md-6 col-xs-12">
-                            <h6>Dr 0</h6>
+                            <h6> 
+                              @if($assetTotal<0)
+                                CR {{number_format(($assetTotal*-1),2)}}
+                              @else
+                                DR {{number_format($assetTotal,2)}}
+                              @endif
+                            </h6>
                           </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -127,7 +124,13 @@
                             <h5>Liabilities</h5>
                           </div>
                           <div class="col-md-6 col-xs-12">
-                            <h6>Cr 0</h6>
+                            <h6>
+                              @if($liabilitiesTotal<0)
+                                DR {{number_format(($liabilitiesTotal*-1),2)}}
+                              @else
+                                CR {{number_format($liabilitiesTotal,2)}}
+                              @endif
+                            </h6>
                           </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -136,7 +139,7 @@
                              <h5>Income</h5>
                           </div>
                           <div class="col-md-6 col-xs-12">
-                             <h6>Dr {{$incomeTotal}}</h6>
+                             <h6>Dr {{number_format($incomeTotal,2)}}</h6>
                           </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -145,7 +148,7 @@
                               <h5>Expenses</h5>
                             </div>
                             <div class="col-md-6 col-xs-12">
-                              <h6>Cr {{$expenseTotal}}</h6>
+                              <h6>Cr {{number_format($expenseTotal,2)}}</h6>
                             </div>
                           </div>
                           <div class="ln_solid"></div>

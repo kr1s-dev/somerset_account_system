@@ -152,8 +152,6 @@ class ReportController extends Controller
         }
         //print_r($eBalanceSheetItemsList);
         foreach ($accountTitlesList as $accountTitle) {
-            
-
             if (array_key_exists($accountTitle->account_sub_group_name,$eBalanceSheetItemsList)) {
                 if(array_key_exists($accountTitle->group->account_group_name,$fBalanceSheetItemsList)){
                     $tArray = $fBalanceSheetItemsList[$accountTitle->group->account_group_name];

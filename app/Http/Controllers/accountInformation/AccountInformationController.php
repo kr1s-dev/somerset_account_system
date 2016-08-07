@@ -33,32 +33,55 @@ class AccountInformationController extends Controller
         $dateToday = date('F', mktime(0, 0, 0, 1, 10)) . ' ' . date('Y');
         $dateNextYear =  date('F', mktime(0, 0, 0, 12, 10)) . ' ' . date('Y',strtotime('+1 years'));
         $journalEntryCurrentYearList = JournalEntryModel::whereYear('created_at','=',date('Y'))->get();
+        $accountTitleGroupList = $this->getAccountGroups(null);
+        $accountTitlesList =  $this->getAccountTitles(null);
+        $fBalanceSheetItemsList = array();
         $expenseTotal=0;
         $incomeTotal=0;
         $assetTotal=0;
         $liabilitiesTotal=0;
 
-        foreach ($journalEntryCurrentYearList as $journalEntry) {
-            if($journalEntry->invoice_id != NULL){
-                $journalEntry->invoice_id = $this->formatString($journalEntry->invoice_id);
-                $incomeTotal += ($journalEntry->invoice->total_amount);
+        foreach ($accountTitleGroupList as $accountTitleGroup) {
+            if(!array_key_exists($accountTitleGroup->account_group_name,$fBalanceSheetItemsList)){
+                $fBalanceSheetItemsList[$accountTitleGroup->account_group_name] = array();
             }
-            if($journalEntry->receipt_id != NULL){
-                $journalEntry->receipt_id = $this->formatString($journalEntry->receipt_id);
-
-            }
-            if($journalEntry->expense_id != NULL){
-                $journalEntry->expense_id = $this->formatString($journalEntry->expense_id);
-                $expenseTotal +=($journalEntry->expense->total_amount);
-            }
-
         }
+
+        $aTitleItemsList = $this->getJournalEntryRecordsWithFilter(null,null,date('Y'));
+        $eBalanceSheetItemsList = $this->getItemsAmountList($aTitleItemsList,null);
+        
+        foreach ($accountTitlesList as $accountTitle) {
+            if (array_key_exists($accountTitle->account_sub_group_name,$eBalanceSheetItemsList)) {
+                if(array_key_exists($accountTitle->group->account_group_name,$fBalanceSheetItemsList)){
+                    $tArray = $fBalanceSheetItemsList[$accountTitle->group->account_group_name];
+                    $tArray[$accountTitle->account_sub_group_name] =  $eBalanceSheetItemsList[$accountTitle->account_sub_group_name];
+                    $fBalanceSheetItemsList[$accountTitle->group->account_group_name] = $tArray;
+                }
+            }
+        }
+
+        foreach(array_keys($fBalanceSheetItemsList) as $key) {
+            if(strpos($key, 'Assets')){
+                $assetTotal+= ($this->getTotalSum($fBalanceSheetItemsList[$key]));
+            }elseif(strpos($key, 'Liabilities')){
+                $liabilitiesTotal+= ($this->getTotalSum($fBalanceSheetItemsList[$key]));
+            }elseif(strpos($key, 'Revenue') || $key=='Revenues'){
+                $incomeTotal+=($this->getTotalSum($fBalanceSheetItemsList[$key]));
+            }elseif(strpos($key, 'Expense') || $key=='Expenses'){
+                $expenseTotal+=($this->getTotalSum($fBalanceSheetItemsList[$key]));
+            }
+        }
+
+        //echo $expenseTotal;
+        
         return view('accountInformation.show_account',
                         compact('dateNextYear',
                                 'dateToday',
                                 'journalEntryCurrentYearList',
                                 'incomeTotal',
-                                'expenseTotal'));
+                                'expenseTotal',
+                                'assetTotal',
+                                'liabilitiesTotal'));
     }
 
     /**
@@ -68,7 +91,6 @@ class AccountInformationController extends Controller
      */
     public function create()
     {
-        echo 'hi';
     }
 
     /**

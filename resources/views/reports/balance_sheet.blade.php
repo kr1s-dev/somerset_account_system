@@ -68,7 +68,7 @@
 			              				<tr>
 			              					<td>{{$key}}</td>
 			              					<td align="right">
-			              						@if($val>0)
+			              						@if($val>=0)
 				              						PHP {{number_format($val,2)}}
 				              					@else
 				              						(PHP {{number_format(($val*-1),2)}})
@@ -104,7 +104,7 @@
 			              				<tr>
 			              					<td>{{$k}}</td>
 			              					<td align="right">
-			              						@if($val>0)
+			              						@if($val>=0)
 				              						PHP {{number_format($val,2)}}
 				              					@else
 				              						(PHP {{number_format(($val*-1),2)}})
