@@ -1027,7 +1027,7 @@
                 success: function(response)
                 {
                     //alert(response);
-                    //location.href="/account";
+                    location.href="/account";
                 }, error: function(xhr, ajaxOptions, thrownError){
                   alert(xhr.status);
                   alert(thrownError);
