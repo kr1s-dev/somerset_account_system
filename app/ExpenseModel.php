@@ -19,7 +19,8 @@ class ExpenseModel extends Model
      */
     protected $fillable = ['account_type_id',
     						'paid_to',
-                            'total_amount'];
+                            'total_amount',
+                            'vendor_id'];
 
     public function user(){
         return $this->belongsTo('App\User','created_by');
@@ -27,5 +28,9 @@ class ExpenseModel extends Model
     
     public function expenseItems(){
         return $this->hasMany('App\ExpenseItemModel','expense_cash_voucher_id');
+    }
+
+    public function vendor(){
+        return $this->belongsTo('App\VendorModel','vendor_id');
     }
 }

@@ -6,20 +6,21 @@ use DB;
 use Mail;
 use Validator;
 use App\User;
-use App\UserTypeModel;
-use App\HomeOwnerInformationModel;
-use App\HomeOwnerMemberModel;
+use App\VendorModel;
+use App\AssetsModel;
 use App\ExpenseModel;
 use App\InvoiceModel;
 use App\ReceiptModel;
-use App\AccountDetailModel;
+use App\UserTypeModel;
+use App\Http\Requests;
+use App\AnnouncementModel;
 use App\AccountGroupModel;
 use App\AccountTitleModel;
 use App\JournalEntryModel;
-use App\AssetsModel;
-use App\AnnouncementModel;
+use App\AccountDetailModel;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use App\HomeOwnerMemberModel;
+use App\HomeOwnerInformationModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -117,6 +118,14 @@ trait UtilityHelper
     //Get List of Announcements / or certain Announcement
     public function getAnnouncementModel($id){
         return $id==null?AnnouncementModel::all():AnnouncementModel::findOrFail($id);
+    }
+
+    public function setVendor(){
+        return new VendorModel;
+    }
+
+    public function getVendor($id){
+        return $id==null?VendorModel::all():VendorModel::findOrFail($id);
     }
 
     //Get List of HomeOwnerMember

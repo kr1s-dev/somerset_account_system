@@ -19,6 +19,8 @@ class CreateCashVoucherTable extends Migration
                 $table->foreign('created_by')->references('id')->on('users');
                 $table->Integer('updated_by')->unsigned();
                 $table->foreign('updated_by')->references('id')->on('users');
+                $table->Integer('vendor_id')->unsigned()->nullable();
+                $table->foreign('vendor_id')->references('id')->on('vendors');
                 $table->string('paid_to',255);
                 $table->decimal('total_amount',10,2)->default(0.00);
                 $table->timestamps();

@@ -67,8 +67,8 @@ class AssetController extends Controller
         $input['net_value'] =  $input['total_cost'];
         $description = 'Bought item: ' . ($input['item_name']);
         if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-            $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-            $input['net_value'] = $input['total_cost'];
+            // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+            // $input['net_value'] = $input['total_cost'];
             $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
             if($input['mode_of_acquisition'] == 'Both')
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
@@ -135,8 +135,8 @@ class AssetController extends Controller
         $input['net_value'] =  $input['total_cost'];
         $description = 'Both item: ' . ($input['item_name']);
         if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-            $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-            $input['net_value'] = $input['total_cost'];
+            // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+            // $input['net_value'] = $input['total_cost'];
             $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
             if($input['mode_of_acquisition'] == 'Both')
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
@@ -175,7 +175,7 @@ class AssetController extends Controller
     {
         $assetModel = $this->getAssetModel($id);
         $this->deleteRecord('asset_items',array($id));
-        $this->getAllItems($assetModel->account_title_id);
+        //$this->getAllItems($assetModel->account_title_id);
         flash()->success('Record successfully deleted')->important();
         return redirect('assets');
     }

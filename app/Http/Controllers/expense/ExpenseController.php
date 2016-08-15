@@ -52,9 +52,11 @@ class ExpenseController extends Controller
         }
         $receiptNumber = $this->formatString($receiptNumber);
         $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
+        $vendorList = $this->getVendor(null);
         return view('expense.create_expense',
                         compact('receiptNumber',
-                                'expenseAccount'));
+                                'expenseAccount',
+                                'vendorList'));
     }
 
     /**

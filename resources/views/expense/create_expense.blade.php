@@ -43,6 +43,16 @@
 		                    </div>
                      		<div class="col-sm-4 invoice-col">
                         		<div class="form-group">
+                           			<label class="control-label" for="homeowner">Vendor</label>
+                           			<select id="vendor_id" class="form-control select2_single">
+										@foreach($vendorList as $vendor)
+											<option value="{{ $vendor->id }} ">{{ $vendor->vendor_name }}</option>
+										@endforeach
+									</select>
+                        		</div>
+                     		</div>
+                     		<div class="col-sm-4 invoice-col">
+                        		<div class="form-group">
                            			<label class="control-label" for="homeowner">Paid To</label>
                            			<input id="paid_to" name="paid_to" type="text" class="form-control">
                         		</div>

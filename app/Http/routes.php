@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users','user\UserController');
     Route::get('users/deactivateUser/{id}', ['as'=>'users.deactivateUser','uses' => 'user\UserController@deactivateUser']);
     Route::get('users/resetpassword/{id}', ['as'=>'users.resetpassword','uses' => 'user\UserController@resetPassword']);
-    Route::resource('usertypes','usertype\UserTypeController');
+    //Route::resource('usertypes','usertype\UserTypeController');
 
     //Homeowner routes
     Route::resource('homeowners','homeownerinformation\HomeOwnerInformationController');
@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Receipt routes
     Route::resource('receipt','receipt\ReceiptController');
     Route::get('receipt/create/{id}','receipt\ReceiptController@create');
+
+    //Expense routes
+    Route::resource('vendor','vendor\VendorController');
 
     //Expense routes
     Route::resource('expense','expense\ExpenseController');

@@ -20,7 +20,7 @@ class InvoiceController extends Controller
     */
     public function __construct(){
         if(Auth::user()->userType->type==='Guest')
-            $this->middleware('user.type:invoice',['only' => ['show']]);
+            $this->middleware('user.type:invoice',['only' => ['show']],['except'=>['index']]);
         else
             $this->middleware('user.type:invoice');
     }
