@@ -4826,3 +4826,21 @@ ul.notifications {
 .form-wrapper {
   display:inline;
 }
+
+/* Dashboard */
+.tile_stats_count {
+  color: #fff;
+}
+.tile_green {
+  background: #9CCC65;
+}
+.tile_blue {
+  background: #42A5F5;
+}
+.tile_red {
+  background: #ef5350;
+}
+
+.tile_count .tile_stats_count {
+  padding-top: 10px;
+}

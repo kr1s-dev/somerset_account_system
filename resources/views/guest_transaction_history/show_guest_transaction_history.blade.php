@@ -10,12 +10,12 @@
     <div class="clearfix"></div>
     
     <div class="row tile_count">
-      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_green">
         <span class="count_top"><i class="fa fa-money"></i> Outstanding Balance (PHP)</span>
         <div class="count">{{number_format($outstandingBalance,2)}}</div>
         <span class="count_bottom">For the month of {{$arrayMonth[date('m')]}}</span>
       </div>
-      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_blue">
         <span class="count_top"><i class="fa fa-user"></i> Last Transaction (PHP)</span>
         @if($transactionHistory!=NULL)
           <div class="count">{{number_format($transactionHistory->total_amount,2)}}</div>
@@ -24,7 +24,7 @@
           <div class="count">{{number_format(0,2)}}</div>
         @endif
       </div>
-      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_red">
         <span class="count_top"><i class="fa fa-clock-o"></i> YTD Dues Paid (PHP)</span>
         <div class="count">{{number_format($totalDuesPaid,2)}}</div>
       </div>
