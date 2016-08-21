@@ -15,10 +15,10 @@
   
   		<div style="display:inline-block; width:100%">
       	<div style="float:left;">
-          	<strong>Cash Voucher #: {{$expenseNumber}}</strong>
+          	<strong>Cash Voucher #: {{sprintf("%'.07d\n",$expenseNumber)}}</strong>
       	</div>
       		<div style="float:right;">
-          		Date filed: {{date('m/d/y',strtotime($expense->created_at))}}
+          		Date filed: {{date('F d, y',strtotime($expense->created_at))}}
       		</div>
   		</div>
   		<br/><br/>

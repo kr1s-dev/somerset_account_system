@@ -838,14 +838,11 @@
       $("input[name=interest]").val("");
       $("input[name=downPayment]").val("");
       if($(this).val() == 'Both'){
-        $("#interestPercent").show();
         $("#downPayment").show();
       }
       else if($(this).val() == 'Payable'){
-        $("#interestPercent").show();
         $("#downPayment").hide();
       }else{
-        $("#interestPercent").hide();
         $("#downPayment").hide();
       }
         

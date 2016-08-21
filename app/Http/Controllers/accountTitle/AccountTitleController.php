@@ -205,9 +205,9 @@ class AccountTitleController extends Controller
      */
     public function destroy($id)
     {
-        $this->deleteRecord('account_titles',array($id));
-        flash()->success('Record successfully deleted')->important();
-        return redirect('accounttitle');
+        // $this->deleteRecord('account_titles',array($id));
+        // flash()->success('Record successfully deleted')->important();
+        // return redirect('accounttitle');
         //
         // AccountTitleModel::destroy($id);
         // 

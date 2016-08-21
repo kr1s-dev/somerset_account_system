@@ -301,6 +301,12 @@ trait UtilityHelper
                     ->delete();
     }
 
+    public function deleteRecordWithWhere($tableName,$whereClause){
+        return DB::table($tableName)
+                    ->where($whereClause)
+                    ->delete();
+    }
+
     /*
     * @Author:      Kristopher N. Veraces
     * @Description: Removing key,value pair in list
@@ -605,6 +611,13 @@ trait UtilityHelper
         }
 
         $this->insertBulkRecord('journal_entry',$journalEntryList);
+    }
+
+    public function getControlNo($tableName){
+        return DB::table('INFORMATION_SCHEMA.TABLES')  
+                        ->where('TABLE_SCHEMA','=','somersetplaceaccountingsystem')
+                        ->where('TABLE_NAME','=',$tableName)
+                        ->first();
     }
 
 }

@@ -19,14 +19,14 @@
   
   		<div style="display:inline-block; width:100%">
       	<div style="float:left;">
-          	<strong>Receipt #: {{$receiptNumber}}</strong>
+          	<strong>Receipt #: {{sprintf("%'.07d\n",$receiptNumber)}}</strong>
       	</div>
       		<div style="float:right;">
-          		Date Paid: {{date('m/d/y',strtotime($receipt->created_at))}}
+          		Date Paid: {{date('F d, Y',strtotime($receipt->created_at))}}
       		</div>
   		</div>
   		<div>
-      		<strong>Invoice Referrence #: {{$invoiceNumber}}</strong>
+      		<strong>Invoice Referrence #: {{sprintf("%'.07d\n",$invoiceNumber)}}</strong>
   		</div>
   		<br/>
   		<div>

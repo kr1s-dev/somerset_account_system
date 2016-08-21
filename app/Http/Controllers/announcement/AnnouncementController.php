@@ -33,9 +33,13 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $announcementsList = $this->getAnnouncementModel(null);
-        return view('announcement.show_announcement_list',
-                        compact('announcementsList'));
+        if(Auth::user()->userType->type==='Guest'){
+            return view('errors.503');
+        }else{
+            $announcementsList = $this->getAnnouncementModel(null);
+            return view('announcement.show_announcement_list',
+                            compact('announcementsList'));
+        }
     }
 
     /**
@@ -45,9 +49,14 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        $announcement = $this->setAnnouncementModel();
-        return view('announcement.create_announcement',
-                        compact('announcement'));
+        if(Auth::user()->userType->type==='Guest'){
+            return view('errors.503');
+        }else{
+            $announcement = $this->setAnnouncementModel();
+            return view('announcement.create_announcement',
+                            compact('announcement'));
+        }
+        
     }
 
     /**
@@ -91,9 +100,14 @@ class AnnouncementController extends Controller
      */
     public function edit($id)
     {
-        $announcement = $this->getAnnouncementModel($id);
-        return view('announcement.edit_announcement',
-                        compact('announcement'));
+        if(Auth::user()->userType->type==='Guest'){
+            return view('errors.503');
+        }else{
+            $announcement = $this->getAnnouncementModel($id);
+            return view('announcement.edit_announcement',
+                            compact('announcement'));
+        }
+        
     }
 
     /**
@@ -119,8 +133,13 @@ class AnnouncementController extends Controller
      */
     public function destroy($id)
     {
-        $this->deleteRecord('announcements',array($id));
-        flash()->success('Record successfully deleted')->important();
-        return redirect('announcement');
+        if(Auth::user()->userType->type==='Guest'){
+            return view('errors.503');
+        }else{
+            $this->deleteRecordWithWhere('announcements',array('id'=>$id));
+            flash()->success('Record successfully deleted')->important();
+            return redirect('announcement');
+        }
+        
     }
 }

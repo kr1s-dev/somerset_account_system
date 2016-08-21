@@ -22,7 +22,7 @@
                		<!-- title row -->
                		<div class="row">
                   		<div class="col-xs-12 invoice-header">
-                     		<h4>Invoice #: {{$invoiceNumber}}</h4>
+                     		<h4>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}}</h4>
                   		</div>
                   		<!-- /.col -->
                		</div>
@@ -50,7 +50,7 @@
                   		<div class="col-sm-4 invoice-col">
                       		<label class="control-label" for="homeowner">Payment Due:</label>
                      		<div class="form-group">
-                        			<h5>{{date('m/d/y',strtotime($invoice->payment_due_date))}}</h5>
+                        			<h5>{{date('F d, Y',strtotime($invoice->payment_due_date))}}</h5>
                      		</div>
                   		</div>
                   		<!-- /.col -->

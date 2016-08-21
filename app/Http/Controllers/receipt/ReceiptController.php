@@ -58,13 +58,15 @@ class ReceiptController extends Controller
     public function create($id)
     {
         $homeOwnerInvoice = $this->getHomeOwnerInvoice($id);
-        $invoiceNumber = $this->formatString($id);
-        $receiptNumber = 1;
-        $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction','');
-        if(count($receiptList)>0){
-            $receiptNumber =  ($receiptList->id + 1);
-        }
-        $receiptNumber = $this->formatString($receiptNumber);
+        $invoiceNumber = $id;
+        // $receiptNumber = 1;
+        // $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction','');
+        // if(count($receiptList)>0){
+        //     $receiptNumber =  ($receiptList->id + 1);
+        // }
+        // $receiptNumber = $this->formatString($receiptNumber);
+        $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
+        $receiptNumber = $receiptList->AUTO_INCREMENT;
         return view('receipt.create_receipt',
                         compact('homeOwnerInvoice',
                                 'invoiceNumber',
@@ -117,8 +119,8 @@ class ReceiptController extends Controller
     public function show($id)
     {
         $receipt = $this->getHomeOwnerReceipt($id);
-        $receiptNumber = $this->formatString($id);
-        $invoiceNumber = $this->formatString($receipt->payment_id);
+        $receiptNumber = $id;
+        $invoiceNumber = $receipt->payment_id;
         return view('receipt.show_receipt',
                         compact('receipt',
                                 'receiptNumber',

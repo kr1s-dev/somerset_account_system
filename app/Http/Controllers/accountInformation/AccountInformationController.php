@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\accountInformation;
 
-use App\JournalEntryModel;
 use Request;
-use App\Http\Requests\accountInformation\AccountInformationRequest;
 use App\Http\Controllers\Controller;
+use App\JournalEntryModel;
 use App\Http\Controllers\UtilityHelper;
-use App\AccountDetailModel;
 
 class AccountInformationController extends Controller
 {

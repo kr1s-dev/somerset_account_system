@@ -107,9 +107,10 @@ class HomeOwnerMemberController extends Controller
      */
     public function destroy($id)
     {
-        $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
-        $todeleteId = array($id);
-        $this->deleteRecord('home_owner_member_information',$todeleteId);
+        // $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
+        // $todeleteId = array($id);
+        // $this->deleteRecord('home_owner_member_information',$todeleteId);
+        $this->deleteRecordWithWhere('home_owner_member_information',array('id'=>$id));
         flash()->success('Record successfully deleted')->important();
         return redirect('homeowners/'.$homeOwnerMember->home_owner_id);
     }

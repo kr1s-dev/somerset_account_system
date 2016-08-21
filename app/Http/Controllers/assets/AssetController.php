@@ -41,12 +41,8 @@ class AssetController extends Controller
     {
         $assetModel = $this->setAssetModel();
         $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('account_group_id'=>2));
-        $assetModelList = $this->getObjectLastRecord('asset_items','');
-        $assetNumber = 1;
-        if(count($assetModelList)>0){
-            $assetNumber =  ($assetModelList->id + 1);
-        }
-        $assetNumber = $this->formatString($assetNumber);
+        $assetModelList = $this->getControlNo('asset_items');
+        $assetNumber = $assetModelList->AUTO_INCREMENT;
         return view('assets.create_asset',
                         compact('assetModel',
                                 'assetNumber',
@@ -175,7 +171,6 @@ class AssetController extends Controller
     {
         $assetModel = $this->getAssetModel($id);
         $this->deleteRecord('asset_items',array($id));
-        //$this->getAllItems($assetModel->account_title_id);
         flash()->success('Record successfully deleted')->important();
         return redirect('assets');
     }

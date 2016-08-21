@@ -30,9 +30,9 @@
       			  </tr>
       			</thead>
       			<tbody>
-              @foreach($eInvoiceModelList as $eInvoiceid => $eInvoice)
+              @foreach($eInvoiceModelList as $eInvoice)
                 <tr>
-                  <td><a href="{{ route('invoice.show',$eInvoice->id) }}"><strong>#{{$eInvoiceid}}</strong></a></td>
+                  <td><a href="{{ route('invoice.show',$eInvoice->id) }}"><strong>#{{sprintf("%'.07d\n",$eInvoice->id)}}</strong></a></td>
                   <td>{{ $eInvoice->homeOwner->first_name}} {{ $eInvoice->homeOwner->middle_name}} {{$eInvoice->homeOwner->last_name}}</td>
                   <td>{{ date('M-d-Y ', strtotime($eInvoice->payment_due_date))}}</td>
                   <td>₱{{ $eInvoice->total_amount }}</td>

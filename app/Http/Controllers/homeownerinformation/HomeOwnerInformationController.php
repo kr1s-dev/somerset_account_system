@@ -86,11 +86,11 @@ class HomeOwnerInformationController extends Controller
         //Show details of homeowner
         $homeOwner = $this->getHomeOwnerInformation($id);
         $homeOwnerMembersList = $this->getHomeOwnerMembers($id);
-        $thomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0));
-        $ehomeOwnerInvoicesList = array();
-        foreach ($thomeOwnerInvoicesList as $thomeOwnerInvoice) {
-            $ehomeOwnerInvoicesList[$this->formatString($thomeOwnerInvoice->id)] = $thomeOwnerInvoice;
-        }
+        $ehomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0));
+        // $ehomeOwnerInvoicesList = array();
+        // foreach ($thomeOwnerInvoicesList as $thomeOwnerInvoice) {
+        //     $ehomeOwnerInvoicesList[$this->formatString($thomeOwnerInvoice->id)] = $thomeOwnerInvoice;
+        // }
         return view('homeowners.show_homeowners_information',
                         compact('homeOwner',
                                 'homeOwnerMembersList',
@@ -139,10 +139,12 @@ class HomeOwnerInformationController extends Controller
      */
     public function destroy($id)
     {
-        $todeleteId = array($id);
-        $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
-        $this->deleteRecord('users',array($user->id));
-        $this->deleteRecord('home_owner_information',$todeleteId);
+        // $todeleteId = array($id);
+        // $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
+        // $this->deleteRecord('users',array($user->id));
+        // $this->deleteRecord('home_owner_information',$todeleteId);
+        $this->deleteRecordWithWhere('users',array('home_owner_id'=>$id));
+        $this->deleteRecordWithWhere('home_owner_information',array('id'=>$id));
 
         flash()->success('Record has been successfully deleted')->important();
         return redirect('homeowners');

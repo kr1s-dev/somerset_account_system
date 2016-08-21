@@ -15,10 +15,10 @@
   
   		<div style="display:inline-block; width:100%">
       	<div style="float:left;">
-          	<strong>Invoice #: {{$invoiceNumber}}</strong>
+          	<strong>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}}</strong>
       	</div>
       		<div style="float:right;">
-          		Payment Due Date: {{date('m/d/y',strtotime($invoice->payment_due_date))}}
+          		Payment Due Date: {{date('F d, Y',strtotime($invoice->payment_due_date))}}
       		</div>
   		</div>
   		<br/><br/>

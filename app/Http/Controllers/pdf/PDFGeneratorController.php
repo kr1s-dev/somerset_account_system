@@ -69,8 +69,8 @@ class PDFGeneratorController extends Controller
 
 	private function generateReceiptPDF($id){
 		$receipt = $this->getHomeOwnerReceipt($id);
-		$receiptNumber = $this->formatString($id);
-		$invoiceNumber = $this->formatString($receipt->payment_id);
+		$receiptNumber = $id;
+		$invoiceNumber = $receipt->payment_id;
 		return PDF::loadView('pdf.receipt_pdf',
 								compact('receipt',
 										'receiptNumber',
@@ -80,7 +80,7 @@ class PDFGeneratorController extends Controller
 
 	private function generateInvoicePDF($id){
 		$invoice = $this->getHomeOwnerInvoice($id);
-		$invoiceNumber = $this->formatString($id);
+		$invoiceNumber = $id;
 		return PDF::loadView('pdf.invoice_pdf',
 								compact('invoice',
 										'invoiceNumber'));
@@ -89,7 +89,7 @@ class PDFGeneratorController extends Controller
 
 	private function generateExpensePDF($id){
 		$expense = $this->getExpense($id);
-		$expenseNumber = $this->formatString($id);
+		$expenseNumber = $id;
 		return PDF::loadView('pdf.expense_pdf',
 								compact('expense',
 										'expenseNumber'));

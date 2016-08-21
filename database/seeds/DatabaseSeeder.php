@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             $this->call(AccountGroupSeeder::class);
             $this->call(UserTypeSeeder::class);
             $this->call(SecretQuestionSeeder::class);
+            $this->call(HomeOwnerSeeder::class);
             $this->call(UserSeeder::class);
         Model::reguard();
     }

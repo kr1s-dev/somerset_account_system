@@ -45,12 +45,12 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        $receiptNumber = 1;
-        $eReceiptLastRecord = $this->getObjectLastRecord('expense_cash_voucher','');
-        if(count($eReceiptLastRecord)>0){
-            $receiptNumber =  ($eReceiptLastRecord->id + 1);
-        }
-        $receiptNumber = $this->formatString($receiptNumber);
+        //$receiptNumber = 1;
+        $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
+        // if(count($eReceiptLastRecord)>0){
+        //     $receiptNumber =  ($eReceiptLastRecord->id + 1);
+        // }
+        $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
         $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
         $vendorList = $this->getVendor(null);
         return view('expense.create_expense',
@@ -94,7 +94,7 @@ class ExpenseController extends Controller
     public function show($id)
     {
         $eExpense = $this->getExpense($id);
-        $eExpenseId = $this->formatString($eExpense->id);
+        $eExpenseId = $id;
         return view('expense.show_expense',
                         compact('eExpense',
                                 'eExpenseId'));
@@ -110,7 +110,7 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         $eExpense = $this->getExpense($id);
-        $eExpenseId = $this->formatString($eExpense->id);
+        $eExpenseId = $id;
         $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
         return view('expense.edit_expense',
                         compact('eExpense',
@@ -135,17 +135,19 @@ class ExpenseController extends Controller
         $totalAmount = $request->input('totalAmount');
         $this->updateRecord('expense_cash_voucher',$id,array('total_amount' => $totalAmount));
         //Get expense items from database for deletion
-        $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
-        $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
-        foreach ($eExpenseItemsList as $eExpenseItem) {
-            $toDeleteExpItems[] = $eExpenseItem->id;
-        }
+        // $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
+        // $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
+        // foreach ($eExpenseItemsList as $eExpenseItem) {
+        //     $toDeleteExpItems[] = $eExpenseItem->id;
+        // }
 
-        foreach ($eJournalEntriesList as $eJournalEntry) {
-            $toDeleteJournalEntry[] = $eJournalEntry->id;
-        }
-        $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-        $this->deleteRecord('expense_cash_voucher_items',$toDeleteExpItems);
+        // foreach ($eJournalEntriesList as $eJournalEntry) {
+        //     $toDeleteJournalEntry[] = $eJournalEntry->id;
+        // }
+        // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
+        // $this->deleteRecord('expense_cash_voucher_items',$toDeleteExpItems);
+        $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+        $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
 
 
         $dataToInsert = $this->populateListOfToInsertItems($data,'Expense','expense_cash_voucher_id',$id,'expense_cash_voucher');
@@ -169,20 +171,23 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        $toDeleteItems = array();
-        $eExpense = $this->getExpense($id);
-        $toDeleteJournalEntry = array();
-        $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
-        $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
-        foreach ($eExpenseItemsList as $eExpenseItem) {
-            $toDeleteItems[] = $eExpenseItem->id;
-        }
-        foreach ($eJournalEntriesList as $eJournalEntry) {
-            $toDeleteJournalEntry[] = $eJournalEntry->id;
-        }
-        $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-        $this->deleteRecord('expense_cash_voucher_items',$toDeleteItems);
-        $this->deleteRecord('expense_cash_voucher',array($id));
+        // $toDeleteItems = array();
+        // $eExpense = $this->getExpense($id);
+        // $toDeleteJournalEntry = array();
+        // $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
+        // $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
+        // foreach ($eExpenseItemsList as $eExpenseItem) {
+        //     $toDeleteItems[] = $eExpenseItem->id;
+        // }
+        // foreach ($eJournalEntriesList as $eJournalEntry) {
+        //     $toDeleteJournalEntry[] = $eJournalEntry->id;
+        // }
+        // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
+        // $this->deleteRecord('expense_cash_voucher_items',$toDeleteItems);
+        // $this->deleteRecord('expense_cash_voucher',array($id));
+        $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+        $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
+        $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
         flash()->success('Record successfully deleted')->important();
         return redirect('expense');
     }

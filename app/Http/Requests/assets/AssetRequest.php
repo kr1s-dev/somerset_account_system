@@ -31,27 +31,25 @@ class AssetRequest extends Request
             //for insert
             case 'POST':{
                 return ['account_title_id'=>'required',
-                        'item_name'=>'required',
-                        'description'=>'required',
+                        'item_name'=>'required|min:3|max:255',
+                        'description'=>'required|max:255',
                         'quantity'=>'required',
                         'total_cost'=>'required',
                         'salvage_value'=>'required',
                         'useful_life'=>'required',
                         'mode_of_acquisition'=>'required',
-                        'interest' => 'required_if:mode_of_acquisition,Payable|required_if:mode_of_acquisition,Both',
                         'down_payment' => 'required_if:mode_of_acquisition,Both',];
             }
             //for update
             case 'PATCH':{  
                 return ['account_title_id'=>'required',
-                        'item_name'=>'required',
-                        'description'=>'required',
+                        'item_name'=>'required|min:3|max:255',
+                        'description'=>'required|max:255',
                         'quantity'=>'required',
                         'total_cost'=>'required',
                         'salvage_value'=>'required',
                         'useful_life'=>'required',
                         'mode_of_acquisition'=>'required',
-                        'interest' => 'required_if:mode_of_acquisition,Payable|required_if:mode_of_acquisition,Both',
                         'down_payment' => 'required_if:mode_of_acquisition,Both',];
             }
             //default

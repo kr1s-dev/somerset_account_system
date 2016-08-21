@@ -23,7 +23,7 @@
                   		<!-- title row -->
                   		<div class="row">
                      		<div class="col-xs-12 invoice-header">
-                        		<h4>Cash Voucher #: {{$receiptNumber}} <span class="pull-right">Date: {{date('m/d/y')}}</span></h4>
+                        		<h4>Cash Voucher #: {{ sprintf("%'.07d\n",$receiptNumber) }} <span class="pull-right">Date: {{date('m/d/y')}}</span></h4>
                      		</div>
                      		<!-- /.col -->
                   		</div>

@@ -23,10 +23,10 @@
                 		<div class="row">
                    		<div class="col-xs-12 invoice-header">
                       		<div class="col-md-4">
-                         			<h4>Receipt #: {{$receiptNumber}}</h4>
+                         			<h4>Receipt #: {{sprintf("%'.07d\n",$receiptNumber)}}</h4>
                       		</div>
                       		<div class="col-md-4">
-                         			<h4>Invoice #: {{$invoiceNumber}} </h4>
+                         			<h4>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}} </h4>
                       		</div>
                    		</div>
                    		<!-- /.col -->

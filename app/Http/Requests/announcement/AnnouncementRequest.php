@@ -30,12 +30,12 @@ class AnnouncementRequest extends Request
             //for insert
             case 'POST':{
                 return ['headline' => 'required|min:10',
-                        'message' => 'required|min:50',];
+                        'message' => 'required|min:10',];
             }
             //for update
             case 'PATCH':{  
                 return ['headline' => 'required|min:10',
-                        'message' => 'required|min:50',];
+                        'message' => 'required|min:10',];
             }
             //default
             default: break;

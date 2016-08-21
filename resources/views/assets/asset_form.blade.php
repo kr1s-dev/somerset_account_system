@@ -69,7 +69,7 @@
 <div class="form-group">
    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Useful Life(mos)<span class="required">*</span></label>
    <div class="col-md-3 col-sm-6 col-xs-12">
-      <input id="monthly_depreciation" name="useful_life" value="{{ count($errors) > 0? old('useful_life'):($assetModel->useful_life) }}" class="form-control col-md-7 col-xs-12" type="number" name="phone-number" min="0">
+      <input id="monthly_depreciation" name="useful_life" value="{{ count($errors) > 0? old('useful_life'):($assetModel->useful_life) }}" class="form-control col-md-7 col-xs-12" type="number" name="phone-number" min="1">
    </div>
 </div>
 <div class="form-group">
@@ -88,16 +88,6 @@
       </div>
    </div>
 </div>
-<div id="interestPercent" style="display:none;">
-   <div class="form-group">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Interest (%)
-      </label>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-         <input type="number" min="0" id="first-name" name="interest" value="{{ count($errors) > 0? old('interest'):($assetModel->interest) }}" class="form-control col-md-7 col-xs-12" >
-      </div>
-   </div>
-</div>
-
 <div id="downPayment" style="display:none;">
    <div class="form-group">
       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Down Payment (PHP)

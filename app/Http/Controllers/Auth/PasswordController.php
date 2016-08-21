@@ -88,7 +88,8 @@ class PasswordController extends Controller
         switch ($response) {
             case Password::PASSWORD_RESET:
                 flash()->success('Password Successfully Reset. Log in to continue.')->important();
-                return redirect($this->redirectPath())->with('status', trans($response));
+                //return redirect($this->redirectPath())->with('status', trans($response));
+                return view('auth.authenticate');
             default:
                 return redirect()->back()
                             ->withInput($request->only('email'))

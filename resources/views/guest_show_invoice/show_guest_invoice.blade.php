@@ -22,7 +22,7 @@
 	               		<!-- title row -->
 	               		<div class="row">
 	                  		<div class="col-xs-12 invoice-header">
-	                     		<h4>Invoice #: {{$invoiceNumber}}</h4>
+	                     		<h4>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}}</h4>
 	                  		</div>
 	                  		<!-- /.col -->
 	               		</div>

@@ -34,10 +34,21 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
+        
         if ($this->auth->check()) {
-            return redirect('users');
+            $userType = $request->user()->userType->type;
+            if($userType=='Administrator'){
+                return redirect()->intended('/users'); 
+            }else if($userType=='Accountant'){
+                return redirect()->intended('/account'); 
+            }else if($userType=='Cashier'){
+                return redirect()->intended('/invoice'); 
+            }else if($userType=='Guest'){
+                return redirect()->intended('/guest-dashboard');
+            }
         }
-
+        
+        
         return $next($request);
     }
 }

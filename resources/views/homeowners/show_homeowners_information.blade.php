@@ -152,12 +152,12 @@
                             <td colspan="8" align="center"><strong><i>No Records Found</i></strong></td>
                           </tr>
                         @else
-                          @foreach($ehomeOwnerInvoicesList as $ehomeOwnerInvoiceId => $ehomeOwnerInvoice)
+                          @foreach($ehomeOwnerInvoicesList as $ehomeOwnerInvoice)
                             <tr>
-                              <td><a href="{{ route('invoice.show',$ehomeOwnerInvoice->id) }}">#{{$ehomeOwnerInvoiceId}}</a></td>
+                              <td><a href="{{ route('invoice.show',$ehomeOwnerInvoice->id) }}">#{{sprintf("%'.07d\n",$ehomeOwnerInvoice->id)}}</a></td>
                               <td>{{$ehomeOwnerInvoice->total_amount}}</td>
-                              <td>{{date('Y-d-m',strtotime($ehomeOwnerInvoice->created_at))}}</td>
-                              <td>{{date('Y-d-m',strtotime($ehomeOwnerInvoice->payment_due_date))}}</td>
+                              <td>{{date('F d, Y',strtotime($ehomeOwnerInvoice->created_at))}}</td>
+                              <td>{{date('F d, Y',strtotime($ehomeOwnerInvoice->payment_due_date))}}</td>
                             </tr>
                           @endforeach
                         @endif
