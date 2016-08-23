@@ -43,8 +43,13 @@
                   		</div>
                   		<div class="col-sm-4 invoice-col">
                      		<div class="form-group">
-                        			<label class="control-label" for="homeowner">Paid To</label>
-                        			<p>{{$eExpense->paid_to}}</p>
+                          <label class="control-label" for="homeowner">Paid To</label>
+                          @if($eExpense->paid_to != NULL)
+                            <p>{{$eExpense->paid_to}}</p>
+                          @else
+                            <p>{{$eExpense->vendor->vendor_name}}</p>
+                          @endif
+                        			
                      		</div>
                   		</div>
                   		<!-- /.col -->

@@ -128,6 +128,29 @@ trait UtilityHelper
         return $id==null?VendorModel::all():VendorModel::findOrFail($id);
     }
 
+    public function getExpenseVendor($id){
+        $eVendorList = array();
+        if($id==null){
+            $tVendorList = DB::table('vendors')
+                            ->get();
+            foreach($tVendorList as $tVendor){
+                $eVendorList[$tVendor->id] = $tVendor->vendor_name;
+            }
+        }else{
+            $tVendor = VendorModel::findOrFail($id);
+            $eVendorList[$tVendor->id] = $tVendor->vendor_name;
+            $tVendorList = DB::table('vendors')
+                            ->where('id','!=',$id)
+                            ->get();
+            foreach($tVendorList as $tVendor){
+                $eVendorList[$tVendor->id] = $tVendor->vendor_name;
+            }
+        }
+        return $eVendorList;
+    }
+
+
+
     //Get List of HomeOwnerMember
     public function getHomeOwnerMembers($id){
         $eHomeOwnerMembers = DB::table('home_owner_member_information')

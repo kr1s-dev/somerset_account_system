@@ -23,7 +23,7 @@
                   		<!-- title row -->
                   		<div class="row">
                      		<div class="col-xs-12 invoice-header">
-                        		<h4>Cash Voucher #: {{ sprintf("%'.07d\n",$receiptNumber) }} <span class="pull-right">Date: {{date('m/d/y')}}</span></h4>
+                        		<h4>Cash Voucher #: {{ sprintf("%'.07d\n",$receiptNumber) }} <span class="pull-right">Date: {{date('F d, Y')}}</span></h4>
                      		</div>
                      		<!-- /.col -->
                   		</div>
@@ -31,7 +31,7 @@
                   		<div class="row invoice-info">
                      		<div class="col-sm-4 invoice-col">
 		                        <div class="form-group">
-		                           <label for="" class="control-label">Creted By:</label>
+		                           <label for="" class="control-label">Created By:</label>
 		                           <div class="form-group">
 		                              @if(Auth::user()->home_owner_id != NULL)
 		                                <input id="cashier" class="form-control" value="{{Auth::user()->homeOwner->first_name}} {{Auth::user()->homeOwner->last_name}}" type="text" readonly>
@@ -41,17 +41,30 @@
 		                            </div>
 		                        </div>
 		                    </div>
-                     		<div class="col-sm-4 invoice-col">
+		                    <div class="col-sm-4 invoice-col">
+							   <label class="control-label">Type</label>
+							   <div class="form-group">
+							      	<div id="gender" class="btn-group" data-toggle="buttons">
+							         	<label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+							         		<input type="radio" name="type" value="Non-Vendor" data-parsley-multiple="gender"> Non-Vendor
+							         	</label>
+							         	<label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+							         		<input type="radio" name="type" value="Vendor" data-parsley-multiple="gender"> Vendor
+							         	</label>
+							      	</div>
+							   	</div>
+							</div>
+                     		<div class="col-sm-4 invoice-col" id="vendorList" style="display:none;">
+                     			<label class="control-label" for="homeowner">Vendor</label>
                         		<div class="form-group">
-                           			<label class="control-label" for="homeowner">Vendor</label>
-                           			<select id="vendor_id" class="form-control select2_single">
-										@foreach($vendorList as $vendor)
-											<option value="{{ $vendor->id }} ">{{ $vendor->vendor_name }}</option>
+                           			<select id="vendor_id" class=" select2_single form-control">
+										@foreach($vendorList as $key => $value) 
+											<option value="{{ $key }} ">{{ $value }}</option>
 										@endforeach
 									</select>
                         		</div>
                      		</div>
-                     		<div class="col-sm-4 invoice-col">
+                     		<div class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">
                         		<div class="form-group">
                            			<label class="control-label" for="homeowner">Paid To</label>
                            			<input id="paid_to" name="paid_to" type="text" class="form-control">

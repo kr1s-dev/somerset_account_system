@@ -205,7 +205,8 @@ class ReportController extends Controller
         foreach ($itemsList as $item) {
             $payeeName = $type=='homeowner' ? $item->invoice->homeOwner->first_name . ' ' . 
                                 $item->invoice->homeOwner->middle_name . ' ' .
-                                $item->invoice->homeOwner->last_name : $item->paid_to;
+                                $item->invoice->homeOwner->last_name : 
+                                ($item->paid_to!=''?$item->paid_to:$item->vendor->vendor_name);
 
             
             foreach (($type=='homeowner'? $item->invoice->invoiceItems : $item->expenseItems)  as $val) {

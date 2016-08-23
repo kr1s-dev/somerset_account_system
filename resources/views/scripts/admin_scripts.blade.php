@@ -327,8 +327,11 @@
           //Retrieving token for request
           var _token = $('meta[name="csrf-token"]').attr('content');
           var vendorId = $('#vendor_id').val();
-          
-          if(paidTo.trim()){
+          var type = $("input[name=type]:checked").val();
+          console.log(type);
+          console.log(paidTo.trim());
+          console.log(vendorId);
+          if((type=='Non-Vendor' && paidTo.trim()) || (type=='Vendor' && vendorId)){
             var table = $('#itemsTable tbody');
             //Get all data in the table
             table.find('tr').each(function(rowIndex, r){
@@ -356,7 +359,8 @@
                 data: { 'data':data,
                         'vendorId':vendorId,
                         'paidTo': paidTo,
-                        'totalAmount': totalAmount},
+                        'totalAmount': totalAmount,
+                        'type':type},
                 success: function(response)
                 {
                     //alert(response);
@@ -467,7 +471,10 @@
         //Get company that receives the voucher
         var paidTo = $('#paid_to').val();
 
-        if(paidTo.trim()){
+        var vendorId = $('#vendor_id').val();
+        var type = $("input[name=type]:checked").val();
+
+        if((type=='Non-Vendor' && paidTo.trim()) || (type=='Vendor' && vendorId)){
           var table = $('#itemsTable tbody');
             //Get all data in the table
             table.find('tr').each(function(rowIndex, r){
@@ -499,8 +506,10 @@
                 url: '/expense/'+_id,
                 type: 'PUT',
                 data: { 'data':data,
+                        'vendorId':vendorId,
                         'paidTo': paidTo,
-                        'totalAmount': totalAmount},
+                        'totalAmount': totalAmount,
+                        'type':type},
                 success: function(response)
                 {
                     //alert(response);
@@ -835,7 +844,6 @@
      * @description:   Shows Depreciation Information if radio button is Yes
      */
     $("input[name=mode_of_acquisition]:radio").change(function(e){
-      $("input[name=interest]").val("");
       $("input[name=downPayment]").val("");
       if($(this).val() == 'Both'){
         $("#downPayment").show();
@@ -864,6 +872,27 @@
 
       today = mm+'/'+dd+'/'+yyyy;
       return today;
+    }
+
+    $("input[name=type]:radio").change(function(e){
+      $("input[name=paid_to]").val('');
+      if($(this).val() == 'Non-Vendor'){
+        $("#vendorList").hide();
+        $("#non_vendor").show();
+      }
+      else if($(this).val() == 'Vendor'){
+        $("#vendorList").show();
+        $("#non_vendor").hide();
+      }
+        
+    });
+
+    if($("input[name=type]:checked").val() =='Non-Vendor'){
+      $("#vendorList").hide();
+      $("#non_vendor").show();
+    }else if($("input[name=type]:checked").val() =='Vendor'){
+      $("#vendorList").show();
+      $("#non_vendor").hide();
     }
   });
 </script>

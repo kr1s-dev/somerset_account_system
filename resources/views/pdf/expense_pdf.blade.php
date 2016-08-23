@@ -28,7 +28,12 @@
               		<td><strong> Receiver Information </strong></td>
           		</tr>
           		<tr>
-              		<td> Name:  {{$expense->paid_to}}</td>
+                @if($expense->paid_to != NULL)
+                  <p>{{$expense->paid_to}}</p>
+                @else
+                  <p>{{$expense->vendor->vendor_name}}</p>
+                  <p>{{$expense->vendor->vendor_contact_person}}</p>
+                @endif
           		</tr>
       		</table>
   		</div>

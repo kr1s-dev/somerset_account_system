@@ -52,7 +52,7 @@ class ExpenseController extends Controller
         // }
         $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
         $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
-        $vendorList = $this->getVendor(null);
+        $vendorList = $this->getExpenseVendor(null);
         return view('expense.create_expense',
                         compact('receiptNumber',
                                 'expenseAccount',
@@ -70,19 +70,30 @@ class ExpenseController extends Controller
         $data = $request->input('data');
         $paidTo = $request->input('paidTo');
         $totalAmount = $request->input('totalAmount');
-        $nReceiptId = $this->insertRecord('expense_cash_voucher',array('paid_to' => $paidTo,
-                                                                        'total_amount' => $totalAmount));
+        $vendorId = $request->input('vendorId');
+        $type = $request->input('type');
+        $vendor = $this->getVendor($vendorId);
+        try{    
+            $description = ('Created Cash Voucher for ') . (($type==='Vendor')?$vendor->vendor_name:$paidTo);
+            $nReceiptId = $this->insertRecord('expense_cash_voucher',array('paid_to' => ($type=='Vendor')?'':$paidTo,
+                                                                            'total_amount' => $totalAmount,
+                                                                            'vendor_id'=>($type=='Vendor')?$vendorId:null));
 
-        $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$nReceiptId,'expense_cash_voucher');
-        $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
-        //Create journal entry
-        $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
-                                                                            'Expense',
-                                                                            'expense_id',
-                                                                            $nReceiptId,
-                                                                            'Created Cash Voucher for ' . $paidTo,
-                                                                            $totalAmount));
-        flash()->success('Record successfully created');
+            $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$nReceiptId,'expense_cash_voucher');
+            $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
+            //Create journal entry
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+                                                                                'Expense',
+                                                                                'expense_id',
+                                                                                $nReceiptId,
+                                                                                $description,
+                                                                                $totalAmount));
+            flash()->success('Record successfully created');
+            echo $nReceiptId;
+        }catch(\Exception $ex){
+            echo $ex->getMessage() . ' ' . $ex->getLine();
+        }
+        
     }
 
     /**
@@ -110,12 +121,14 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         $eExpense = $this->getExpense($id);
+        $vendorList = $this->getExpenseVendor($eExpense->vendor_id!=NULL?$eExpense->vendor_id:NULL);
         $eExpenseId = $id;
         $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
         return view('expense.edit_expense',
                         compact('eExpense',
                                 'eExpenseId',
-                                'expenseAccount'));
+                                'expenseAccount',
+                                'vendorList'));
         // }
     }
 
@@ -133,33 +146,38 @@ class ExpenseController extends Controller
         $data = $request->input('data');
         $paidTo = $request->input('paidTo');
         $totalAmount = $request->input('totalAmount');
-        $this->updateRecord('expense_cash_voucher',$id,array('total_amount' => $totalAmount));
-        //Get expense items from database for deletion
-        // $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
-        // $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
-        // foreach ($eExpenseItemsList as $eExpenseItem) {
-        //     $toDeleteExpItems[] = $eExpenseItem->id;
-        // }
+        $type = $request->input('type');
+        $vendorId = $request->input('vendorId');
+        $vendor = $this->getVendor($vendorId);
+        try{
+            $description = ('Created Cash Voucher for ') . (($type==='Vendor')?$vendor->vendor_name:$paidTo);
+            $this->updateRecord('expense_cash_voucher',
+                                    $id,
+                                    array('total_amount' => $totalAmount,
+                                            'paid_to' => ($type=='Vendor')?'':$paidTo,
+                                            'vendor_id'=>($type=='Vendor')?$vendorId:null));
 
-        // foreach ($eJournalEntriesList as $eJournalEntry) {
-        //     $toDeleteJournalEntry[] = $eJournalEntry->id;
-        // }
-        // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-        // $this->deleteRecord('expense_cash_voucher_items',$toDeleteExpItems);
-        $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
-        $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
+            $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+            $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
 
 
-        $dataToInsert = $this->populateListOfToInsertItems($data,'Expense','expense_cash_voucher_id',$id,'expense_cash_voucher');
-        $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
-        //Create journal entry
-        $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
-                                                                            'Expense',
-                                                                            'expense_id',
-                                                                            $id,
-                                                                            'Created Cash Voucher for ' . $paidTo,
-                                                                            $totalAmount));
-        flash()->success('Record successfully updated');
+            $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$id,'expense_cash_voucher');
+
+           
+
+            $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
+            //Create journal entry
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+                                                                                'Expense',
+                                                                                'expense_id',
+                                                                                $id,
+                                                                                $description,
+                                                                                $totalAmount));
+            flash()->success('Record successfully updated');
+            echo $id;
+        }catch(\Exception $ex){
+            echo $ex->getMessage() . ' ' . $ex->getLine();
+        }
 
     }
 

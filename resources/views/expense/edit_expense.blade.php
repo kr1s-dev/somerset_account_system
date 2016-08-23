@@ -42,12 +42,50 @@
                          </h5>
                         		</div>
                      		</div>
-                     		<div class="col-sm-4 invoice-col">
+                        <div class="col-sm-4 invoice-col">
+                           <label class="control-label">Type</label>
+                           <div class="form-group">
+                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                  @if($eExpense->paid_to!='')
+                                    <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                      <input type="radio" name="type" value="Non-Vendor" data-parsley-multiple="gender" checked> Non-Vendor
+                                    </label>
+                                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                      <input type="radio" name="type" value="Vendor" data-parsley-multiple="gender"> Vendor
+                                    </label>
+                                  @else
+                                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                      <input type="radio" name="type" value="Non-Vendor" data-parsley-multiple="gender"> Non-Vendor
+                                    </label>
+                                    <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                      <input type="radio" name="type" value="Vendor" data-parsley-multiple="gender" checked> Vendor
+                                    </label>
+                                  @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 invoice-col" id="vendorList" style="display:none;">
+                          <label class="control-label" for="homeowner">Vendor</label>
+                          <div class="form-group">
+                            <select id="vendor_id" class=" select2_single form-control">
+                              @foreach($vendorList as $key => $value)
+                                <option value="{{ $key }} ">{{ $value }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">
+                            <div class="form-group">
+                                <label class="control-label" for="homeowner">Paid To</label>
+                                <input id="paid_to" value="{{$eExpense->paid_to}}" name="paid_to" type="text" class="form-control">
+                            </div>
+                        </div>
+                     		<!--div class="col-sm-4 invoice-col">
                         		<div class="form-group">
                            			<label class="control-label" for="homeowner">Paid To</label>
                            			<input value="{{$eExpense->paid_to}}" id="paid_to" name="paid_to" type="text" class="form-control">
                         		</div>
-                     		</div>
+                     		</div-->
                      		<!-- /.col -->
                   		</div>
                   		<!-- /.row -->

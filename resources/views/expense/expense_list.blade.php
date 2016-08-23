@@ -35,7 +35,7 @@
               					<td><a href="{{ route('expense.show',$eExpense->id) }}"><strong>#{{$eExpenseId}}</strong></a></td>
                 				<td>2016 Somerset</td>
                 				<td>{{$eExpense->paid_to}}</td>
-                				<td>{{date_format($eExpense->created_at,'m/d/y')}}</td>
+                				<td>{{date_format($eExpense->created_at,'F d, Y')}}</td>
                 				<td>{{$eExpense->total_amount}}</td>
                 				<td align="center">
 			                      	<a href="{{ route('expense.edit',$eExpense->id) }}" role="button" class="btn btn-default">
