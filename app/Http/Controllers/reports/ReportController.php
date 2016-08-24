@@ -64,6 +64,12 @@ class ReportController extends Controller
         return $this->generateSubsidiaryLedger(null,null,$type);
     }
 
+    public function getGenerateAssetRegistry(){
+        $assetItemList = $this->getAssetModel(null);
+        return view('reports.asset_registry',
+                        compact('assetItemList'));
+    }
+
 
     public function generateIncomeStatement($monthFilter,$yearFilter){
     	$yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);

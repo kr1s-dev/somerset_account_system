@@ -41,7 +41,7 @@
                              <h5>Calendar Year</h5>
                           </div>
                           <div class="col-md-8 col-xs-12">
-                             <h6>{{$dateToday}} - {{$dateNextYear}}</h6>
+                             <h6>{{date('Y')}}</h6>
                           </div>
                         </div>
                          <div class="row">
@@ -172,6 +172,7 @@
                         <li><a href="../income/create.html">Income</a></li-->
                         <li><a href="{{route('expense.create')}}">Expense</a></li>
                         <li><a href="{{route('journal')}}">Journal Entry</a></li>
+                        <li><a href="{{route('adjustment.journal')}}">Adjustment Journal Entry</a></li>
                       </ul>
                     </div>
                   </div>

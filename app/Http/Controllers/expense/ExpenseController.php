@@ -88,6 +88,7 @@ class ExpenseController extends Controller
                                                                                 $nReceiptId,
                                                                                 $description,
                                                                                 $totalAmount));
+            $this->createSystemLogs('Added a New Cash Voucher');
             flash()->success('Record successfully created');
             echo $nReceiptId;
         }catch(\Exception $ex){
@@ -173,6 +174,7 @@ class ExpenseController extends Controller
                                                                                 $id,
                                                                                 $description,
                                                                                 $totalAmount));
+            $this->createSystemLogs('Updated an Existing Cash Voucher');
             flash()->success('Record successfully updated');
             echo $id;
         }catch(\Exception $ex){

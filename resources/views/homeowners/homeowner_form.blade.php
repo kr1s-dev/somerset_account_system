@@ -33,20 +33,20 @@
    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Residence Tel. No. 
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="text" id="last-name" name="residence_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
+      <input type="number" id="last-name" name="residence_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. 
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="text" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
+      <input type="number" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Mobile Number <span class="required">*</span></label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input id="middle-name" name="member_mobile_no" class="form-control col-md-7 col-xs-12" type="text" value="{{ count($errors) > 0? old('member_mobile_no'):($homeOwner->member_mobile_no) }}">
+      <input id="middle-name" name="member_mobile_no" class="form-control col-md-7 col-xs-12" type="number" value="{{ count($errors) > 0? old('member_mobile_no'):($homeOwner->member_mobile_no) }}">
    </div>
 </div>
 <div class="form-group">
@@ -72,12 +72,31 @@
    <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
    <div class="col-md-6 col-sm-6 col-xs-12">
       <div id="gender" class="btn-group" data-toggle="buttons">
-         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-         <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
-         </label>
-         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-         <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
-         </label>
+         @if($homeOwner->member_gender!=NULL )
+            @if($homeOwner->member_gender=='Male')
+               <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+               <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender" checked> &nbsp; Male &nbsp;
+               </label>
+               <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+               <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
+               </label>
+            @else
+               <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+               <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
+               </label>
+               <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+               <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender" checked> Female
+               </label>
+            @endif
+         @else
+            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+            <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
+            </label>
+            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+            <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
+            </label>
+         @endif
+         
       </div>
    </div>
 </div>
@@ -86,7 +105,7 @@
    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
    </label>
    <div class="col-md-4 col-sm-4 col-xs-12">
-      <input type="text"  id="birthday" name="member_date_of_birth" class="date-picker form-control col-md-7 col-xs-12" required="required" value="{{$homeOwner->member_date_of_birth}}"> 
+      <input type="text"  id="birthday" name="member_date_of_birth" class="date-picker form-control col-md-7 col-xs-12" required="required" value="{{ count($errors) > 0? old('member_date_of_birth'):(date('m/d/Y',strtotime($homeOwner->member_date_of_birth))) }}"> 
    </div>
 </div>
 <div class="form-group">

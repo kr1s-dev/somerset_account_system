@@ -65,9 +65,14 @@ Route::group(['middleware' => 'auth'], function () {
     //Announcements routes
     Route::resource('announcement','announcement\AnnouncementController');
 
+    //Settings routes
+    Route::resource('settings','settings\SettingsController',['except' => ['index', 'edit', 'destroy']]);
+
     //Journal Entry Routes
     Route::get('journal/create' ,['as'=>'journal','uses'=>'journal\JournalEntryController@getJournalEntry']);
     Route::post('journal/create' ,'journal\JournalEntryController@postJournalEntry');
+    Route::get('adjusment/journal/create' ,['as'=>'adjustment.journal','uses'=>'journal\JournalEntryController@getAdjustmenstEntry']);
+    
     
     //Account info routes
     Route::resource('account','accountInformation\AccountInformationController',['only' => ['index']]);
@@ -89,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('reports/balancesheet','reports\ReportController@postGenerateBalanceSheet');
     Route::get('reports/subledger/{type}',['as'=>'subledger','uses'=>'reports\ReportController@getGenerateSubsidiaryLedger']);
     Route::post('reports/subledger','reports\ReportController@postGenerateSubsidiaryLedger');
+    Route::get('reports/assets',['as'=>'asset.registry','uses'=>'reports\ReportController@getGenerateAssetRegistry']);
     
     //Guest View
     Route::get('guest-dashboard',['as'=>'guestdashboard','uses'=>'guest\GuestController@getDashBoard']);

@@ -56,6 +56,7 @@ class VendorController extends Controller
     {
         $input = $this->addAndremoveKey($request->all(),true);
         $vendorId = $this->insertRecord('vendors',$input);
+        $this->createSystemLogs('Created a New Vendor');
         flash()->success('Record successfully created');
         return redirect('vendor/'.$vendorId);
     }
@@ -99,6 +100,7 @@ class VendorController extends Controller
     {
         $input = $this->addAndremoveKey($request->all(),false);
         $this->updateRecord('vendors',array($id),$input);
+        $this->createSystemLogs('Updated an Existing Vendor');
         flash()->success('Record successfully Updated');
         return redirect('vendor/'.$id);
     }
@@ -112,6 +114,7 @@ class VendorController extends Controller
     public function destroy($id)
     {
         $this->deleteRecord('vendors',array($id));
+        $this->createSystemLogs('Deleted an Existing Vendor');
         flash()->success('Record successfully deleted')->important();
         return redirect('vendor');
     }

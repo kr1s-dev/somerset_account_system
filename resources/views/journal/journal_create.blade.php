@@ -2,6 +2,7 @@
 @section('content')
    <meta name="csrf-token" content="{{ csrf_token() }}">
    <meta name="account-list" content="{{ $accountTitlesList }}">
+   <meta name="type" content="{{ $type }}">
    <div class="">
          <div class="page-title">
             <div class="title_left">

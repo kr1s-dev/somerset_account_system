@@ -112,7 +112,7 @@ class UserController extends Controller
         $this->sendEmailVerification($input['email'],
                                         $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
                                         $confirmation_code);
-
+        $this->createSystemLogs('Created a New User');
         flash()->success('Record succesfully created. An email is sent to verify the account.')->important();
         //return redirect('users');
         return $this->show($userId);
@@ -181,6 +181,7 @@ class UserController extends Controller
             $toUpdateId = array($user->home_owner_id);
             $this->updateRecord('home_owner_information',$toUpdateId,$data);
         }
+        $this->createSystemLogs('Updated an Existing User');
         flash()->success('Record succesfully updated')->important();
         //return redirect('users');
         return $this->show($id);
@@ -211,6 +212,7 @@ class UserController extends Controller
         $user = $this->getUser($id);
         $user->is_active = 0;
         $user->save();
+        $this->createSystemLogs('Deactivated an Active User');
         flash()->success('User succesfully deactivated')->important();
         return redirect('users');
     }
@@ -232,6 +234,7 @@ class UserController extends Controller
             case Password::RESET_LINK_SENT:
                 $user->is_active = 1;
                 $user->save();
+                $this->createSystemLogs('Send Reset Password Link to an Existing User');
                 flash()->success('A reset link is sent into you email.')->important();
                 return redirect('users');
                 //return redirect()->back()->with('status', trans($response));

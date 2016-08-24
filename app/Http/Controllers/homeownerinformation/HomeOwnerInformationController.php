@@ -43,8 +43,9 @@ class HomeOwnerInformationController extends Controller
     public function create()
     {
         $homeOwner = $this->setHomeOwnerInformation();
+        $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
         return view('homeowners.create_homeowner_information',
-                        compact('homeOwner'));
+                        compact('homeOwner'));  
     }
 
     /**
@@ -70,7 +71,7 @@ class HomeOwnerInformationController extends Controller
         $this->sendEmailVerification($input['member_email_address'],
                                         $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
                                         $confirmation_code);
-
+        $this->createSystemLogs('Added a New HomeOwner');
         flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
         return redirect('homeowners/' . $homeOwnerId);
     }
@@ -127,6 +128,7 @@ class HomeOwnerInformationController extends Controller
         if(count($user)>0){
             $this->updateRecord('users',array($user->id),array('email'=>$data['member_email_address']));
         }
+        $this->createSystemLogs('Updated an Existing HomeOwner');
         flash()->success('Homeowner has been successfully updated');
         return redirect('homeowners/' . $id);
     }
@@ -143,10 +145,10 @@ class HomeOwnerInformationController extends Controller
         // $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
         // $this->deleteRecord('users',array($user->id));
         // $this->deleteRecord('home_owner_information',$todeleteId);
-        $this->deleteRecordWithWhere('users',array('home_owner_id'=>$id));
-        $this->deleteRecordWithWhere('home_owner_information',array('id'=>$id));
+        // $this->deleteRecordWithWhere('users',array('home_owner_id'=>$id));
+        // $this->deleteRecordWithWhere('home_owner_information',array('id'=>$id));
 
-        flash()->success('Record has been successfully deleted')->important();
-        return redirect('homeowners');
+        // flash()->success('Record has been successfully deleted')->important();
+        // return redirect('homeowners');
     }
 }

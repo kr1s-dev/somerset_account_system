@@ -105,6 +105,7 @@ class ReceiptController extends Controller
         // $this->insertRecord('journal_entry',array('receipt_id'=>$receiptId,
         //                                             'type'=>'Receipt',
         //                                             'description'=>'Created Receipt for invoice '. $invoiceid));
+        $this->createSystemLogs('Create a Receipt');
         flash()->success('Record successfully created');
         return redirect('receipt/'. $receiptId);
 

@@ -82,6 +82,7 @@ class AssetController extends Controller
                                             $assetId,
                                             $input,
                                             true);
+        $this->createSystemLogs('Added a New Asset');
         flash()->success('Record successfully created')->important();
         return redirect('assets/'.$assetId);
     }
@@ -156,6 +157,7 @@ class AssetController extends Controller
                                             false);
         
         $this->updateRecord('asset_items',$id,$input);
+        $this->createSystemLogs('Updated an existing Asset');
         flash()->success('Record successfully Updated')->important();
         return redirect('assets/'.$id);
         
@@ -171,6 +173,7 @@ class AssetController extends Controller
     {
         $assetModel = $this->getAssetModel($id);
         $this->deleteRecord('asset_items',array($id));
+        $this->createSystemLogs('Deleted an Existing Asset');
         flash()->success('Record successfully deleted')->important();
         return redirect('assets');
     }

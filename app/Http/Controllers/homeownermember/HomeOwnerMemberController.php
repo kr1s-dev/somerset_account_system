@@ -54,6 +54,7 @@ class HomeOwnerMemberController extends Controller
     {
         $input = $this->addAndremoveKey(Request::all(),true);
         $homeOwnerId = $this->insertRecord('home_owner_member_information',$input);
+        $this->createSystemLogs('Added a New HomeOwnerMember');
         flash()->success('Record successfully created');
         return redirect('homeowners/'.$input['home_owner_id']);
     }
@@ -96,6 +97,7 @@ class HomeOwnerMemberController extends Controller
         $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
         $homeOwnerMember->update($request->all());
         flash()->success('Record successfully updated');
+        $this->createSystemLogs('Updated an Existing HomeOwnerMember');
         return redirect('homeowners/'.$homeOwnerMember->home_owner_id);
     }
 
@@ -112,6 +114,7 @@ class HomeOwnerMemberController extends Controller
         // $this->deleteRecord('home_owner_member_information',$todeleteId);
         $this->deleteRecordWithWhere('home_owner_member_information',array('id'=>$id));
         flash()->success('Record successfully deleted')->important();
+        $this->createSystemLogs('Deleted an Existing HomeOwnerMember');
         return redirect('homeowners/'.$homeOwnerMember->home_owner_id);
     }
 }

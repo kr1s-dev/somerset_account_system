@@ -26,8 +26,8 @@
 		    				{!! Form::open(['url'=>'reports/balancesheet','method'=>'POST']) !!}
 		    					<select name="month_filter" class="select2_single form-control" tabindex="-1" id="howeOwnersList">
 				        			<option></option>
-			    					@foreach($monthArray as $key => $value)
-			    						<option value="{{$key}}">{{$value}}</option>
+			    					@foreach(range(1,12) as $month)
+			    						<option value="{{$month}}">{{date('F',strtotime('2016-'.$month))}}</option>
 			    					@endforeach
 			  					</select>
 				        		<select name="year_filter" class="select2_single form-control" tabindex="-1" id="howeOwnersList">

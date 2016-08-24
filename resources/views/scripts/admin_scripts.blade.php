@@ -709,6 +709,7 @@
         //Retrieving token for request
         var _token = $('meta[name="csrf-token"]').attr('content');
         var explanation = $('#explanation').val();
+        var type = $('meta[name="type"]').attr('content');
         console.log(explanation);
         if(isDup){
            alert(isDup);
@@ -740,7 +741,8 @@
             url: '/journal/create',
             type: 'POST',
             data: { 'data':data,
-                        'explanation':explanation},
+                      'explanation':explanation,
+                      'type':type},
             success: function(response)
             {
                 //alert(response);
@@ -855,6 +857,9 @@
       }
         
     });
+
+    if($("input[name=mode_of_acquisition]:checked"))
+        $("#downPayment").show();
 
     function getTodaysDate(){
       var today = new Date();

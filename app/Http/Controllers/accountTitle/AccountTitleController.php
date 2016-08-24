@@ -116,7 +116,7 @@ class AccountTitleController extends Controller
         if(empty($input['description']))
             $input['description'] = 'No Description';
         $accounttileId = $this->insertRecord('account_titles',$input);
-
+        $this->createSystemLogs('Added New Account Title ');
         flash()->success('Record successfully created');
         return redirect('accounttitle/'.$accounttileId);
     }
@@ -193,6 +193,7 @@ class AccountTitleController extends Controller
 
         $accountTitle = $this->getAccountTitles($id);
         $accountTitle->update($input);
+        $this->createSystemLogs('Updated an existing Account Title');
         flash()->success('Record successfully updated');
         return redirect('accounttitle/'.$id);
     }

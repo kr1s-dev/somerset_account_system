@@ -60,6 +60,12 @@ class PDFGeneratorController extends Controller
                 else
                     return view('errors.503');
                 break;
+            case 'asset_registry_report':
+                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                    return $this->genearateAssetRegistry()->setPaper('a4', 'landscape')->stream('asset_registry_report'. date('m_d_y').'.pdf');
+                else
+                    return view('errors.503');
+                break;
     		default:
     			return view('errors.503');
     			break;
@@ -258,6 +264,12 @@ class PDFGeneratorController extends Controller
                                         'yearFilter',
                                         'monthFilter',
                                         'type'));
+    }
+
+    private function genearateAssetRegistry(){
+        $assetItemList = $this->getAssetModel(null);
+        return PDF::loadView('pdf.asset_registry',
+                                compact('assetItemList'));
     }
 
 

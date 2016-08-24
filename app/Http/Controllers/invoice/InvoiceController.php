@@ -103,6 +103,7 @@ class InvoiceController extends Controller
                                                                             'Created invoice for homeowner ' .
                                                                             $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
                                                                             $totalAmount));
+        $this->createSystemLogs('Created a New Invoice');
         flash()->success('Record successfully created');
 
         return $nInvoiceId;
@@ -204,6 +205,7 @@ class InvoiceController extends Controller
                                                                             'Created invoice for homeowner ' .
                                                                             $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
                                                                             $totalAmount));
+        $this->createSystemLogs('Updated an Existing Invoice');
         flash()->success('Record successfully updated');
         return $id;
     }
@@ -238,6 +240,7 @@ class InvoiceController extends Controller
             $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
             $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
             $this->deleteRecordWithWhere('home_owner_invoice_items',array('id'=>$id));
+            $this->createSystemLogs('Deleted an Existing Invoice');
             flash()->success('Record successfully deleted')->important();
             return redirect('invoice');
         }

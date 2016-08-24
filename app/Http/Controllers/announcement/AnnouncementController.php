@@ -69,6 +69,7 @@ class AnnouncementController extends Controller
     {
         $input = $this->addAndremoveKey($request->all(),true);
         $announcementId = $this->insertRecord('announcements',$input); 
+        $this->createSystemLogs('Created a new Announcement');
         flash()->success('Record successfully created')->important();
         return redirect('announcement/'.$announcementId);  
     }
@@ -121,6 +122,7 @@ class AnnouncementController extends Controller
     {
         $announcement = $this->getAnnouncementModel($id);
         $announcement->update($request->all());
+        $this->createSystemLogs('Updated an existing Announcement');
         flash()->success('Record successfully updated');
         return redirect('announcement/'.$id);
     }
@@ -137,6 +139,7 @@ class AnnouncementController extends Controller
             return view('errors.503');
         }else{
             $this->deleteRecordWithWhere('announcements',array('id'=>$id));
+            $this->createSystemLogs('Deleted an existing announcement');
             flash()->success('Record successfully deleted')->important();
             return redirect('announcement');
         }

@@ -17,7 +17,8 @@ class UserTypeMiddleware
     {
         $usertype = $request->user()->userType->type;
         if($objectToAccess == 'users' || $objectToAccess == 'usertype' 
-                || $objectToAccess == 'homeownermember' || $objectToAccess == 'homeownerinfo'){
+                || $objectToAccess == 'homeownermember' || $objectToAccess == 'homeownerinfo' 
+                || $objectToAccess == 'settings'){
             if($usertype === 'Administrator')
                 return $next($request);
         }elseif($objectToAccess == 'reports' || $objectToAccess == 'journal' 
