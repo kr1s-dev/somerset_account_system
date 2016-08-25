@@ -23,53 +23,58 @@ class PDFGeneratorController extends Controller
     	$monthFilter = $request->input('month_filter');
     	$yearFilter = $request->input('year_filter');
         $type = $request->input('type');
-    	switch ($category) {
-    		case 'receipt':
-    			return $this->generateReceiptPDF($recordId)->stream('receipt_'. date('m_d_y') .'.pdf');
-    			break;
-    		case 'invoice':
-    		 	return $this->generateInvoicePDF($recordId)->stream('invoice_'. date('m_d_y') .'.pdf');
-    		 	break;
-    		case 'expense':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-    		 	    return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
-                else
+        try{
+            switch ($category) {
+                case 'receipt':
+                    return $this->generateReceiptPDF($recordId)->stream('receipt_'. date('m_d_y') .'.pdf');
+                    break;
+                case 'invoice':
+                    return $this->generateInvoicePDF($recordId)->stream('invoice_'. date('m_d_y') .'.pdf');
+                    break;
+                case 'expense':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                case 'income_statement_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                case 'owner_equity_statement_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                case 'balance_sheet_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateBalanceSheetPDF($monthFilter,$yearFilter)->stream('balance_sheet'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                case 'subsidiary_ledger_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$type)->setPaper('a4', 'landscape')->stream('subsidiary_ledger'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                case 'asset_registry_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->genearateAssetRegistry()->setPaper('a4', 'landscape')->stream('asset_registry_report'. date('m_d_y').'.pdf');
+                    else
+                        return view('errors.503');
+                    break;
+                default:
                     return view('errors.503');
-    		 	break;
-    		case 'income_statement_report':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-    		 	    return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-    		 	else
-                    return view('errors.503');
-                break;
-    		case 'owner_equity_statement_report':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-    		 	    return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-    		 	else
-                    return view('errors.503');
-                break;
-            case 'balance_sheet_report':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-                    return $this->generateBalanceSheetPDF($monthFilter,$yearFilter)->stream('balance_sheet'. date('m_d_y').'.pdf');
-                else
-                    return view('errors.503');
-                break;
-            case 'subsidiary_ledger_report':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-                    return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$type)->setPaper('a4', 'landscape')->stream('subsidiary_ledger'. date('m_d_y').'.pdf');
-                else
-                    return view('errors.503');
-                break;
-            case 'asset_registry_report':
-                if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-                    return $this->genearateAssetRegistry()->setPaper('a4', 'landscape')->stream('asset_registry_report'. date('m_d_y').'.pdf');
-                else
-                    return view('errors.503');
-                break;
-    		default:
-    			return view('errors.503');
-    			break;
-    	}
+                    break;
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+    	
 	}
 
 

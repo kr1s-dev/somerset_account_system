@@ -36,9 +36,14 @@ class AnnouncementController extends Controller
         if(Auth::user()->userType->type==='Guest'){
             return view('errors.503');
         }else{
-            $announcementsList = $this->getAnnouncementModel(null);
-            return view('announcement.show_announcement_list',
-                            compact('announcementsList'));
+            try{
+                $announcementsList = $this->getAnnouncementModel(null);
+                return view('announcement.show_announcement_list',
+                                compact('announcementsList'));
+            }catch(\Exception $ex){
+                return view('errors.503');
+            }
+            
         }
     }
 
@@ -52,9 +57,14 @@ class AnnouncementController extends Controller
         if(Auth::user()->userType->type==='Guest'){
             return view('errors.503');
         }else{
-            $announcement = $this->setAnnouncementModel();
-            return view('announcement.create_announcement',
-                            compact('announcement'));
+            try{
+                $announcement = $this->setAnnouncementModel();
+                return view('announcement.create_announcement',
+                                compact('announcement'));
+            }catch(\Exception $ex){
+                return view('errors.503');
+            }
+            
         }
         
     }
@@ -67,11 +77,16 @@ class AnnouncementController extends Controller
      */
     public function store(AnnouncementRequest $request)
     {
-        $input = $this->addAndremoveKey($request->all(),true);
-        $announcementId = $this->insertRecord('announcements',$input); 
-        $this->createSystemLogs('Created a new Announcement');
-        flash()->success('Record successfully created')->important();
-        return redirect('announcement/'.$announcementId);  
+        try{
+            $input = $this->addAndremoveKey($request->all(),true);
+            $announcementId = $this->insertRecord('announcements',$input); 
+            $this->createSystemLogs('Created a new Announcement');
+            flash()->success('Record successfully created')->important();
+            return redirect('announcement/'.$announcementId);      
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -82,14 +97,20 @@ class AnnouncementController extends Controller
      */
     public function show($id)
     {
-        $announcement = $this->getAnnouncementModel($id);
-        if(Auth::user()->userType->type==='Guest'){
-             return view('guest_announcement.show_guest_announcement',
-                        compact('announcement'));
-        }else{
-             return view('announcement.show_announcement',
-                        compact('announcement'));
+        try{
+            $announcement = $this->getAnnouncementModel($id);
+            if(Auth::user()->userType->type==='Guest'){
+
+                 return view('guest_announcement.show_guest_announcement',
+                            compact('announcement'));
+            }else{
+                 return view('announcement.show_announcement',
+                            compact('announcement'));
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
+        
 
     }
 
@@ -101,13 +122,18 @@ class AnnouncementController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->userType->type==='Guest'){
+        try{
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.503');
+            }else{
+                $announcement = $this->getAnnouncementModel($id);
+                return view('announcement.edit_announcement',
+                                compact('announcement'));
+            }    
+        }catch(\Exception $ex){
             return view('errors.503');
-        }else{
-            $announcement = $this->getAnnouncementModel($id);
-            return view('announcement.edit_announcement',
-                            compact('announcement'));
         }
+        
         
     }
 
@@ -120,11 +146,16 @@ class AnnouncementController extends Controller
      */
     public function update(AnnouncementRequest $request, $id)
     {
-        $announcement = $this->getAnnouncementModel($id);
-        $announcement->update($request->all());
-        $this->createSystemLogs('Updated an existing Announcement');
-        flash()->success('Record successfully updated');
-        return redirect('announcement/'.$id);
+        try{
+            $announcement = $this->getAnnouncementModel($id);
+            $announcement->update($request->all());
+            $this->createSystemLogs('Updated an existing Announcement');
+            flash()->success('Record successfully updated');
+            return redirect('announcement/'.$id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -135,14 +166,19 @@ class AnnouncementController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->userType->type==='Guest'){
+        try{
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.503');
+            }else{
+                $this->deleteRecordWithWhere('announcements',array('id'=>$id));
+                $this->createSystemLogs('Deleted an existing announcement');
+                flash()->success('Record successfully deleted')->important();
+                return redirect('announcement');
+            }    
+        }catch(\Exception $ex){
             return view('errors.503');
-        }else{
-            $this->deleteRecordWithWhere('announcements',array('id'=>$id));
-            $this->createSystemLogs('Deleted an existing announcement');
-            flash()->success('Record successfully deleted')->important();
-            return redirect('announcement');
         }
+        
         
     }
 }

@@ -30,9 +30,9 @@
                 			</tr>
               		</thead>
               		<tbody>
-              			@foreach($eExpenseList as $eExpenseId => $eExpense)
+              			@foreach($eExpenseList as $eExpense)
               				<tr>
-              					<td><a href="{{ route('expense.show',$eExpense->id) }}"><strong>#{{$eExpenseId}}</strong></a></td>
+              					<td><a href="{{ route('expense.show',$eExpense->id) }}"><strong>#{{sprintf("%'.07d\n",$eExpense->id)}}</strong></a></td>
                 				<td>2016 Somerset</td>
                 				<td>{{$eExpense->paid_to}}</td>
                 				<td>{{date_format($eExpense->created_at,'F d, Y')}}</td>

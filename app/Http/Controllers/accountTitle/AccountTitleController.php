@@ -28,10 +28,14 @@ class AccountTitleController extends Controller
      */
     public function index()
     {
-        //
-        $taccountGroupList = $this->getAccountGroups(null);
-        return view('accountTitles.account_title_list',
-                        compact('taccountGroupList'));
+        try{    
+            $taccountGroupList = $this->getAccountGroups(null);
+            return view('accountTitles.account_title_list',
+                            compact('taccountGroupList'));
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -41,14 +45,18 @@ class AccountTitleController extends Controller
      */
     public function create()
     {
-        //
-        $accountGroupList = $this->getAccountTitleGroup(null);
-        $eAccountTitle = $this->setAccountTitleModel();
-        $accountTitle = $this->setAccountTitleModel();
-        return view('accountTitles.create_account_title',
-                        compact('accountGroupList',
-                                'eAccountTitle',
-                                'accountTitle'));
+        try{  
+            $accountGroupList = $this->getAccountTitleGroup(null);
+            $eAccountTitle = $this->setAccountTitleModel();
+            $accountTitle = $this->setAccountTitleModel();
+            return view('accountTitles.create_account_title',
+                            compact('accountGroupList',
+                                    'eAccountTitle',
+                                    'accountTitle'));
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
 
@@ -59,14 +67,18 @@ class AccountTitleController extends Controller
      */
     public function createWithParent($id)
     {
-        //
-        $accountGroupList = $this->getAccountTitleGroup(null);
-        $eAccountTitle = $this->getAccountTitles($id);
-        $accountTitle = $this->setAccountTitleModel();
-        return view('accountTitles.create_account_title',
-                        compact('accountGroupList',
-                                'eAccountTitle',
-                                'accountTitle'));
+        try{
+            $accountGroupList = $this->getAccountTitleGroup(null);
+            $eAccountTitle = $this->getAccountTitles($id);
+            $accountTitle = $this->setAccountTitleModel();
+            return view('accountTitles.create_account_title',
+                            compact('accountGroupList',
+                                    'eAccountTitle',
+                                    'accountTitle'));
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }  
+        
 
     }
 
@@ -76,14 +88,18 @@ class AccountTitleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function createWithGroupParent($id){
-        //echo 'hi';
-        $accountGroupList = $this->getAccountGroups($id);
-        $eAccountTitle = $this->setAccountTitleModel();
-        $accountTitle = $this->setAccountTitleModel();
-        return view('accountTitles.create_account_title',
-                        compact('accountGroupList',
-                                'eAccountTitle',
-                                'accountTitle'));
+        try{
+            $accountGroupList = $this->getAccountGroups($id);
+            $eAccountTitle = $this->setAccountTitleModel();
+            $accountTitle = $this->setAccountTitleModel();
+            return view('accountTitles.create_account_title',
+                            compact('accountGroupList',
+                                    'eAccountTitle',
+                                    'accountTitle'));
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -111,14 +127,18 @@ class AccountTitleController extends Controller
         if(array_key_exists('account_group_name', $input)){
             unset($input['account_group_name']);
         }
-
         
-        if(empty($input['description']))
-            $input['description'] = 'No Description';
-        $accounttileId = $this->insertRecord('account_titles',$input);
-        $this->createSystemLogs('Added New Account Title ');
-        flash()->success('Record successfully created');
-        return redirect('accounttitle/'.$accounttileId);
+        // if(empty($input['description']))
+        //     $input['description'] = 'No Description';
+        try{
+            $accounttileId = $this->insertRecord('account_titles',$input);
+            $this->createSystemLogs('Added New Account Title ');
+            flash()->success('Record successfully created');
+            return redirect('accounttitle/'.$accounttileId);
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -130,13 +150,18 @@ class AccountTitleController extends Controller
     public function show($id)
     {
         //
-        $accountTitle = $this->getAccountTitles($id);
-        $eAccountTitle = $this->getAccountTitles($id);
-        $accountGroupList = $this->getAccountGroups($accountTitle->account_group_id);
-        return view('accountTitles.show_account_title',
-                        compact('accountGroupList',
-                                'eAccountTitle',
-                                'accountTitle'));
+        try{
+            $accountTitle = $this->getAccountTitles($id);
+            $eAccountTitle = $this->getAccountTitles($id);
+            $accountGroupList = $this->getAccountGroups($accountTitle->account_group_id);
+            return view('accountTitles.show_account_title',
+                            compact('accountGroupList',
+                                    'eAccountTitle',
+                                    'accountTitle')); 
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
 
@@ -148,16 +173,20 @@ class AccountTitleController extends Controller
      */
     public function edit($id)
     {
-        //
-        $accountTitle = $this->getAccountTitles($id);
-        $eAccountTitle = ($accountTitle->account_title_id != NULL ) ? 
-                            $this->getAccountTitles($accountTitle->account_title_id) : 
-                                $this->setAccountTitleModel();
-        $accountGroupList = $this->getAccountTitleGroup($accountTitle->account_group_id);
-        return view('accountTitles.edit_account_title',
-                        compact('accountGroupList',
-                                'eAccountTitle',
-                                'accountTitle'));
+        try{
+            $accountTitle = $this->getAccountTitles($id);
+            $eAccountTitle = ($accountTitle->account_title_id != NULL ) ? 
+                                $this->getAccountTitles($accountTitle->account_title_id) : 
+                                    $this->setAccountTitleModel();
+            $accountGroupList = $this->getAccountTitleGroup($accountTitle->account_group_id);
+            return view('accountTitles.edit_account_title',
+                            compact('accountGroupList',
+                                    'eAccountTitle',
+                                    'accountTitle'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -186,16 +215,19 @@ class AccountTitleController extends Controller
         if(array_key_exists('account_group_name', $input)){
             unset($input['account_group_name']);
         }
-
+        // if(empty($input['description']))
+        //     $input['description'] = 'No Description';
         
-        if(empty($input['description']))
-            $input['description'] = 'No Description';
-
-        $accountTitle = $this->getAccountTitles($id);
-        $accountTitle->update($input);
-        $this->createSystemLogs('Updated an existing Account Title');
-        flash()->success('Record successfully updated');
-        return redirect('accounttitle/'.$id);
+        try{
+            $accountTitle = $this->getAccountTitles($id);
+            $accountTitle->update($input);
+            $this->createSystemLogs('Updated an existing Account Title');
+            flash()->success('Record successfully updated');
+            return redirect('accounttitle/'.$id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**

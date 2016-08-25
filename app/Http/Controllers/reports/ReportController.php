@@ -23,51 +23,96 @@ class ReportController extends Controller
     }
 
 	public function postGenerateIncomeStatement(Request $request){
-		$monthFilter = $request->input('month_filter');
-		$yearFilter = $request->input('year_filter');
-		return $this->generateIncomeStatement($monthFilter,$yearFilter);
+        try{
+            $monthFilter = $request->input('month_filter');
+            $yearFilter = $request->input('year_filter');
+            return $this->generateIncomeStatement($monthFilter,$yearFilter);
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+		
 	}
 
     public function getGenerateIncomeStatement(){
-    	return $this->generateIncomeStatement(null,null);
+        try{
+            return $this->generateIncomeStatement(null,null);
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+    	
 
     }
 
     public function postGenerateOwnersEquityStatement(Request $request){
-		$monthFilter = $request->input('month_filter');
-		$yearFilter = $request->input('year_filter');
-		return $this->generateOwnersEquityStatement($monthFilter,$yearFilter);
+        try{
+            $monthFilter = $request->input('month_filter');
+            $yearFilter = $request->input('year_filter');
+            return $this->generateOwnersEquityStatement($monthFilter,$yearFilter);
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+		
 	}
 
     public function getGenerateOwnersEquityStatement(){
-    	return $this->generateOwnersEquityStatement(null,null);
+        try{
+            return $this->generateOwnersEquityStatement(null,null);
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+    	
 
     }
 
     public function postGenerateBalanceSheet(Request $request){
-        $monthFilter = $request->input('month_filter');
-        $yearFilter = $request->input('year_filter');
-        return $this->generateBalanceSheet($monthFilter,$yearFilter);
+        try{
+            $monthFilter = $request->input('month_filter');
+            $yearFilter = $request->input('year_filter');
+            return $this->generateBalanceSheet($monthFilter,$yearFilter);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     public function getGenerateBalanceSheet(){
-        return $this->generateBalanceSheet(null,null);
+        try{
+            return $this->generateBalanceSheet(null,null);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     public function postGenerateSubsidiaryLedger(Request $request){
-        $monthFilter = $request->input('month_filter');
-        $yearFilter = $request->input('year_filter');
-        return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$request->input('type'));
+        try{
+            $monthFilter = $request->input('month_filter');
+            $yearFilter = $request->input('year_filter');
+            return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$request->input('type'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     public function getGenerateSubsidiaryLedger($type){
-        return $this->generateSubsidiaryLedger(null,null,$type);
+        try{
+            return $this->generateSubsidiaryLedger(null,null,$type);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     public function getGenerateAssetRegistry(){
-        $assetItemList = $this->getAssetModel(null);
-        return view('reports.asset_registry',
-                        compact('assetItemList'));
+        try{
+            $assetItemList = $this->getAssetModel(null);
+            return view('reports.asset_registry',
+                            compact('assetItemList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
 

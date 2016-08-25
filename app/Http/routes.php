@@ -40,17 +40,17 @@ Route::group(['middleware' => 'auth'], function () {
     //Route::resource('usertypes','usertype\UserTypeController');
 
     //Homeowner routes
-    Route::resource('homeowners','homeownerinformation\HomeOwnerInformationController');
+    Route::resource('homeowners','homeownerinformation\HomeOwnerInformationController',['except'=>['destory']]);
 
     //Homeowner member routes
-    Route::resource('homeownermembers','homeownermember\HomeOwnerMemberController');
+    Route::resource('homeownermembers','homeownermember\HomeOwnerMemberController',['except'=>['index','show']]);
     Route::get('homeownermembers/create/{id}','homeownermember\HomeOwnerMemberController@create');
 
     //Invoice routes
     Route::resource('invoice','invoice\InvoiceController');
 
     //Receipt routes
-    Route::resource('receipt','receipt\ReceiptController');
+    Route::resource('receipt','receipt\ReceiptController',['except'=>['edit','update','destroy']]);
     Route::get('receipt/create/{id}','receipt\ReceiptController@create');
 
     //Expense routes
@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('account','accountInformation\AccountInformationController',['only' => ['index']]);
 
     //Account title routes
-    Route::resource('accounttitle','accountTitle\AccountTitleController');
+    Route::resource('accounttitle','accountTitle\AccountTitleController',['except'=>['destory']]);
     Route::get('accounttitle/create/{id}','accountTitle\AccountTitleController@createWithParent');
     Route::get('accounttitle/create/group/{id}','accountTitle\AccountTitleController@createWithGroupParent');
 

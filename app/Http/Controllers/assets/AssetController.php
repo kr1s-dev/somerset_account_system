@@ -27,9 +27,14 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $assetModelsList = $this->getAssetModel(null);
-        return view('assets.show_asset_list',
-                        compact('assetModelsList'));
+        try{
+            $assetModelsList = $this->getAssetModel(null);
+            return view('assets.show_asset_list',
+                            compact('assetModelsList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -39,14 +44,19 @@ class AssetController extends Controller
      */
     public function create()
     {
-        $assetModel = $this->setAssetModel();
-        $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('account_group_id'=>2));
-        $assetModelList = $this->getControlNo('asset_items');
-        $assetNumber = $assetModelList->AUTO_INCREMENT;
-        return view('assets.create_asset',
-                        compact('assetModel',
-                                'assetNumber',
-                                'fixedAssetAccountTitle'));
+        try{
+            $assetModel = $this->setAssetModel();
+            $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('account_group_id'=>2));
+            $assetModelList = $this->getControlNo('asset_items');
+            $assetNumber = $assetModelList->AUTO_INCREMENT;
+            return view('assets.create_asset',
+                            compact('assetModel',
+                                    'assetNumber',
+                                    'fixedAssetAccountTitle'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -57,34 +67,39 @@ class AssetController extends Controller
      */
     public function store(AssetRequest $request)
     {
-        $creditTitleId = array();
-        $journalEntryList = array();
-        $input = $this->addAndremoveKey($request->all(),true);  
-        $input['net_value'] =  $input['total_cost'];
-        $description = 'Bought item: ' . ($input['item_name']);
-        if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-            // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-            // $input['net_value'] = $input['total_cost'];
-            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
-            if($input['mode_of_acquisition'] == 'Both')
+        try{
+            $creditTitleId = array();
+            $journalEntryList = array();
+            $input = $this->addAndremoveKey($request->all(),true);  
+            $input['net_value'] =  $input['total_cost'];
+            $description = 'Bought item: ' . ($input['item_name']);
+            if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
+                // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+                // $input['net_value'] = $input['total_cost'];
+                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
+                if($input['mode_of_acquisition'] == 'Both')
+                    $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+            }else{
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
-        }else{
-            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
-        }
-        $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
-        
-        $assetId = $this->insertRecord('asset_items',$input);
+            }
+            $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
+            
+            $assetId = $this->insertRecord('asset_items',$input);
 
-        //Create Journal Entry
-        $this->assetJournalEntry($input['account_title_id'],
-                                            $creditTitleId,
-                                            $description,
-                                            $assetId,
-                                            $input,
-                                            true);
-        $this->createSystemLogs('Added a New Asset');
-        flash()->success('Record successfully created')->important();
-        return redirect('assets/'.$assetId);
+            //Create Journal Entry
+            $this->assetJournalEntry($input['account_title_id'],
+                                                $creditTitleId,
+                                                $description,
+                                                $assetId,
+                                                $input,
+                                                true);
+            $this->createSystemLogs('Added a New Asset');
+            flash()->success('Record successfully created')->important();
+            return redirect('assets/'.$assetId);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -95,9 +110,14 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        $assetModel = $this->getAssetModel($id);
-        return view('assets.show_asset',
-                        compact('assetModel'));
+        try{
+            $assetModel = $this->getAssetModel($id);
+            return view('assets.show_asset',
+                            compact('assetModel'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
     /**
@@ -108,11 +128,16 @@ class AssetController extends Controller
      */
     public function edit($id)
     {
-        $assetModel = $this->getAssetModel($id);
-        $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('id'=>$assetModel->account_title_id));
-        return view('assets.edit_asset',
-                        compact('assetModel',
-                                'fixedAssetAccountTitle'));
+        try{
+            $assetModel = $this->getAssetModel($id);
+            $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('id'=>$assetModel->account_title_id));
+            return view('assets.edit_asset',
+                            compact('assetModel',
+                                    'fixedAssetAccountTitle'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -124,42 +149,47 @@ class AssetController extends Controller
      */
     public function update(AssetRequest $request, $id)
     {
-        $creditTitleId = array();
-        $journalEntryList = array();
-        $toDeleteJournalEntry = array();
-        $asset = $this->getAssetModel($id);
-        $input = $this->addAndremoveKey($request->all(),false);  
-        $input['net_value'] =  $input['total_cost'];
-        $description = 'Both item: ' . ($input['item_name']);
-        if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-            // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-            // $input['net_value'] = $input['total_cost'];
-            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
-            if($input['mode_of_acquisition'] == 'Both')
+        try{
+            $creditTitleId = array();
+            $journalEntryList = array();
+            $toDeleteJournalEntry = array();
+            $asset = $this->getAssetModel($id);
+            $input = $this->addAndremoveKey($request->all(),false);  
+            $input['net_value'] =  $input['total_cost'];
+            $description = 'Both item: ' . ($input['item_name']);
+            if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
+                // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
+                // $input['net_value'] = $input['total_cost'];
+                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
+                if($input['mode_of_acquisition'] == 'Both')
+                    $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+            }else{
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
-        }else{
-            $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
-        }
-        $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
+            }
+            $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
 
-        $eJournalEntries = $this->getObjectRecords('journal_entry',array('asset_id'=>$id));
-        foreach ($eJournalEntries as $eJournalEntry) {
-            $toDeleteJournalEntry[] = $eJournalEntry->id;
+            // $eJournalEntries = $this->getObjectRecords('journal_entry',array('asset_id'=>$id));
+            // foreach ($eJournalEntries as $eJournalEntry) {
+            //     $toDeleteJournalEntry[] = $eJournalEntry->id;
+            // }
+            // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
+            $this->deleteRecordWithWhere('journal_entry',array('asset_id'=>$id));
+            //Create Journal Entry
+            $this->assetJournalEntry($input['account_title_id'],
+                                                $creditTitleId,
+                                                $description,
+                                                $asset,
+                                                $input,
+                                                false);
+            
+            $this->updateRecord('asset_items',$id,$input);
+            $this->createSystemLogs('Updated an existing Asset');
+            flash()->success('Record successfully Updated')->important();
+            return redirect('assets/'.$id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
-        $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-
-        //Create Journal Entry
-        $this->assetJournalEntry($input['account_title_id'],
-                                            $creditTitleId,
-                                            $description,
-                                            $asset,
-                                            $input,
-                                            false);
         
-        $this->updateRecord('asset_items',$id,$input);
-        $this->createSystemLogs('Updated an existing Asset');
-        flash()->success('Record successfully Updated')->important();
-        return redirect('assets/'.$id);
         
     }
 
@@ -171,10 +201,17 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        $assetModel = $this->getAssetModel($id);
-        $this->deleteRecord('asset_items',array($id));
-        $this->createSystemLogs('Deleted an Existing Asset');
-        flash()->success('Record successfully deleted')->important();
-        return redirect('assets');
+        try{
+            //$assetModel = $this->getAssetModel($id);
+            $this->deleteRecordWithWhere('journal_entry',array('asset_id'=>$id));
+            $this->deleteRecordWithWhere('asset_items',array('id'=>$id));
+            //$this->deleteRecord('asset_items',array($id));
+            $this->createSystemLogs('Deleted an Existing Asset');
+            flash()->success('Record successfully deleted')->important();
+            return redirect('assets');    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 }

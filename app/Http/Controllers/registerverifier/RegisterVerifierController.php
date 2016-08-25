@@ -14,34 +14,45 @@ class RegisterVerifierController extends Controller
     use UtilityHelper;
     public function getVerifier($confirmationCode){
         if(is_null($confirmationCode)){
-            throw new NotFoundHttpException;
+            return view('errors.503');
         }
-        
-        $secretQuestions = $this->getObjectRecords('secret_question',null);
-        $user = $this->getObjectFirstRecord('users',array('confirmation_code'=>$confirmationCode));
-        if(empty($user)){
-            return redirect('auth/login');
-        }else{
-            return view('auth.verify',
-                            compact('user',
-                                    'secretQuestions'));
+
+        try{
+            $secretQuestions = $this->getObjectRecords('secret_question',null);
+            $user = $this->getObjectFirstRecord('users',array('confirmation_code'=>$confirmationCode));
+            
+            if(empty($user)){
+                return redirect('auth/login');
+            }else{
+                return view('auth.verify',
+                                compact('user',
+                                        'secretQuestions'));
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
+
         
     }
 
     public function postVerifier(Request $request){
-        $this->validate($request, [
-            'password' => 'required|
-                            min:8|
-                            same:confirmation_password',
-        ]);
-        $toUpdateItems = array('confirmation_code'=>null,
-                                'password'=>bcrypt($request->input('password')),
-                                'is_active'=>1,
-                                'secret_question_id'=>$request->input('secret_question_id'),
-                                'secret_answer' => $request->input('secret_answer'));
-        $this->updateRecord('users',array($request->input('userid')),$toUpdateItems);
-        flash()->success('User successfully verified. Log in to continue.');
-        return redirect('auth/login');
+        try{
+            $this->validate($request, [
+                'password' => 'required|
+                                min:8|
+                                same:confirmation_password',
+            ]);
+            $toUpdateItems = array('confirmation_code'=>null,
+                                    'password'=>bcrypt($request->input('password')),
+                                    'is_active'=>1,
+                                    'secret_question_id'=>$request->input('secret_question_id'),
+                                    'secret_answer' => $request->input('secret_answer'));
+            $this->updateRecord('users',array($request->input('userid')),$toUpdateItems);
+            flash()->success('User successfully verified. Log in to continue.');
+            return redirect('auth/login');    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 }

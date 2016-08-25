@@ -379,6 +379,7 @@ trait UtilityHelper
         $incomeAccountTitleGroupId = $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
         $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
         $tArrayStringList = explode(",",$data);
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         foreach ($tIncomeAccountTitlesList as $tIncomeAccountTitle) {
             $eIncomeAccountTitlesList[$tIncomeAccountTitle->account_sub_group_name] = $tIncomeAccountTitle->id;
         }
@@ -396,10 +397,10 @@ trait UtilityHelper
                                             'remarks' => $desc,
                                             'amount' => $amount,
                                             $foreignKeyId => $foreignValue,
-                                            'created_at' => $eRecord->created_at,
+                                            'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
                                             'updated_at'=>  date('Y-m-d'),
-                                            'created_by' => $this->getLogInUserId(),
-                                            'updated_by' => $this->getLogInUserId());
+                                            'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                                            'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
             }
         }
         return $toInsertItems;
@@ -471,6 +472,7 @@ trait UtilityHelper
                                             $debitTitleIdValue,$creditTitleIdValue,$debitAmountValue,
                                             $creditAmountValue,$descriptionValue,$createdAtValue,
                                             $updatedAtValue){
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         if($foreignKey!=NULL){
             return array($foreignKey=>$foreignVal,
                         'type' => $typeValue,
@@ -481,8 +483,8 @@ trait UtilityHelper
                         'description'=> $descriptionValue,
                         'created_at' => $createdAtValue,
                         'updated_at' => $updatedAtValue,
-                        'created_by' => $this->getLogInUserId(),
-                        'updated_by' => $this->getLogInUserId());
+                        'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                        'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
         }else{
             return array('type' => $typeValue,
                         'debit_title_id'=>$debitTitleIdValue,
@@ -492,8 +494,8 @@ trait UtilityHelper
                         'description'=> $descriptionValue,
                         'created_at' => $createdAtValue,
                         'updated_at' => $updatedAtValue,
-                        'created_by' => $this->getLogInUserId(),
-                        'updated_by' => $this->getLogInUserId());
+                        'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                        'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
         }
         
     }

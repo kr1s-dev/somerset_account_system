@@ -8,11 +8,12 @@ use App\User;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
 
 class AuthController extends Controller
 {
@@ -84,54 +85,59 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
-        ]);
-
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
-        $throttles = $this->isUsingThrottlesLoginsTrait();
-
-        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-            return $this->sendLockoutResponse($request);
-        }
-
-        $credentials = array('email'=>'','password'=>'');
-        $userCred = array('email'=>$request->input('email'));
-        //Check if user is active
-        $userCredential = DB::table('users')
-                            ->where($userCred)
-                            ->first();
-
-        if(count($userCredential) && $userCredential->is_active){
-            $credentials = $this->getCredentials($request);
-        }
-      
-
-        // //
-
-        if (Auth::attempt($credentials, $request->has('remember'))) {
-            flash()->overlay('Welcome Back <strong>' . (Auth::user()->first_name==null?
-                                            (Auth::user()->homeOwner->first_name . ' ' . Auth::user()->homeOwner->last_name):
-                                            (Auth::user()->first_name . ' ' . Auth::user()->last_name)) . '</strong>','Welcome');   
-            return $this->handleUserWasAuthenticated($request, $throttles);
-        }
-
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
-        if ($throttles) {
-            $this->incrementLoginAttempts($request);
-        }
-
-
-
-        return redirect($this->loginPath())
-            ->withInput($request->only($this->loginUsername(), 'remember'))
-            ->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
+        try{
+            $this->validate($request, [
+                $this->loginUsername() => 'required', 'password' => 'required',
             ]);
+
+            // If the class is using the ThrottlesLogins trait, we can automatically throttle
+            // the login attempts for this application. We'll key this by the username and
+            // the IP address of the client making these requests into this application.
+            $throttles = $this->isUsingThrottlesLoginsTrait();
+
+            if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+                return $this->sendLockoutResponse($request);
+            }
+
+            $credentials = array('email'=>'','password'=>'');
+            $userCred = array('email'=>$request->input('email'));
+            //Check if user is active
+            $userCredential = DB::table('users')
+                                ->where($userCred)
+                                ->first();
+
+            if(count($userCredential) && $userCredential->is_active){
+                $credentials = $this->getCredentials($request);
+            }
+          
+
+            // //
+
+            if (Auth::attempt($credentials, $request->has('remember'))) {
+                $name  = (Auth::user()->first_name==null?
+                            (Auth::user()->homeOwner->first_name . ' ' . Auth::user()->homeOwner->last_name):
+                            (Auth::user()->first_name . ' ' . Auth::user()->last_name));
+                flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');
+                $this->createSystemLogs('User '. $name .' has logged in');
+                return $this->handleUserWasAuthenticated($request, $throttles);
+            }
+
+            // If the login attempt was unsuccessful we will increment the number of attempts
+            // to login and redirect the user back to the login form. Of course, when this
+            // user surpasses their maximum number of attempts they will get locked out.
+            if ($throttles) {
+                $this->incrementLoginAttempts($request);
+            }
+
+
+
+            return redirect($this->loginPath())
+                ->withInput($request->only($this->loginUsername(), 'remember'))
+                ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -186,32 +192,37 @@ class AuthController extends Controller
      */
     public function postRegister(Request $request)
     {
-        $confirmation_code = trim(str_random(30));
-        $guestUserType = DB::table('user_type')
-                        ->where(array('type'=>'Guest'))
-                        ->first();
-        $data = $request->all();
-        $data['confirmation_code'] = $confirmation_code;
-        $data['user_type_id'] = $guestUserType->id;
+        try{
+            $confirmation_code = trim(str_random(30));
+            $guestUserType = DB::table('user_type')
+                            ->where(array('type'=>'Guest'))
+                            ->first();
+            $data = $request->all();
+            $data['confirmation_code'] = $confirmation_code;
+            $data['user_type_id'] = $guestUserType->id;
 
-        $validator = $this->validator($data);
+            $validator = $this->validator($data);
 
-        if ($validator->fails()) {
-            return redirect('auth/login#signup')
-                    ->withInput($request->input())
-                    ->withErrors($validator, $this->errorBag());
+            if ($validator->fails()) {
+                return redirect('auth/login#signup')
+                        ->withInput($request->input())
+                        ->withErrors($validator, $this->errorBag());
 
+            }
+
+            $this->create($data);
+
+            //Send email verification
+            $this->sendEmailVerification($data['email'],
+                                            $data['first_name'] . ' ' . $data['middle_name'] . ' ' . $data['last_name'],
+                                            array('confirmation_code'=>$confirmation_code));
+            
+            flash()->success('An email is sent to your account for verification.');
+            return redirect('auth/login');    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
-
-        $this->create($data);
-
-        //Send email verification
-        $this->sendEmailVerification($data['email'],
-                                        $data['first_name'] . ' ' . $data['middle_name'] . ' ' . $data['last_name'],
-                                        array('confirmation_code'=>$confirmation_code));
         
-        flash()->success('An email is sent to your account for verification.');
-        return redirect('auth/login');
     }
 
     public function sendEmailVerification($toAddress,$name,$confirmation_code){
@@ -220,5 +231,13 @@ class AuthController extends Controller
             $message->to($toAddress, $name)
                         ->subject('Verify your Account');
         });
+    }
+
+    public function createSystemLogs($action){
+        DB::table('system_logs')->insert(array('created_by'=>Auth::user()->id,
+                                                'updated_by'=>Auth::user()->id,
+                                                'action'=>$action,
+                                                'created_at' => date('Y-m-d H:i:sa'),
+                                                'updated_at' => date('Y-m-d H:i:sa')));
     }
 }

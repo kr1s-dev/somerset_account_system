@@ -24,7 +24,6 @@
 		                	<tr>
 		                  		<th>Receipt #</th>
 		                  		<th>Invoice #</th>
-		                  		<th>Account</th>
 		                  		<th>To</th>
 		                  		<th>Payment Due</th>
 		                  		<th>Paid Date</th>
@@ -32,18 +31,17 @@
 		                	</tr>
 		              	</thead>
 		              	<tbody>
-	                		@foreach($eHomeOwnerReceiptList as $eHomeOwnerReceiptId => $eHomeOwnerReceipt)
+	                		@foreach($eHomeOwnerReceiptList as $eHomeOwnerReceipt)
 	                			<tr>
-	                				<td><a href="{{route('receipt.show',$eHomeOwnerReceipt->id)}}"><strong>#{{$eHomeOwnerReceiptId}}</strong></a></td>
-	                				<td><a href="{{ route('invoice.show',$eHomeOwnerReceipt->payment_id) }}"><strong>#{{$invoiceNumberList[$eHomeOwnerReceipt->payment_id]}}</strong></a></td>
-	                				<td>2016 Somerset</td>
-	                				<td>{{$eHomeOwnersList[$eInvoiceModelList[$eHomeOwnerReceipt->payment_id]->home_owner_id]->first_name}}
-	                					{{$eHomeOwnersList[$eInvoiceModelList[$eHomeOwnerReceipt->payment_id]->home_owner_id]->middle_name}}
-	                					{{$eHomeOwnersList[$eInvoiceModelList[$eHomeOwnerReceipt->payment_id]->home_owner_id]->last_name}}
+	                				<td><a href="{{route('receipt.show',$eHomeOwnerReceipt->id)}}"><strong>#{{sprintf("%'.07d\n",$eHomeOwnerReceipt->id)}}</strong></a></td>
+	                				<td><a href="{{ route('invoice.show',$eHomeOwnerReceipt->payment_id) }}"><strong>#{{sprintf("%'.07d\n",$eHomeOwnerReceipt->invoice->id)}}</strong></a></td>
+	                				<td>{{$eHomeOwnerReceipt->invoice->homeOwner->first_name}}
+		                				{{$eHomeOwnerReceipt->invoice->homeOwner->middle_name}}
+		                				{{$eHomeOwnerReceipt->invoice->homeOwner->last_name}}
 	                				</td>
-	                				<td>{{date('m/d/Y',strtotime($eInvoiceModelList[$eHomeOwnerReceipt->payment_id]->payment_due_date))}}</td>
-	                				<td>{{date_format($eHomeOwnerReceipt->created_at,'m/d/y')}}</td>
-	                				<td>{{$eInvoiceModelList[$eHomeOwnerReceipt->payment_id]->total_amount}}</td>
+	                				<td>{{date('F d, Y',strtotime($eHomeOwnerReceipt->invoice->payment_due_date))}}</td>
+	                				<td>{{date_format($eHomeOwnerReceipt->created_at,'F d, Y')}}</td>
+	                				<td>{{number_format($eHomeOwnerReceipt->invoice->total_amount,2)}}</td>
 	                			</tr>
 	                		@endforeach
 	     		        </tbody>

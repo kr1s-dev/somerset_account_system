@@ -30,9 +30,14 @@ class HomeOwnerInformationController extends Controller
     public function index()
     {
         //Get list of homeowners
-        $eHomeOwnersList = $this->getHomeOwnerInformation(null);
-        return view('homeowners.homeowners_list',
-                        compact('eHomeOwnersList'));
+        try{
+            $eHomeOwnersList = $this->getHomeOwnerInformation(null);
+            return view('homeowners.homeowners_list',
+                            compact('eHomeOwnersList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -42,10 +47,15 @@ class HomeOwnerInformationController extends Controller
      */
     public function create()
     {
-        $homeOwner = $this->setHomeOwnerInformation();
-        $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
-        return view('homeowners.create_homeowner_information',
-                        compact('homeOwner'));  
+        try{
+            $homeOwner = $this->setHomeOwnerInformation();
+            $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
+            return view('homeowners.create_homeowner_information',
+                            compact('homeOwner'));     
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+         
     }
 
     /**
@@ -56,24 +66,29 @@ class HomeOwnerInformationController extends Controller
      */
     public function store(HomeOwnerRequest $request)
     {
-        $confirmation_code = array('confirmation_code'=>str_random(30));
-        $input = $this->addAndremoveKey(Request::all(),true);
-        $homeOwnerId = $this->insertRecord('home_owner_information',$input);
+        try{
+            $confirmation_code = array('confirmation_code'=>str_random(30));
+            $input = $this->addAndremoveKey(Request::all(),true);
+            $homeOwnerId = $this->insertRecord('home_owner_information',$input);
 
-        //Create User for HomeOwner
-        $inputwithHomeOwner = array('home_owner_id'=>$homeOwnerId,
-                                        'user_type_id'=>4,
-                                        'confirmation_code'=> $confirmation_code['confirmation_code'],
-                                        'email'=> $input['member_email_address'],);
-        $userId = $this->insertRecord('users',$inputwithHomeOwner);
+            //Create User for HomeOwner
+            $inputwithHomeOwner = array('home_owner_id'=>$homeOwnerId,
+                                            'user_type_id'=>4,
+                                            'confirmation_code'=> $confirmation_code['confirmation_code'],
+                                            'email'=> $input['member_email_address'],);
+            $userId = $this->insertRecord('users',$inputwithHomeOwner);
 
-        //Send email verification
-        $this->sendEmailVerification($input['member_email_address'],
-                                        $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
-                                        $confirmation_code);
-        $this->createSystemLogs('Added a New HomeOwner');
-        flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
-        return redirect('homeowners/' . $homeOwnerId);
+            //Send email verification
+            $this->sendEmailVerification($input['member_email_address'],
+                                            $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
+                                            $confirmation_code);
+            $this->createSystemLogs('Added a New HomeOwner');
+            flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
+            return redirect('homeowners/' . $homeOwnerId);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -84,18 +99,23 @@ class HomeOwnerInformationController extends Controller
      */
     public function show($id)
     {
-        //Show details of homeowner
-        $homeOwner = $this->getHomeOwnerInformation($id);
-        $homeOwnerMembersList = $this->getHomeOwnerMembers($id);
-        $ehomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0));
-        // $ehomeOwnerInvoicesList = array();
-        // foreach ($thomeOwnerInvoicesList as $thomeOwnerInvoice) {
-        //     $ehomeOwnerInvoicesList[$this->formatString($thomeOwnerInvoice->id)] = $thomeOwnerInvoice;
-        // }
-        return view('homeowners.show_homeowners_information',
-                        compact('homeOwner',
-                                'homeOwnerMembersList',
-                                'ehomeOwnerInvoicesList'));
+        try{
+            //Show details of homeowner
+            $homeOwner = $this->getHomeOwnerInformation($id);
+            $homeOwnerMembersList = $this->getHomeOwnerMembers($id);
+            $ehomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0));
+            // $ehomeOwnerInvoicesList = array();
+            // foreach ($thomeOwnerInvoicesList as $thomeOwnerInvoice) {
+            //     $ehomeOwnerInvoicesList[$this->formatString($thomeOwnerInvoice->id)] = $thomeOwnerInvoice;
+            // }
+            return view('homeowners.show_homeowners_information',
+                            compact('homeOwner',
+                                    'homeOwnerMembersList',
+                                    'ehomeOwnerInvoicesList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -106,10 +126,14 @@ class HomeOwnerInformationController extends Controller
      */
     public function edit($id)
     {
-        //
-        $homeOwner = $this->getHomeOwnerInformation($id);
-        return view('homeowners.edit_homeowner_information',
-                        compact('homeOwner'));
+        try{
+            $homeOwner = $this->getHomeOwnerInformation($id);
+            return view('homeowners.edit_homeowner_information',
+                            compact('homeOwner'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -121,16 +145,20 @@ class HomeOwnerInformationController extends Controller
      */
     public function update(HomeOwnerRequest $request, $id)
     {
-
-        $data = $this->addAndremoveKey(Request::all(),false);
-        $homeOwnerId = $this->updateRecord('home_owner_information',array($id),$data);
-        $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
-        if(count($user)>0){
-            $this->updateRecord('users',array($user->id),array('email'=>$data['member_email_address']));
+        try{
+            $data = $this->addAndremoveKey(Request::all(),false);
+            $homeOwnerId = $this->updateRecord('home_owner_information',array($id),$data);
+            $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
+            if(count($user)>0){
+                $this->updateRecord('users',array($user->id),array('email'=>$data['member_email_address']));
+            }
+            $this->createSystemLogs('Updated an Existing HomeOwner');
+            flash()->success('Homeowner has been successfully updated');
+            return redirect('homeowners/' . $id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
-        $this->createSystemLogs('Updated an Existing HomeOwner');
-        flash()->success('Homeowner has been successfully updated');
-        return redirect('homeowners/' . $id);
+        
     }
 
     /**

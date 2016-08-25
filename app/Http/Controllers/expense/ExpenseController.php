@@ -26,16 +26,14 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
-        $tExpenseList = $this->getExpense(null);
-        $eExpenseList = array();
-
-        foreach ($tExpenseList as $tExpense) {
-            $eExpenseList[$this->formatString($tExpense->id)] = $tExpense;
+        try{
+            $eExpenseList = $this->getExpense(null);
+            return view('expense.expense_list',
+                            compact('eExpenseList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
         
-        return view('expense.expense_list',
-                        compact('eExpenseList'));
     }
 
     /**
@@ -45,18 +43,23 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //$receiptNumber = 1;
-        $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
-        // if(count($eReceiptLastRecord)>0){
-        //     $receiptNumber =  ($eReceiptLastRecord->id + 1);
-        // }
-        $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
-        $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
-        $vendorList = $this->getExpenseVendor(null);
-        return view('expense.create_expense',
-                        compact('receiptNumber',
-                                'expenseAccount',
-                                'vendorList'));
+        try{
+            //$receiptNumber = 1;
+            $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
+            // if(count($eReceiptLastRecord)>0){
+            //     $receiptNumber =  ($eReceiptLastRecord->id + 1);
+            // }
+            $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
+            $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
+            $vendorList = $this->getExpenseVendor(null);
+            return view('expense.create_expense',
+                            compact('receiptNumber',
+                                    'expenseAccount',
+                                    'vendorList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -67,6 +70,7 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->input('data');
         $paidTo = $request->input('paidTo');
         $totalAmount = $request->input('totalAmount');
@@ -105,11 +109,16 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $eExpense = $this->getExpense($id);
-        $eExpenseId = $id;
-        return view('expense.show_expense',
-                        compact('eExpense',
-                                'eExpenseId'));
+        try{
+            $eExpense = $this->getExpense($id);
+            $eExpenseId = $id;
+            return view('expense.show_expense',
+                            compact('eExpense',
+                                    'eExpenseId'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
 
@@ -121,15 +130,20 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
-        $eExpense = $this->getExpense($id);
-        $vendorList = $this->getExpenseVendor($eExpense->vendor_id!=NULL?$eExpense->vendor_id:NULL);
-        $eExpenseId = $id;
-        $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
-        return view('expense.edit_expense',
-                        compact('eExpense',
-                                'eExpenseId',
-                                'expenseAccount',
-                                'vendorList'));
+        try{
+            $eExpense = $this->getExpense($id);
+            $vendorList = $this->getExpenseVendor($eExpense->vendor_id!=NULL?$eExpense->vendor_id:NULL);
+            $eExpenseId = $id;
+            $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
+            return view('expense.edit_expense',
+                            compact('eExpense',
+                                    'eExpenseId',
+                                    'expenseAccount',
+                                    'vendorList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
         // }
     }
 
@@ -205,10 +219,16 @@ class ExpenseController extends Controller
         // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
         // $this->deleteRecord('expense_cash_voucher_items',$toDeleteItems);
         // $this->deleteRecord('expense_cash_voucher',array($id));
-        $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
-        $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
-        $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
-        flash()->success('Record successfully deleted')->important();
-        return redirect('expense');
+        try{
+            $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+            $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
+            $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
+            $this->createSystemLogs('Deleted an Existing Cash Voucher');
+            flash()->success('Record successfully deleted')->important();
+            return redirect('expense');    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 }

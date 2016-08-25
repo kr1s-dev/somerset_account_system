@@ -24,11 +24,16 @@ class JournalEntryController extends Controller
 
     //Return a view page for journal Entry
     public function getJournalEntry(){
-        $type = 'Journal Entry';
-        $accountTitlesList = $this->getAccountTitles(null);
-        return view('journal.journal_create',
-                        compact('accountTitlesList',
-                                'type'));   
+        try{
+            $type = 'Journal Entry';
+            $accountTitlesList = $this->getAccountTitles(null);
+            return view('journal.journal_create',
+                            compact('accountTitlesList',
+                                    'type'));     
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+          
     }
 
     public function postJournalEntry(Request $request){
@@ -37,9 +42,10 @@ class JournalEntryController extends Controller
         $explanation = $request->input('explanation');
         $type= $request->input('type');
         //Getting ajax values
+        
         try{
-            $this->createSystemLogs('Added a New Journal Entry');
             $this->insertBulkRecord('journal_entry',$this->createJouralEntry($data,$explanation,$type));
+            $this->createSystemLogs('Added a New Journal Entry');
         }catch(\Exception $ex){
             echo $ex->getMessage();
         }
@@ -48,18 +54,23 @@ class JournalEntryController extends Controller
     }
 
     public function getAdjustmenstEntry(){
-        $type = 'Adjustment Entry';
-        $accountTitleId = array();
-        $journalEntryList = JournalEntryModel::whereYear('created_at','=',date('Y'))->get();
-        foreach ($journalEntryList as $journalEntry) {
-            $id = $journalEntry->credit_title_id!=NULL?$journalEntry->credit_title_id:$journalEntry->debit_title_id;
-            if(!(in_array($id, $accountTitleId)))
-                $accountTitleId[] = $id;
+        try{
+            $type = 'Adjustment Entry';
+            $accountTitleId = array();
+            $journalEntryList = JournalEntryModel::whereYear('created_at','=',date('Y'))->get();
+            foreach ($journalEntryList as $journalEntry) {
+                $id = $journalEntry->credit_title_id!=NULL?$journalEntry->credit_title_id:$journalEntry->debit_title_id;
+                if(!(in_array($id, $accountTitleId)))
+                    $accountTitleId[] = $id;
+            }
+            $accountTitlesList = AccountTitleModel::whereIn('id',$accountTitleId)->get();
+            return view('journal.journal_create',
+                            compact('accountTitlesList',
+                                    'type'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
-        $accountTitlesList = AccountTitleModel::whereIn('id',$accountTitleId)->get();
-        return view('journal.journal_create',
-                        compact('accountTitlesList',
-                                'type'));
+        
 
     }
 

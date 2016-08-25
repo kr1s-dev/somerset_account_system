@@ -32,18 +32,22 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
-        $eInvoiceModelList = $this->getHomeOwnerInvoice(null);
-        // $eInvoiceModelList = array();
-        // foreach ($tinvoiceModelList as $tinvoiceModel) {
-        //     $eInvoiceModelList[$this->formatString($tinvoiceModel->id)] = $tinvoiceModel;
-        // }
-        if(Auth::user()->userType->type==='Guest'){
+        try{
+            $eInvoiceModelList = $this->getHomeOwnerInvoice(null);
+            // $eInvoiceModelList = array();
+            // foreach ($tinvoiceModelList as $tinvoiceModel) {
+            //     $eInvoiceModelList[$this->formatString($tinvoiceModel->id)] = $tinvoiceModel;
+            // }
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.503');
+            }else{
+                return view('invoices.invoices_list',
+                            compact('eInvoiceModelList'));
+            }    
+        }catch(\Exception $ex){
             return view('errors.503');
-        }else{
-            return view('invoices.invoices_list',
-                        compact('eInvoiceModelList'));
         }
+        
         
     }
 
@@ -54,10 +58,11 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->userType->type==='Guest'){
-            return view('errors.503');
-        }else{
-            $homeOwnerMembersList = $this->getHomeOwnerInformation(null);
+        try{
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.503');
+            }else{
+                $homeOwnerMembersList = $this->getHomeOwnerInformation(null);
                 $incomeAccount = $this->getAccountGroups('5'); //get income account titles
                 $invoiceModelList = $this->getControlNo('home_owner_invoice');
                 $invoiceNumber = $invoiceModelList->AUTO_INCREMENT;
@@ -65,7 +70,11 @@ class InvoiceController extends Controller
                                 compact('homeOwnerMembersList',
                                         'invoiceNumber',
                                         'incomeAccount'));
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
+        
         
     }
 
@@ -85,28 +94,32 @@ class InvoiceController extends Controller
         $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$homeownerid));
         //$accountDetailId = $request->input('accountDetailId');
         //End of getting data from ajax request
+        try{
+            //Insert Invoice in Database
+            $nInvoiceId = $this->insertRecord('home_owner_invoice',array('home_owner_id' => $homeownerid,
+                                                                            'total_amount' => $totalAmount,
+                                                                            'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
 
-        //Insert Invoice in Database
-        $nInvoiceId = $this->insertRecord('home_owner_invoice',array('home_owner_id' => $homeownerid,
-                                                                        'total_amount' => $totalAmount,
-                                                                        'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
+            $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$nInvoiceId,'home_owner_invoice');
+            //Insert items in the table
+            $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
+            //Create journal entry
+            
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+                                                                                'Invoice',
+                                                                                'invoice_id',
+                                                                                $nInvoiceId,
+                                                                                'Created invoice for homeowner ' .
+                                                                                $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
+                                                                                $totalAmount));
+            $this->createSystemLogs('Created a New Invoice');
+            flash()->success('Record successfully created');
 
-        $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$nInvoiceId,'home_owner_invoice');
-        //Insert items in the table
-        $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
-        //Create journal entry
+            echo $nInvoiceId;    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
         
-        $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
-                                                                            'Invoice',
-                                                                            'invoice_id',
-                                                                            $nInvoiceId,
-                                                                            'Created invoice for homeowner ' .
-                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
-                                                                            $totalAmount));
-        $this->createSystemLogs('Created a New Invoice');
-        flash()->success('Record successfully created');
-
-        return $nInvoiceId;
     }
 
     /**
@@ -116,18 +129,23 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    { 
-        $invoice = $this->getHomeOwnerInvoice($id);
-        $invoiceNumber = $id;
-        if(Auth::user()->userType->type==='Guest'){
-            return view('guest_show_invoice.show_guest_invoice',
-                        compact('invoice',
-                                'invoiceNumber'));
-        }else{
-            return view('invoices.show_invoice',
-                        compact('invoice',
-                                'invoiceNumber'));
+    {
+        try{
+            $invoice = $this->getHomeOwnerInvoice($id);
+            $invoiceNumber = $id;
+            if(Auth::user()->userType->type==='Guest'){
+                return view('guest_show_invoice.show_guest_invoice',
+                            compact('invoice',
+                                    'invoiceNumber'));
+            }else{
+                return view('invoices.show_invoice',
+                            compact('invoice',
+                                    'invoiceNumber'));
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
+        
         
     }
 
@@ -139,21 +157,26 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->userType->type==='Guest'){
-            return view('errors.503');
-        }else{
-            $eInvoice = $this->getHomeOwnerInvoice($id);
-            $invoiceNumber = $id;
-            $incomeAccount = $this->getAccountGroups('5'); //get income account titles
-            if($eInvoice->is_paid){
+        try{
+            if(Auth::user()->userType->type==='Guest'){
                 return view('errors.503');
             }else{
-                return view('invoices.edit_invoice',
-                            compact('eInvoice',
-                                    'invoiceNumber',
-                                    'incomeAccount'));
-            }
+                $eInvoice = $this->getHomeOwnerInvoice($id);
+                $invoiceNumber = $id;
+                $incomeAccount = $this->getAccountGroups('5'); //get income account titles
+                if($eInvoice->is_paid){
+                    return view('errors.503');
+                }else{
+                    return view('invoices.edit_invoice',
+                                compact('eInvoice',
+                                        'invoiceNumber',
+                                        'incomeAccount'));
+                }
+            }    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
+        
         
         
     }
@@ -174,40 +197,43 @@ class InvoiceController extends Controller
         //End of getting data from ajax request
 
         //Replace all items in the database
-        $toDeleteInvItems = array();
-        $toDeleteJournalEntry = array();
-        $eInvoice = $this->getHomeOwnerInvoice($id);
-        $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$eInvoice->home_owner_id));
-        $this->updateRecord('home_owner_invoice',$id,array('total_amount' => $totalAmount,
-                                                            'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
-        // $eInvoiceItemsList = $this->getObjectRecords('home_owner_invoice_items',array('invoice_id'=>$id));
-        // $eJournalEntries = $this->getObjectRecords('journal_entry',array('invoice_id'=>$id));
-        // foreach ($eInvoiceItemsList as $eInvoiceItem) {
-        //     $toDeleteInvItems[] = $eInvoiceItem->id;
-        // }
+        try{
+            $eInvoice = $this->getHomeOwnerInvoice($id);
+            $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$eInvoice->home_owner_id));
+            $this->updateRecord('home_owner_invoice',$id,array('total_amount' => $totalAmount,
+                                                                'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
+            // $eInvoiceItemsList = $this->getObjectRecords('home_owner_invoice_items',array('invoice_id'=>$id));
+            // $eJournalEntries = $this->getObjectRecords('journal_entry',array('invoice_id'=>$id));
+            // foreach ($eInvoiceItemsList as $eInvoiceItem) {
+            //     $toDeleteInvItems[] = $eInvoiceItem->id;
+            // }
 
-        // foreach ($eJournalEntries as $eJournalEntry) {
-        //     $toDeleteJournalEntry[] = $eJournalEntry->id;
-        // }
+            // foreach ($eJournalEntries as $eJournalEntry) {
+            //     $toDeleteJournalEntry[] = $eJournalEntry->id;
+            // }
 
-        // $this->deleteRecord('home_owner_invoice_items',$toDeleteInvItems);
-        // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-        $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
-        $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
+            // $this->deleteRecord('home_owner_invoice_items',$toDeleteInvItems);
+            // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
+            $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
+            $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
 
-        $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$id,'home_owner_invoice');
-        $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
-        //Create journal entry
-        $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
-                                                                            'Invoice',
-                                                                            'invoice_id',
-                                                                            $id,
-                                                                            'Created invoice for homeowner ' .
-                                                                            $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
-                                                                            $totalAmount));
-        $this->createSystemLogs('Updated an Existing Invoice');
-        flash()->success('Record successfully updated');
-        return $id;
+            $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$id,'home_owner_invoice');
+            $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
+            //Create journal entry
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+                                                                                'Invoice',
+                                                                                'invoice_id',
+                                                                                $id,
+                                                                                'Created invoice for homeowner ' .
+                                                                                $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
+                                                                                $totalAmount));
+            $this->createSystemLogs('Updated an Existing Invoice');
+            flash()->success('Record successfully updated');
+            echo $id;    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -234,16 +260,21 @@ class InvoiceController extends Controller
         // $this->deleteRecord('home_owner_invoice_items',$toDeleteInvItems);
         // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
         // $this->deleteRecord('home_owner_invoice',array($id));
-        if(Auth::user()->userType->type==='Guest'){
+        try{
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.503');
+            }else{
+                $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
+                $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
+                $this->deleteRecordWithWhere('home_owner_invoice_items',array('id'=>$id));
+                $this->createSystemLogs('Deleted an Existing Invoice');
+                flash()->success('Record successfully deleted')->important();
+                return redirect('invoice');
+            }    
+        }catch(\Exception $ex){
             return view('errors.503');
-        }else{
-            $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
-            $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
-            $this->deleteRecordWithWhere('home_owner_invoice_items',array('id'=>$id));
-            $this->createSystemLogs('Deleted an Existing Invoice');
-            flash()->success('Record successfully deleted')->important();
-            return redirect('invoice');
         }
+        
         
     }
 }

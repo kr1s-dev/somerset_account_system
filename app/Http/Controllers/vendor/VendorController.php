@@ -29,9 +29,14 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendorList = $this->getVendor(null);
-        return view('vendor_list.show_vendor_list',
-                        compact('vendorList'));
+        try{
+            $vendorList = $this->getVendor(null);
+            return view('vendor_list.show_vendor_list',
+                            compact('vendorList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -41,9 +46,14 @@ class VendorController extends Controller
      */
     public function create()
     {
-        $vendor = $this->setVendor();
-        return view('vendor_list.create_vendor',
-                        compact('vendor'));
+        try{
+            $vendor = $this->setVendor();
+            return view('vendor_list.create_vendor',
+                            compact('vendor'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -54,11 +64,16 @@ class VendorController extends Controller
      */
     public function store(VendorRequest $request)
     {
-        $input = $this->addAndremoveKey($request->all(),true);
-        $vendorId = $this->insertRecord('vendors',$input);
-        $this->createSystemLogs('Created a New Vendor');
-        flash()->success('Record successfully created');
-        return redirect('vendor/'.$vendorId);
+        try{
+            $input = $this->addAndremoveKey($request->all(),true);
+            $vendorId = $this->insertRecord('vendors',$input);
+            $this->createSystemLogs('Created a New Vendor');
+            flash()->success('Record successfully created');
+            return redirect('vendor/'.$vendorId);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -69,9 +84,14 @@ class VendorController extends Controller
      */
     public function show($id)
     {
-        $vendor = $this->getVendor($id);
-        return view('vendor_list.show_vendor',
-                        compact('vendor'));
+        try{
+            $vendor = $this->getVendor($id);
+            return view('vendor_list.show_vendor',
+                            compact('vendor'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
 
@@ -83,9 +103,14 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
-        $vendor = $this->getVendor($id);
-        return view('vendor_list.edit_vendor',
-                        compact('vendor'));
+        try{
+            $vendor = $this->getVendor($id);
+            return view('vendor_list.edit_vendor',
+                            compact('vendor'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
 
@@ -98,11 +123,16 @@ class VendorController extends Controller
      */
     public function update(VendorRequest $request, $id)
     {
-        $input = $this->addAndremoveKey($request->all(),false);
-        $this->updateRecord('vendors',array($id),$input);
-        $this->createSystemLogs('Updated an Existing Vendor');
-        flash()->success('Record successfully Updated');
-        return redirect('vendor/'.$id);
+        try{
+            $input = $this->addAndremoveKey($request->all(),false);
+            $this->updateRecord('vendors',array($id),$input);
+            $this->createSystemLogs('Updated an Existing Vendor');
+            flash()->success('Record successfully Updated');
+            return redirect('vendor/'.$id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -113,9 +143,14 @@ class VendorController extends Controller
      */
     public function destroy($id)
     {
-        $this->deleteRecord('vendors',array($id));
-        $this->createSystemLogs('Deleted an Existing Vendor');
-        flash()->success('Record successfully deleted')->important();
-        return redirect('vendor');
+        try{
+            $this->deleteRecord('vendors',array($id));
+            $this->createSystemLogs('Deleted an Existing Vendor');
+            flash()->success('Record successfully deleted')->important();
+            return redirect('vendor');    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 }

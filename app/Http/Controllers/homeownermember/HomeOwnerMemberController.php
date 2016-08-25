@@ -37,11 +37,16 @@ class HomeOwnerMemberController extends Controller
      */
     public function create($id)
     {
-        $nHomeOwnerMember = $this->setHomeOwnerMemberInformation();
-        $ehomeOwnerInformation = $this->getHomeOwnerInformation($id);   
-        return view('homeowner_members.create_homeowner_member',
-                        compact('ehomeOwnerInformation',
-                                'nHomeOwnerMember'));
+        try{
+            $nHomeOwnerMember = $this->setHomeOwnerMemberInformation();
+            $ehomeOwnerInformation = $this->getHomeOwnerInformation($id);   
+            return view('homeowner_members.create_homeowner_member',
+                            compact('ehomeOwnerInformation',
+                                    'nHomeOwnerMember'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -52,11 +57,16 @@ class HomeOwnerMemberController extends Controller
      */
     public function store(HomeOwnerMemberRequest $request)
     {
-        $input = $this->addAndremoveKey(Request::all(),true);
-        $homeOwnerId = $this->insertRecord('home_owner_member_information',$input);
-        $this->createSystemLogs('Added a New HomeOwnerMember');
-        flash()->success('Record successfully created');
-        return redirect('homeowners/'.$input['home_owner_id']);
+        try{
+            $input = $this->addAndremoveKey(Request::all(),true);
+            $homeOwnerId = $this->insertRecord('home_owner_member_information',$input);
+            $this->createSystemLogs('Added a New HomeOwnerMember');
+            flash()->success('Record successfully created');
+            return redirect('homeowners/'.$input['home_owner_id']);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -78,11 +88,16 @@ class HomeOwnerMemberController extends Controller
      */
     public function edit($id)
     {
-        $nHomeOwnerMember = $this->getHomeOwnerMemberInformation($id);
-        $ehomeOwnerInformation = $this->getHomeOwnerInformation($nHomeOwnerMember->home_owner_id);
-        return view('homeowner_members.edit_homeowner_member',
-                        compact('nHomeOwnerMember',
-                                'ehomeOwnerInformation'));
+        try{
+            $nHomeOwnerMember = $this->getHomeOwnerMemberInformation($id);
+            $ehomeOwnerInformation = $this->getHomeOwnerInformation($nHomeOwnerMember->home_owner_id);
+            return view('homeowner_members.edit_homeowner_member',
+                            compact('nHomeOwnerMember',
+                                    'ehomeOwnerInformation'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -94,11 +109,16 @@ class HomeOwnerMemberController extends Controller
      */
     public function update(HomeOwnerMemberRequest $request, $id)
     {
-        $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
-        $homeOwnerMember->update($request->all());
-        flash()->success('Record successfully updated');
-        $this->createSystemLogs('Updated an Existing HomeOwnerMember');
-        return redirect('homeowners/'.$homeOwnerMember->home_owner_id);
+        try{
+            $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
+            $homeOwnerMember->update($request->all());
+            flash()->success('Record successfully updated');
+            $this->createSystemLogs('Updated an Existing HomeOwnerMember');
+            return redirect('homeowners/'.$homeOwnerMember->home_owner_id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -112,9 +132,14 @@ class HomeOwnerMemberController extends Controller
         // $homeOwnerMember = $this->getHomeOwnerMemberInformation($id);
         // $todeleteId = array($id);
         // $this->deleteRecord('home_owner_member_information',$todeleteId);
-        $this->deleteRecordWithWhere('home_owner_member_information',array('id'=>$id));
-        flash()->success('Record successfully deleted')->important();
-        $this->createSystemLogs('Deleted an Existing HomeOwnerMember');
-        return redirect('homeowners/'.$homeOwnerMember->home_owner_id);
+        try{
+            $this->deleteRecordWithWhere('home_owner_member_information',array('id'=>$id));
+            flash()->success('Record successfully deleted')->important();
+            $this->createSystemLogs('Deleted an Existing HomeOwnerMember');
+            return redirect('homeowners/'.$homeOwnerMember->home_owner_id);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 }

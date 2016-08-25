@@ -37,7 +37,7 @@
 				          			@if($user->home_owner_id == NULL)
 						          		<td><a href="{{ route('users.show',$user->id) }}"> {{ $user -> first_name }} {{ $user -> last_name }} </a></td>
 						          		@if($user->user_type_id != NULL)
-						          			<td align="center">{{ $user_type_list[$user->user_type_id] }} </td>
+						          			<td align="center">{{ $user->userType->type }} </td>
 						          		@else
 						          			<td align="center"> - </td>
 						          		@endif
@@ -46,23 +46,22 @@
 						          		@else
 						          			<td align="center"> - </td>
 						          		@endif
-
 						          		<td>{{ $user -> email }} </td>
 						        	@else
-						        		<td><a href="{{ route('users.show',$user->id) }}"> {{ $eHomeOwnersList[$user->home_owner_id]->first_name }} {{ $eHomeOwnersList[$user->home_owner_id]->last_name }} </a> </td>
-						        		@if($user->user_type_id != NULL)
-						          			<td align="center">{{ $user_type_list[$user->user_type_id] }} </td>
+						        		<td><a href="{{ route('users.show',$user->id) }}"> {{ $user->homeOwner->first_name }} {{ $user->homeOwner->last_name }} </a> </td>
+						          		@if($user->user_type_id != NULL)
+						          			<td align="center">{{ $user->userType->type }} </td>
 						          		@else
 						          			<td align="center"> - </td>
 						          		@endif
-						          		@if( $eHomeOwnersList[$user->home_owner_id]->member_mobile_no != NULL)
-						          			<td>{{ $eHomeOwnersList[$user->home_owner_id]->member_mobile_no }} </td>
+						          		@if( $user->homeOwner->member_mobile_no != NULL)
+						          			<td>{{ $user->homeOwner->member_mobile_no }} </td>
 						          		@else
 						          			<td align="center"> - </td>
 						          		@endif
-						          		<td>{{ $eHomeOwnersList[$user->home_owner_id]->member_email_address }} </td>
+						          		<td>{{ $user->homeOwner->member_email_address }} </td>
 				          			@endif
-				          			<td>{{ date('m/d/Y',strtotime($user -> created_at)) }} </td>
+				          			<td>{{ date('F d, Y',strtotime($user -> created_at)) }} </td>
 				          			<td>
 				          				@if($user -> is_active )
 				          					Yes

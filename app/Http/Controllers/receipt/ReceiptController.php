@@ -26,28 +26,15 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        $eInvoiceModelList = array();
-        $invoiceNumberList = array();
-        $eHomeOwnerReceiptList = array();
-        $eHomeOwnersList = array();
-        $tHomeOwnerReceiptList = $this->getHomeOwnerReceipt(null);
-        $tinvoiceModelList = $this->getHomeOwnerInvoice(null);
-        $tHomeOwnersList = $this->getHomeOwnerInformation(null);
-        foreach ($tHomeOwnerReceiptList as $tHomeOwnerReceipt) {
-            $eHomeOwnerReceiptList[$this->formatString($tHomeOwnerReceipt->id)] = $tHomeOwnerReceipt;
+        try{
+            $eHomeOwnerReceiptList = $this->getHomeOwnerReceipt(null);
+            return view('receipt.receipt_list',
+                            compact('eHomeOwnerReceiptList'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
         }
-        foreach ($tinvoiceModelList as $tinvoiceModel) {
-            $eInvoiceModelList[($tinvoiceModel->id)] = $tinvoiceModel;
-            $invoiceNumberList[$tinvoiceModel->id] = $this->formatString($tinvoiceModel->id);
-        }
-        foreach ($tHomeOwnersList as $tHomeOwner) {
-            $eHomeOwnersList[$tHomeOwner->id] = $tHomeOwner;
-        }
-        return view('receipt.receipt_list',
-                        compact('eHomeOwnerReceiptList',
-                                'eInvoiceModelList',
-                                'invoiceNumberList',
-                                'eHomeOwnersList'));
+
+        
     }
 
     /**
@@ -57,20 +44,25 @@ class ReceiptController extends Controller
      */
     public function create($id)
     {
-        $homeOwnerInvoice = $this->getHomeOwnerInvoice($id);
-        $invoiceNumber = $id;
-        // $receiptNumber = 1;
-        // $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction','');
-        // if(count($receiptList)>0){
-        //     $receiptNumber =  ($receiptList->id + 1);
-        // }
-        // $receiptNumber = $this->formatString($receiptNumber);
-        $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
-        $receiptNumber = $receiptList->AUTO_INCREMENT;
-        return view('receipt.create_receipt',
-                        compact('homeOwnerInvoice',
-                                'invoiceNumber',
-                                'receiptNumber'));
+        try{
+            $homeOwnerInvoice = $this->getHomeOwnerInvoice($id);
+            $invoiceNumber = $id;
+            // $receiptNumber = 1;
+            // $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction','');
+            // if(count($receiptList)>0){
+            //     $receiptNumber =  ($receiptList->id + 1);
+            // }
+            // $receiptNumber = $this->formatString($receiptNumber);
+            $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
+            $receiptNumber = $receiptList->AUTO_INCREMENT;
+            return view('receipt.create_receipt',
+                            compact('homeOwnerInvoice',
+                                    'invoiceNumber',
+                                    'receiptNumber'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
     }
 
     /**
@@ -81,33 +73,38 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        $invoiceid = $request->input('payment_id');
-        //Updates Invoice Record
-        $this->updateRecord('home_owner_invoice',array('id'=>$invoiceid),array('is_paid' => 1));
-        //get invoice
-        $eInvoice = $this->getHomeOwnerInvoice($invoiceid);
+        try{
+            $invoiceid = $request->input('payment_id');
+            //Updates Invoice Record
+            $this->updateRecord('home_owner_invoice',array('id'=>$invoiceid),array('is_paid' => 1));
+            //get invoice
+            $eInvoice = $this->getHomeOwnerInvoice($invoiceid);
 
 
-        $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
-                                                                                'file_related'=>$request->input('file_related'),
-                                                                                'amount_paid'=>$request->input('amount_paid')));
+            $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
+                                                                                    'file_related'=>$request->input('file_related'),
+                                                                                    'amount_paid'=>$request->input('amount_paid')));
+            
+            
+            $toInsertData = array();
+            //create journal entry
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($toInsertData,
+                                                                                'Receipt',
+                                                                                'receipt_id',
+                                                                                $receiptId,
+                                                                                'Created Receipt for invoice #'. $this->formatString($invoiceid),
+                                                                                $eInvoice->total_amount));
+            // //create journal entry
+            // $this->insertRecord('journal_entry',array('receipt_id'=>$receiptId,
+            //                                             'type'=>'Receipt',
+            //                                             'description'=>'Created Receipt for invoice '. $invoiceid));
+            $this->createSystemLogs('Create a Receipt');
+            flash()->success('Record successfully created');
+            return redirect('receipt/'. $receiptId);    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
         
-        
-        $toInsertData = array();
-        //create journal entry
-        $this->insertBulkRecord('journal_entry',$this->createJournalEntry($toInsertData,
-                                                                            'Receipt',
-                                                                            'receipt_id',
-                                                                            $receiptId,
-                                                                            'Created Receipt for invoice #'. $this->formatString($invoiceid),
-                                                                            $eInvoice->total_amount));
-        // //create journal entry
-        // $this->insertRecord('journal_entry',array('receipt_id'=>$receiptId,
-        //                                             'type'=>'Receipt',
-        //                                             'description'=>'Created Receipt for invoice '. $invoiceid));
-        $this->createSystemLogs('Create a Receipt');
-        flash()->success('Record successfully created');
-        return redirect('receipt/'. $receiptId);
 
     }
 
@@ -119,13 +116,18 @@ class ReceiptController extends Controller
      */
     public function show($id)
     {
-        $receipt = $this->getHomeOwnerReceipt($id);
-        $receiptNumber = $id;
-        $invoiceNumber = $receipt->payment_id;
-        return view('receipt.show_receipt',
-                        compact('receipt',
-                                'receiptNumber',
-                                'invoiceNumber'));
+        try{
+            $receipt = $this->getHomeOwnerReceipt($id);
+            $receiptNumber = $id;
+            $invoiceNumber = $receipt->payment_id;
+            return view('receipt.show_receipt',
+                            compact('receipt',
+                                    'receiptNumber',
+                                    'invoiceNumber'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+        
 
     }
 
@@ -137,6 +139,7 @@ class ReceiptController extends Controller
      */
     public function edit($id)
     {
+        
         //
     }
 
