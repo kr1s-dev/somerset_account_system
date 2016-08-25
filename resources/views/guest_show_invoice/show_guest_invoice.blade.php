@@ -70,7 +70,7 @@
 	                     			<tbody>
 	                     				@foreach($invoice->invoiceItems as $pendingPayment)
 	                     					<tr>
-	                     						<td>{{$pendingPayment->accountTitle->account_sub_group_name}}</td>
+	                     						<td>{{$pendingPayment->item->item_name}}</td>
 	                     						<td>{{$pendingPayment->remarks}}</td>
 	                     						<td>{{$pendingPayment->amount}}</td>
 	                     					</tr>

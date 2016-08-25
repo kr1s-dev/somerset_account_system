@@ -203,6 +203,7 @@
                   		<div class="row no-print">
                      		<div class="col-xs-12">
                         		<!--button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Print</button -->
+                        		<a href="{{route('expense.index')}}" class="btn btn-primary">Cancel</a>
                         		<button class="btn btn-success pull-right" id="createExpBtn"><i class="fa fa-credit-card"></i> Create Expense Record</button>
                         		<!--button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button-->
                      		</div>

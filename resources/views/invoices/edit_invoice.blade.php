@@ -202,6 +202,7 @@
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                    <div class="col-xs-12">
+                      <a href="{{ route('invoice.index') }}" class="btn btn-primary pull-right" style="margin-right: 5px;">Cancel</a>
                       <button class="btn btn-success pull-right" id="updateInvBtn"><i class="fa fa-credit-card"></i> Update Invoice</button>
                    </div>
                 </div>

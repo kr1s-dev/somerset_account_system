@@ -181,7 +181,7 @@
 </div-->
 <div class="form-group">
    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-      <a href="{{ route('homeowners.show',$homeOwner->id) }}" type="submit" class="btn btn-primary">Cancel</a>
+      <a href="{{ route('homeowners.index') }}" type="submit" class="btn btn-primary">Cancel</a>
       <button type="submit" class="btn btn-success" id="testsubmit">{{ $submitButton }}</button>
    </div>
 </div>

@@ -22,7 +22,8 @@ class UserTypeMiddleware
                 return $next($request);
         }elseif($objectToAccess == 'reports' || $objectToAccess == 'journal' 
                 || $objectToAccess == 'asset' || $objectToAccess == 'accounttitle'
-                || $objectToAccess == 'accountinformation' || $objectToAccess == 'vendor') {
+                || $objectToAccess == 'accountinformation' || $objectToAccess == 'vendor'
+                || $objectToAccess == 'items') {
             if($usertype === 'Administrator' || $usertype === 'Accountant')
                 return $next($request);
         }elseif($objectToAccess == 'receipts' || $objectToAccess == 'expense'

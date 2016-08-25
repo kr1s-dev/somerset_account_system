@@ -11,6 +11,10 @@ use App\Http\Requests\items\InvoiceExpenseItemsRequest;
 class InvoiceExpenseItemsController extends Controller
 {
     use UtilityHelper;
+
+    public function __construct(){
+        $this->middleware('user.type:items');
+    }
     /**
      * Display a listing of the resource.
      *

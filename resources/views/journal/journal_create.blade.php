@@ -103,6 +103,7 @@
                      <div class="ln_solid"></div>
                         <div class="form-group pull-right">
                         <div class="col-md-12 col-sm-6 col-xs-12">
+                           <a href="{{ route('account.index') }}" class="btn btn-primary">Cancel</a>
                               <button type="submit" class="btn btn-primary">Cancel</button>
                               <button id="sbmt_jour_entry" type="submit" class="btn btn-success">Submit</button>
                         </div>
