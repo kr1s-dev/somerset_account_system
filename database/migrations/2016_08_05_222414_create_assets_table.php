@@ -33,6 +33,7 @@ class CreateAssetsTable extends Migration
                 $table->Decimal('down_payment');    
                 $table->Decimal('accumulated_depreciation',10,2)->default(0);
                 $table->Decimal('net_value',10,2)->default(0);
+                $table->timestamp('next_depreciation_date');
                 $table->timestamps();
             });
         }

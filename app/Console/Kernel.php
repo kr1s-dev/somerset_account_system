@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         Commands\CreateHomeOwnerInvoice::class,
+        Commands\DepreciationAutomation_Batch::class,
     ];
 
     /**
@@ -29,6 +30,9 @@ class Kernel extends ConsoleKernel
                  ->hourly();
 
         $schedule->command('create:homeownerinvoice')
-                 ->everyFiveMinutes();
+                 ->daily();
+
+        $schedule->command('compute:depreciate')
+                 ->daily();
     }
 }

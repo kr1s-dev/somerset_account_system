@@ -83,7 +83,8 @@ class AssetController extends Controller
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
             }
             $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
-            
+            $input['next_depreciation_date'] = date('Y-m-d',strtotime('+1 Month'));
+            //print_r($input);
             $assetId = $this->insertRecord('asset_items',$input);
 
             //Create Journal Entry

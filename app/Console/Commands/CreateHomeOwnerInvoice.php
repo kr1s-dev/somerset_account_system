@@ -84,6 +84,7 @@ class CreateHomeOwnerInvoice extends Command
                 // \Log::info('Success');
             }
         }catch(\Exception $ex){
+            DB::table('system_logs')->insert($this->createSystemLogs('Error in Inserting Invoice with error log: ' . $ex.getMessage(),$userAdmin));
             //\Log::info('Error in executing command' . $ex->getMessage() . 'Line Number ' . $ex->getLine());
         }
     }

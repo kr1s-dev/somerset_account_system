@@ -33,5 +33,9 @@ class AssetsModel extends Model
                             'net_value',
                             'salvage_value'];
 
+    public function accountTitle(){
+        return $this->belongsTo('App\AccountTitleModel','account_title_id');
+    }
+
    	
 }
