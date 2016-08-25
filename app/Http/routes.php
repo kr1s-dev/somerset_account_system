@@ -82,6 +82,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('accounttitle/create/{id}','accountTitle\AccountTitleController@createWithParent');
     Route::get('accounttitle/create/group/{id}','accountTitle\AccountTitleController@createWithGroupParent');
 
+    Route::resource('item','items\InvoiceExpenseItemsController',['except'=>['destory']]);
+    Route::get('accounttitle/item/create/{id}','items\InvoiceExpenseItemsController@create');
+
     //PDF Generation
     Route::post('pdf','pdf\PDFGeneratorController@postGeneratePDF');
 

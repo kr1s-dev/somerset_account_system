@@ -27,8 +27,8 @@ class CreateJournalEntryTable extends Migration
                 $table->foreign('expense_id')->references('id')->on('expense_cash_voucher');
                 $table->Integer('asset_id')->unsigned()->nullable();
                 $table->foreign('asset_id')->references('id')->on('asset_items');
-                $table->Integer('journal_reference_id')->unsigned()->nullable();
-                $table->foreign('journal_reference_id')->references('id')->on('journal_entry_reference');
+                // $table->Integer('journal_reference_id')->unsigned()->nullable();
+                // $table->foreign('journal_reference_id')->references('id')->on('journal_entry_reference');
                 $table->String('type',255);
                 $table->string('description',255)->default('No Description');
                 $table->Integer('debit_title_id')->unsigned()->nullable();

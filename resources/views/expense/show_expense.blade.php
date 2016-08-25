@@ -69,7 +69,7 @@
                         		<tbody class="items-wrapper">
                                  @foreach($eExpense->expenseItems as $eExpenseItem)
                                     <tr>
-                                       <td>{{$eExpenseItem->accountTitle->account_sub_group_name}}</td>
+                                       <td>{{$eExpenseItem->item->item_name}}</td>
                                        <td>{{$eExpenseItem->remarks}}</td>
                                        <td>{{$eExpenseItem->amount}}</td>
                                     </tr>

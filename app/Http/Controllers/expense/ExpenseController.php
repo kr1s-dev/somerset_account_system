@@ -45,16 +45,22 @@ class ExpenseController extends Controller
     {
         try{
             //$receiptNumber = 1;
+            $expenseAccountItems = array();
             $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
             // if(count($eReceiptLastRecord)>0){
             //     $receiptNumber =  ($eReceiptLastRecord->id + 1);
             // }
             $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
             $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
+            foreach ($expenseAccount->accountTitles as $accountTitle) {
+                foreach ($accountTitle->items as $item) {
+                    $expenseAccountItems[] = $item;
+                }
+            }
             $vendorList = $this->getExpenseVendor(null);
             return view('expense.create_expense',
                             compact('receiptNumber',
-                                    'expenseAccount',
+                                    'expenseAccountItems',
                                     'vendorList'));    
         }catch(\Exception $ex){
             return view('errors.503');
@@ -131,14 +137,22 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         try{
+            //$receiptNumber = 1;
+            $expenseAccountItems = array();
+
             $eExpense = $this->getExpense($id);
             $vendorList = $this->getExpenseVendor($eExpense->vendor_id!=NULL?$eExpense->vendor_id:NULL);
             $eExpenseId = $id;
             $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
+            foreach ($expenseAccount->accountTitles as $accountTitle) {
+                foreach ($accountTitle->items as $item) {
+                    $expenseAccountItems[] = $item;
+                }
+            }
             return view('expense.edit_expense',
                             compact('eExpense',
                                     'eExpenseId',
-                                    'expenseAccount',
+                                    'expenseAccountItems',
                                     'vendorList'));    
         }catch(\Exception $ex){
             return view('errors.503');

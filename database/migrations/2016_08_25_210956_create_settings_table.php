@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJournalEntryReferenceTable extends Migration
+class CreateSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,16 @@ class CreateJournalEntryReferenceTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('journal_entry_reference')){
-            Schema::create('journal_entry_reference', function (Blueprint $table) {
+        if(!Schema::hasTable('system_settings')){
+            Schema::create('system_settings', function (Blueprint $table) {
                 $table->increments('id');
                 $table->Integer('created_by')->unsigned();
                 $table->foreign('created_by')->references('id')->on('users');
                 $table->Integer('updated_by')->unsigned();
                 $table->foreign('updated_by')->references('id')->on('users');
-                $table->String('narration',255)->default('No Narration');
-                $table->decimal('debit_total_amount',10,2)->default(0.00);
-                $table->decimal('credit_total_amount',10,2)->default(0.00);
+                $table->decimal('tax',10,2);
+                $table->integer('days_till_due_date');
+                $table->integer('cut_off_date');
                 $table->timestamps();
             });
         }
@@ -35,6 +35,6 @@ class CreateJournalEntryReferenceTable extends Migration
     public function down()
     {
         //Drop Table of journal_entry if exist
-        Schema::dropIfExists('journal_entry_reference');
+        Schema::dropIfExists('system_settings');
     }
 }

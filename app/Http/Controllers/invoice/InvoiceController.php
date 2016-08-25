@@ -34,10 +34,6 @@ class InvoiceController extends Controller
     {
         try{
             $eInvoiceModelList = $this->getHomeOwnerInvoice(null);
-            // $eInvoiceModelList = array();
-            // foreach ($tinvoiceModelList as $tinvoiceModel) {
-            //     $eInvoiceModelList[$this->formatString($tinvoiceModel->id)] = $tinvoiceModel;
-            // }
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.503');
             }else{
@@ -62,14 +58,20 @@ class InvoiceController extends Controller
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.503');
             }else{
+                $incomeAccountItems = array();
                 $homeOwnerMembersList = $this->getHomeOwnerInformation(null);
                 $incomeAccount = $this->getAccountGroups('5'); //get income account titles
+                foreach ($incomeAccount->accountTitles as $accountTitle) {
+                    foreach ($accountTitle->items as $item) {
+                        $incomeAccountItems[] = $item;
+                    }
+                }
                 $invoiceModelList = $this->getControlNo('home_owner_invoice');
                 $invoiceNumber = $invoiceModelList->AUTO_INCREMENT;
                 return view('invoices.create_invoices',
                                 compact('homeOwnerMembersList',
                                         'invoiceNumber',
-                                        'incomeAccount'));
+                                        'incomeAccountItems'));
             }    
         }catch(\Exception $ex){
             return view('errors.503');
@@ -94,6 +96,7 @@ class InvoiceController extends Controller
         $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$homeownerid));
         //$accountDetailId = $request->input('accountDetailId');
         //End of getting data from ajax request
+        //echo $data; 
         try{
             //Insert Invoice in Database
             $nInvoiceId = $this->insertRecord('home_owner_invoice',array('home_owner_id' => $homeownerid,
@@ -117,7 +120,8 @@ class InvoiceController extends Controller
 
             echo $nInvoiceId;    
         }catch(\Exception $ex){
-            return view('errors.503');
+            echo $ex->getMessage();
+            //return view('errors.503');
         }
         
     }
@@ -164,13 +168,18 @@ class InvoiceController extends Controller
                 $eInvoice = $this->getHomeOwnerInvoice($id);
                 $invoiceNumber = $id;
                 $incomeAccount = $this->getAccountGroups('5'); //get income account titles
+                foreach ($incomeAccount->accountTitles as $accountTitle) {
+                    foreach ($accountTitle->items as $item) {
+                        $incomeAccountItems[] = $item;
+                    }
+                }
                 if($eInvoice->is_paid){
                     return view('errors.503');
                 }else{
                     return view('invoices.edit_invoice',
                                 compact('eInvoice',
                                         'invoiceNumber',
-                                        'incomeAccount'));
+                                        'incomeAccountItems'));
                 }
             }    
         }catch(\Exception $ex){
@@ -219,6 +228,7 @@ class InvoiceController extends Controller
 
             $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$id,'home_owner_invoice');
             $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
+            
             //Create journal entry
             $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
                                                                                 'Invoice',

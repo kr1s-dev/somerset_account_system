@@ -18,14 +18,14 @@ class ExpenseItemModel extends Model
      * @var array
      */
     protected $fillable = ['expense_cash_voucher_id',
-    						'account_title_id',
+    						'item_id',
     						'remarks',
     						'amount',
                             'created_by',
                             'updated_by'];
 
-    public function accountTitle(){
-        return $this->belongsTo('App\AccountTitleModel','account_title_id');
+    public function item(){
+        return $this->belongsTo('App\InvoiceExpenseItems','item_id');
     }
 
     public function expense(){

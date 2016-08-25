@@ -103,7 +103,7 @@
                            			<tbody class="items-wrapper">
                            				@foreach($eExpense->expenseItems as $eExpenseItem )
                            					<tr>
-                           						<td>{{$eExpenseItem->accountTitle->account_sub_group_name}}</td>
+                           						<td>{{$eExpenseItem->item->item_name}}</td>
                            						<td>{{$eExpenseItem->remarks}}</td>
                            						<td>{{$eExpenseItem->amount}}</td>
                            						<td>
@@ -141,8 +141,8 @@
                                     <div class="col-md-9 col-sm-6 col-xs-12">
                                       <select id="nPaymentItem" name="account_group_id" class="select2_single form-control" tabindex="-1" style="width:100%;">
                                         <option></option>
-                                        @foreach($expenseAccount->accountTitles as $eExpenseTitle)
-                                          <option value="{{$eExpenseTitle->id}}">{{$eExpenseTitle->account_sub_group_name}}</option>
+                                        @foreach($expenseAccountItems as $eExpenseTitle)
+                                          <option value="{{$eExpenseTitle->id}}">{{$eExpenseTitle->item_name}}</option>
                                         @endforeach
                                       </select>
                                     </div>
@@ -186,18 +186,6 @@
                               </div>
                               <div class="modal-body">
                                 <form id="nPaymentTrans">
-                                 <!--div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Particulars<span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-9 col-sm-6 col-xs-12">
-                                      <select id="ePaymentItem" name="account_group_id" class="select2_single form-control" tabindex="-1" style="width:100%;">
-                                        <option></option>
-                                        @foreach($expenseAccount->accountTitles as $eExpenseAccountTitle)
-                                          <option value="{{$eExpenseAccountTitle->id}}">{{$eExpenseAccountTitle->account_sub_group_name}}</option>
-                                        @endforeach
-                                      </select>
-                                    </div>
-                                  </div-->
                                   <div class="form-group">
                                   </br>
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description<span class="required">*</span>

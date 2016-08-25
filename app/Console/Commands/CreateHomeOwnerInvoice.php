@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DB;
+use App\AccountGroupModel;
 use Illuminate\Console\Command;
 use App\Http\Controllers\UtilityHelper;
 
@@ -40,20 +41,22 @@ class CreateHomeOwnerInvoice extends Command
      */
     public function handle()
     {
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         try{
+            //\Log::info(date('d'));
             $setting = $this->getSettings();
-            if($setting->cut_off_date == date('d')){
+            if(!(is_null($setting)) &&$setting->cut_off_date == date('d')){
                 $invoiceToInsert = array();
                 $invoiceItemsToInsert = array();
                 $tJournalEntry = array();
                 $toInsertJournalEntry = array();
                 $homeOwnerList = $this->getHomeOwnerInformation(null);
-                $assocDuesAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Association Dues'));
-                $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
+                $assocDuesAccountTitle = $this->getObjectFirstRecord('invoice_expense_items',array('item_name'=>'Association Dues'));
+                
                 $invoiceModelList = $this->getControlNo('home_owner_invoice');
                 $invoiceNumber = $invoiceModelList->AUTO_INCREMENT;
                 foreach ($homeOwnerList as $homeOwner) {
-                    $data = $assocDuesAccountTitle->account_sub_group_name.',For the month of '. date('F') .','.$assocDuesAccountTitle->default_value;
+                    $data = $assocDuesAccountTitle->item_name.',For the month of '. date('F') .','.$assocDuesAccountTitle->default_value;
                     $invoiceToInsert[] = array('home_owner_id'=>$homeOwner->id,
                                                 'total_amount'=>$assocDuesAccountTitle->default_value,
                                                 'payment_due_date'=>date('Y-m-t'),
@@ -84,7 +87,7 @@ class CreateHomeOwnerInvoice extends Command
                 // \Log::info('Success');
             }
         }catch(\Exception $ex){
-            DB::table('system_logs')->insert($this->createSystemLogs('Error in Inserting Invoice with error log: ' . $ex.getMessage(),$userAdmin));
+            DB::table('system_logs')->insert($this->createSystemLogs('Error in Inserting Invoice with error log: ' . $ex->getMessage() . ' in line number ' . $ex->getLine() ,$userAdmin));
             //\Log::info('Error in executing command' . $ex->getMessage() . 'Line Number ' . $ex->getLine());
         }
     }
@@ -95,12 +98,14 @@ class CreateHomeOwnerInvoice extends Command
         $toInsertItems;
         $eIncomeAccountTitlesList = array();
         $eRecord = $this->getObjectFirstRecord($tableName,array('id'=> $foreignValue));
-        $incomeAccountTitleGroupId = $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
-        $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
+        $incomeAccountTitleGroupId = AccountGroupModel::where('account_group_name','=',$groupName)->first();
+        // $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
         $tArrayStringList = explode(",",$data);
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
-        foreach ($tIncomeAccountTitlesList as $tIncomeAccountTitle) {
-            $eIncomeAccountTitlesList[$tIncomeAccountTitle->account_sub_group_name] = $tIncomeAccountTitle->id;
+        foreach ($incomeAccountTitleGroupId->accountTitles as $accountTitle) {
+            foreach ($accountTitle->items as $item) {
+                $eIncomeAccountTitlesList[$item->item_name] = $item->id;
+            }
         }
 
         foreach ($tArrayStringList as $tString) {
@@ -112,7 +117,7 @@ class CreateHomeOwnerInvoice extends Command
             }else if($count==3){
                 $amount = $tString;
                 $count = 0;
-                $toInsertItems = array('account_title_id' => $eIncomeAccountTitlesList[trim($title)],
+                $toInsertItems = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
                                             'remarks' => $desc,
                                             'amount' => $amount,
                                             $foreignKeyId => $foreignValue,
@@ -127,6 +132,13 @@ class CreateHomeOwnerInvoice extends Command
 
     public function createJournalEntry($data,$typeName,$foreignKey,$foreignValue,$description,$amount){
         $journalEntryList = array();
+        $itemList = array();
+        $eAccountGrp = $this->getAccountGroups('5'); //get account titles
+        foreach ($eAccountGrp->accountTitles as $accountTitle) {
+            foreach ($accountTitle->items as $item) {
+                $itemList[$item->id] = $accountTitle->id;
+            }
+        }
         $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
         $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
                                                             $accountReceivableTitle->id,null,$amount,
@@ -134,7 +146,7 @@ class CreateHomeOwnerInvoice extends Command
                                                             date('Y-m-d')); 
 
         $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
-                                                            null,$data['account_title_id'],0.00,
+                                                            null,$itemList[$data['item_id']],0.00,
                                                             $data['amount'],$description,$data['created_at'],
                                                             date('Y-m-d'));
         return $journalEntryList;

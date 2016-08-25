@@ -21,15 +21,15 @@ class HomeOwnerPendingPaymentModel extends Model
      *
      * @var array
      */
-    protected $fillable = ['account_title_id',
+    protected $fillable = ['item_id',
     						'amount',
     						'created_by',
     						'invoice_id',
                             'remarks',
                             'updated_by'];
 
-    public function accountTitle(){
-        return $this->belongsTo('App\AccountTitleModel','account_title_id');
+    public function item(){
+        return $this->belongsTo('App\InvoiceExpenseItems','item_id');
     }
 
     public function invoice(){

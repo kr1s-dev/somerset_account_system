@@ -58,7 +58,7 @@
           		</tr>
           		@foreach($receipt->invoice->invoiceItems as $invItem)
           			<tr>
-	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->accountTitle->account_sub_group_name}}  </td>
+	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->item->item_name}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->remarks}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> PHP {{$invItem->amount}}  </td>
 	          		</tr>

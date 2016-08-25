@@ -33,8 +33,8 @@
 				                </tr>
 			              	</thead>
 			              	<tbody>
-			              		@if(empty($assetItemList))
-			        				<tr><td colspan="5" align="center"><em><strong> No Records Found </strong></em></td></tr>
+			              		@if(count($assetItemList)<=0)
+			        				<tr><td colspan="7" align="center"><em><strong> No Records Found </strong></em></td></tr>
 			        			@else
 			        				@foreach($assetItemList as $assetItem)
 			              				<tr>

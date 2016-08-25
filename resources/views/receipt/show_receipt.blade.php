@@ -76,7 +76,7 @@
                             <tbody>
                               @foreach($receipt->invoice->invoiceItems as $pendingPayment)
                                 <tr>
-                                  <td>{{$pendingPayment->accountTitle->account_sub_group_name}}</td>
+                                  <td>{{$pendingPayment->item->item_name}}</td>
                                   <td>{{$pendingPayment->remarks}}</td>
                                   <td>{{$pendingPayment->amount}}</td>
                                 </tr>
@@ -107,7 +107,7 @@
                          				<tbody>
                            				<tr>
                            					<th style="width:50%">Date of Payment:</th>
-                           					<td>{{date_format($receipt->created_at,'m/d/y')}}</td>
+                           					<td>{{date_format($receipt->created_at,'F d, Y')}}</td>
                            				</tr>
                                   <tr>
                                     <th style="width:50%">Amount Paid:</th>

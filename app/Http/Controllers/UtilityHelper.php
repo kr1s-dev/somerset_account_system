@@ -20,6 +20,7 @@ use App\AccountTitleModel;
 use App\JournalEntryModel;
 use App\AccountDetailModel;
 use Illuminate\Http\Request;
+use App\InvoiceExpenseItems;
 use App\HomeOwnerMemberModel;
 use App\HomeOwnerInformationModel;
 use App\Http\Controllers\Controller;
@@ -135,6 +136,14 @@ trait UtilityHelper
 
     public function getSettings(){
         return SettingsModel::first();
+    }
+
+    public function setItem(){
+        return new InvoiceExpenseItems;
+    }
+
+    public function getItem($id){
+        return $id==null?InvoiceExpenseItems::all():InvoiceExpenseItems::findOrFail($id);
     }
 
     public function getExpenseVendor($id){
@@ -376,13 +385,20 @@ trait UtilityHelper
         $toInsertItems = array();
         $eIncomeAccountTitlesList = array();
         $eRecord = $this->getObjectFirstRecord($tableName,array('id'=> $foreignValue));
-        $incomeAccountTitleGroupId = $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
-        $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
+        $incomeAccountTitleGroupId = AccountGroupModel::where('account_group_name','=',$groupName)->first();
+
+        // $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
+        // $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
         $tArrayStringList = explode(",",$data);
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
-        foreach ($tIncomeAccountTitlesList as $tIncomeAccountTitle) {
-            $eIncomeAccountTitlesList[$tIncomeAccountTitle->account_sub_group_name] = $tIncomeAccountTitle->id;
+        foreach ($incomeAccountTitleGroupId->accountTitles as $accountTitle) {
+            foreach ($accountTitle->items as $item) {
+                $eIncomeAccountTitlesList[$item->item_name] = $item->id;
+            }
         }
+        // foreach ($tIncomeAccountTitlesList as $tIncomeAccountTitle) {
+        //     $eIncomeAccountTitlesList[$tIncomeAccountTitle->account_sub_group_name] = $tIncomeAccountTitle->id;
+        // }
 
         foreach ($tArrayStringList as $tString) {
             ++$count;
@@ -393,7 +409,7 @@ trait UtilityHelper
             }else if($count==3){
                 $amount = $tString;
                 $count = 0;
-                $toInsertItems[] = array('account_title_id' => $eIncomeAccountTitlesList[trim($title)],
+                $toInsertItems[] = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
                                             'remarks' => $desc,
                                             'amount' => $amount,
                                             $foreignKeyId => $foreignValue,
@@ -423,30 +439,51 @@ trait UtilityHelper
         $count = 0;
         $dataCreated;
         $journalEntryList = array();
+        $itemList = array();
+        $tDataHolder = array();
         $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+        $eAccountGrp = $this->getAccountGroups($typeName=='Invoice'?'5':'6'); //get account titles
+        foreach ($eAccountGrp->accountTitles as $accountTitle) {
+            foreach ($accountTitle->items as $item) {
+                $itemList[$item->id] = $accountTitle->id;
+            }
+        }
         if($typeName=='Invoice'){
-            
-             foreach ($dataList as $data) {
+            foreach ($dataList as $data) {
                 if($count==0){
-                        $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
-                                            $accountReceivableTitle->id,null,$amount,
-                                            0.00,$description,$data['created_at'],
-                                            date('Y-m-d')); 
+                    $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
+                                                                        $accountReceivableTitle->id,null,$amount,
+                                                                        0.00,$description,$data['created_at'],
+                                                                        date('Y-m-d')); 
+                    $dataCreated = $data['created_at'];
+
                 }
+
+                if(!(array_key_exists($itemList[$data['item_id']], $tDataHolder)))
+                    $tDataHolder[$itemList[$data['item_id']]] = 0;
+                $tDataHolder[$itemList[$data['item_id']]] += $data['amount'];
+                $count++;
+            }
+            foreach ($tDataHolder as $key => $value) {
                 $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
-                                            null,$data['account_title_id'],0.00,
-                                            $data['amount'],$description,$data['created_at'],
+                                            null,$key,0.00,
+                                            $value,$description,$dataCreated,
                                             date('Y-m-d'));
             }
+
         }else if($typeName=='Expense'){
             foreach ($dataList as $data) {
                 $dataCreated = $data['created_at'];
-                //for debit in journal
+                if(!(array_key_exists($itemList[$data['item_id']], $tDataHolder)))
+                    $tDataHolder[$itemList[$data['item_id']]] = 0;
+                $tDataHolder[$itemList[$data['item_id']]] += $data['amount'];
+            }
+            foreach ($tDataHolder as $key => $value) {
                 $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
-                                            $data['account_title_id'],null,$data['amount'],
-                                            0.00,$description,$data['created_at'],
-                                            date('Y-m-d')); 
+                                            $key,null,$value,
+                                            0.00,$description,$dataCreated,
+                                            date('Y-m-d'));
             }
             $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,
                                             null,$cashTitle->id,0.00,

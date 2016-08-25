@@ -47,7 +47,7 @@
           		</tr>
           		@foreach($expense->expenseItems as $expItem)
           			<tr>
-	              		<td style="padding:0px 10px 0px 10px;"> {{$expItem->accountTitle->account_sub_group_name}}  </td>
+	              		<td style="padding:0px 10px 0px 10px;"> {{$expItem->item->item_name}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> {{$expItem->remarks}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> PHP {{$expItem->amount}}  </td>
 	          		</tr>

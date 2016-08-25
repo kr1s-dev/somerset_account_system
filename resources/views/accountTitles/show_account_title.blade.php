@@ -36,6 +36,12 @@
                               <i class="fa fa-table"></i> Create Contra {{$accountTitle->group->account_group_name}}
                             </a>
                           @endif
+                          @if($accountTitle->group->account_group_name == 'Revenues' || strpos($accountTitle->group->account_group_name,'Revenues') ||
+                          $accountTitle->group->account_group_name == 'Expenses' || strpos($accountTitle->group->account_group_name,'Expenses'))
+                            <a href="../accounttitle/item/create/{{$accountTitle->id}}" class="btn btn-primary pull-right">
+                              <i class="fa fa-table"></i> Create Item
+                            </a>
+                          @endif
                           
                 			</div>
               				<table class="table table-bordered">
@@ -74,31 +80,6 @@
                                 </td>
                               </tr>
                             @endif
-                   					
-                            @if($accountTitle->group->account_group_name == 'Revenues')
-                              <tr>
-                                <td class="data-title"><strong>Default Revenue</strong></td>
-                                <td>
-                                  PHP {{number_format($accountTitle->default_value,2)}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="data-title"><strong>Subject to VAT</strong></td>
-                                <td>
-                                  @if($accountTitle->subject_to_vat)
-                                    Yes
-                                  @else
-                                    No
-                                  @endif
-                                </td>
-                              </tr>
-                              @if($accountTitle->subject_to_vat)
-                                <tr>
-                                  <td class="data-title"><strong>VAT Percent</strong></td>
-                                  <td>{{number_format($accountTitle->vat_percent,2)}}%</td>
-                                </tr>
-                              @endif
-                            @endif
                             <tr>
                                 <td class="data-title"><strong>Description</strong></td>
                                 <td>{{$accountTitle->description}}</td>
@@ -108,8 +89,52 @@
             			</div>
           			</div>
         		</div>
+              @if($accountTitle->group->account_group_name == 'Revenues' || strpos($accountTitle->group->account_group_name,'Revenues') ||
+            $accountTitle->group->account_group_name == 'Expenses' || strpos($accountTitle->group->account_group_name,'Expenses'))
+              <div class="panel">
+                <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <h4 class="panel-title">Account Titles Items</h4>
+                </a>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                  <div class="panel-body">
+                      <div class="actions">
+                        @if(Auth::user()->userType->type=='Administrator')
+                          <a href="../accounttitle/item/create/{{$accountTitle->id}}" class="btn btn-primary pull-right">
+                            <i class="fa fa-user"></i> Add Item
+                          </a>
+                        @endif
+                          
+                      </div>
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>Item Name</th>
+                        <th>Default Value</th>
+                        <th>Subject to VAT</th>
+                      </thead>
+                      <tbody>
+                        @if(empty($accountTitle->items))
+                          <tr>
+                            <td colspan="3" align="center"><strong><i>No Records Found</i></strong></td>
+                          </tr>
+                        @else
+                          @foreach($accountTitle->items as $item)
+                          <tr>
+                            <td>{{$item->item_name}}</td>
+                            <td>{{$item->default_value}}</td>
+                            @if($item->subject_to_vat)
+                              <td>Yes</td>
+                            @else
+                              <td>No</td>
+                            @endif
+                          @endforeach
+                        @endif
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            @endif
+          </div>
         </div>
-      </div>
       <!-- end of accordion -->
     </div>
 	</div>

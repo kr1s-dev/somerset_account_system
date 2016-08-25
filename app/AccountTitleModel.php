@@ -22,10 +22,7 @@ class AccountTitleModel extends Model
                             'account_group_id',
                             'description',
                             'opening_balance',
-                            'default_value',
-                            'account_title_id',
-                            'vat_percent',
-                            'subject_to_vat'];
+                            'account_title_id',];
 
     public function group(){
         return $this->belongsTo('App\AccountGroupModel','account_group_id');
@@ -37,6 +34,10 @@ class AccountTitleModel extends Model
 
     public function accountTitleChildren(){
         return $this->hasMany('App\AccountTitleModel','account_title_id');
+    }
+
+    public function items(){
+        return $this->hasMany('App\InvoiceExpenseItems','account_title_id');
     }
 
 

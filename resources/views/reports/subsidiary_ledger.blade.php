@@ -73,7 +73,7 @@
 			              					<td>{{$key}}</td>
 				              				<td>PHP {{number_format($val->amount,2)}}</td>
 				              				<td>{{$val->remarks}}</td>	
-				              				<td>{{$val->accountTitle->account_sub_group_name}}</td>	
+				              				<td>{{$val->item->item_name}}</td>	
 				              			</tr>
 				              			@endforeach
 			              			@endforeach
@@ -100,7 +100,7 @@
 			              					<td>{{$key}}</td>
 				              				<td>PHP {{number_format($val->amount,2)}}</td>
 				              				<td>{{$val->remarks}}</td>	
-				              				<td>{{$val->accountTitle->account_sub_group_name}}</td>	
+				              				<td>{{$val->item->item_name}}</td>	
 				              			</tr>
 				              			@endforeach
 			              			@endforeach

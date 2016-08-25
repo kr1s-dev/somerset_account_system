@@ -110,8 +110,8 @@
 		                                <div class="col-md-9 col-sm-6 col-xs-12">
 		                                  <select id="nPaymentItem" name="account_group_id" class="select2_single form-control" tabindex="-1" style="width:100%;">
 		                                    <option></option>
-		                                    @foreach($expenseAccount->accountTitles as $eExpenseTitle)
-		                                      <option value="{{$eExpenseTitle->id}}">{{$eExpenseTitle->account_sub_group_name}}</option>
+		                                    @foreach($expenseAccountItems as $eExpenseTitle)
+		                                      <option value="{{$eExpenseTitle->id}}">{{$eExpenseTitle->item_name}}</option>
 		                                    @endforeach
 		                                  </select>
 		                                  <!--input value="" type="text" id="nPaymentItem" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required"-->
@@ -156,18 +156,6 @@
 		                          </div>
 		                          <div class="modal-body">
 		                            <form id="nPaymentTrans">
-		                             <!--div class="form-group">
-		                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Particulars<span class="required">*</span>
-		                                </label>
-		                                <div class="col-md-9 col-sm-6 col-xs-12">
-		                                  <select id="ePaymentItem" name="account_group_id" class="select2_single form-control" tabindex="-1" style="width:100%;">
-		                                    <option></option>
-		                                    @foreach($expenseAccount->accountTitles as $eExpenseAccountTitle)
-		                                      <option value="{{$eExpenseAccountTitle->id}}">{{$eExpenseAccountTitle->account_sub_group_name}}</option>
-		                                    @endforeach
-		                                  </select>
-		                                </div>
-		                            </div-->
 		                              <div class="form-group">
 		                              </br>
 		                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description<span class="required">*</span>
