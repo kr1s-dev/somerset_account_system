@@ -3,12 +3,12 @@
 
 namespace App\Http\Controllers\homeownerinformation;
 
-use App\InvoiceModel;
+use Auth;
 use Request;
 use App\Http\Requests;
-use App\Http\Requests\homeownerInformation\HomeOwnerRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
+use App\Http\Requests\homeownerInformation\HomeOwnerRequest;
 
 class HomeOwnerInformationController extends Controller
 {
@@ -48,10 +48,15 @@ class HomeOwnerInformationController extends Controller
     public function create()
     {
         try{
-            $homeOwner = $this->setHomeOwnerInformation();
-            $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
-            return view('homeowners.create_homeowner_information',
-                            compact('homeOwner'));     
+            if(Auth::user()->userType->type!=='Administrator' || Auth::user()->userType->type!=='Accountant'){
+                return view('errors.503');
+            }else{
+                $homeOwner = $this->setHomeOwnerInformation();
+                $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
+                return view('homeowners.create_homeowner_information',
+                                compact('homeOwner'));    
+            }
+             
         }catch(\Exception $ex){
             return view('errors.503');
         }
@@ -127,9 +132,14 @@ class HomeOwnerInformationController extends Controller
     public function edit($id)
     {
         try{
-            $homeOwner = $this->getHomeOwnerInformation($id);
-            return view('homeowners.edit_homeowner_information',
-                            compact('homeOwner'));    
+            if(Auth::user()->userType->type!=='Administrator' || Auth::user()->userType->type!=='Accountant'){
+                return view('errors.503');
+            }else{
+                $homeOwner = $this->getHomeOwnerInformation($id);
+                return view('homeowners.edit_homeowner_information',
+                            compact('homeOwner'));  
+            }
+               
         }catch(\Exception $ex){
             return view('errors.503');
         }

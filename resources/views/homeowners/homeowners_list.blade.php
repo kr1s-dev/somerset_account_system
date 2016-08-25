@@ -26,7 +26,10 @@
 	              				<th>Phone</th>
 	              				<th>Mobile</th>
 	              				<th>Email</th>
-	              				<th>Actions</th>
+	              				@if(Auth::user()->userType->type=='Administrator')
+	              					<th>Actions</th>
+	              				@endif
+	              				
 	            			</tr>
 	          			</thead>
 	          			<tbody>
@@ -37,15 +40,18 @@
 	          						<td>{{ $eHomeOwners->residence_tel_no }}</td>
 	          						<td>{{ $eHomeOwners->member_mobile_no }}</td>
 	          						<td>{{ $eHomeOwners->member_email_address }}</td>
-	          						<td align="center">
-		                				<a href="{{ route('homeowners.edit',$eHomeOwners->id) }}" role="button" class="btn btn-default">
-		                					<i class="fa fa-pencil"></i> 
-		                				</a>
-		                				<!--
-		                				{!! Form::model($eHomeOwners, ['method'=>'DELETE','action' => ['homeownerinformation\HomeOwnerInformationController@destroy',$eHomeOwners->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
-						                    <button type="submit" class="btn btn-default"><i class="fa fa-trash" onclick="return confirm('Are you sure you want to delete this item?');"></i> </button>
-						               	{!! Form::close() !!} -->
-		              				</td>
+	          						@if(Auth::user()->userType->type=='Administrator')
+		              					<td align="center">
+			                				<a href="{{ route('homeowners.edit',$eHomeOwners->id) }}" role="button" class="btn btn-default">
+			                					<i class="fa fa-pencil"></i> 
+			                				</a>
+			                				<!--
+			                				{!! Form::model($eHomeOwners, ['method'=>'DELETE','action' => ['homeownerinformation\HomeOwnerInformationController@destroy',$eHomeOwners->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
+							                    <button type="submit" class="btn btn-default"><i class="fa fa-trash" onclick="return confirm('Are you sure you want to delete this item?');"></i> </button>
+							               	{!! Form::close() !!} -->
+			              				</td>
+		              				@endif
+	          						
 	          					</tr>
 	          				@endforeach
 	            			

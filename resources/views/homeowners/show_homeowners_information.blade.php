@@ -28,9 +28,11 @@
           			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             			<div class="panel-body">
                 			<div class="actions">
-                   				<a href="{{ route('homeowners.edit',$homeOwner->id) }}" class="btn btn-primary pull-right">
-                      				<i class="fa fa-pencil"></i> Edit
-                   				</a>
+                        @if(Auth::user()->userType->type=='Administrator')
+                          <a href="{{ route('homeowners.edit',$homeOwner->id) }}" class="btn btn-primary pull-right">
+                            <i class="fa fa-pencil"></i> Edit
+                          </a>
+                        @endif
                 			</div>
               				<table class="table table-bordered">
                 				<tbody>
@@ -86,9 +88,12 @@
           		<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
             		<div class="panel-body">
                 		<div class="actions">
-                   			<a href="/homeownermembers/create/{{$homeOwner->id}}" class="btn btn-primary pull-right">
-                      			<i class="fa fa-user"></i> Add HouseHold Member
-                   			</a>
+                      @if(Auth::user()->userType->type=='Administrator')
+                        <a href="/homeownermembers/create/{{$homeOwner->id}}" class="btn btn-primary pull-right">
+                          <i class="fa fa-user"></i> Add HouseHold Member
+                        </a>
+                      @endif
+                   			
                 		</div>
               		<table class="table table-bordered">
                 		<thead>
@@ -127,7 +132,6 @@
                         </tr>
                         @endforeach
                       @endif
-                      
                 		</tbody>
               		</table>
             	</div>

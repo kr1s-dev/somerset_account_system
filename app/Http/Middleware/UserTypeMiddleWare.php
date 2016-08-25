@@ -17,8 +17,7 @@ class UserTypeMiddleware
     {
         $usertype = $request->user()->userType->type;
         if($objectToAccess == 'users' || $objectToAccess == 'usertype' 
-                || $objectToAccess == 'homeownermember' || $objectToAccess == 'homeownerinfo' 
-                || $objectToAccess == 'settings'){
+                || $objectToAccess == 'homeownermember' || $objectToAccess == 'settings'){
             if($usertype === 'Administrator')
                 return $next($request);
         }elseif($objectToAccess == 'reports' || $objectToAccess == 'journal' 
@@ -26,7 +25,8 @@ class UserTypeMiddleware
                 || $objectToAccess == 'accountinformation' || $objectToAccess == 'vendor') {
             if($usertype === 'Administrator' || $usertype === 'Accountant')
                 return $next($request);
-        }elseif($objectToAccess == 'receipts' || $objectToAccess == 'expense') {
+        }elseif($objectToAccess == 'receipts' || $objectToAccess == 'expense'
+                || $objectToAccess == 'homeownerinfo') {
             if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier')
                 return $next($request);
         }elseif($objectToAccess == 'announcement'){

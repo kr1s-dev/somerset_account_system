@@ -858,7 +858,7 @@
         
     });
 
-    if($("input[name=mode_of_acquisition]:checked"))
+    if($("input[name=mode_of_acquisition]:checked").val() == 'Both')
         $("#downPayment").show();
 
     function getTodaysDate(){
