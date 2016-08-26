@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UtilityHelper;;
+use App\Http\Controllers\UtilityHelper;
 
 class GuestController extends Controller
 {

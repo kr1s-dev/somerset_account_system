@@ -98,6 +98,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports/subledger/{type}',['as'=>'subledger','uses'=>'reports\ReportController@getGenerateSubsidiaryLedger']);
     Route::post('reports/subledger','reports\ReportController@postGenerateSubsidiaryLedger');
     Route::get('reports/assets',['as'=>'asset.registry','uses'=>'reports\ReportController@getGenerateAssetRegistry']);
+
+    //DashBoard View
+    Route::get('admin-dashboard',['as'=>'admin.dashboard','uses'=>'admin\AdminDashboardController@getDashBoard']);
     
     //Guest View
     Route::get('guest-dashboard',['as'=>'guestdashboard','uses'=>'guest\GuestController@getDashBoard']);
