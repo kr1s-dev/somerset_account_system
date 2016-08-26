@@ -41,8 +41,33 @@
 			                      	<a href="{{ route('expense.edit',$eExpense->id) }}" role="button" class="btn btn-default">
 			                      		<i class="fa fa-pencil"></i> 
 			                      	</a>
-                              {!! Form::model($eExpense, ['method'=>'DELETE','action' => ['expense\ExpenseController@destroy',$eExpense->id] , 'class' => 'form-horizontal form-label-left']) !!}
-                                <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </button>
+                              {!! Form::model($eExpense, ['method'=>'POST','action' => ['expense\ExpenseController@destroy',$eExpense->id] , 'class' => 'form-horizontal form-label-left']) !!}
+                                <button data-toggle="modal" data-target="#confirm" class="btn btn-default"><i class="fa fa-trash"></i> </button>
+                                <!-- Modal content-->
+                                <div id="confirm" class="modal fade" role="dialog">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content pull-right col-md-12">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Confirmation</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form id="nPaymentTrans">
+                                          <div class="form-group">
+                                          </br>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Password<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-9 col-sm-6 col-xs-12">
+                                              <input value="" type="password" name="adminPassword" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required">
+                                            </div>
+                                            <button type="submit" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit</button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            <!-- End of Modal content-->
                               {!! Form::close() !!}
 			                    </td>
               				</tr>

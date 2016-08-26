@@ -19,7 +19,7 @@
   
   		<div style="display:inline-block; width:100%">
       	<div style="float:left;">
-          	<strong>Receipt #: {{sprintf("%'.07d\n",$receiptNumber)}}</strong>
+          	<strong>Receipt #: {{sprintf("%'.07d\n",$receipt->receipt_no)}}</strong>
       	</div>
       		<div style="float:right;">
           		Date Paid: {{date('F d, Y',strtotime($receipt->created_at))}}

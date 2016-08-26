@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\expense;
 
+use Hash;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -170,41 +172,61 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $toDeleteExpItems = array();
-        $toDeleteJournalEntry = array();
+        $userPasswordList = array();
+        $match = false;
         $data = $request->input('data');
         $paidTo = $request->input('paidTo');
         $totalAmount = $request->input('totalAmount');
+        $adminPassword = $request->input('adminPassword');
         $type = $request->input('type');
         $vendorId = $request->input('vendorId');
         $vendor = $this->getVendor($vendorId);
+        $expenseAccountItems = array();
+        
+
         try{
-            $description = ('Created Cash Voucher for ') . (($type==='Vendor')?$vendor->vendor_name:$paidTo);
-            $this->updateRecord('expense_cash_voucher',
-                                    $id,
-                                    array('total_amount' => $totalAmount,
-                                            'paid_to' => ($type=='Vendor')?'':$paidTo,
-                                            'vendor_id'=>($type=='Vendor')?$vendorId:null));
+            $userAdminList = User::whereHas('userType',function($q) use ($adminPassword){
+                                            $q->where('type','=','Administrator');
+                                        })
+                                        ->get();
+            foreach ($userAdminList as $userAdmin) {
+                if(Hash::check($adminPassword, $userAdmin->password)){
+                    $match = true;
+                    break;
+                }
+            }
+            if($match){
+                $description = ('Created Cash Voucher for ') . (($type==='Vendor')?$vendor->vendor_name:$paidTo);
+                $this->updateRecord('expense_cash_voucher',
+                                        $id,
+                                        array('total_amount' => $totalAmount,
+                                                'paid_to' => ($type=='Vendor')?'':$paidTo,
+                                                'vendor_id'=>($type=='Vendor')?$vendorId:null));
 
-            $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
-            $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
+                $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+                $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
 
 
-            $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$id,'expense_cash_voucher');
+                $dataToInsert = $this->populateListOfToInsertItems($data,'Expenses','expense_cash_voucher_id',$id,'expense_cash_voucher');
 
-           
+               
 
-            $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
-            //Create journal entry
-            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
-                                                                                'Expense',
-                                                                                'expense_id',
-                                                                                $id,
-                                                                                $description,
-                                                                                $totalAmount));
-            $this->createSystemLogs('Updated an Existing Cash Voucher');
-            flash()->success('Record successfully updated');
-            echo $id;
+                $this->insertBulkRecord('expense_cash_voucher_items',$dataToInsert);
+                //Create journal entry
+                $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+                                                                                    'Expense',
+                                                                                    'expense_id',
+                                                                                    $id,
+                                                                                    $description,
+                                                                                    $totalAmount));
+                $this->createSystemLogs('Updated an Existing Cash Voucher');
+                flash()->success('Record successfully updated');
+                echo $id;
+            }else{
+                flash()->error('Invalid Admin Password.');
+                echo $id . '/edit?';
+            }
+                        
         }catch(\Exception $ex){
             echo $ex->getMessage() . ' ' . $ex->getLine();
         }
@@ -217,32 +239,35 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        // $toDeleteItems = array();
-        // $eExpense = $this->getExpense($id);
-        // $toDeleteJournalEntry = array();
-        // $eExpenseItemsList = $this->getObjectRecords('expense_cash_voucher_items', array('expense_cash_voucher_id' => $id));
-        // $eJournalEntriesList = $this->getObjectRecords('journal_entry',array('expense_id'=>$id));
-        // foreach ($eExpenseItemsList as $eExpenseItem) {
-        //     $toDeleteItems[] = $eExpenseItem->id;
-        // }
-        // foreach ($eJournalEntriesList as $eJournalEntry) {
-        //     $toDeleteJournalEntry[] = $eJournalEntry->id;
-        // }
-        // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
-        // $this->deleteRecord('expense_cash_voucher_items',$toDeleteItems);
-        // $this->deleteRecord('expense_cash_voucher',array($id));
-        try{
-            $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
-            $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
-            $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
-            $this->createSystemLogs('Deleted an Existing Cash Voucher');
-            flash()->success('Record successfully deleted')->important();
-            return redirect('expense');    
-        }catch(\Exception $ex){
-            return view('errors.503');
+
+        $adminPassword = $request->input('adminPassword');
+        $match = false;
+        $userAdminList = User::whereHas('userType',function($q) use ($adminPassword){
+                                            $q->where('type','=','Administrator');
+                                        })
+                                        ->get();
+        foreach ($userAdminList as $userAdmin) {
+            if(Hash::check($adminPassword, $userAdmin->password)){
+                $match = true;
+                break;
+            }
         }
-        
+        if($match){
+            try{
+                $this->deleteRecordWithWhere('expense_cash_voucher_items',array('expense_cash_voucher_id'=>$id));
+                $this->deleteRecordWithWhere('journal_entry',array('expense_id'=>$id));
+                $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
+                $this->createSystemLogs('Deleted an Existing Cash Voucher');
+                flash()->success('Record successfully deleted')->important();
+                return redirect('expense');    
+            }catch(\Exception $ex){
+                return view('errors.503');
+            }
+        }else{
+            flash()->error('Invalid Admin Password')->important();
+            return redirect('expense');    
+        }
     }
 }

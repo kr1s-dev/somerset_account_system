@@ -69,7 +69,7 @@
 			        				@foreach($listOfItem as $key => $value)
 			              				@foreach($value as $val)
 			              				<tr>
-			              					<td><a href="{{route('receipt.show',$val->invoice->receipt->id)}}"><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->id)}}</strong></em></a></td>
+			              					<td><a href="{{route('receipt.show',$val->invoice->receipt->id)}}"><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->receipt_no)}}</strong></em></a></td>
 			              					<td>{{$key}}</td>
 				              				<td>PHP {{number_format($val->amount,2)}}</td>
 				              				<td>{{$val->remarks}}</td>	

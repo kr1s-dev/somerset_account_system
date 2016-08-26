@@ -7,101 +7,105 @@
       </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>Receipt Details</h2>
-          <div align="center">
-            @include('errors.validator')
+    {!! Form::open(['url'=>'receipt','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Receipt Details</h2>
+            <div align="center">
+              @include('errors.validator')
+            </div>
+            <ul class="nav navbar-right panel_toolbox">
+              <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
           </div>
-          <ul class="nav navbar-right panel_toolbox">
-            <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-            </li>
-          </ul>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <section class="content receipt">
-            <!-- title row -->
-            <div class="row">
-              <div class="col-xs-12 invoice-header">
-                <div class="col-md-4">
-                  <h4>Receipt #: {{sprintf("%'.07d\n",$receiptNumber)}}</h4>
+          <div class="x_content">
+            <section class="content receipt">
+              <!-- title row -->
+              <div class="row">
+                <div class="col-xs-12 invoice-header">
+                  <div class="col-md-4">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Receipt No:
+                    </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                      <input name="receipt_no" type="text" step="0.01" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <h4>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}}</h4>
+                  </div>
+                  <div class="col-md-4">
+                     <h4 class="pull-right">Date: {{date('F d, Y')}}</h4>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <h4>Invoice #: {{sprintf("%'.07d\n",$invoiceNumber)}}</h4>
-                </div>
-                <div class="col-md-4">
-                   <h4 class="pull-right">Date: {{date('F d, y')}}</h4>
-                </div>
+                <!-- /.col -->
               </div>
-              <!-- /.col -->
-            </div>
-            <!-- info row -->
-            <div class="row invoice-info">
-              <div class="col-sm-4 invoice-col">
-                <div class="form-group">
-                   <label for="" class="control-label">Cashier</label>
-                   @if(Auth::user()->home_owner_id != NULL)
-                      {{Auth::user()->homeOwner->first_name}} {{Auth::user()->homeOwner->last_name}}</h5> 
-                    @else
-                      <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
-                    @endif
+              <!-- info row -->
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <div class="form-group">
+                     <label for="" class="control-label">Cashier</label>
+                     @if(Auth::user()->home_owner_id != NULL)
+                        {{Auth::user()->homeOwner->first_name}} {{Auth::user()->homeOwner->last_name}}</h5> 
+                      @else
+                        <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                      @endif
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-4 invoice-col">
-                <div class="form-group">
-                   <label class="control-label" for="homeowner">To</label>
-                   <h5>{{$homeOwnerInvoice->homeOwner->first_name}} {{$homeOwnerInvoice->homeOwner->middle_name}} {{$homeOwnerInvoice->homeOwner->last_name}}</h5>
+                <div class="col-sm-4 invoice-col">
+                  <div class="form-group">
+                     <label class="control-label" for="homeowner">To</label>
+                     <h5>{{$homeOwnerInvoice->homeOwner->first_name}} {{$homeOwnerInvoice->homeOwner->middle_name}} {{$homeOwnerInvoice->homeOwner->last_name}}</h5>
+                  </div>
                 </div>
-              </div>
-               <!-- /.col -->
-              <div class="col-sm-4 invoice-col">
-                <label class="control-label" for="homeowner">Payment Due:</label>
-                <div class="form-group">
-                   <h5>{{date('Y-m-d',strtotime($homeOwnerInvoice->payment_due_date))}}</h5>
+                 <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <label class="control-label" for="homeowner">Payment Due:</label>
+                  <div class="form-group">
+                     <h5>{{date('F d, Y',strtotime($homeOwnerInvoice->payment_due_date))}}</h5>
+                  </div>
                 </div>
+                <!-- /.col -->
               </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->
-            <!-- Table row -->
-            <div class="row">
-              <div class="col-md-6">
-                <table class="table table-striped">
-                 <thead>
-                  <tr>
-                    <th style="width: 30%">Payment Type</th>
-                   <th style="width: 59%">Covering Month/s</th>
-                   <th>Amount (PHP)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($homeOwnerInvoice->invoiceItems as $pendingPayment)
+              <!-- /.row -->
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-striped">
+                   <thead>
                     <tr>
-                      <td>{{$pendingPayment->item->item_name}}</td>
-                      <td>{{$pendingPayment->remarks}}</td>
-                      <td>{{$pendingPayment->amount}}</td>
+                      <th style="width: 30%">Payment Type</th>
+                     <th style="width: 59%">Covering Month/s</th>
+                     <th>Amount (PHP)</th>
                     </tr>
-                  @endforeach
-                </tbody>
-                </table>
-              </div>
-               <!-- /.col -->
-
-              <div class="col-xs-6 pull-right">
-                <p class="lead">Amount Due</p>
-                <div class="table-responsive">
-                  <table class="table" id="amountCalc">
-                      <tbody>
-                        <tr>
-                          <th style="width:50%">Total:</th>
-                          <td>PHP {{$homeOwnerInvoice->total_amount}}</td>
-                        </tr>
-                      </tbody>
+                  </thead>
+                  <tbody>
+                    @foreach($homeOwnerInvoice->invoiceItems as $pendingPayment)
+                      <tr>
+                        <td>{{$pendingPayment->item->item_name}}</td>
+                        <td>{{$pendingPayment->remarks}}</td>
+                        <td>{{$pendingPayment->amount}}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
                   </table>
                 </div>
-                {!! Form::open(['url'=>'receipt','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
+                 <!-- /.col -->
+
+                <div class="col-xs-6 pull-right">
+                  <p class="lead">Amount Due</p>
+                  <div class="table-responsive">
+                    <table class="table" id="amountCalc">
+                        <tbody>
+                          <tr>
+                            <th style="width:50%">Total:</th>
+                            <td>PHP {{$homeOwnerInvoice->total_amount}}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div>  
                  	<input type="hidden" name="payment_id" value="{{$homeOwnerInvoice->id}}">
                   <div class="form-group">
                     <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">Amount Paid:
@@ -142,10 +146,10 @@
                     </script>
                  </div>
               </div>
-            {!! Form::close() !!}
-          </section>
+            </section>
+          </div>
         </div>
       </div>
-    </div>
+    {!! Form::close() !!}
    </div>
 @endsection

@@ -33,7 +33,7 @@
 		              	<tbody>
 	                		@foreach($eHomeOwnerReceiptList as $eHomeOwnerReceipt)
 	                			<tr>
-	                				<td><a href="{{route('receipt.show',$eHomeOwnerReceipt->id)}}"><strong>#{{sprintf("%'.07d\n",$eHomeOwnerReceipt->id)}}</strong></a></td>
+	                				<td><a href="{{route('receipt.show',$eHomeOwnerReceipt->id)}}"><strong>#{{sprintf("%'.07d\n",$eHomeOwnerReceipt->receipt_no)}}</strong></a></td>
 	                				<td><a href="{{ route('invoice.show',$eHomeOwnerReceipt->payment_id) }}"><strong>#{{sprintf("%'.07d\n",$eHomeOwnerReceipt->invoice->id)}}</strong></a></td>
 	                				<td>{{$eHomeOwnerReceipt->invoice->homeOwner->first_name}}
 		                				{{$eHomeOwnerReceipt->invoice->homeOwner->middle_name}}

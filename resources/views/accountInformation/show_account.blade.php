@@ -196,7 +196,7 @@
                           @if($journalEntry->invoice_id != NULL)
                             <td><a href="{{ route('invoice.show',$journalEntry->invoice_id) }}"><strong>#{{sprintf("%'.07d\n", $journalEntry->invoice_id)}}</strong></a></td>
                           @elseif($journalEntry->receipt_id != NULL)
-                            <td><a href="{{ route('receipt.show',$journalEntry->receipt_id) }}"><strong>#{{sprintf("%'.07d\n", $journalEntry->receipt_id)}}</strong></a></td>
+                            <td><a href="{{ route('receipt.show',$journalEntry->receipt_id) }}"><strong>#{{sprintf("%'.07d\n", $journalEntry->receipt->receipt_no)}}</strong></a></td>
                           @elseif($journalEntry->expense_id != NULL)
                             <td><a href="{{ route('expense.show',$journalEntry->expense_id) }}"><strong>#{{sprintf("%'.07d\n", $journalEntry->expense_id)}}</strong></a></td>
                           @elseif($journalEntry->asset_id != NULL)

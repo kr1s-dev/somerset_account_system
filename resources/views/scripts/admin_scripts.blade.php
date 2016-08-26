@@ -482,10 +482,9 @@
 
         //Retrieveing id of record for updating
         var _id = $('meta[name="expense-id"]').attr('content');
-
         //Get company that receives the voucher
         var paidTo = $('#paid_to').val();
-
+        var adminPassword = $('#adminPassword').val();
         var vendorId = $('#vendor_id').val();
         var type = $("input[name=type]:checked").val();
 
@@ -524,11 +523,12 @@
                         'vendorId':vendorId,
                         'paidTo': paidTo,
                         'totalAmount': totalAmount,
-                        'type':type},
+                        'type':type,
+                        'adminPassword':adminPassword},
                 success: function(response)
                 {
                     //alert(response);
-                    location.href="/expense/"+_id;
+                    location.href="/expense/"+response;
                 }, error: function(xhr, ajaxOptions, thrownError){
                   alert(xhr.status);
                   alert(thrownError);
@@ -942,7 +942,7 @@
         d2.push([new Date(new Date().getFullYear(),i,1).getTime(), expenseIncome[(i+1)]]);
         //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
       }
-
+      console.log(d1);
       var dataset = [
         {label:"Income",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}},
         {label:"Expense",data:d2,lines:{fillColor: "rgba(150, 202, 89, 0.42)"},points:{fillColor: "#fff"}}
@@ -1136,5 +1136,198 @@
 
 
     });
+  });
+</script>
+
+<!-- For AR Weekly -->
+<script>
+  $(document).ready(function() {
+    var hSubsidiary = {!! isset($homeOwnerSubsidiaryLedgerPerWeek)?json_encode($homeOwnerSubsidiaryLedgerPerWeek):null !!};
+    //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
+    var curr = new Date; // get current date
+    var first = (curr.getDate() - curr.getDay()); // First day is the day of the month - the day of the week
+    var last = first + 6; // last day is the first day + 6
+    var firstday = new Date(curr.setDate(first)).getDate();
+    var lastday = new Date(curr.setDate(last)).getDate();
+    
+    if(hSubsidiary){
+      var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
+      var d1 = [];
+
+      for (var i = firstday; i <= lastday; i++) {
+        d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
+      }
+      console.log(d1);
+      var tickSize = [1, "day"];
+      var tformat = "%d/%b";
+
+      var dataset = [
+        {label:"AR",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}}
+      ];
+
+      var options = {
+        grid: {
+          show: true,
+          aboveData: true,
+          color: "#3f3f3f",
+          labelMargin: 10,
+          axisMargin: 0,
+          borderWidth: 0,
+          borderColor: null,
+          minBorderMargin: 5,
+          clickable: true,
+          hoverable: true,
+          autoHighlight: true,
+          mouseActiveRadius: 100
+        },
+        series: {
+          lines: {
+            show: true,
+            fill: true,
+            lineWidth: 2,
+            steps: false
+          },
+          points: {
+            show: true,
+            radius: 4.5,
+            symbol: "circle",
+            lineWidth: 3.0
+          }
+        },
+        legend: {
+          position: "ne",
+          margin: [0, -25],
+          noColumns: 0,
+          labelBoxBorderColor: null,
+          labelFormatter: function(label, series) {
+            // just add some space to labes
+            return label + '&nbsp;&nbsp;';
+          },
+          width: 40,
+          height: 1
+        },
+        colors: chartColours,
+        shadowSize: 0,
+        tooltip: true, //activate tooltip
+        tooltipOpts: {
+          content: "%s: %y.0",
+          xDateFormat: "%d/%m",
+          shifts: {
+            x: -30,
+            y: -50
+          },
+          defaultTheme: false
+        },
+        yaxis: {
+          min: 0
+        },
+        xaxis: {
+          mode: "time",
+          tickSize: tickSize,
+          minTickSize: tickSize,
+          timeformat: tformat,
+          min: (new Date(new Date().getFullYear(), new Date().getMonth(), firstday)).getTime(),
+          max: (new Date(new Date().getFullYear(), new Date().getMonth(), lastday)).getTime()
+        }
+      };
+      var plot = $.plot($("#placeholder34x"), dataset , options);
+    }
+  });
+</script>
+
+<!-- For AP Weekly -->
+<script>
+  $(document).ready(function() {
+    var hSubsidiary = {!! isset($homeVendorSubsidiaryLedgerPerWeek)?json_encode($homeVendorSubsidiaryLedgerPerWeek):null !!};
+    //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
+    console.log(hSubsidiary);
+    var curr = new Date; // get current date
+    var first = (curr.getDate() - curr.getDay()); // First day is the day of the month - the day of the week
+    var last = first + 6; // last day is the first day + 6
+    var firstday = new Date(curr.setDate(first)).getDate();
+    var lastday = new Date(curr.setDate(last)).getDate();
+    
+    if(hSubsidiary){
+      var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
+      var d1 = [];
+
+      for (var i = firstday; i <= lastday; i++) {
+        d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
+      }
+      console.log(d1);
+      var tickSize = [1, "day"];
+      var tformat = "%d/%b";
+
+      var dataset = [
+        {label:"AP",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}}
+      ];
+
+      var options = {
+        grid: {
+          show: true,
+          aboveData: true,
+          color: "#3f3f3f",
+          labelMargin: 10,
+          axisMargin: 0,
+          borderWidth: 0,
+          borderColor: null,
+          minBorderMargin: 5,
+          clickable: true,
+          hoverable: true,
+          autoHighlight: true,
+          mouseActiveRadius: 100
+        },
+        series: {
+          lines: {
+            show: true,
+            fill: true,
+            lineWidth: 2,
+            steps: false
+          },
+          points: {
+            show: true,
+            radius: 4.5,
+            symbol: "circle",
+            lineWidth: 3.0
+          }
+        },
+        legend: {
+          position: "ne",
+          margin: [0, -25],
+          noColumns: 0,
+          labelBoxBorderColor: null,
+          labelFormatter: function(label, series) {
+            // just add some space to labes
+            return label + '&nbsp;&nbsp;';
+          },
+          width: 40,
+          height: 1
+        },
+        colors: chartColours,
+        shadowSize: 0,
+        tooltip: true, //activate tooltip
+        tooltipOpts: {
+          content: "%s: %y.0",
+          xDateFormat: "%d/%m",
+          shifts: {
+            x: -30,
+            y: -50
+          },
+          defaultTheme: false
+        },
+        yaxis: {
+          min: 0
+        },
+        xaxis: {
+          mode: "time",
+          tickSize: tickSize,
+          minTickSize: tickSize,
+          timeformat: tformat,
+          min: (new Date(new Date().getFullYear(), new Date().getMonth(), firstday)).getTime(),
+          max: (new Date(new Date().getFullYear(), new Date().getMonth(), lastday)).getTime()
+        }
+      };
+      var plot = $.plot($("#placeholder35x"), dataset , options);
+    }
   });
 </script>

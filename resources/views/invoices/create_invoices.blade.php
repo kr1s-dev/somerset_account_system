@@ -105,9 +105,17 @@
                                     <option name="{{$eIncomeAccountTitle->default_value}}" value="{{$eIncomeAccountTitle->id}}">{{$eIncomeAccountTitle->item_name}}</option>
                                   @endforeach
                                 </select>
-                                <!--input value="" type="text" id="nPaymentItem" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required"-->
                               </div>
+                              </br>
                             </div>
+                            <!--div class="form-group">
+                            </br>
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Quantity<span class="required">*</span>
+                              </label>
+                              <div class="col-md-9 col-sm-6 col-xs-12">
+                                <input value="" type="number" id="nQuant" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required">
+                              </div>
+                            </div-->
                             <div class="form-group">
                             </br>
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Covering Month/s<span class="required">*</span>

@@ -37,16 +37,16 @@
 	    				@foreach($listOfItem as $key => $value)
 	          				@foreach($value as $val)
 	          				<tr>
-	          					<td><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->id)}}</strong></em></td>
+	          					<td><em><strong>{{sprintf("%'.07d\n", $val->invoice->receipt->receipt_no)}}</strong></em></td>
 	          					<td>{{$key}}</td>
 	          					<td>PHP {{number_format($val->amount,2)}}</td>	
 	          					<td>{{$val->remarks}}</td>
 	          					<td>{{$val->item->item_name}}</td>
-	          					@if($val->accountTitle->subject_to_vat)
+	          					@if($val->item->subject_to_vat)
 	      							<td>YES</td>
 	      							<td>-</td>
-	      							<td>PHP {{number_format(($val->amount-($val->amount * ($val->accountTitle->vat_percent/100))),2)}}</td>	
-	      							<td>PHP {{number_format(($val->amount * ($val->accountTitle->vat_percent/100)),2)}}</td>	
+	      							<td>PHP {{number_format(($val->amount-($val->amount * ($val->item->vat_percent/100))),2)}}</td>	
+	      							<td>PHP {{number_format(($val->amount * ($val->item->vat_percent/100)),2)}}</td>	
 	      						@else
 	      							<td>NO</td>
 	      							<td>PHP {{number_format($val->amount,2)}}</td>

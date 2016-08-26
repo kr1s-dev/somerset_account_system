@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
+use App\Http\Requests\receipt\ReceiptRequest;
 
 class ReceiptController extends Controller
 {
@@ -71,7 +72,7 @@ class ReceiptController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReceiptRequest $request)
     {
         try{
             $invoiceid = $request->input('payment_id');
@@ -82,6 +83,7 @@ class ReceiptController extends Controller
 
 
             $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
+                                                                                    'receipt_no'=>$request->input('receipt_no'),
                                                                                     'file_related'=>$request->input('file_related'),
                                                                                     'amount_paid'=>$request->input('amount_paid')));
             
