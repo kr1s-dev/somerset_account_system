@@ -4,7 +4,7 @@
   <div class="">
     <div class="page-title">
        <div class="title_left">
-          <h3><i class="fa fa-money"></i> Invoice</h3>
+          <h3><i class="fa fa-files-o"></i> Invoice</h3>
        </div>
     </div>
     <div class="clearfix"></div>

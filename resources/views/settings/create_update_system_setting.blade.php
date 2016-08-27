@@ -3,7 +3,7 @@
 	<div class="">
       	<div class="page-title">
          	<div class="title_left">
-            	<h3><i class="fa fa-home"></i> Settings</h3>
+            	<h3><i class="fa fa-cog"></i> Settings</h3>
          	</div>
       	</div>
       	<div class="clearfix"></div>

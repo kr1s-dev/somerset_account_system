@@ -4,7 +4,7 @@
     <div class="">
     	
     	<div class="row">
-    		<div class="col-md-6">
+    		<div class="col-md-12">
 				<div class="page-title">
 		            <h3><i class="fa fa-file-text"></i> Income Statement for
 		            	@if(!empty($monthFilter))

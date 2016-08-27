@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
           	<div class="title_left">
-            	<h3><i class="fa fa-users"></i> Account Titles</h3>
+            	<h3><i class="fa fa-table"></i> Account Titles</h3>
           	</div>
         </div>
 
