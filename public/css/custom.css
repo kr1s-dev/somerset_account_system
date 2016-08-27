@@ -1,5 +1,5 @@
 .left_col {
-  background: #43A047;
+  background: #00695C;
 }
 .nav-sm .container.body .col-md-3.left_col {
   width: 70px;
@@ -77,7 +77,7 @@
   top: 0;
   width: 210px;
   z-index: 4000;
-  background: #2E7D32;
+  background: #00695C;
   display: none;
 }
 .nav-sm ul.nav.child_menu li {
@@ -208,7 +208,7 @@ body .container.body .right_col {
 .nav_title {
   width: 230px;
   float: left;
-  background: #43A047;
+  background: #00695C;
   border-radius: 0;
   height: 57px;
 }
@@ -334,7 +334,7 @@ body .container.body .right_col {
 }
 body {
   color: #6D4C41;
-  background: #43A047;
+  background: #00695C;
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: 400;
@@ -522,7 +522,7 @@ a:hover, a:focus {
   padding-left: 36px;
 }
 .nav-md ul.nav.child_menu li:before {
-  background: #2E7D32;
+  background: #00695C;
   bottom: auto;
   content: "";
   height: 8px;
@@ -537,7 +537,7 @@ a:hover, a:focus {
   border-radius: 50%;
 }
 .nav-md ul.nav.child_menu li:after {
-  border-left: 1px solid #2E7D32;
+  border-left: 1px solid #00695C;
   bottom: 0;
   content: "";
   left: 27px;
@@ -575,7 +575,7 @@ a:hover, a:focus {
 }
 .nav.side-menu> li.active > a {
   text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-  background: #2E7D32;
+  background: #00695C;
   -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
   -moz-box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
   box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
@@ -1531,7 +1531,7 @@ span.right {
   padding: 5px 0 0 0;
   position: fixed;
   width: 230px;
-  background: #43A047;
+  background: #00695C;
 }
 .sidebar-footer a {
   color: #fff;
@@ -1541,7 +1541,7 @@ span.right {
   font-size: 17px;
   display: block;
   float: right;
-  background: #2e7d32;
+  background: #00695C;
 }
 .sidebar-footer a:hover {
   background: #425567;
