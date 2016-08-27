@@ -4844,3 +4844,13 @@ ul.notifications {
 .tile_count .tile_stats_count {
   padding-top: 10px;
 }
+
+.tile_count .tile_stats_count:before {
+  border-left: none;
+}
+
+/* Fixes */
+
+#vendorList .select2 .select2-container .select2-container--default {
+  width: 100% !important;
+}

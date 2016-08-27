@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Balance Sheet for
+		            <h3><i class="fa fa-file-text"></i> Balance Sheet for
 		            	@if(!empty($monthFilter))
 		            		{{$monthArray[$monthFilter]}}, 
 		            	@endif 

@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   	<head>
+	  <style>
+	  		body {
+				  font-family: Roboto, Helvetica, "Helvetica Neue", "Arial", sans-serif;
+			  }
+	  </style>
   	</head>
   	<body>
        	<div style="display:inline-block; width:100%">
-      		<div>
-          		<h2><strong>Somerset Homeowners Associations</strong></h2>
+      		<div class="headline">
+          		<h2><strong><i class="fa fa-home"></i> Somerset Homeowners Association</strong></h2>
       		</div>
       		<div style="float:right;">
           		<h2>Cash Voucher</h2>

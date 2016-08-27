@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Asset Registry as of
+		            <h3><i class="fa fa-file-text"></i> Asset Registry as of
 		            		{{date('F')}}, {{date('Y')}}</h3>
 		        </div>
 			</div>

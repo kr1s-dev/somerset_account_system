@@ -63,7 +63,7 @@
           </ul>
         </li>
         <li>
-          <a><i class="fa fa-credit-card"></i> Reports <span class="fa fa-chevron-down"></span></a>
+          <a><i class="fa fa-file-text"></i> Reports <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <!--li><a href="">General Journal</a></li>
             <li><a href="">General Ledger</a></li-->

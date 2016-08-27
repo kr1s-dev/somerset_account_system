@@ -54,7 +54,7 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="right_col" role="main" style="height: 100vh;">
           @include('flash::message')
           @yield('content')
         </div>

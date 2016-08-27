@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Statement of Changes in Equity for the period
+		            <h3><i class="fa fa-file-text"></i> Statement of Changes in Equity for the period
 		            	@if(!empty($monthFilter))
 		            		{{$monthArray[$monthFilter]}}, 
 		            	@endif 

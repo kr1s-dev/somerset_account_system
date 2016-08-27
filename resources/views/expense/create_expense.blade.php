@@ -57,11 +57,11 @@
                      		<div class="col-sm-4 invoice-col" id="vendorList" style="display:none;">
                      			<label class="control-label" for="homeowner">Vendor</label>
                         		<div class="form-group">
-                           			<select id="vendor_id" class=" select2_single form-control">
-										@foreach($vendorList as $key => $value) 
-											<option value="{{ $key }} ">{{ $value }}</option>
-										@endforeach
-									</select>
+                           			<select style="width: 100%;" id="vendor_id" class="select2_single form-control">
+																	@foreach($vendorList as $key => $value) 
+																		<option value="{{ $key }} ">{{ $value }}</option>
+																	@endforeach
+																</select>
                         		</div>
                      		</div>
                      		<div class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">

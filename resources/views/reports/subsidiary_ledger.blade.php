@@ -6,7 +6,7 @@
     	<div class="row">
     		<div class="col-md-6">
 				<div class="page-title">
-		            <h3><i class="fa fa-users"></i> Subsidiary Ledger for period 
+		            <h3><i class="fa fa-file-text"></i> Subsidiary Ledger for period 
 		            	@if(!empty($monthFilter))
 		            		{{$monthArray[$monthFilter]}}, 
 		            	@endif 
