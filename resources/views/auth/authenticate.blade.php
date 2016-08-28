@@ -10,7 +10,7 @@
 	          <section class="login_content">
 	            {!! Form::open(['url'=>'auth/login','method'=>'POST']) !!}
 	              <h1>Login Form</h1>
-	              @include('flash::message');
+	              @include('flash::message')
 	              @include('errors.validator')
 	              <div>
 	                <input type="email" class="form-control" name="email" placeholder="Username" value="{{ old('email') }}"/>
