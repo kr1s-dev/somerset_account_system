@@ -19,7 +19,7 @@
 	                <input type="password" class="form-control" name="password" placeholder="Password"/>
 	              </div>
 	              <div>
-	              	<input type="submit" class="btn btn-default submit" value="Login">
+	              	<input type="submit" class="btn btn-primary btn-lg submit" value="Login">
 	                <a class="reset_pass" href="{{ route('resetpassword') }}">Lost your password?</a>
 	              </div>
 
@@ -34,7 +34,7 @@
 	                <br />
 
 	                <div>
-	                  <h1><i class="fa fa-home"></i> Somerset Homeowners Management System</h1>
+	                  <h2><i class="fa fa-home"></i> Somerset Place Accounting System</h2>
 	                  <p>©2016 All Rights Reserved. </p>
 	                </div>
 	              </div>
@@ -70,7 +70,7 @@
 	                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmation Password" required="" />
 	              </div-->
 	              <div>
-	                <input type="submit" class="btn btn-default submit" value="Register">
+	                <input type="submit" class="btn btn-primary submit register" value="Register">
 	              </div>
 
 	              <div class="clearfix"></div>
@@ -81,11 +81,9 @@
 	                </p>
 
 	                <div class="clearfix"></div>
-	                <br />
 
 	                <div>
-	                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-	                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+	                  <p>©2016 All Rights Reserved.</p>
 	                </div>
 	              </div>
 	            {!! Form::close() !!}
