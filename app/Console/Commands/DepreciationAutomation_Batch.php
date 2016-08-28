@@ -53,8 +53,8 @@ class DepreciationAutomation_Batch extends Command
                     $description = 'Depreciation of ' . $eAssetItem->item_name . ' for the month of ' . date('F');
                     $eAssetItem->next_depreciation_date = date('Y-m-d',strtotime($eAssetItem->next_depreciation_date . '+1 month'));
                     $eAssetItem->useful_life = ($eAssetItem->useful_life-1);
-                    $eAssetItem->net_value = number_format($eAssetItem->net_value-$eAssetItem->monthly_depreciation,2);
-                    $eAssetItem->accumulated_depreciation = number_format($eAssetItem->accumulated_depreciation+$eAssetItem->monthly_depreciation,2);
+                    $eAssetItem->net_value = str_replace(",","", number_format($eAssetItem->net_value-$eAssetItem->monthly_depreciation,2));
+                    $eAssetItem->accumulated_depreciation = str_replace(",","", number_format($eAssetItem->accumulated_depreciation+$eAssetItem->monthly_depreciation,2)) ;
                     $eAssetItem->updated_at = date('Y-m-d');
                     $eAssetItem->save(); //Think of a better way
                     $tJournalEntry[] = $this->createJournalEntry($eAssetItem->accountTitle->account_sub_group_name,'Asset','asset_id',$eAssetItem->id,$description,$eAssetItem->monthly_depreciation);

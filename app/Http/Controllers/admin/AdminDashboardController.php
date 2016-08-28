@@ -70,12 +70,13 @@ class AdminDashboardController extends Controller
     public function generateSubsidiaryLedger($type){
         $amountPerDay = array();
         $objectToShowList;
-        $fromDate = Carbon\Carbon::now()->subDay()->startOfWeek()->addDays(-1)->toDateString(); // or ->format(..)
-        $tillDate = Carbon\Carbon::now()->subDay()->startOfWeek()->addDays(5)->toDateString();
+        $fromDate = Carbon\Carbon::now()->startOfWeek()->toDateString(); // or ->format(..)
+        $tillDate = Carbon\Carbon::now()->subDay()->startOfWeek()->addDays(6)->toDateString();
 
-        for ($i=date('d',strtotime($fromDate)); $i <= date('d',strtotime($tillDate)); $i++) { 
-            $amountPerDay[$i] = 0;
+        for ($i=0; $i <= 6; $i++) { 
+            $amountPerDay[date('d',strtotime($fromDate . '+'.$i.'day'))] = 0;
         }
+        
         if($type=='homeowner'){
             $objectToShowList = ReceiptModel::whereBetween(DB::raw('date(created_at)'), [$fromDate, $tillDate])
                                     ->get();

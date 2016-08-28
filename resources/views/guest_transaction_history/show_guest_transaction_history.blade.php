@@ -13,7 +13,7 @@
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_green">
         <span class="count_top"><i class="fa fa-money"></i> Outstanding Balance (PHP)</span>
         <div class="count">{{number_format($outstandingBalance,2)}}</div>
-        <span class="count_bottom">For the month of {{$arrayMonth[date('m')]}}</span>
+        <span class="count_bottom">For the month of {{date('F')}}</span>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_blue">
         <span class="count_top"><i class="fa fa-user"></i> Last Transaction (PHP)</span>
@@ -53,11 +53,13 @@
               </thead>
               <tbody>
                 @foreach($transactionHistoryList as $transactionHistory)
-                  <td><a href="{{route('guestinvoice',$transactionHistory->id)}}"> <strong> {{sprintf("%'.07d\n", $transactionHistory->id)}} </strong></a></td>
-                  <td>{{$transactionHistory->total_amount}}</td>
-                  <td>{{date('m/d/y',strtotime($transactionHistory->payment_due_date))}}</td>
-                  <td>{{date('m/d/Y',strtotime($transactionHistory->updated_at))}}</td>
-                  <td>{{date('m/d/Y',strtotime($transactionHistory->created_at))}}</td>
+                  <tr>
+                    <td><a href="{{route('guestinvoice',$transactionHistory->id)}}"> <strong> {{sprintf("%'.07d\n", $transactionHistory->id)}} </strong></a></td>
+                    <td>{{$transactionHistory->total_amount}}</td>
+                    <td>{{date('m/d/y',strtotime($transactionHistory->payment_due_date))}}</td>
+                    <td>{{date('m/d/Y',strtotime($transactionHistory->updated_at))}}</td>
+                    <td>{{date('m/d/Y',strtotime($transactionHistory->created_at))}}</td>
+                  </tr>
                 @endforeach
               </tbody>
             </table>
