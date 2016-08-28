@@ -13,6 +13,7 @@
 //Route for login page
 Route::get('/', function () {
     return Redirect::to('auth/login');
+    //return view('somerset_page.index');
 });
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');
