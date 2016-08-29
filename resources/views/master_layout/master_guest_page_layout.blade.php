@@ -55,16 +55,39 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
+              <!--a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a-->
+              <a href="#" data-toggle="tooltip" data-placement="top" title="FullScreen" onclick="toggleFullScreen();">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true" ></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
+              <script type="text/javascript">
+                function toggleFullScreen() {
+                  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+                   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                    if (document.documentElement.requestFullScreen) {  
+                      document.documentElement.requestFullScreen();  
+                    } else if (document.documentElement.mozRequestFullScreen) {  
+                      document.documentElement.mozRequestFullScreen();  
+                    } else if (document.documentElement.webkitRequestFullScreen) {  
+                      document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+                    }  
+                  } else {  
+                    if (document.cancelFullScreen) {  
+                      document.cancelFullScreen();  
+                    } else if (document.mozCancelFullScreen) {  
+                      document.mozCancelFullScreen();  
+                    } else if (document.webkitCancelFullScreen) {  
+                      document.webkitCancelFullScreen();  
+                    }  
+                  }  
+                }
+                
+              </script>
+              <!--a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout">
+              </a-->
+              <a href="{{ route('logout') }}" data-toggle="tooltip" data-placement="top" title="Logout">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>

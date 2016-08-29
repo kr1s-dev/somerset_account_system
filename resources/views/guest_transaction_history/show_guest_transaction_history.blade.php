@@ -27,6 +27,7 @@
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_red">
         <span class="count_top"><i class="fa fa-clock-o"></i> YTD Dues Paid (PHP)</span>
         <div class="count">{{number_format($totalDuesPaid,2)}}</div>
+        <span class="count_bottom">&nbsp;</span>
       </div>
     </div>
 
