@@ -1143,20 +1143,16 @@
 <script>
   $(document).ready(function() {
     var hSubsidiary = {!! isset($homeOwnerSubsidiaryLedgerPerWeek)?json_encode($homeOwnerSubsidiaryLedgerPerWeek):null !!};
-    var firstday = moment().startOf('isoWeek').format('D');
-    var lastday = moment().endOf('isoWeek').format('D');
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
-
+    var ticks = [];
+    console.log(moment().startOf('isoWeek').toDate());
     for (var i = 0; i <= 6; i++) {
       // d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
       if(hSubsidiary){
-        d1.push([moment().startOf('isoWeek').add(i,'days').toDate(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
-      }else{
-        console.log('no value');
-        d1.push([moment().startOf('isoWeek').add(i,'days').toDate(),0]);
+        ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
+        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
       }
-      
     }
     console.log('d1= ' + d1);
     var tickSize = [1, "day"];
@@ -1179,7 +1175,8 @@
         clickable: true,
         hoverable: true,
         autoHighlight: true,
-        mouseActiveRadius: 100
+        mouseActiveRadius: 100,
+        aboveData: true
       },
       series: {
         lines: {
@@ -1224,13 +1221,14 @@
       },
       xaxis: {
         mode: "time",
-        timeformat: tformat,
-        min: moment().startOf('isoWeek').toDate(),
-        max: moment().endOf('isoWeek').toDate()
+        ticks:ticks,
+        timeformat: "%b/%d",
+        // minTickSize:tickSize,
+        min: moment().startOf('isoWeek').toDate().getTime(),
+        max: moment().endOf('isoWeek').add(1,'days').toDate().getTime()
       }
-    };
+    };  
     var plot = $.plot($("#placeholder34x"), dataset , options);
-    
   });
 </script>
 
@@ -1244,16 +1242,13 @@
     
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
-
+    var ticks = [];
     for (var i = 0; i <= 6; i++) {
       // d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
       if(hSubsidiary){
-        d1.push([moment().startOf('isoWeek').add(i,'days').toDate(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
-      }else{
-        console.log('no value');
-        d1.push([moment().startOf('isoWeek').add(i,'days').toDate(),0]);
+        ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
+        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
       }
-      
     }
     console.log('d1= ' + d1);
     var tickSize = [1, "day"];
@@ -1321,14 +1316,14 @@
         },
         xaxis: {
           mode: "time",
-          tickSize: tickSize,
-          minTickSize: tickSize,
-          timeformat: tformat,
-          min: moment().startOf('isoWeek').toDate(),
-          max: moment().endOf('isoWeek').toDate()
+          ticks:ticks,
+          timeformat: "%b/%d",
+          // minTickSize:tickSize,
+          min: moment().startOf('isoWeek').toDate().getTime(),
+          max: moment().endOf('isoWeek').add(1,'days').toDate().getTime()
         }
       };
       var plot = $.plot($("#placeholder35x"), dataset , options);
-    
   });
 </script>
+
