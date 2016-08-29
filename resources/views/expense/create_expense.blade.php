@@ -41,10 +41,10 @@
 		                            </div>
 		                        </div>
 		                    </div>
-		                    <div class="col-sm-4 invoice-col">
+		                    <div class="col-sm-3 invoice-col">
 							   <label class="control-label">Type</label>
 							   <div class="form-group">
-							      	<div id="gender" class="btn-group" data-toggle="buttons">
+							      	<div style="text-align:center;" id="gender" class="btn-group" data-toggle="buttons">
 							         	<label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
 							         		<input type="radio" name="type" value="Non-Vendor" data-parsley-multiple="gender"> Non-Vendor
 							         	</label>
@@ -54,7 +54,7 @@
 							      	</div>
 							   	</div>
 							</div>
-                     		<div class="col-sm-4 invoice-col" id="vendorList" style="display:none;">
+                     		<div class="col-sm-5 invoice-col" id="vendorList" style="display:none;">
                      			<label class="control-label" for="homeowner">Vendor</label>
                         		<div class="form-group">
                            			<select style="width: 100%;" id="vendor_id" class="select2_single form-control">
@@ -64,7 +64,7 @@
 																</select>
                         		</div>
                      		</div>
-                     		<div class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">
+                     		<div  class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">
                         		<div class="form-group">
                            			<label class="control-label" for="homeowner">Paid To</label>
                            			<input id="paid_to" name="paid_to" type="text" class="form-control">
@@ -73,6 +73,18 @@
                      		<!-- /.col -->
                   		</div>
                   		<!-- /.row -->
+                  		<!-- /.row -->
+                  		<div class="row">
+                  			<div class="col-sm-4">
+                  				<div class="form-group">
+                           			<label class="control-label" for="homeowner">Select Approver</label>
+                           			<select class="select2_single form-control" name="approver" id="approver">
+	                  					<option value="1">I am admin</option>
+	                  					<option value="2">I am admin too</option>
+	                  				</select>
+                        		</div>
+                  			</div>
+                  		</div>
                   		<!-- Table row -->
                   		<div class="row">
                      		<div class="col-md-6">
@@ -203,8 +215,9 @@
                   		<div class="row no-print">
                      		<div class="col-xs-12">
                         		<!--button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Print</button -->
-                        		<a href="{{route('expense.index')}}" class="btn btn-primary">Cancel</a>
+                        		
                         		<button class="btn btn-success pull-right" id="createExpBtn"><i class="fa fa-credit-card"></i> Create Expense Record</button>
+                        		<a style="margin-right: 10px;" href="{{route('expense.index')}}" class="btn btn-primary pull-right">Cancel</a>
                         		<!--button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button-->
                      		</div>
                   		</div>

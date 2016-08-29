@@ -59,7 +59,7 @@
                       <a href="{{ route('invoice.edit',$eInvoice->id) }}" role="button" class="btn btn-default">
                         <i class="fa fa-pencil"></i> 
                       </a>
-                      {!! Form::model($eInvoice, ['method'=>'DELETE','action' => ['invoice\InvoiceController@destroy',$eInvoice->id] , 'class' => 'form-horizontal form-label-left']) !!}
+                      {!! Form::model($eInvoice, ['method'=>'DELETE','action' => ['invoice\InvoiceController@destroy',$eInvoice->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
                         <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </button>
                       </td>
                       {!! Form::close() !!}

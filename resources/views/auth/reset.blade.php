@@ -28,7 +28,7 @@
 
 	              			<div class="separator">
 	                			<div>
-	                  				<h1><i class="fa fa-home"></i> Somerset Homeowners Management System</h1>
+	                  				<h1><i class="fa fa-home"></i> Somerset Place Accounting System</h1>
 	                  				<p>©2016 All Rights Reserved. </p>
 	                			</div>
 	              			</div>

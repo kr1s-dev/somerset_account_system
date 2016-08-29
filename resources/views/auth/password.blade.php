@@ -16,13 +16,13 @@
 	              			</div>
 	              			
 	              			<div>
-	              				<input type="submit" class="btn btn-default pull-right submit" value="Submit">
+	              				<input type="submit" class="btn btn-primary pull-right submit" value="Submit">
 	              			</div>
 	              			<div class="clearfix"></div>
 
 	              			<div class="separator">
 	                			<div>
-	                  				<h1><i class="fa fa-home"></i> Somerset Homeowners Management System</h1>
+	                  				<h2><i class="fa fa-home"></i> Somerset Place Accounting System</h2>
 	                  				<p>©2016 All Rights Reserved. </p>
 	                			</div>
 	              			</div>

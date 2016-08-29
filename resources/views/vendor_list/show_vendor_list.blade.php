@@ -51,7 +51,7 @@
 			                       <a href="{{route('vendor.edit',$vendor->id)}}" role="button" class="btn btn-default">
 			                       <i class="fa fa-pencil"></i> 
 			                       </a>
-			                       {!! Form::model($vendor, ['method'=>'DELETE','action' => ['vendor\VendorController@destroy',$vendor->id] , 'class' => 'form-horizontal form-label-left']) !!}
+			                       {!! Form::model($vendor, ['method'=>'DELETE','action' => ['vendor\VendorController@destroy',$vendor->id] , 'class' => 'form-horizontal form-label-left  form-wrapper']) !!}
                         				<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </button>
                       				{!! Form::close() !!}
 			                    </td>

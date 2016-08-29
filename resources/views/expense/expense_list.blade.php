@@ -41,7 +41,7 @@
 			                      	<a href="{{ route('expense.edit',$eExpense->id) }}" role="button" class="btn btn-default">
 			                      		<i class="fa fa-pencil"></i> 
 			                      	</a>
-                              {!! Form::model($eExpense, ['method'=>'POST','action' => ['expense\ExpenseController@destroy',$eExpense->id] , 'class' => 'form-horizontal form-label-left']) !!}
+                              {!! Form::model($eExpense, ['method'=>'POST','action' => ['expense\ExpenseController@destroy',$eExpense->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
                                 <button data-toggle="modal" data-target="#confirm" class="btn btn-default"><i class="fa fa-trash"></i> </button>
                                 <!-- Modal content-->
                                 <div id="confirm" class="modal fade" role="dialog">
