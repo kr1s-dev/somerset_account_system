@@ -63,7 +63,7 @@
 </div>
 <div class="form-group">
    <div class="col-md-9 col-md-offset-3">
-      <a href="{{route('homeowner.show',$ehomeOwnerInformation->id)}}" class="btn btn-primary">Cancel</a>
+      <a href="{{route('homeowners.show',$ehomeOwnerInformation->id)}}" class="btn btn-primary">Cancel</a>
       <button type="submit" class="btn btn-success" id="testsubmit">{{ $submitButton }}</button>
    </div>
 </div>
