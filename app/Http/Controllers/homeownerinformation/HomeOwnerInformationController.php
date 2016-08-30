@@ -47,19 +47,18 @@ class HomeOwnerInformationController extends Controller
      */
     public function create()
     {
-        try{
-            if(Auth::user()->userType->type!=='Administrator' || Auth::user()->userType->type!=='Accountant'){
+        //try{
+            if(Auth::user()->userType->type==='Cashier'){
                 return view('errors.503');
-            }else{
+            } else {
                 $homeOwner = $this->setHomeOwnerInformation();
                 $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
                 return view('homeowners.create_homeowner_information',
                                 compact('homeOwner'));    
             }
-             
-        }catch(\Exception $ex){
+        /*} catch(\Exception $ex) {
             return view('errors.503');
-        }
+        }*/
          
     }
 
