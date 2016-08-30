@@ -131,7 +131,7 @@ class HomeOwnerInformationController extends Controller
     public function edit($id)
     {
         try{
-            if(Auth::user()->userType->type!=='Administrator' || Auth::user()->userType->type!=='Accountant'){
+            if(Auth::user()->userType->type==='Cashier'){
                 return view('errors.503');
             }else{
                 $homeOwner = $this->getHomeOwnerInformation($id);
