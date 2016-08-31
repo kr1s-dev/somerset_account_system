@@ -65,6 +65,7 @@ class ExpenseController extends Controller
                                     'expenseAccountItems',
                                     'vendorList'));    
         }catch(\Exception $ex){
+            //echo $ex->getMessage();
             return view('errors.503');
         }
         

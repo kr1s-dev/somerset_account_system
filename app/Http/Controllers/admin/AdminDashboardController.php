@@ -31,13 +31,21 @@ class AdminDashboardController extends Controller
     		$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
     		$incomeAmountPerMonth = $this->getAmountPerMonth($incStatementItemsList);
             $incTotalSum = $this->getTotalSum($incomeItemsList);
-    	}
+    	}else{
+            foreach(range(1, 12) as $month) {
+                $incomeAmountPerMonth[$month] = 0;
+            }
+        }   
 
     	if(count($expStatementItemsList)>0){
     		$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
     		$expenseAmountPerMonth = $this->getAmountPerMonth($expStatementItemsList);
             $expTotalSum = $this->getTotalSum($expenseItemsList);
-    	}
+    	}else{
+            foreach(range(1, 12) as $month) {
+                $expenseAmountPerMonth[$month] = 0;
+            }
+        }
         $homeOwnerSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('homeowner');
         $totalHomeOwnerAmountPerWeek = $this->getTotalSum($homeOwnerSubsidiaryLedgerPerWeek);
 

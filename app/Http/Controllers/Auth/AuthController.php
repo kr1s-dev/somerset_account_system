@@ -51,7 +51,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'first_name' => 'required|max:255|min:5',
             'middle_name' => 'required|max:255|min:5',
-            'last_name' => 'required|max:255|min:5',
+            'last_name' => 'required|max:255|min:2',
             'email' => 'required|email|max:255|unique:users',
             'g-recaptcha-response' => 'required|captcha'
         ]);
@@ -197,9 +197,13 @@ class AuthController extends Controller
             $guestUserType = DB::table('user_type')
                             ->where(array('type'=>'Guest'))
                             ->first();
+
+            $adminUser = DB::table('users')
+                            ->where(array('user_type_id'=>1))
+                            ->first();
             $data = $request->all();
             $data['confirmation_code'] = $confirmation_code;
-            $data['user_type_id'] = $guestUserType->id;
+            $data['user_type_id'] = count($adminUser)>0?$guestUserType->id:1;
 
             $validator = $this->validator($data);
 
@@ -216,7 +220,7 @@ class AuthController extends Controller
             $this->sendEmailVerification($data['email'],
                                             $data['first_name'] . ' ' . $data['middle_name'] . ' ' . $data['last_name'],
                                             array('confirmation_code'=>$confirmation_code));
-            
+            Auth::logout();
             flash()->success('An email is sent to your account for verification.');
             return redirect('auth/login');    
         }catch(\Exception $ex){

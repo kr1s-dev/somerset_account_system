@@ -925,8 +925,8 @@
     var dataIncome = {!! isset($incomeAmountPerMonth)?json_encode($incomeAmountPerMonth):null !!};
     var expenseIncome = {!! isset($expenseAmountPerMonth)?json_encode($expenseAmountPerMonth):null !!};
     //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-
-    if(dataIncome!='' || expenseIncome != ''){
+    console.log(dataIncome);
+    
       var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
       //generate random number for charts
       randNum = function() {
@@ -1021,7 +1021,7 @@
         }
       };
       var plot = $.plot($("#placeholder33x"), dataset , options);
-    }
+    
     
     
   });
