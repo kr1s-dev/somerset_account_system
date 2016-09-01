@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME','kristopher.n.veraces@gmail.com'),
+    'username' => env('MAIL_USERNAME','somersetplace09@gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD','I<3 pochol0'),
+    'password' => env('MAIL_PASSWORD','testadmin12345'),
 
     /*
     |--------------------------------------------------------------------------
