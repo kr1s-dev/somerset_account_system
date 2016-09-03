@@ -51,6 +51,8 @@ class AdminDashboardController extends Controller
 
         $homeVendorSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('vendor');
         $totalVendorAmountPerWeek = $this->getTotalSum($homeVendorSubsidiaryLedgerPerWeek);
+
+        //print_r($homeOwnerSubsidiaryLedgerPerWeek);
         return view('admin_dashboard.admin_dashboard',
         				compact('incTotalSum',
         						'expTotalSum',

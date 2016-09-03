@@ -396,28 +396,48 @@ trait UtilityHelper
                 $eIncomeAccountTitlesList[$item->item_name] = $item->id;
             }
         }
-        // foreach ($tIncomeAccountTitlesList as $tIncomeAccountTitle) {
-        //     $eIncomeAccountTitlesList[$tIncomeAccountTitle->account_sub_group_name] = $tIncomeAccountTitle->id;
-        // }
 
         foreach ($tArrayStringList as $tString) {
             ++$count;
-            if($count==1){
-                $title = $tString;
-            }else if($count==2){
-                $desc = $tString;
-            }else if($count==3){
-                $amount = $tString;
-                $count = 0;
-                $toInsertItems[] = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
-                                            'remarks' => $desc,
-                                            'amount' => $amount,
-                                            $foreignKeyId => $foreignValue,
-                                            'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
-                                            'updated_at'=>  date('Y-m-d'),
-                                            'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
-                                            'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
+            if($groupName == 'Revenues'){
+                if($count==1){
+                    $quantity = $tString;
+                }else if($count==2){
+                    $title = $tString;
+                }else if($count==3){
+                    $desc = $tString;
+                }else if($count==4){
+                    $amount = $tString;
+                    $count = 0;
+                    $toInsertItems[] = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
+                                                'quantity' => $quantity,
+                                                'remarks' => $desc,
+                                                'amount' => $amount,
+                                                $foreignKeyId => $foreignValue,
+                                                'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
+                                                'updated_at'=>  date('Y-m-d'),
+                                                'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                                                'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
+                } 
+            }else{
+                if($count==1){
+                    $title = $tString;
+                }else if($count==2){
+                    $desc = $tString;
+                }else if($count==3){
+                    $amount = $tString;
+                    $count = 0;
+                    $toInsertItems[] = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
+                                                'remarks' => $desc,
+                                                'amount' => $amount,
+                                                $foreignKeyId => $foreignValue,
+                                                'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
+                                                'updated_at'=>  date('Y-m-d'),
+                                                'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                                                'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
+                } 
             }
+            
         }
         return $toInsertItems;
     }

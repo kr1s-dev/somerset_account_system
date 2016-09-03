@@ -76,6 +76,7 @@
                   <table class="table table-striped">
                    <thead>
                     <tr>
+                      <th>Quantity</th>
                       <th style="width: 30%">Payment Type</th>
                      <th style="width: 59%">Covering Month/s</th>
                      <th>Amount (PHP)</th>
@@ -84,6 +85,7 @@
                   <tbody>
                     @foreach($homeOwnerInvoice->invoiceItems as $pendingPayment)
                       <tr>
+                        <td>{{$pendingPayment->quantity}}</td>
                         <td>{{$pendingPayment->item->item_name}}</td>
                         <td>{{$pendingPayment->remarks}}</td>
                         <td>{{$pendingPayment->amount}}</td>

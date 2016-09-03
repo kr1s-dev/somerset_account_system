@@ -52,12 +52,14 @@
   		<div>
       		<table border="1" style="width:100%; border-collapse: collapse; border: 1px solid black;">
           		<tr>
+                  <th style="padding:0px 10px 0px 10px;"> Quantity </th>
               		<th style="padding:0px 10px 0px 10px;"> Item </th>
               		<th style="padding:0px 10px 0px 10px;"> Description</th>
               		<th style="padding:0px 10px 0px 10px;"> Amount </th>
           		</tr>
           		@foreach($receipt->invoice->invoiceItems as $invItem)
           			<tr>
+                    <td style="padding:0px 10px 0px 10px;"> {{$invItem->quantity}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->item->item_name}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->remarks}}  </td>
 	              		<td style="padding:0px 10px 0px 10px;"> PHP {{$invItem->amount}}  </td>
@@ -65,7 +67,7 @@
           		
           		@endforeach
           		<tr>
-              		<td colspan="2" align="right" style="padding-right:5px;"> Total Amount: </td>
+              		<td colspan="3" align="right" style="padding-right:5px;"> Total Amount: </td>
               		<td style="padding:0px 10px 0px 10px;">PHP {{$receipt->invoice->total_amount}}</td>
           		</tr>
       		</table>

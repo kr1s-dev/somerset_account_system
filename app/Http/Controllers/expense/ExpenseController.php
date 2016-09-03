@@ -46,6 +46,7 @@ class ExpenseController extends Controller
     public function create()
     {
         try{
+            $type = 'Expense';
             //$receiptNumber = 1;
             $expenseAccountItems = array();
             $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
@@ -63,7 +64,8 @@ class ExpenseController extends Controller
             return view('expense.create_expense',
                             compact('receiptNumber',
                                     'expenseAccountItems',
-                                    'vendorList'));    
+                                    'vendorList',
+                                    'type'));    
         }catch(\Exception $ex){
             //echo $ex->getMessage();
             return view('errors.503');
@@ -141,6 +143,7 @@ class ExpenseController extends Controller
     {
         try{
             //$receiptNumber = 1;
+            $type = 'Expense';
             $expenseAccountItems = array();
 
             $eExpense = $this->getExpense($id);
@@ -156,7 +159,8 @@ class ExpenseController extends Controller
                             compact('eExpense',
                                     'eExpenseId',
                                     'expenseAccountItems',
-                                    'vendorList'));    
+                                    'vendorList',
+                                    'type'));    
         }catch(\Exception $ex){
             return view('errors.503');
         }

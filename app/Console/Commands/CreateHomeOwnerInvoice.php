@@ -118,13 +118,13 @@ class CreateHomeOwnerInvoice extends Command
                 $amount = $tString;
                 $count = 0;
                 $toInsertItems = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
-                                            'remarks' => $desc,
-                                            'amount' => $amount,
-                                            $foreignKeyId => $foreignValue,
-                                            'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
-                                            'updated_at'=>  date('Y-m-d'),
-                                            'created_by' => $userAdmin->id,
-                                            'updated_by' => $userAdmin->id);
+                                        'remarks' => $desc,
+                                        'amount' => $amount,
+                                        $foreignKeyId => $foreignValue,
+                                        'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
+                                        'updated_at'=>  date('Y-m-d'),
+                                        'created_by' => $userAdmin->id,
+                                        'updated_by' => $userAdmin->id);
             }
         }
         return $toInsertItems;

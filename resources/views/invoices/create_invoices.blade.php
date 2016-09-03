@@ -1,6 +1,7 @@
 @extends('master_layout.master_page_layout')
 @section('content')
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="type" content="{{ $type }}">
   <div class="">
     <div class="page-title">
        <div class="title_left">
@@ -70,9 +71,10 @@
                       <table class="table table-striped" id="itemsTable">
                        <thead>
                           <tr>
-                             <th style="width: 30%">Particulars</th>
-                             <th style="width: 59%">Covering Month/s</th>
-                             <th>Amount (PHP)</th>
+                            <th>Quantity</th>
+                            <th style="width: 30%">Particulars</th>
+                            <th style="width: 59%">Covering Month/s</th>
+                            <th>Amount (PHP)</th>
                           </tr>
                        </thead>
                        <tbody class="items-wrapper">
@@ -117,7 +119,15 @@
                               </div>
                             </div-->
                             <div class="form-group">
-                            </br>
+                              </br>
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Quantity<span class="required">*</span>
+                              </label>
+                              <div class="col-md-9 col-sm-6 col-xs-12">
+                                <input value="" type="number" min="1" id="nQuantity" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              </br>
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Covering Month/s<span class="required">*</span>
                               </label>
                               <div class="col-md-9 col-sm-6 col-xs-12">
@@ -156,7 +166,15 @@
                         <div class="modal-body">
                           <form id="nPaymentTrans">
                             <div class="form-group">
-                            </br>
+                              </br>
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Quantity<span class="required">*</span>
+                              </label>
+                              <div class="col-md-9 col-sm-6 col-xs-12">
+                                <input value="" type="number" min="1" id="eQuantity" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              </br>
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Covering Month/s<span class="required">*</span>
                               </label>
                               <div class="col-md-9 col-sm-6 col-xs-12">

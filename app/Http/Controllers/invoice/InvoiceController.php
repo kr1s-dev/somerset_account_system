@@ -58,6 +58,7 @@ class InvoiceController extends Controller
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.503');
             }else{
+                $type = 'Invoice';
                 $incomeAccountItems = array();
                 $homeOwnerMembersList = $this->getHomeOwnerInformation(null);
                 $incomeAccount = $this->getAccountGroups('5'); //get income account titles
@@ -71,7 +72,8 @@ class InvoiceController extends Controller
                 return view('invoices.create_invoices',
                                 compact('homeOwnerMembersList',
                                         'invoiceNumber',
-                                        'incomeAccountItems'));
+                                        'incomeAccountItems',
+                                        'type'));
             }    
         }catch(\Exception $ex){
             return view('errors.503');
@@ -165,6 +167,7 @@ class InvoiceController extends Controller
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.503');
             }else{
+                $type = 'Invoice';
                 $eInvoice = $this->getHomeOwnerInvoice($id);
                 $invoiceNumber = $id;
                 $incomeAccount = $this->getAccountGroups('5'); //get income account titles
@@ -179,7 +182,8 @@ class InvoiceController extends Controller
                     return view('invoices.edit_invoice',
                                 compact('eInvoice',
                                         'invoiceNumber',
-                                        'incomeAccountItems'));
+                                        'incomeAccountItems',
+                                        'type'));
                 }
             }    
         }catch(\Exception $ex){

@@ -22,7 +22,6 @@
               		<thead>
                 			<tr>
                   			<th>Voucher #</th>
-		                    <th>Account</th>
 		                    <th>Paid To</th>
 		                    <th>Date Created</th>
 		                    <th>Amount Due</th>
@@ -33,8 +32,13 @@
               			@foreach($eExpenseList as $eExpense)
               				<tr>
               					<td><a href="{{ route('expense.show',$eExpense->id) }}"><strong>#{{sprintf("%'.07d\n",$eExpense->id)}}</strong></a></td>
-                				<td>2016 Somerset</td>
-                				<td>{{$eExpense->paid_to}}</td>
+                				<td>
+                          @if($eExpense->vendor_id != NULL)
+                            {{$eExpense->vendor->vendor_name}}
+                          @else
+                            {{$eExpense->paid_to}}
+                          @endif
+                        </td>
                 				<td>{{date_format($eExpense->created_at,'F d, Y')}}</td>
                 				<td>{{$eExpense->total_amount}}</td>
                 				<td align="center">

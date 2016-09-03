@@ -126,6 +126,7 @@
       $("#addItemRow").click(function(e){
         e.preventDefault();
         $('#nPaymentItem').select2("val", "");
+        $('#nQuantity').val('');
         $('#nPaymentDesc').val('');
         $('#nPaymentCost').val('')
       });
@@ -137,13 +138,24 @@
       */
       $("#nPaymentBtn").click(function(e){
         e.preventDefault();
+        var type = $('meta[name="type"]').attr('content');
         var paymentType = $('#nPaymentItem option:selected').text();
         var paymentDesc = $('#nPaymentDesc').val();
         var nPaymentCost = $('#nPaymentCost').val()?$('#nPaymentCost').val():0;
+        var nQuantity = $("#nQuantity").val();
         var errorMessage = '';
         var hasDuplicate = false;
         var tdTableData;
 
+        if(type!='Expense' && !nQuantity){
+          errorMessage+='\nInvalid Quantity';
+          if(nQuantity < 0);
+            errorMessage+='\nQuantity must be greater than zero';
+          alert('Invalid Data:' + errorMessage);
+          return false;
+        }
+          
+          
         //Checks if inputted correct data / or is not null
         if(paymentType && nPaymentCost && nPaymentCost > 0){
           var table = $('#itemsTable tbody');
@@ -162,15 +174,29 @@
           
           //tdTableData[2].textContent = Integer.parseInt(tdTableDate[2].textContent) + nPaymentCost;
           if(!hasDuplicate){
-            $('#itemsTable tbody').append( '<tr>' +
-              '<td>'+paymentType.trim()+'</td>' +
+            if(type!='Expense'){
+              $('#itemsTable tbody').append( '<tr>' +
+              '<td>'+ nQuantity+'</td>' +
+              '<td>'+ paymentType.trim()+'</td>' +
+              '<td>'+ paymentDesc.trim() +'</td>' +
+              '<td>'+ (nQuantity * parseFloat(nPaymentCost.trim())) +'</td>' +
+              '<td><button class="btn btn-default edit-item" id="editTrans" data-toggle="modal" data-target="#myModalEdit"><i class="fa fa-pencil"></i></button> <button class="btn btn-default delete-item"><i class="fa fa-times"></i></button></td>' +
+              '</tr>');
+            }else{
+              $('#itemsTable tbody').append( '<tr>' +
+              '<td>'+ paymentType.trim()+'</td>' +
               '<td>'+ paymentDesc.trim() +'</td>' +
               '<td>'+ nPaymentCost.trim() +'</td>' +
               '<td><button class="btn btn-default edit-item" id="editTrans" data-toggle="modal" data-target="#myModalEdit"><i class="fa fa-pencil"></i></button> <button class="btn btn-default delete-item"><i class="fa fa-times"></i></button></td>' +
               '</tr>');
+            }
           }else{
             tdTableData = tdTableData.find('td');
-            tdTableData[2].textContent = (parseFloat(tdTableData[2].textContent.trim()) + parseFloat(nPaymentCost));
+            if(type!='Expense'){
+              tdTableData[2].textContent = (parseFloat(tdTableData[2].textContent.trim()) + parseFloat(nPaymentCost));
+            }else{
+              tdTableData[3].textContent = (parseFloat(tdTableData[3].textContent.trim()) + parseFloat(nPaymentCost));
+            }
           }
           calculateAmount();
           return true;
@@ -182,7 +208,6 @@
             if(nPaymentCost < 0);
               errorMessage+='\nPayment cost must be a positive number';
           }
-          
           alert('Invalid Data:' + errorMessage);
           return false;
         }
@@ -281,9 +306,9 @@
        $('#itemsTable').on( 'click', '#editTrans', function(event){
         var tr = $(this).closest('tr'); //get the parent tr
         arrayTd = $(tr).find('td'); //get data in a row
-        $("#ePaymentItem").val((arrayTd[0].textContent).trim());
-        $("#ePaymentDesc").val((arrayTd[1].textContent).trim());
-        $("#ePaymentCost").val((arrayTd[2].textContent).trim());
+        $("#eQuantity").val((arrayTd[0].textContent).trim());
+        $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
+        $("#ePaymentCost").val((arrayTd[3].textContent).trim());
       });
 
       /*
@@ -294,16 +319,17 @@
       */
       $("#ePaymentBtn").click(function(e){
         e.preventDefault();
-        if($('#ePaymentItem option:selected').text()){
-          arrayTd[0].textContent = $('#ePaymentItem option:selected').text();
+
+        if($('#eQuantity').val() && $('#eQuantity').val() != 0){
+          arrayTd[0].textContent = $('#eQuantity').val();
         }
 
         if($('#ePaymentDesc').val()){
-          arrayTd[1].textContent = $('#ePaymentDesc').val();
+          arrayTd[2].textContent = $('#ePaymentDesc').val();
         }
 
         if($('#ePaymentCost').val()){
-          arrayTd[2].textContent = $('#ePaymentCost').val();
+          arrayTd[3].textContent = arrayTd[0].textContent * $('#ePaymentCost').val();
         }
         calculateAmount();
       });
@@ -317,9 +343,17 @@
       function calculateAmount(){
         var total = 0;
         //Get all amount in the table
-        $("#itemsTable tbody td:nth-child(3)").each(function() {
+        var type = $('meta[name="type"]').attr('content');
+        if(type!='Expense'){
+          $("#itemsTable tbody td:nth-child(4)").each(function() {
             total += parseFloat($(this).text());
-        });
+          });
+        }else{
+          $("#itemsTable tbody td:nth-child(3)").each(function() {
+            total += parseFloat($(this).text());
+          });
+        }
+        
         
         //Putting the total amount in another table for viewing
         $("#amountCalc tbody td").each(function(){
@@ -422,8 +456,8 @@
           console.log('Enter 1st loop');
           $(this).find('td').each(function (colIndex, c) {
             count++;
-            if(count<4){
-              data+=(c.textContent+',');
+            if(count<5){
+              data+=((c.textContent).trim()+',');
             }
             });
           //data+= (tData.substring(0,tData.length - 1) + '|');
@@ -454,7 +488,7 @@
               }, error: function(xhr, ajaxOptions, thrownError){
                 alert(xhr.status);
                 alert(thrownError);
-              }
+              } 
             });
           }else{
             alert('Please Input data into table.');
@@ -925,7 +959,7 @@
     var dataIncome = {!! isset($incomeAmountPerMonth)?json_encode($incomeAmountPerMonth):null !!};
     var expenseIncome = {!! isset($expenseAmountPerMonth)?json_encode($expenseAmountPerMonth):null !!};
     //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-    console.log(dataIncome);
+    //console.log(dataIncome);
     
       var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
       //generate random number for charts
@@ -942,7 +976,7 @@
         d2.push([new Date(new Date().getFullYear(),i,1).getTime(), expenseIncome[(i+1)]]);
         //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
       }
-      console.log(d1);
+      //console.log(d1);
       var dataset = [
         {label:"Income",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}},
         {label:"Expense",data:d2,lines:{fillColor: "rgba(150, 202, 89, 0.42)"},points:{fillColor: "#fff"}}
@@ -1146,15 +1180,16 @@
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
     var ticks = [];
-    console.log(moment().startOf('isoWeek').toDate());
     for (var i = 0; i <= 6; i++) {
       // d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
       if(hSubsidiary){
+        var tDate = moment().startOf('isoWeek').add(i,'days').format('D');
+        tDate = tDate.length == 1? '0'+tDate:tDate;
+        console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
         ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
-        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
+        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[tDate]]);
       }
     }
-    console.log('d1= ' + d1);
     var tickSize = [1, "day"];
     var tformat = "%d/%b";
 
@@ -1237,20 +1272,20 @@
   $(document).ready(function() {
     var hSubsidiary = {!! isset($homeVendorSubsidiaryLedgerPerWeek)?json_encode($homeVendorSubsidiaryLedgerPerWeek):null !!};
     //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-    var firstday = moment().startOf('isoWeek').format('D');
-    var lastday = moment().endOf('isoWeek').format('D');
-    
+    console.log(hSubsidiary);
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
     var ticks = [];
     for (var i = 0; i <= 6; i++) {
       // d1.push([new Date(new Date().getFullYear(),new Date().getMonth(),i).getTime(), hSubsidiary[i]]);
       if(hSubsidiary){
+        var tDate = moment().startOf('isoWeek').add(i,'days').format('D');
+        tDate = tDate.length == 1? '0'+tDate:tDate;
+        console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
         ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
-        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[moment().startOf('isoWeek').add(i,'days').format('D')]]);
+        d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[tDate]]);
       }
     }
-    console.log('d1= ' + d1);
     var tickSize = [1, "day"];
     var tformat = "%d/%b";
 

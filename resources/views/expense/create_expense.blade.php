@@ -1,6 +1,7 @@
 @extends('master_layout.master_page_layout')
 @section('content')
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="type" content="{{ $type }}">
    	<div class="">
       	<div class="page-title">
          	<div class="title_left">
