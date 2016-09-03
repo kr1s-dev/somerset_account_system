@@ -104,7 +104,8 @@ class ReceiptController extends Controller
             flash()->success('Record successfully created');
             return redirect('receipt/'. $receiptId);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            echo $ex->getMessage();
+            //return view('errors.503');
         }
         
 

@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //DashBoard View
     Route::get('admin-dashboard',['as'=>'admin.dashboard','uses'=>'admin\AdminDashboardController@getDashBoard']);
+    Route::post('admin-dashboard','admin\AdminDashboardController@postDashboard');
     
     //Guest View
     Route::get('guest-dashboard',['as'=>'guestdashboard','uses'=>'guest\GuestController@getDashBoard']);

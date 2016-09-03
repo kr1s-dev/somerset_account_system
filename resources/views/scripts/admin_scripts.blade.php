@@ -28,6 +28,8 @@
 <script src="{{ URL::asset('vendors/Flot/jquery.flot.resize.js')}}"></script>
 <!-- Flot plugins -->
 <script src="{{ URL::asset('js/flot/jquery.flot.orderBars.js')}}"></script>
+<script src="{{ URL::asset('js/flot/jquery.flot.axislabels.js')}}"></script>
+<script src="{{ URL::asset('js/flot/jquery.flot.categories.js')}}"></script>
 <script src="{{ URL::asset('js/flot/date.js')}}"></script>
 <script src="{{ URL::asset('js/flot/jquery.flot.spline.js')}}"></script>
 <script src="{{ URL::asset('js/flot/curvedLines.js')}}"></script>
@@ -75,7 +77,7 @@
       */
       $('#howeOwnersList').on('change',function(){
         var selectOptionVal = $( "#howeOwnersList option:selected" ).attr('name');
-        console.log(selectOptionVal);
+        ////console.log(selectOptionVal);
         var jsonParse;
         $('#first_name').val('') ;
         $('#last_name').val('') ;
@@ -161,7 +163,7 @@
           var table = $('#itemsTable tbody');
           table.find('tr').each(function(rowIndex, r){
             $(this).find('td').each(function (colIndex, c) {
-              console.log('Enter 2nd loop' + c.textContent);
+              ////console.log('Enter 2nd loop' + c.textContent);
               if(c.textContent==paymentType.trim()){
                 hasDuplicate = true;
                 tdTableData = $(this).closest('tr');
@@ -234,7 +236,7 @@
           
           //Retrieving token for request
           var _token = $('meta[name="csrf-token"]').attr('content');
-          console.log(_token);
+          ////console.log(_token);
 
           // //Retrieving account detail
           // var accountDetailId = $( "#cashier" ).val();
@@ -248,21 +250,21 @@
               //Get all data in the table
               table.find('tr').each(function(rowIndex, r){
                 //var cols = [];
-                console.log('Enter 1st loop');
+                ////console.log('Enter 1st loop');
                 $(this).find('td').each(function (colIndex, c) {
-                  console.log('Enter 2nd loop' + c.textContent);
+                  ////console.log('Enter 2nd loop' + c.textContent);
                   if(c.textContent!=' ')
                     data+=(c.textContent+',');
                   });
                   //data+= (tData.substring(0,tData.length - 1) + '|');
               });
               data = data.substring(0,data.length - 1);
-              console.log(data);
+              ////console.log(data);
               //Retrieving total amount of invoice
               $("#amountCalc tbody td").each(function(){
                 totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
               });
-              console.log(totalAmount + ' ' + homeOwnerId + ' ' + paymentDueDate);
+              ////console.log(totalAmount + ' ' + homeOwnerId + ' ' + paymentDueDate);
               if(data){
                 //Creating an ajax request to the server
                 $.ajax({
@@ -377,9 +379,9 @@
           var _token = $('meta[name="csrf-token"]').attr('content');
           var vendorId = $('#vendor_id').val();
           var type = $("input[name=type]:checked").val();
-          console.log(type);
-          console.log(paidTo.trim());
-          console.log(vendorId);
+          //console.log(type);
+          //console.log(paidTo.trim());
+          //console.log(vendorId);
           if((type=='Non-Vendor' && paidTo.trim()) || (type=='Vendor' && vendorId)){
             var table = $('#itemsTable tbody');
             //Get all data in the table
@@ -391,12 +393,12 @@
                 //data+= (tData.substring(0,tData.length - 1) + '|');
             });
             data = data.substring(0,data.length - 1);
-            console.log(data);
+            //console.log(data);
             //Retrieving total amount of Expense
             $("#amountCalc tbody td").each(function(){
               totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
             });
-            console.log(totalAmount);
+            //console.log(totalAmount);
             if(data){
               //Creating an ajax request to the server
               $.ajax({
@@ -453,7 +455,7 @@
           count=0;
           tData = '';
           //var cols = [];
-          console.log('Enter 1st loop');
+          //console.log('Enter 1st loop');
           $(this).find('td').each(function (colIndex, c) {
             count++;
             if(count<5){
@@ -463,12 +465,12 @@
           //data+= (tData.substring(0,tData.length - 1) + '|');
         });
         data = data.substring(0,data.length - 1);
-        console.log(data);
+        //console.log(data);
         //Retrieving total amount of invoice
         $("#amountCalc tbody td").each(function(){
           totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
         });
-        console.log(totalAmount);
+        //console.log(totalAmount);
         if(paymentDueDate >=  getTodaysDate()){
           if(data){
             //Creating an ajax request to the server
@@ -529,7 +531,7 @@
               count=0;
               tData = '';
               //var cols = [];
-              console.log('Enter 1st loop');
+              //console.log('Enter 1st loop');
               $(this).find('td').each(function (colIndex, c) {
                 count++;
                 if(count<4){
@@ -539,12 +541,12 @@
               data+= (tData.substring(0,tData.length - 1) + '|');
             });
             data = data.substring(0,data.length - 1);
-            console.log(data);
+            //console.log(data);
             //Retrieving total amount of invoice
             $("#amountCalc tbody td").each(function(){
               totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
             });
-            console.log(totalAmount);
+            //console.log(totalAmount);
             if(data){
               //Creating an ajax request to the server
               $.ajax({
@@ -667,7 +669,7 @@
         var selectOptionVal = $('meta[name="account-list"]').attr('content');
         var jsonParse = JSON.parse(selectOptionVal);
         
-        // console.log(jsonParse);
+        // //console.log(jsonParse);
         if(isDuplicate){
            alert(isDuplicate);
         }else{
@@ -707,7 +709,7 @@
         }
 
         $('#journal_entry_table tr:last td').each(function(){
-          console.log('last table');
+          //console.log('last table');
           var selectTitle = $(this).find('select');
           if(selectTitle.attr('name')){
             if(selectTitle.attr('name') == 'account_title'){
@@ -759,7 +761,7 @@
         var _token = $('meta[name="csrf-token"]').attr('content');
         var explanation = $('#explanation').val();
         var type = $('meta[name="type"]').attr('content');
-        console.log(explanation);
+        //console.log(explanation);
         if(isDup){
            alert(isDup);
         }else{
@@ -782,7 +784,7 @@
             }
           });
           data = data.slice(0,-1);
-          console.log('data');
+          //console.log('data');
           $.ajax({
             headers: {
                 'X-CSRF-TOKEN': _token
@@ -801,7 +803,7 @@
               alert(thrownError);
             }
           });
-          console.log(data);
+          //console.log(data);
         }
         return false;
       });
@@ -872,7 +874,7 @@
               }
               
            });
-           //console.log(amount);
+           ////console.log(amount);
            if(amount <= 0){
               is_duplicate = 'CR/DR amount must be greater than zero';
               return true;
@@ -959,105 +961,108 @@
     var dataIncome = {!! isset($incomeAmountPerMonth)?json_encode($incomeAmountPerMonth):null !!};
     var expenseIncome = {!! isset($expenseAmountPerMonth)?json_encode($expenseAmountPerMonth):null !!};
     //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-    //console.log(dataIncome);
-    
-      var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
-      //generate random number for charts
-      randNum = function() {
-        return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
-      };
+    var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
 
-      var d1 = [];
-      var d2 = [];
+    var d1 = [];
+    var d2 = [];
+    var ticks = [];
 
-      //here we generate data for chart
-      for (var i = 0; i <= new Date().getMonth(); i++) {
-        d1.push([new Date(new Date().getFullYear(),i,1).getTime(), dataIncome[(i+1)]]);
-        d2.push([new Date(new Date().getFullYear(),i,1).getTime(), expenseIncome[(i+1)]]);
-        //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
-      }
-      //console.log(d1);
-      var dataset = [
-        {label:"Income",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}},
-        {label:"Expense",data:d2,lines:{fillColor: "rgba(150, 202, 89, 0.42)"},points:{fillColor: "#fff"}}
-      ];
+    //here we generate data for chart
+    for(var c in dataIncome){
+      console.log(c);
+      ticks.push([new Date().setMonth(c-1)]);
+      //console.log(new Date().setMonth(5));
+      d1.push([new Date().setMonth(c-1),dataIncome[c]]);
+    }
+    for(var c in expenseIncome){
+      d2.push([new Date().setMonth(c-1),expenseIncome[c]]);
+    }
 
-      // var chartMinDate = d1[0][0]; //first day
-      // var chartMaxDate = d1[20][0]; //last day
+    // for (var i = 0; i <= new Date().getMonth(); i++) {
+    //   d1.push([new Date(new Date().getFullYear(),i,1).getTime(), dataIncome[(i+1)]]);
+    //   d2.push([new Date(new Date().getFullYear(),i,1).getTime(), expenseIncome[(i+1)]]);
+    // }
+    var dataset = [
+      {label:"Income",data:d1,lines:{fillColor: "rgba(150, 202, 89, 0.12)"},points:{fillColor: "#fff"}},
+      {label:"Expense",data:d2,lines:{fillColor: "rgba(150, 202, 89, 0.42)"},points:{fillColor: "#fff"}}
+    ];
 
-      var tickSize = [1, "month"];
-      var tformat = "%b";
+    // var chartMinDate = d1[0][0]; //first day
+    // var chartMaxDate = d1[20][0]; //last day
 
-      //graph options
-      var options = {
-        grid: {
+    var tickSize = [1, "month"];
+    var tformat = "%b";
+
+    //graph options
+    var options = {
+      grid: {
+        show: true,
+        aboveData: true,
+        color: "#3f3f3f",
+        labelMargin: 10,
+        axisMargin: 0,
+        borderWidth: 0,
+        borderColor: null,
+        minBorderMargin: 5,
+        clickable: true,
+        hoverable: true,
+        autoHighlight: true,
+        mouseActiveRadius: 100
+      },
+      series: {
+        lines: {
           show: true,
-          aboveData: true,
-          color: "#3f3f3f",
-          labelMargin: 10,
-          axisMargin: 0,
-          borderWidth: 0,
-          borderColor: null,
-          minBorderMargin: 5,
-          clickable: true,
-          hoverable: true,
-          autoHighlight: true,
-          mouseActiveRadius: 100
+          fill: true,
+          lineWidth: 2,
+          steps: false
         },
-        series: {
-          lines: {
-            show: true,
-            fill: true,
-            lineWidth: 2,
-            steps: false
-          },
-          points: {
-            show: true,
-            radius: 4.5,
-            symbol: "circle",
-            lineWidth: 3.0
-          }
-        },
-        legend: {
-          position: "ne",
-          margin: [0, -25],
-          noColumns: 0,
-          labelBoxBorderColor: null,
-          labelFormatter: function(label, series) {
-            // just add some space to labes
-            return label + '&nbsp;&nbsp;';
-          },
-          width: 40,
-          height: 1
-        },
-        colors: chartColours,
-        shadowSize: 0,
-        tooltip: true, //activate tooltip
-        tooltipOpts: {
-          content: "%s: %y.0",
-          xDateFormat: "%d/%m",
-          shifts: {
-            x: -30,
-            y: -50
-          },
-          defaultTheme: false
-        },
-        yaxis: {
-          min: 0
-        },
-        xaxis: {
-          mode: "time",
-          tickSize: tickSize,
-          minTickSize: tickSize,
-          timeformat: tformat,
-          min: (new Date(new Date().getFullYear() - 1, 11, 18)).getTime(),
-          max: (new Date(new Date().getFullYear(), new Date().getMonth(), 15)).getTime()
+        points: {
+          show: true,
+          radius: 4.5,
+          symbol: "circle",
+          lineWidth: 3.0
         }
-      };
-      var plot = $.plot($("#placeholder33x"), dataset , options);
-    
-    
-    
+      },
+      legend: {
+        position: "ne",
+        margin: [0, -25],
+        noColumns: 0,
+        labelBoxBorderColor: null,
+        labelFormatter: function(label, series) {
+          // just add some space to labes
+          return label + '&nbsp;&nbsp;';
+        },
+        width: 40,
+        height: 1
+      },
+      colors: chartColours,
+      shadowSize: 0,
+      tooltip: true, //activate tooltip
+      tooltipOpts: {
+        content: "%s: %y.0",
+        xDateFormat: "%d/%m",
+        shifts: {
+          x: -30,
+          y: -50
+        },
+        defaultTheme: false
+      },
+      yaxis: {
+        min: 0
+      },
+      xaxis: {
+        mode: "time",
+        ticks: ticks,
+        tickLength: 0,
+        timeformat: "%b/%Y",
+        // tickSize: tickSize,
+        // minTickSize: tickSize,
+        // timeformat: tformat,
+        min: (new Date(new Date().getFullYear() - 1, 11, 18)).getTime(),
+        max: (new Date(new Date().getFullYear(), new Date().getMonth(), 15)).getTime(),
+      }
+    };
+    var plot = $.plot($("#placeholder33x"), dataset , options);
   });
 </script>
 
@@ -1102,7 +1107,7 @@
   $(document).ready(function() {
 
     var cb = function(start, end, label) {
-      console.log(start.toISOString(), end.toISOString(), label);
+      ////console.log(start.toISOString(), end.toISOString(), label);
       $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     };
 
@@ -1147,17 +1152,17 @@
     $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
     $('#reportrange').daterangepicker(optionSet1, cb);
     $('#reportrange').on('show.daterangepicker', function() {
-      console.log("show event fired");
+      //console.log("show event fired");
     });
     $('#reportrange').on('hide.daterangepicker', function() {
-      console.log("hide event fired");
+      //console.log("hide event fired");
     });
     $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-      console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
-      console.log('do ajax call');
+      //console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+      //console.log('do ajax call');
     });
     $('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
-      console.log("cancel event fired");
+      //console.log("cancel event fired");
     });
     $('#options1').click(function() {
       $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
@@ -1185,7 +1190,7 @@
       if(hSubsidiary){
         var tDate = moment().startOf('isoWeek').add(i,'days').format('D');
         tDate = tDate.length == 1? '0'+tDate:tDate;
-        console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
+        ////console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
         ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
         d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[tDate]]);
       }
@@ -1272,7 +1277,7 @@
   $(document).ready(function() {
     var hSubsidiary = {!! isset($homeVendorSubsidiaryLedgerPerWeek)?json_encode($homeVendorSubsidiaryLedgerPerWeek):null !!};
     //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-    console.log(hSubsidiary);
+    ////console.log(hSubsidiary);
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
     var ticks = [];
@@ -1281,7 +1286,7 @@
       if(hSubsidiary){
         var tDate = moment().startOf('isoWeek').add(i,'days').format('D');
         tDate = tDate.length == 1? '0'+tDate:tDate;
-        console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
+        ////console.log(moment().startOf('isoWeek').add(i,'days').format('D').length);
         ticks.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime()]);
         d1.push([moment().startOf('isoWeek').add(i+1,'days').toDate().getTime(), hSubsidiary[tDate]]);
       }

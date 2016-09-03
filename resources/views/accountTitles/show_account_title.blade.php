@@ -119,7 +119,7 @@
                         @else
                           @foreach($accountTitle->items as $item)
                           <tr>
-                            <td>{{$item->item_name}}</td>
+                            <td><a href="{{route('item.show',$item->id)}}"> {{$item->item_name}}</a></td>
                             <td>{{$item->default_value}}</td>
                             @if($item->subject_to_vat)
                               <td>Yes</td>

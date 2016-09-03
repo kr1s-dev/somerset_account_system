@@ -23,7 +23,7 @@ class ReceiptRequest extends Request
      */
     public function rules()
     {
-        return ['receipt_no' => 'required',
+        return ['receipt_no' => 'required|unique:home_owner_payment_transaction',
                 'amount_paid' => 'required',];
     }
 }

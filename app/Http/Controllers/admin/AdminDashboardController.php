@@ -7,6 +7,7 @@ use Carbon;
 use App\ReceiptModel;
 use App\ExpenseModel;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
 
@@ -32,8 +33,8 @@ class AdminDashboardController extends Controller
     		$incomeAmountPerMonth = $this->getAmountPerMonth($incStatementItemsList);
             $incTotalSum = $this->getTotalSum($incomeItemsList);
     	}else{
-            foreach(range(1, 12) as $month) {
-                $incomeAmountPerMonth[$month] = 0;
+            foreach(range(1, date('m')) as $month) {
+                $incomeAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
             }
         }   
 
@@ -42,8 +43,8 @@ class AdminDashboardController extends Controller
     		$expenseAmountPerMonth = $this->getAmountPerMonth($expStatementItemsList);
             $expTotalSum = $this->getTotalSum($expenseItemsList);
     	}else{
-            foreach(range(1, 12) as $month) {
-                $expenseAmountPerMonth[$month] = 0;
+            foreach(range(1, date('m')) as $month) {
+                $expenseAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
             }
         }
         $homeOwnerSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('homeowner');
@@ -64,12 +65,50 @@ class AdminDashboardController extends Controller
                                 'totalVendorAmountPerWeek'));
     }
 
+    public function postDashboard(Request $request){
+        $startDate;
+        $endDate = Date('Y-m-d' ,strtotime('+1 days'));
+        $incomePerMonth = array();
+        $expensePerMonth = array();
+        switch ($request->input('category')) {
+            case 'Last 7 Days':
+                $startDate = Date('Y-m-d',strtotime('-6 days'));
+                break;
+            case 'Last 30 Days':
+                $startDate = Date('Y-m-d',strtotime('-29 days'));
+                break;
+            case 'This Month':
+                $startDate = Date('Y-m-01', strtotime($endDate));
+                $endDate = Date('Y-m-t',strtotime($startDate));
+                break;
+            case 'Last Month':
+                $startDate = Date('Y-m-01', strtotime($endDate . '-1 Month'));
+                $endDate = Date('Y-m-t',strtotime($startDate));
+                break;
+            case 'Custom':
+                $startDate = $request->input('start_date');
+                $endDate = $request->input('end_date');
+                break;
+            case 'Current Year':
+                //return $this->generateIncomeStatement(null,null);
+                break;
+            case 'Last Year':
+                //return $this->generateIncomeStatement(null,date('Y',strtotime('-1 year')));
+                break;
+            default:
+                break;
+        }
+    }
+
+    // public function generateIncomeStatement(){
+
+    // }
+
     public function getAmountPerMonth($dataList){
     	$amountPerMonth = array();
-    	foreach(range(1, 12) as $month) {
-    		$amountPerMonth[$month] = 0;
+    	foreach(range(1, date('m')) as $month) {
+    		$amountPerMonth[trim(date('m',strtotime(date('Y').'-'.$month)),'0')] = 0;
     	}
-    	//print_r($amountPerMonth);
 		foreach ($dataList as $data) {
 			$amountPerMonth[trim(date('m',strtotime($data->created_at)),'0')] += ($data->credit_amount+$data->debit_amount);
 			//echo $data;
