@@ -47,12 +47,8 @@ class ExpenseController extends Controller
     {
         try{
             $type = 'Expense';
-            //$receiptNumber = 1;
             $expenseAccountItems = array();
             $eReceiptLastRecord = $this->getControlNo('expense_cash_voucher');
-            // if(count($eReceiptLastRecord)>0){
-            //     $receiptNumber =  ($eReceiptLastRecord->id + 1);
-            // }
             $receiptNumber = $eReceiptLastRecord->AUTO_INCREMENT;
             $expenseAccount = $this->getAccountGroups('6'); //get expense account titles
             foreach ($expenseAccount->accountTitles as $accountTitle) {

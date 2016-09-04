@@ -670,7 +670,7 @@ trait UtilityHelper
             if($data['mode_of_acquisition'] == 'Both'){
                 if($creditTitleId[$i]->account_sub_group_name == 'Cash')
                     $amount = $data['down_payment'];
-                else if($creditTitleId[$i]->account_sub_group_name == 'Accounts Payable'){
+                else if($creditTitleId[$i]->account_sub_group_name == 'Notes Payable'){
                         $amount = ($data['total_cost'] - $data['down_payment']);
                 }
             }

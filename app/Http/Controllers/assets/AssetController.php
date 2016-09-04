@@ -74,9 +74,7 @@ class AssetController extends Controller
             $input['net_value'] =  $input['total_cost'];
             $description = 'Bought item: ' . ($input['item_name']);
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-                // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-                // $input['net_value'] = $input['total_cost'];
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
+                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 if($input['mode_of_acquisition'] == 'Both')
                     $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
             }else{
@@ -84,7 +82,6 @@ class AssetController extends Controller
             }
             $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
             $input['next_depreciation_date'] = date('Y-m-d',strtotime('+1 Month'));
-            //print_r($input);
             $assetId = $this->insertRecord('asset_items',$input);
 
             //Create Journal Entry
@@ -161,7 +158,7 @@ class AssetController extends Controller
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
                 // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
                 // $input['net_value'] = $input['total_cost'];
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Payable'));
+                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 if($input['mode_of_acquisition'] == 'Both')
                     $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
             }else{

@@ -73,6 +73,7 @@
             <li><a href="{{ route('subledger','homeowner') }}">Subsidiary Ledger (Home Owner)</a></li>
             <li><a href="{{ route('subledger','vendor') }}">Subsidiary Ledger (Vendor Data)</a></li>
             <li><a href="{{ route('asset.registry') }}">Asset Registry</a></li>
+            <li><a href="{{ route('cash.flow')}}">Statement of Cash Flow</a></li>
             <!--li><a href="">Balance Sheet</a></li>
             <li><a href="">Trial Balance</a></li-->
           </ul>
