@@ -11,6 +11,7 @@ use App\AssetsModel;
 use App\ExpenseModel;
 use App\InvoiceModel;
 use App\ReceiptModel;
+use App\BlockLotModel;
 use App\UserTypeModel;
 use App\Http\Requests;
 use App\SettingsModel;
@@ -144,6 +145,34 @@ trait UtilityHelper
 
     public function getItem($id){
         return $id==null?InvoiceExpenseItems::all():InvoiceExpenseItems::findOrFail($id);
+    }
+
+    public function getAddress(){
+       return  BlockLotModel::all();
+    }
+
+    public function getBlockLotAddress($id){
+        $blockLotList = array();
+        if($id==null){
+            $tblockLotList = BlockLotModel::all();
+            foreach($tblockLotList as $tblockLot){
+                if($tblockLot->homeowner == NULL){
+                    $blockLotList[$tblockLot->id] = $tblockLot->block_lot;
+                }
+                
+            }
+        }else{
+            $tAdd = BlockLotModel::findOrFail($id);
+            $blockLotList[$tAdd->id] = $tAdd->block_lot;
+            $tblockLotList = BlockLotModel::where('id','!=',$id)
+                            ->get();
+            foreach($tblockLotList as $tblockLot){
+                if($tblockLot->homeowner == NULL){
+                    $blockLotList[$tblockLot->id] = $tblockLot->block_lot;
+                }
+            }
+        }
+        return $blockLotList;
     }
 
     public function getExpenseVendor($id){

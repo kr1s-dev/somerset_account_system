@@ -180,6 +180,17 @@
    </div>
 </div-->
 <div class="form-group">
+   <label for="address" class="control-label col-md-3 col-sm-3 col-xs-12">Subdivision Address (Block-Lot)<span class="required">*</span></label>
+   <div class="col-md-9 col-sm-6 col-xs-12">
+      <select name="block_lot_id" id="userType" class="select2_single form-control">
+         @foreach($blockLotList as $key=>$value)
+            <option value="{{$key}}">{{$value}}</option>
+         @endforeach
+      </select>
+   </div>
+   
+</div>
+<div class="form-group">
    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
       <a href="{{ route('homeowners.index') }}" type="submit" class="btn btn-primary">Cancel</a>
       <button type="submit" class="btn btn-success" id="testsubmit">{{ $submitButton }}</button>

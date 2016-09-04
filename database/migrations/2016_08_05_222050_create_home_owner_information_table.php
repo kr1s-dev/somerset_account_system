@@ -28,8 +28,8 @@ class CreateHomeOwnerInformationTable extends Migration
                 $table->string('member_gender',255);
                 $table->string('member_date_of_birth',255);
                 $table->longText('member_address');
-                $table->Integer('block_number');
-                $table->Integer('lot_number');
+                $table->Integer('block_lot_id')->unsigned()->nullable();
+                $table->foreign('block_lot_id')->references('id')->on('block_lot');
                 $table->timestamps();
 
 

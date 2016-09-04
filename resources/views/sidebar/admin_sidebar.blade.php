@@ -3,6 +3,7 @@
     <ul class="nav side-menu">
       @if(Auth::user()->userType->type == 'Administrator')
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard </a></li>
+        <li><a href="{{route('map.somerset')}}"><i class="fa fa-dashboard"></i> Somerset Map </a></li>
         <li><a><i class="fa fa-bullhorn"></i> Announcements <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="{{ route('announcement.index') }}">View All Announcements</a></li>
@@ -56,10 +57,10 @@
           </ul>
         </li>
         <li>
-          <a><i class="fa fa-credit-card"></i> Expenses <span class="fa fa-chevron-down"></span></a>
+          <a><i class="fa fa-credit-card"></i> Cash Vouchers <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="{{ route('expense.create') }}">Create New Expense</a></li>
-            <li><a href="{{ route('expense.index') }}">View All Expenses</a></li>
+            <li><a href="{{ route('expense.create') }}">Create New Cash Voucher</a></li>
+            <li><a href="{{ route('expense.index') }}">View All Vouchers</a></li>
           </ul>
         </li>
         <li>
@@ -136,10 +137,10 @@
           </ul>
         </li>
         <li>
-          <a><i class="fa fa-credit-card"></i> Expenses <span class="fa fa-chevron-down"></span></a>
+          <a><i class="fa fa-credit-card"></i> Cash Vouchers <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="{{ route('expense.create') }}">Create New Expense</a></li>
-            <li><a href="{{ route('expense.index') }}">View All Expenses</a></li>
+            <li><a href="{{ route('expense.create') }}">Create New Cash Voucher</a></li>
+            <li><a href="{{ route('expense.index') }}">View All Vouchers</a></li>
           </ul>
         </li>
         <li>
@@ -153,6 +154,7 @@
             <li><a href="{{ route('subledger','homeowner') }}">Subsidiary Ledger (Home Owner)</a></li>
             <li><a href="{{ route('subledger','vendor') }}">Subsidiary Ledger (Vendor Data)</a></li>
             <li><a href="{{ route('asset.registry') }}">Asset Registry</a></li>
+            <li><a href="{{ route('cash.flow')}}">Statement of Cash Flow</a></li>
             <!--li><a href="">Balance Sheet</a></li>
             <li><a href="">Trial Balance</a></li-->
           </ul>

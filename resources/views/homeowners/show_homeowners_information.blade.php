@@ -76,6 +76,10 @@
                       					<td class="data-title"><strong>Email</strong></td>
                       					<td>{{$homeOwner->member_email_address}}</td>
                    					</tr>
+                            <tr>
+                                <td class="data-title"><strong>Subdivision Address</strong></td>
+                                <td>{{$homeOwner->address->block_lot}}</td>
+                            </tr>
                 				</tbody>
               				</table>
             			</div>

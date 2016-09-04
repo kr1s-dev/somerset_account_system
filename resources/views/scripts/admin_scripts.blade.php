@@ -15,6 +15,8 @@
 <script src="{{ URL::asset('vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{ URL::asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- Custom Theme Scripts -->
+<!-- Image Mapster -->
+<script src="{{URL::asset('vendors/imagemapster/dist/jquery.imagemapster.min.js')}}">
 <script src="{{ URL::asset('js/custom.js')}}"></script>
 <!-- Chart.js -->
 <script src="{{ URL::asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>
@@ -33,6 +35,7 @@
 <script src="{{ URL::asset('js/flot/date.js')}}"></script>
 <script src="{{ URL::asset('js/flot/jquery.flot.spline.js')}}"></script>
 <script src="{{ URL::asset('js/flot/curvedLines.js')}}"></script>
+
 <script>
   $(document).ready(function(){
       var exTableRowIndex;
@@ -955,6 +958,33 @@
   });
 </script>
 
+<script>
+  var block = '';
+  var lot;
+  var status = '';
+   $(document).ready(function(){
+       $('#somerset').mapster({
+          fillColor: 'ff0000',
+          fillOpacity: 0.3,
+          stroke: true,
+          singleSelect: true,
+          showToolTip: true,
+          toolTipClose: ["tooltip-click", "area-click"],
+          onClick: function(e) {
+              if(e.key == 0) {
+
+              }
+          }
+       });
+      $('area').on('click', function(){
+          $('#myModal').modal('show');
+          block = $(this).attr('data-block');
+          lot = $(this).attr('data-lot');
+          status = $(this).attr('data-status');
+          console.log('Block: ' + block + '\n' + 'Lot: ' + lot + '\n' + 'Status: ' + status);
+      });
+   });
+</script>
 
 <script>
   $(document).ready(function() {

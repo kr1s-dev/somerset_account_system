@@ -113,4 +113,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('guest-transaction-history',['as'=>'guesttransactionhistory','uses'=>'guest\GuestController@getTransactionHistory']);
     Route::get('guest-invoice/{id}',['as'=>'guestinvoice','uses'=>'invoice\InvoiceController@show']);
     Route::get('guest-announcement/{id}',['as'=>'guestannouncement','uses'=>'announcement\AnnouncementController@show']);
+
+    Route::get('somerset-map', ['as'=>'map.somerset','uses' => 'maps\MapController@getMap']);
 });

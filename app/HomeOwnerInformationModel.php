@@ -33,10 +33,15 @@ class HomeOwnerInformationModel extends Model
     						'member_gender',
     						'member_date_of_birth',
     						'member_active',
-    						'member_address'];
+    						'member_address',
+                            'block_lot_id'];
 
 
     public function user(){
         return $this->hasOne('App\User','home_owner_id');
+    }
+
+    public function address(){
+        return $this->belongsTo('App\BlockLotModel','block_lot_id');
     }
 }

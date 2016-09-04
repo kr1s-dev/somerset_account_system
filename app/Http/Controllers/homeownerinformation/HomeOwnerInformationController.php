@@ -47,18 +47,20 @@ class HomeOwnerInformationController extends Controller
      */
     public function create()
     {
-        //try{
+        try{
             if(Auth::user()->userType->type==='Cashier'){
                 return view('errors.503');
             } else {
+                $blockLotList = $this->getBlockLotAddress(null);
                 $homeOwner = $this->setHomeOwnerInformation();
                 $homeOwner->member_date_of_birth = date('m/d/Y',strtotime('-2 day'));
                 return view('homeowners.create_homeowner_information',
-                                compact('homeOwner'));    
+                                compact('homeOwner',
+                                        'blockLotList'));    
             }
-        /*} catch(\Exception $ex) {
+        } catch(\Exception $ex) {
             return view('errors.503');
-        }*/
+        }
          
     }
 
@@ -135,8 +137,10 @@ class HomeOwnerInformationController extends Controller
                 return view('errors.503');
             }else{
                 $homeOwner = $this->getHomeOwnerInformation($id);
+                $blockLotList = $this->getBlockLotAddress($homeOwner->block_lot_id);
                 return view('homeowners.edit_homeowner_information',
-                            compact('homeOwner'));  
+                            compact('homeOwner',
+                                    'blockLotList'));  
             }
                
         }catch(\Exception $ex){
