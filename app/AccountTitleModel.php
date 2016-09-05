@@ -40,5 +40,9 @@ class AccountTitleModel extends Model
         return $this->hasMany('App\InvoiceExpenseItems','account_title_id');
     }
 
+    public function assetItems(){
+        return $this->hasMany('App\AssetsModel','account_title_id');
+    }
+
 
 }

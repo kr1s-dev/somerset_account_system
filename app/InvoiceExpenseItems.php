@@ -18,7 +18,7 @@ class InvoiceExpenseItems extends Model
      * @var array
      */
     protected $fillable = ['account_title_id',
-    						'account_title_id',
+    						'item_name',
     						'default_value',
     						'subject_to_vat',
     						'vat_percent',

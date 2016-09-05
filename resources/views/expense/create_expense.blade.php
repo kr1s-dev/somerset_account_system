@@ -75,7 +75,7 @@
                   		</div>
                   		<!-- /.row -->
                   		<!-- /.row -->
-                  		<div class="row">
+                  		<!--div class="row">
                   			<div class="col-sm-4">
                   				<div class="form-group">
                            			<label class="control-label" for="homeowner">Select Approver</label>
@@ -85,7 +85,7 @@
 	                  				</select>
                         		</div>
                   			</div>
-                  		</div>
+                  		</div-->
                   		<!-- Table row -->
                   		<div class="row">
                      		<div class="col-md-6">

@@ -47,7 +47,8 @@
                   <li><a href="{{route('guestdashboard')}}"><i class="fa fa-dashboard"></i> Dashboard </a></li>
                   <li><a href="{{route('guesttransactionhistory')}}"><i class="fa fa-clock-o"></i> Transaction History </a></li>
                   <li><a href="{{route('guestpendingpayments')}}"><i class="fa fa-money"></i> Pending Payments </a></li>
-                  <li><a href="#"><i class="fa fa-user"></i> My Profile </a></li>
+                  <!--li><a href="#"><i class="fa fa-user"></i> My Profile </a></li-->
+                  <li><a href="{{route('map.somerset')}}"><i class="fa fa-dashboard"></i> Somerset Map </a></li>
                 </ul>
               </div>
             </div>

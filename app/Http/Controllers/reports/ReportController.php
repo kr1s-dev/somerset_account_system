@@ -300,11 +300,12 @@ class ReportController extends Controller
         $expenseList = array();
         $investmentList = array();
         $financingList = array();
+        $totalCashInHand = array();
         if($yearFilter == date('Y')){
             $aTitleItemsList = $this->getJournalEntryRecordsWithFilter(null,null,$yearFilter);
             $eBalanceSheetItemsList = $this->getItemsAmountList($aTitleItemsList,null);
             foreach ($accountGroupList as $accountGroup) {
-                if(strrpos($accountGroup->account_group_name, 'Assets') || strrpos($accountGroup->account_group_name, 'Liabilities') || strrpos($accountGroup->account_group_name, 'Equity')){
+                if(strrpos($accountGroup->account_group_name, 'Assets') || strrpos($accountGroup->account_group_name, 'Liabilities')){
                     foreach ($accountGroup->accountTitles as $actTitle) {
                         if(array_key_exists($actTitle->account_sub_group_name, $eBalanceSheetItemsList))
                             $actTitle->opening_balance += $eBalanceSheetItemsList[$actTitle->account_sub_group_name];
@@ -315,24 +316,46 @@ class ReportController extends Controller
             }
             foreach ($accountGroupList as $accountGroup) {
                 if($accountGroup->account_group_name === 'Non-Current Assets'){
-                    $investmentList = $accountGroup->accountTitles;
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        $investmentList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+
+                        foreach ($actTitle->assetItems as $astItem) {
+                            if($astItem->mode_of_acquisition == 'Payable'){
+                                $investmentList[$actTitle->account_sub_group_name] -= $astItem->total_cost;
+                            }else if($astItem->mode_of_acquisition == 'Both'){
+                                $investmentList[$actTitle->account_sub_group_name] -= $astItem->down_payment;
+                            }
+                        }
+                    }
                 }
+
+                if($accountGroup->account_group_name === 'Owners Equity'){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        $financingList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+                    }
+                }
+                foreach ($accountGroup->accountTitles as $actTitle) {
+                    if(strrpos($actTitle->account_sub_group_name,'Loans')){
+                        $financingList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+                    }
+                }
+
             }
             $expenseList = $this->getOperationalExpense($expenseItemsList,$accountGroupList);
         }else{
 
         }
 
+        $totalCashInHand = ($incTotalSum - $arBalance) - ($this->getTotalSum($expenseList)) - ($this->getTotalSum($investmentList)) + ($this->getTotalSum($financingList));
 
-        // echo 'Cash from Customers: ' . ($incTotalSum-$arBalance) . '<br/>';
-        // echo 'Expense: ';
-        // print_r($expenseList);
         return view('reports.statement_of_cash_flow',
                         compact('incTotalSum',
                                 'arBalance',
                                 'expenseList',
                                 'yearFilter',
-                                'investmentList'));
+                                'investmentList',
+                                'financingList',
+                                'totalCashInHand'));
 
     }
 

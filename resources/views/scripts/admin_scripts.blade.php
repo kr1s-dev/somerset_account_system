@@ -16,7 +16,7 @@
 <script src="{{ URL::asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- Custom Theme Scripts -->
 <!-- Image Mapster -->
-<script src="{{URL::asset('vendors/imagemapster/dist/jquery.imagemapster.min.js')}}">
+<script src="{{URL::asset('vendors/imagemapster/dist/jquery.imagemapster.min.js')}}"></script>
 <script src="{{ URL::asset('js/custom.js')}}"></script>
 <!-- Chart.js -->
 <script src="{{ URL::asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>

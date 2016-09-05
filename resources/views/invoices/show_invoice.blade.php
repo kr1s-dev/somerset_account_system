@@ -70,12 +70,14 @@
                      			</thead>
                      			<tbody>
                      				@foreach($invoice->invoiceItems as $pendingPayment)
-                     					<tr>
-                                       <td>{{$pendingPayment->quantity}}</td>
-                     						<td>{{$pendingPayment->item->item_name}}</td>
-                     						<td>{{$pendingPayment->remarks}}</td>
-                     						<td>{{$pendingPayment->amount}}</td>
-                     					</tr>
+                                    @if($pendingPayment->is_paid == $invoice->is_paid)
+                                       <tr>
+                                          <td>{{$pendingPayment->quantity}}</td>
+                                          <td>{{$pendingPayment->item->item_name}}</td>
+                                          <td>{{$pendingPayment->remarks}}</td>
+                                          <td>{{$pendingPayment->amount}}</td>
+                                       </tr>
+                                    @endif
                      				@endforeach
                      			</tbody>
                      		</table>
@@ -102,8 +104,12 @@
                   		<div class="col-xs-12">
                            {!! Form::open(['url'=>'pdf','method'=>'POST','target'=>'_blank']) !!}
                               @include('pdf.pdf_form',['category'=>'invoice','recordId'=>$invoice->id])
+       
                               @if(!$invoice->is_paid && Auth::user()->userType->type != 'Guest')
                                  <a href="../receipt/create/{{$invoice->id}}" role="button" class="btn btn-success pull-right" style="margin-right:5px;"><i class="fa fa-money"></i> Create Receipt</a>
+                              @endif
+                              @if($hasPenalty)
+                                 <a href="#" role="button" class="btn btn-success pull-right" style="margin-right:5px;"><i class="fa fa-money"></i> Pay Penalty</a>
                               @endif
                            {!! Form::close() !!}
                   		</div>

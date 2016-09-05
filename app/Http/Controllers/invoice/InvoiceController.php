@@ -137,8 +137,16 @@ class InvoiceController extends Controller
     public function show($id)
     {
         try{
+            $hasPenalty = false;
             $invoice = $this->getHomeOwnerInvoice($id);
             $invoiceNumber = $id;
+            foreach ($invoice->invoiceItems as $invItem) {
+                if($invItem->item->item_name === 'Penalty' || strrpos($invItem->item->item_name, 'Penalty')){
+                    $hasPenalty = true;
+                    break;
+                }
+            }
+
             if(Auth::user()->userType->type==='Guest'){
                 return view('guest_show_invoice.show_guest_invoice',
                             compact('invoice',
@@ -146,7 +154,8 @@ class InvoiceController extends Controller
             }else{
                 return view('invoices.show_invoice',
                             compact('invoice',
-                                    'invoiceNumber'));
+                                    'invoiceNumber',
+                                    'hasPenalty'));
             }    
         }catch(\Exception $ex){
             return view('errors.503');

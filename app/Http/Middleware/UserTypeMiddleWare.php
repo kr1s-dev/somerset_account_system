@@ -30,7 +30,7 @@ class UserTypeMiddleware
                 || $objectToAccess == 'homeownerinfo') {
             if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier')
                 return $next($request);
-        }elseif($objectToAccess == 'announcement'){
+        }elseif($objectToAccess == 'announcement' || $objectToAccess == 'map'){
             if($usertype === 'Administrator' || $usertype === 'Guest')
                 return $next($request);
         }elseif($objectToAccess == 'invoice'){

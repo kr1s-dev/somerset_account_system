@@ -35,21 +35,23 @@
 			              	<tbody>
 			              		<tr>
 			              			<td colspan="2">Cash Received from Customers </td>
-			              			<td> {{number_format($incTotalSum-$arBalance,2)}}</td>
+			              			<td align="right"> ₱ {{number_format($incTotalSum-$arBalance,2)}}</td>
 			              		</tr>
-			              		<tr>
-			              			<td colspan="3">Cash Payments For: </td>
-			              		</tr>
-			              		@foreach($expenseList as $key=>$value)
-			              			@if($value > 0)
-			              				<tr>
-				              				<td>{{str_replace(strpos($key, 'Expense')?'Expense':'Expenses', '', $key)}}</td>
-				              				<td align="right">{{number_format($value,2)}}</td>
-				              				<td></td>
-				              			</tr>
-			              			@endif
-			              			
-			              		@endforeach
+			              		@if(count($expenseList)>0)
+			              			<tr>
+			              				<td colspan="3">Cash Payments For: </td>
+				              		</tr>
+				              		@foreach($expenseList as $key=>$value)
+				              			@if($value > 0)
+				              				<tr>
+					              				<td>{{str_replace(strpos($key, 'Expense')?'Expense':'Expenses', '', $key)}}</td>
+					              				<td align="right">₱ {{number_format($value,2)}}</td>
+					              				<td></td>
+					              			</tr>
+				              			@endif
+				              		@endforeach
+			              		@endif
+			              		
 			              	</tbody>
 			              	<thead>
 				                <tr>
@@ -62,11 +64,11 @@
 			              				<td colspan="3" align="center"><i><strong>No Activity Found</strong></i></td>
 			              			</tr>
 			              		@else
-			              			@foreach($investmentList as $invItem)
-				              			@if($value > 0)
+			              			@foreach($investmentList as $key => $value)
+				              			@if($value != 0)
 				              				<tr>
-					              				<td>Acquisition of {{$invItem->account_sub_group_name}}</td>
-					              				<td align="right">{{number_format($invItem->opening_balance,2)}}</td>
+					              				<td>Acquisition of {{$key}}</td>
+					              				<td align="right">₱ {{number_format($value,2)}}</td>
 					              				<td></td>
 					              			</tr>
 				              			@endif
@@ -76,6 +78,28 @@
 			              	<thead>
 				                <tr>
 				                  	<th colspan="3"><h3>Cash Flow from Financing Activities</h3></th>
+				                </tr>
+			              	</thead>
+			              	<tbody>
+			              		@if(count($financingList)<=0)
+			              			<tr>
+			              				<td colspan="3" align="center"><i><strong>No Activity Found</strong></i></td>
+			              			</tr>
+			              		@else
+			              			@foreach($financingList as $key => $value)
+				              			@if($value != 0)
+				              				<tr>
+					              				<td colspan="2">{{$key}}</td>
+					              				<td align="right">₱ {{number_format($value,2)}}</td>
+					              			</tr>
+				              			@endif
+				              		@endforeach
+			              		@endif
+			              	</tbody>
+			              	<thead>
+				                <tr>
+				                  	<td colspan="2"><h3>Total Cash In Hand</h3></td>
+				                  	<td align="right">₱ {{number_format($totalCashInHand,2)}}</td>
 				                </tr>
 			              	</thead>
 			            </table>

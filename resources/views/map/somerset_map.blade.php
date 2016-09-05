@@ -25,7 +25,7 @@
 		                    data-block="{{explode('-',$blockLot->block_lot)[0]}}"
 		                    data-lot="{{explode('-',$blockLot->block_lot)[1]}}"
 		                    data-status="{{$blockLot->homeowner==NULL?'Not Occupied':'Occupied'}}"
-		                    title="{{$blockLot->block_lot}} - {{$blockLot->homeowner==NULL?'Occupied':'Not Occupied'}}" 
+		                    title="{{$blockLot->block_lot}} - {{$blockLot->homeowner==NULL?'Not Occupied':'Occupied'}}" 
 		                    href="#" 
 		                    shape="poly" 
 		                    coords="{{$blockLot->coordinates}}" 
@@ -40,7 +40,7 @@
                           		<h4 class="modal-title">HomeOwner Information</h4>
                         	</div>
 	                        <div class="modal-body">
-	                         
+	                         	
 	                        </div>
                       	</div>
                     </div>
