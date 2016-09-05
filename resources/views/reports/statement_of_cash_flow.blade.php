@@ -109,7 +109,12 @@
         			
         		</div>
         		<div style="margin-top:50px">
-        			
+        			{!! Form::open(['url'=>'pdf','method'=>'POST','target'=>'_blank']) !!}
+	                    @include('pdf.pdf_form',['category'=>'statement_of_cash_flow_report',
+	                    							'recordId'=>null,
+	                    							'month_filter'=>null,
+	                    							'year_filter'=>$yearFilter])
+	                {!! Form::close() !!}
         		</div>
           	</div>
 	    </div>

@@ -67,6 +67,13 @@ class PDFGeneratorController extends Controller
                     else
                         return view('errors.503');
                     break;
+                case 'statement_of_cash_flow_report':
+                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
+                        return $this->generateStatementOfCashFlow($yearFilter)->stream('statement_of_cash_flow'. date('m_d_y').'.pdf');
+                        //$this->generateStatementOfCashFlow($yearFilter);
+                    else
+                        return view('errors.503');
+                    break;
                 default:
                     return view('errors.503');
                     break;
@@ -275,6 +282,97 @@ class PDFGeneratorController extends Controller
         $assetItemList = $this->getAssetModel(null);
         return PDF::loadView('pdf.asset_registry',
                                 compact('assetItemList'));
+    }
+
+
+    public function generateStatementOfCashFlow($yearFilter){
+        $accountGroupList = $this->getAccountGroups(null);
+        $incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',null,$yearFilter);
+        $expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',null,$yearFilter);
+        $incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+        $incTotalSum = $this->getTotalSum($incomeItemsList);
+        $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+        $arBalance = 0;
+        $expenseList = array();
+        $investmentList = array();
+        $financingList = array();
+        $totalCashInHand = array();
+        if($yearFilter == date('Y')){
+            $aTitleItemsList = $this->getJournalEntryRecordsWithFilter(null,null,$yearFilter);
+            $eBalanceSheetItemsList = $this->getItemsAmountList($aTitleItemsList,null);
+            foreach ($accountGroupList as $accountGroup) {
+                if(strrpos($accountGroup->account_group_name, 'Assets') || strrpos($accountGroup->account_group_name, 'Liabilities')){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        if(array_key_exists($actTitle->account_sub_group_name, $eBalanceSheetItemsList))
+                            $actTitle->opening_balance += $eBalanceSheetItemsList[$actTitle->account_sub_group_name];
+                        if($actTitle->account_sub_group_name=='Accounts Receivable')
+                            $arBalance = $actTitle->opening_balance;
+                    }
+                }
+            }
+            foreach ($accountGroupList as $accountGroup) {
+                if($accountGroup->account_group_name === 'Non-Current Assets'){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        $investmentList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+
+                        foreach ($actTitle->assetItems as $astItem) {
+                            if($astItem->mode_of_acquisition == 'Payable'){
+                                $investmentList[$actTitle->account_sub_group_name] -= $astItem->total_cost;
+                            }else if($astItem->mode_of_acquisition == 'Both'){
+                                $investmentList[$actTitle->account_sub_group_name] -= $astItem->down_payment;
+                            }
+                        }
+                    }
+                }
+
+                if($accountGroup->account_group_name === 'Owners Equity'){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        $financingList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+                    }
+                }
+                foreach ($accountGroup->accountTitles as $actTitle) {
+                    if(strrpos($actTitle->account_sub_group_name,'Loans')){
+                        $financingList[$actTitle->account_sub_group_name] = $actTitle->opening_balance;
+                    }
+                }
+
+            }
+            $expenseList = $this->getOperationalExpense($expenseItemsList,$accountGroupList);
+        }else{
+
+        }
+
+        $totalCashInHand = ($incTotalSum - $arBalance) - ($this->getTotalSum($expenseList)) - ($this->getTotalSum($investmentList)) + ($this->getTotalSum($financingList));
+
+        return PDF::loadView('pdf.statement_of_cash_flow_pdf',
+                                compact('incTotalSum',
+                                        'arBalance',
+                                        'expenseList',
+                                        'yearFilter',
+                                        'investmentList',
+                                        'financingList',
+                                        'totalCashInHand'));
+
+    }
+
+    public function getOperationalExpense($expenseItemsList,$accountGroupList){
+        $expPayableList;
+        foreach ($accountGroupList as $accountGroup) {
+            if($accountGroup->account_group_name == 'Current Liabilities'){
+                $expPayableList = $accountGroup->accountTitles;
+            }
+        }
+
+        foreach ($expenseItemsList as $key=>$value) {
+            foreach ($expPayableList as $exPpay) {
+                $tTitle = str_replace(strpos($key, 'Expense')?'Expense':'Expenses', '', $key);
+                if(strcmp($exPpay->account_sub_group_name,$tTitle) > 1){
+                    $expenseItemsList[$key] -= $exPpay->opening_balance;
+                    break;
+                }
+            }
+        }
+        return $expenseItemsList;
     }
 
 
