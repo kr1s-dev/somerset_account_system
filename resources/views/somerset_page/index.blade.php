@@ -19,11 +19,11 @@
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="{{ URL::asset('vendor/magnific-popup/magnific-popup.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('website/vendor/magnific-popup/magnific-popup.css')}}" rel="stylesheet">
 
     <!-- Theme CSS -->
-    <link href="{{ URL::asset('css/creative.css')}}" rel="stylesheet">
-    <link href="{{ URL::asset('css/custom.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('website/css/creative.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('website/css/custom.css')}}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -138,8 +138,8 @@
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/1.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -153,8 +153,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/2.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/2.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -168,8 +168,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/3.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -183,8 +183,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/4.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -198,8 +198,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/5.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -213,8 +213,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/6.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
+                    <a href="website/img/portfolio/fullsize/6.jpg" class="portfolio-box">
+                        <img src="website/img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -236,7 +236,7 @@
             <div class="call-to-action">
                 <h2>Somerset Map</h2>
                 <div class="col-lg-8 col-md-12 col-sm-12">
-                    <img src="img/somerset.png" alt="Somerset Map">
+                    <img src="website/img/somerset.png" alt="Somerset Map">
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12">
                     <h3 class="text-primary"><strong>Phase Number</strong></h3>
@@ -272,15 +272,15 @@
     </section>
 
     <!-- jQuery -->
-    <script src="{{ URL::asset('vendor/jquery/jquery.min.js')}}" rel="stylesheet">
+    <script src="{{ URL::asset('website/vendor/jquery/jquery.min.js')}}">
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{{ URL::asset('vendor/bootstrap/js/bootstrap.min.js')}}" rel="stylesheet">
+    <script src="{{ URL::asset('website/vendor/bootstrap/js/bootstrap.min.js')}}">
 
     <!-- Plugin JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="{{ URL::asset('vendor/scrollreveal/scrollreveal.min.js')}}" rel="stylesheet">
-    <script src="{{ URL::asset('vendor/magnific-popup/jquery.magnific-popup.min.js')}}" rel="stylesheet">
+    <script src="{{ URL::asset('website/vendor/scrollreveal/scrollreveal.min.js')}}" rel="stylesheet">
+    <script src="{{ URL::asset('website/vendor/magnific-popup/jquery.magnific-popup.min.js')}}" rel="stylesheet">
 
     <!-- Theme JavaScript -->
     <script src="{{ URL::asset('css/creative.css')}}" rel="stylesheet">
