@@ -22,6 +22,7 @@
           <span class="count_bottom">Tendered last {{date('m/d/y',strtotime($transactionHistory->updated_at))}}</span>
         @else
           <div class="count">{{number_format(0,2)}}</div>
+          <span class="count_bottom">&nbsp;</span>
         @endif
       </div>
       <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count tile_red">

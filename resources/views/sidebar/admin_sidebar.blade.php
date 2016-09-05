@@ -3,7 +3,7 @@
     <ul class="nav side-menu">
       @if(Auth::user()->userType->type == 'Administrator')
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard </a></li>
-        <li><a href="{{route('map.somerset')}}"><i class="fa fa-dashboard"></i> Somerset Map </a></li>
+        <!--li><a href="{{route('map.somerset')}}"><i class="fa fa-dashboard"></i> Somerset Map </a></li-->
         <li><a><i class="fa fa-bullhorn"></i> Announcements <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="{{ route('announcement.index') }}">View All Announcements</a></li>
