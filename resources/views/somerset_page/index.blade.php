@@ -10,7 +10,8 @@
     <meta name="author" content="">
 
     <title>Somerset Place</title>
-
+    
+    <link rel="shortcut icon" href="{{ URL::asset('images/favicon.png')}}">
     <!-- Bootstrap Core CSS -->
     <link href="{{ URL::asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom Fonts -->
@@ -272,19 +273,17 @@
     </section>
 
     <!-- jQuery -->
-    <script src="{{ URL::asset('website/vendor/jquery/jquery.min.js')}}">
+    <script src="{{ URL::asset('website/vendor/jquery/jquery.min.js')}}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{{ URL::asset('website/vendor/bootstrap/js/bootstrap.min.js')}}">
+    <script src="{{ URL::asset('website/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
     <!-- Plugin JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="{{ URL::asset('website/vendor/scrollreveal/scrollreveal.min.js')}}" rel="stylesheet">
-    <script src="{{ URL::asset('website/vendor/magnific-popup/jquery.magnific-popup.min.js')}}" rel="stylesheet">
-
-    <!-- Theme JavaScript -->
-    <script src="{{ URL::asset('css/creative.css')}}" rel="stylesheet">
-
+    <script src="{{ URL::asset('website/vendor/scrollreveal/scrollreveal.min.js')}}" rel="stylesheet"></script>
+    <script src="{{ URL::asset('website/vendor/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{ URL::asset('website/js/creative.min.js')}}"></script>
+    
 </body>
 
 </html>
