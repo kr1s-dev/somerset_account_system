@@ -41,7 +41,8 @@ class HomeOwnerRequest extends Request
                         'member_date_of_birth' => 'required|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information',
-                        'member_gender' => 'required',];
+                        'member_gender' => 'required',
+                        'block_lot_id'=>'required|unique:home_owner_information',];
             }
             //for update
             case 'PATCH':{  
@@ -55,7 +56,8 @@ class HomeOwnerRequest extends Request
                         'member_date_of_birth' => 'required|date|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information,member_email_address,' . $homeOwner->id,
-                        'member_gender' => 'required',];
+                        'member_gender' => 'required',
+                        'block_lot_id'=>'required|unique:home_owner_information,block_lot_id'. $homeOwner->id,];
             }
             //default
             default: break;

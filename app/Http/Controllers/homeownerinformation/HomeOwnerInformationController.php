@@ -92,7 +92,8 @@ class HomeOwnerInformationController extends Controller
             flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
             return redirect('homeowners/' . $homeOwnerId);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            echo $ex->getMessage();
+            //return view('errors.503');
         }
         
     }

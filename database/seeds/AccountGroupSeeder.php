@@ -42,7 +42,7 @@ class AccountGroupSeeder extends Seeder
                                         'created_at' => date('Y-m-d h:i:sa'),
                                         'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>3,
-                                        'account_sub_group_name'=>'Accounts Payable',
+                                        'account_sub_group_name'=>'Notes Payable',
                                         'created_at' => date('Y-m-d h:i:sa'),
                                         'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>7,
