@@ -44,10 +44,13 @@ class SettingsController extends Controller
             $setting->tax = 1;
             $setting->days_till_due_date = 1;
             $setting->cut_off_date = 1;
+            return view('settings.create_update_system_setting',
+                        compact('setting'));
+        }else{
+            return $this->show($setting->id);
         }
 
-        return view('settings.create_update_system_setting',
-                        compact('setting'));
+        
     }
 
     /**
