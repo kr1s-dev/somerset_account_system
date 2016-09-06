@@ -46,9 +46,16 @@
 		                      				<i class="fa fa-lock"></i> Deactivate User
 		                   				</a>
 	                   				@endif
-	                   				<a href="{{ route('users.resetpassword',$eUser->id) }}" class="btn btn-primary pull-right">
-	                      				<i class="fa fa-key"></i> Reset Password
-	                   				</a>
+
+	                   				@if($eUser->id != Auth::id())
+		                   				<a href="{{ route('users.resetpassword',$eUser->id) }}" class="btn btn-primary pull-right">
+		                      				<i class="fa fa-key"></i> Reset Password
+		                   				</a>
+		                   			@else
+		                   				<a href="{{ route('users.changepassword',$eUser->id) }}" class="btn btn-primary pull-right">
+		                      				<i class="fa fa-key"></i> Change Password
+		                   				</a>
+		                   			@endif
 	                   				
 	                			</div>
 	              				<table class="table table-bordered">

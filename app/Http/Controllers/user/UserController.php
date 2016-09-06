@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\user;
 
+use Auth;
+use Hash;
+use Bcrypt;
 use Validator;
-use Request;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
-use App\Http\Requests\user\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
+use App\Http\Requests\user\UserRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -281,6 +285,49 @@ class UserController extends Controller
         }catch(\Exception $ex){
             return view('errors.503');
         }
+    }
+
+
+    public function getChangePassword($id){
+        try{
+            $user = $this->getUser($id);
+            return view('users.change_password',
+                            compact('user'));
+        }catch(\Exception $ex){
+            return view('errors.404');
+        }       
+    }
+
+    public function postChangePassword(Request $request){
+        try{
+            $validator =  Validator::make($request->all(),[
+                'old_password' => 'required|min:6|max:255',
+                'new_password' => 'required|confirmed|min:6|max:255',]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator);
+            }
+
+            $user = $this->getUser(Auth::user()->id);
+            if(Hash::check($request->input('old_password'), $user->password)){
+                if($request->input('old_password') === $request->input('new_password')){
+                    return back()
+                        ->withErrors(['new_password'=>'Can\'t used old password again']);
+                }else{
+                    $user->password = bcrypt($request->input('new_password'));
+                    $user->save();
+                    $this->createSystemLogs('User: ' . $user->first_name . ' ' , $user->last_name . ', Changed Password.');
+                    flash()->success('Successfully Changed Password')->important(); 
+                    return redirect('users/'.$user->id);
+                }
+            }else{
+                return back()
+                        ->withErrors(['old_password'=>'Old Password doesn\'t Match']);
+            }
+
+        }catch(\Exception $ex){
+            echo $ex->getMessage();  
+            //return view('errors.503');
+        }       
     }
 
 }

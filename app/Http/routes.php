@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users','user\UserController');
     Route::get('users/deactivateUser/{id}', ['as'=>'users.deactivateUser','uses' => 'user\UserController@deactivateUser']);
     Route::get('users/resetpassword/{id}', ['as'=>'users.resetpassword','uses' => 'user\UserController@resetPassword']);
+    Route::get('users/changepassword/{id}', ['as'=>'users.changepassword','uses' => 'user\UserController@getChangePassword']);
+    Route::post('users/changepassword', 'user\UserController@postChangePassword');
     //Route::resource('usertypes','usertype\UserTypeController');
 
     //Homeowner routes
