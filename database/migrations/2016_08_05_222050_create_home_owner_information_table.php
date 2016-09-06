@@ -30,6 +30,7 @@ class CreateHomeOwnerInformationTable extends Migration
                 $table->longText('member_address');
                 $table->Integer('block_lot_id')->unsigned()->nullable();
                 $table->foreign('block_lot_id')->references('id')->on('block_lot');
+                $table->boolean('has_penalty')->default(0);
                 $table->timestamps();
 
 

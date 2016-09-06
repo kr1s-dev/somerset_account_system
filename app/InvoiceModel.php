@@ -24,7 +24,8 @@ class InvoiceModel extends Model
     protected $fillable = ['account_type_id',
     						'home_owner_id',
                             'total_amount',
-                            'payment_due_date'];
+                            'payment_due_date',
+                            'invoice_id'];
 
     public function user(){
         return $this->belongsTo('App\User','created_by');
@@ -40,5 +41,13 @@ class InvoiceModel extends Model
 
     public function receipt(){
         return $this->hasOne('App\ReceiptModel','payment_id');
+    }
+
+    public function penaltyInfo(){
+        return $this->hasOne('App\InvoiceModel','invoice_id');
+    }
+
+    public function parentPenaltyInfo(){
+        return $this->belongsTo('App\InvoiceModel','invoice_id');
     }
 }

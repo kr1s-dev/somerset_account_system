@@ -16,7 +16,9 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\CreateHomeOwnerInvoice::class,
         Commands\DepreciationAutomation_Batch::class,
+        Commands\CreatePenaltyInvoice_Batch::class,
     ];
+
 
     /**
      * Define the application's command schedule.

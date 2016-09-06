@@ -21,7 +21,10 @@ class CreateInvoiceTable extends Migration
                 $table->foreign('created_by')->references('id')->on('users');
                 $table->Integer('updated_by')->unsigned();
                 $table->foreign('updated_by')->references('id')->on('users');
+                $table->Integer('invoice_id')->nullable()->unsigned();
+                $table->foreign('invoice_id')->references('id')->on('home_owner_invoice');
                 $table->decimal('total_amount',10,2)->default(0.00);
+                $table->Boolean('is_penalty')->default(0);
                 $table->Boolean('is_paid')->default(0);
                 $table->timestamp('payment_due_date');
                 $table->timestamps();
