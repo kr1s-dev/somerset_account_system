@@ -11,10 +11,11 @@
 |
 */
 //Route for login page
-Route::get('/', function () {
-    //return Redirect::to('auth/login');
-    return view('somerset_page.index');
-});
+// Route::get('/', function () {
+//     //return Redirect::to('auth/login');
+//     return view('somerset_page.index');
+// });
+Route::get('/', 'portal\SomersetPortalController@getPortal');
 // Authentication routes...
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('auth/login', ['as'=>'login','uses'=>'Auth\AuthController@getLogin']);
@@ -53,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Receipt routes
     Route::resource('receipt','receipt\ReceiptController',['except'=>['edit','update','destroy']]);
     Route::get('receipt/create/{id}','receipt\ReceiptController@create');
+    Route::get('receipt/create/{id}/penalty',['as'=>'create.penalty','uses'=>'receipt\ReceiptController@createPenaltyReceipt']);
 
     //Expense routes
     Route::resource('vendor','vendor\VendorController');

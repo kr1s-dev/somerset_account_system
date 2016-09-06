@@ -49,7 +49,7 @@ class CreatePenaltyInvoice_Batch extends Command
             $toUpdatePenaltyInvoice = array();
             $tJournalEntry = array();
             $toInsertJournalEntry = array();
-            $invoiceList = InvoiceModel::whereday('payment_due_date','=', date('d'))->get();
+            $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->get();
             $penaltyItem = InvoiceExpenseItems::where('item_name','LIKE','%Penalty%')->first();
             $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
             $invoiceModelList = $this->getControlNo('home_owner_invoice');
@@ -74,6 +74,7 @@ class CreatePenaltyInvoice_Batch extends Command
                             $addedAmount = $inv->penaltyInfo->total_amount/$penaltyItem->default_value <=6 ? 
                                                                 $penaltyItem->default_value : number_format($inv->total_amount * .2,2);
                             $inv->penaltyInfo->total_amount += $addedAmount;
+                            $inv->penaltyInfo->payment_due_date = date('Y-m-d',strtotime($inv->penaltyInfo->payment_due_date . ' +1 month'));
                             foreach ($inv->penaltyInfo->invoiceItems as $invItems) {
                                 $invItems->amount += $addedAmount;
                                 $invItems->save();
@@ -87,9 +88,10 @@ class CreatePenaltyInvoice_Batch extends Command
                                                                         $addedAmount);
                             $inv->penaltyInfo->save();
                         }
+                        $inv->next_penalty_date = date('Y-m-d',strtotime($inv->next_penalty_date . '+1 month'));
+                        $inv->save();
                         $inv->homeOwner->has_penalty = 1;
                         $inv->homeOwner->save();
-
                     }
                     
                 }

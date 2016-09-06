@@ -237,15 +237,28 @@
             <div class="call-to-action">
                 <h2>Somerset Map</h2>
                 <div class="col-lg-8 col-md-12 col-sm-12">
-                    <img src="website/img/somerset.png" alt="Somerset Map">
+                    <img src="{{ URL::asset('images/somerset-map.png')}}" alt="Somerset Map" usemap="#Map" id="somerset">
+                    <map name="Map" id="Map">
+                        @foreach($blockLotList as $blockLot)
+                            <area alt="" 
+                                data-block="{{explode('-',$blockLot->block_lot)[0]}}"
+                                data-lot="{{explode('-',$blockLot->block_lot)[1]}}"
+                                data-status="{{$blockLot->homeowner==NULL?'Not Occupied':'Occupied'}}"
+                                title="{{$blockLot->block_lot}} - {{$blockLot->homeowner==NULL?'Not Occupied':'Occupied'}}" 
+                                href="#" 
+                                shape="poly" 
+                                coords="{{$blockLot->coordinates}}" 
+                            />
+                        @endforeach
+                    </map>
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12">
-                    <h3 class="text-primary"><strong>Phase Number</strong></h3>
-                    <h2><strong>1</strong></h2>
-                    <h3 class="text-primary"><strong>Lot Number</strong></h3>
-                    <h2><strong>1</strong></h2>
-                    <h3 class="text-primary"><strong>Status</strong></h3>
-                    <h2><strong>Occupied</strong></h2>
+                    <h3 class="text-primary" ><strong>Phase Number</strong></h3>
+                    <h2 id="phaseNumber"><strong>-</strong></h2>
+                    <h3 class="text-primary" ><strong>Lot Number</strong></h3>
+                    <h2 id="lotNumber"><strong>-</strong></h2>
+                    <h3 class="text-primary" ><strong>Status</strong></h3>
+                    <h2 id="status"><strong>-</strong></h2>
                 </div>
                 
             </div>
@@ -283,6 +296,37 @@
     <script src="{{ URL::asset('website/vendor/scrollreveal/scrollreveal.min.js')}}" rel="stylesheet"></script>
     <script src="{{ URL::asset('website/vendor/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ URL::asset('website/js/creative.min.js')}}"></script>
+    <!-- Image Mapster -->
+    <script src="{{URL::asset('vendors/imagemapster/dist/jquery.imagemapster.min.js')}}"></script>
+    <script>
+        var block = '';
+        var lot;
+        var status = '';
+        $(document).ready(function(){
+            $('#somerset').mapster({
+                fillColor: 'ff0000',
+                fillOpacity: 0.3,
+                stroke: true,
+                singleSelect: true,
+                showToolTip: true,
+                toolTipClose: ["tooltip-click", "area-click"],
+                onClick: function(e) {
+                    if(e.key == 0) {
+
+                    }
+                }
+            });
+            $('area').on('click', function(){
+                block = $(this).attr('data-block');
+                lot = $(this).attr('data-lot');
+                status = $(this).attr('data-status');
+                $("#phaseNumber").text(block);
+                $("#lotNumber").text(lot);
+                $("#status").text(status);
+                //console.log('Block: ' + block + '\n' + 'Lot: ' + lot + '\n' + 'Status: ' + status);
+            });
+        });
+    </script>
     
 </body>
 

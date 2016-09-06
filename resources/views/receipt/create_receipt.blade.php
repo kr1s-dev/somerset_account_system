@@ -109,6 +109,7 @@
                     </table>
                   </div>  
                  	<input type="hidden" name="payment_id" value="{{$homeOwnerInvoice->id}}">
+                  <input type="hidden" name="is_penalty" value="{{$homeOwnerInvoice->is_penalty}}">
                   <div class="form-group">
                     <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">Amount Paid:
                     </label>

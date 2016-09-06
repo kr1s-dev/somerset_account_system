@@ -63,7 +63,8 @@ class CreateHomeOwnerInvoice extends Command
                                                 'created_at'=>date('Y-m-d'),
                                                 'updated_at'=>date('Y-m-d'),
                                                 'created_by'=>$userAdmin->id,
-                                                'updated_by'=>$userAdmin->id);
+                                                'updated_by'=>$userAdmin->id,
+                                                'next_penalty_date'=>date('Y-m-t',strtotime('+1 month')));
                     $invoiceItemsToInsert[] = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$invoiceNumber,'home_owner_invoice');
                     $tJournalEntry[] = $this->createJournalEntry($this->populateListOfToInsertItems($data,'Revenues','invoice_id',$invoiceNumber,'home_owner_invoice'),
                                                                     'Invoice',

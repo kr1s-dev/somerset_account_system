@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\receipt;
 
-use Illuminate\Http\Request;
+use App\InvoiceModel;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
 use App\Http\Requests\receipt\ReceiptRequest;
@@ -48,12 +49,6 @@ class ReceiptController extends Controller
         try{
             $homeOwnerInvoice = $this->getHomeOwnerInvoice($id);
             $invoiceNumber = $id;
-            // $receiptNumber = 1;
-            // $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction','');
-            // if(count($receiptList)>0){
-            //     $receiptNumber =  ($receiptList->id + 1);
-            // }
-            // $receiptNumber = $this->formatString($receiptNumber);
             $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
             $receiptNumber = $receiptList->AUTO_INCREMENT;
             return view('receipt.create_receipt',
@@ -63,8 +58,25 @@ class ReceiptController extends Controller
         }catch(\Exception $ex){
             return view('errors.503');
         }
-        
     }
+
+    public function createPenaltyReceipt($id){
+        try{
+            $homeOwnerInvoice = InvoiceModel::where('home_owner_id','=',$id)
+                                                ->where('is_penalty','=',1)
+                                                ->first();
+            $invoiceNumber = $id;
+            $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
+            $receiptNumber = $receiptList->AUTO_INCREMENT;
+            return view('receipt.create_receipt',
+                            compact('homeOwnerInvoice',
+                                    'invoiceNumber',
+                                    'receiptNumber'));    
+        }catch(\Exception $ex){
+            return view('errors.503');
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -77,10 +89,14 @@ class ReceiptController extends Controller
         try{
             $invoiceid = $request->input('payment_id');
             //Updates Invoice Record
+
             $this->updateRecord('home_owner_invoice',array('id'=>$invoiceid),array('is_paid' => 1));
             //get invoice
             $eInvoice = $this->getHomeOwnerInvoice($invoiceid);
-
+            if($request->input('is_penalty')=='1'){
+                $eInvoice->homeOwner->has_penalty = 0;
+                $eInvoice->homeOwner->save();
+            }
 
             $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
                                                                                     'receipt_no'=>$request->input('receipt_no'),
@@ -96,10 +112,7 @@ class ReceiptController extends Controller
                                                                                 $receiptId,
                                                                                 'Created Receipt for invoice #'. $this->formatString($invoiceid),
                                                                                 $eInvoice->total_amount));
-            // //create journal entry
-            // $this->insertRecord('journal_entry',array('receipt_id'=>$receiptId,
-            //                                             'type'=>'Receipt',
-            //                                             'description'=>'Created Receipt for invoice '. $invoiceid));
+
             $this->createSystemLogs('Create a Receipt');
             flash()->success('Record successfully created');
             return redirect('receipt/'. $receiptId);    

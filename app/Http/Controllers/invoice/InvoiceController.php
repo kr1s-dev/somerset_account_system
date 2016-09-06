@@ -96,6 +96,7 @@ class InvoiceController extends Controller
         $paymentDueDate = $request->input('paymentDueDate');
         $homeownerid = $request->input('homeownerid');
         $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$homeownerid));
+        $settings = $this->getSettings();
         //$accountDetailId = $request->input('accountDetailId');
         //End of getting data from ajax request
         //echo $data; 
@@ -103,7 +104,8 @@ class InvoiceController extends Controller
             //Insert Invoice in Database
             $nInvoiceId = $this->insertRecord('home_owner_invoice',array('home_owner_id' => $homeownerid,
                                                                             'total_amount' => $totalAmount,
-                                                                            'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
+                                                                            'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate)),
+                                                                            'next_penalty_date'=>date('Y-m-d',strtotime($paymentDueDate . '+'. $settings->days_till_due_date .' days'))));
 
             $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$nInvoiceId,'home_owner_invoice');
             //Insert items in the table

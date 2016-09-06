@@ -33,6 +33,12 @@
                             <i class="fa fa-pencil"></i> Edit
                           </a>
                         @endif
+
+                        @if($homeOwner->has_penalty)
+                          <a href="{{ route('create.penalty',$homeOwner->id) }}" class="btn btn-primary pull-right">
+                            <i class="fa fa-money"></i> Pay Penalty
+                          </a>
+                        @endif
                 			</div>
               				<table class="table table-bordered">
                 				<tbody>
