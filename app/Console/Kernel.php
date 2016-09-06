@@ -29,12 +29,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('inspire')
-                 ->hourly();
+                    ->hourly();
 
         $schedule->command('create:homeownerinvoice')
-                 ->daily();
+                    ->daily();
 
         $schedule->command('compute:depreciate')
-                 ->daily();
+                    ->daily();
+
+        $schedule->command('create:penalty')
+                    ->daily();
     }
 }

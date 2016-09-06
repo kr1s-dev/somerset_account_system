@@ -59,7 +59,7 @@ class CreatePenaltyInvoice_Batch extends Command
                     if($inv->is_penalty == 0){
                         $data = $penaltyItem->item_name.',For the month of '. date('F') .','.$penaltyItem->default_value;
                         if(is_null($inv->penaltyInfo)){
-                            \Log::Info('Has an Existing Penalty');
+                            //\Log::Info('Has an Existing Penalty');
                             $toInsertPenaltyInvoice[] = $this->createPenaltyInvoice($inv,$userAdmin->id,$penaltyItem);
                             $invoiceItemsToInsert[] = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$invoiceNumber,'home_owner_invoice');
                             $tJournalEntry[] = $this->createJournalEntry($this->populateListOfToInsertItems($data,'Revenues','invoice_id',$invoiceNumber,'home_owner_invoice'),
@@ -70,7 +70,7 @@ class CreatePenaltyInvoice_Batch extends Command
                                                                         $penaltyItem->default_value);
                             $invoiceNumber+=1;
                         }else{
-                            \Log::Info('Has an Existing Penalty');
+                            //\Log::Info('Has an Existing Penalty');
                             $addedAmount = $inv->penaltyInfo->total_amount/$penaltyItem->default_value <=6 ? 
                                                                 $penaltyItem->default_value : number_format($inv->total_amount * .2,2);
                             $inv->penaltyInfo->total_amount += $addedAmount;
@@ -112,10 +112,11 @@ class CreatePenaltyInvoice_Batch extends Command
             $this->insertBulkRecord('journal_entry',$toInsertJournalEntry);
             DB::table('system_logs')->insert($this->createSystemLogs('Done Inserting Bulk Invoice for HomeOwners',$userAdmin));
 
-            \Log::Info('Success');
+            //\Log::Info('Success');
             
         }catch(\Exception $ex){
-            \Log::Info($ex->getMessage());
+            DB::table('system_logs')->insert($this->createSystemLogs('Error in creating Penalty ' . $ex->getMessage(),$userAdmin));
+            //\Log::Info($ex->getMessage());
         }
     }
 
