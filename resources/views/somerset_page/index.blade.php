@@ -89,11 +89,12 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">About Somerset Place</h2>
                     <hr class="light">
-                    <p class="text-faded">Somerset Place is a townhouse subdivision located at Manggahan, Pasig City consisting of two-storey structures. The Somerset Place Homeowners’ Association Incorporated (SPHAI) was established as a non-governmental, community-based organization in June 2009 to govern and to enhance the efficient and orderly management and administration of the Somerset Place community.</p>
-                    <p class="text-faded">Somerset Place is a development by the <a href="http://www.duraville.com/projects.do?category_id=2615" class="about-link" target="_blank">Duraville Realty and Development Corporation (DRDC).</a></p>
-
-                    <p class="text-faded">As with other Homeowner Associations in the country, SPHAI is regulated by the Housing and Land Use Regulatory Board and strives to always be compliant with <a href="http://hlurb.gov.ph/laws-issuances/policies/RA%209904_MagnaCartaforHOA.pdf" target="_blank">RA 9904 – Magna Carta for Homeowners’ Association</a> and its <a href="http://hlurb.gov.ph/wp-content/uploads/laws-issuances/board-resolutions/IRR_RA_9904.pdf" target="_blank">Implementing Rules and Regulations</a>.</p>
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
+                    <p class="text-faded">Somerset Place is a townhouse subdivision located at Manggahan, Pasig City 
+                    consisting of two- storey structures (Figure 1 and 2). The Somerset place Homeowners Association 
+                    Incorporated (SPHAI)  was established as a nonstock, non- profit community-based organization and 
+                    registered with Housing and Land Use Regulatory Board (HLURB) in June 2009.
+                    </p>
+                    <img src="{{ URL::asset('images/somerset-vicinity.png')}}">
                 </div>
             </div>
         </div>
@@ -139,90 +140,90 @@
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/guard.png')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/guard.jpg')}}" class="img-responsive" alt="Entrance">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
                                     Amenity
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Guarded Entrance
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/2.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/houses.jpg')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/houses.jpg')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Amenity
+                                    Property
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Stylish Properties
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/3.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/fountain.jpg')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/fountain.jpg')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
                                     Amenity
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Fountain Garden
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/4.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/function_hall.jpg')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/function_hall.jpg')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
                                     Amenity
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Function Hall
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/5.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/swimming_pool.jpg')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/swimming_pool.jpg')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
                                     Amenity
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Swimming Pool
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="website/img/portfolio/fullsize/6.jpg" class="portfolio-box">
-                        <img src="website/img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/basketball_court.jpg')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/basketball_court.jpg')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
                                     Amenity
                                 </div>
                                 <div class="project-name">
-                                    Amenity Name
+                                    Basketball Court
                                 </div>
                             </div>
                         </div>
