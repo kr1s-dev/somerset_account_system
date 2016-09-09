@@ -720,14 +720,14 @@ trait UtilityHelper
         $this->insertBulkRecord('journal_entry',$journalEntryList);
     }
 
-    public function getControlNo($tableName){
+    public function getControlNo($table_name){
         $setting=$this->getSettings();
-        // $query = "nextval('".$setting->database_name.".id') as nxt";
-        // return DB::table($tableName)->selectRaw($query)->value('nxt');
-        return DB::table('information_schema.table')  
-                        ->where('table_schema','=',$setting->database_name)
-                        ->where('table_name','=',$tableName)
-                        ->first();
+        $query = "nextval('id') as nxt";
+        return DB::table($tableName)->selectRaw($query)->value('nxt');
+        // return DB::table('information_schema.table')  
+        //                 ->where('table_schema','=',$setting->database_name)
+        //                 ->where('table_name','=',$tableName)
+        //                 ->first();
     }
 
     public function createSystemLogs($action){
