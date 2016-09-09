@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'secret' => env('secret','6Lci0yQTAAAAABFsZinhEpya8v0e_MKaqTuUQZPB'),
-    'sitekey' => env('sitekey','6Lci0yQTAAAAAJLVvFpSNnQhz8oRIdh1ZJfVyMux'),
+    'secret' => env('secret','6Lc40CkTAAAAAKVXuyhMhmvaYaK_8PHlPTwNTVWP'),
+    'sitekey' => env('sitekey','6Lc40CkTAAAAADrML5uFzy4VbeokkZh3tU-zsjqW'),
 ];

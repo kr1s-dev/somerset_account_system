@@ -325,10 +325,8 @@ class UserController extends Controller
                         ->withErrors(['old_password'=>'Old Password doesn\'t Match']);
             }
 
-        }catch(\Exception $ex){
-            //echo $ex->getMessage();  
+        }catch(\Exception $ex){  
             return view('errors.404'); 
-            //echo $ex->getMessage();
         }       
     }
 
