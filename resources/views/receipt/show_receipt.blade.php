@@ -74,7 +74,13 @@
                               </tr>
                             </thead>
                             <tbody>
-                              
+                              @foreach($receipt->invoice->invoiceItems as $pendingPayment)
+                                <tr>
+                                  <td>{{$pendingPayment->item->item_name}}</td>
+                                  <td>{{$pendingPayment->remarks}}</td>
+                                  <td>{{$pendingPayment->amount}}</td>
+                                </tr>
+                              @endforeach
                             </tbody>
                      	 		</table>
                    		</div>
@@ -112,12 +118,7 @@
                                     <td>PHP {{number_format($receipt->amount_paid - $receipt->invoice->total_amount,2)}}</td>
                                   </tr>
                            				<tr>
-                           					<th>Attached File:</th>
-                                    @if($receipt->file_related==NULL)
-                                      <td><strong>No File Attached</strong></td>
-                                    @else
-                                      <td><a href="#"><strong>{{$receipt->file_related}}</strong></a></td>
-                                    @endif
+                           					
                            				</tr>
 
                          				</tbody>
