@@ -720,7 +720,7 @@ trait UtilityHelper
         $this->insertBulkRecord('journal_entry',$journalEntryList);
     }
 
-    public function getControlNo($table_name){
+    public function getControlNo($tableName){
         $setting=$this->getSettings();
         $query = "nextval('id') as nxt";
         return DB::table($tableName)->selectRaw($query)->value('nxt');
