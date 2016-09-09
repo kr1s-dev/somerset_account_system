@@ -23,14 +23,14 @@ class CreateAssetsTable extends Migration
                 $table->foreign('account_title_id')->references('id')->on('account_titles');
                 $table->String('item_name',255);
                 $table->String('description',255);
-                $table->Decimal('total_cost')->default(0);
-                $table->Decimal('salvage_value')->default(0);
+                $table->Decimal('total_cost',10,2)->default(0);
+                $table->Decimal('salvage_value',10,2)->default(0));
                 $table->Integer('quantity')->default(0);
                 $table->Decimal('monthly_depreciation',10,2)->default(0);
                 $table->Integer('useful_life')->default(0);
                 $table->String('mode_of_acquisition',255);
-                $table->Decimal('interest');
-                $table->Decimal('down_payment');    
+                //$table->Decimal('interest');
+                $table->Decimal('down_payment',10,2)->default(0);    
                 $table->Decimal('accumulated_depreciation',10,2)->default(0);
                 $table->Decimal('net_value',10,2)->default(0);
                 $table->timestamp('next_depreciation_date');
