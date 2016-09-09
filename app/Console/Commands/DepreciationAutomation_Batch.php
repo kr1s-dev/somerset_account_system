@@ -109,7 +109,7 @@ class DepreciationAutomation_Batch extends Command
         return array('created_by'=>$user->id,
                         'updated_by'=>$user->id,
                         'action'=>$action,
-                        'created_at' => date('Y-m-d H:i:sa'),
-                        'updated_at' => date('Y-m-d H:i:sa'));
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'));
     }
 }

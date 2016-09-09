@@ -385,9 +385,9 @@ trait UtilityHelper
         unset($arrayData['_method'],
                 $arrayData['_token']);
         if($isInsert){
-            $arrayData['created_at'] = date('Y-m-d H:i:sa');
+            $arrayData['created_at'] = date('Y-m-d H:i:s');
         }
-        $arrayData['updated_at'] = date('Y-m-d H:i:sa');
+        $arrayData['updated_at'] = date('Y-m-d H:i:s');
         return $arrayData;
     }
 
@@ -689,8 +689,8 @@ trait UtilityHelper
                                     'type' => 'asset',
                                     'credit_amount'=>0.00,
                                     'description'=> $description,
-                                    'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
-                                    'updated_at' => date('Y-m-d H:i:sa'),
+                                    'created_at' => $isInsert?date('Y-m-d H:i:s'):$asset->created_at,
+                                    'updated_at' => date('Y-m-d H:i:s'),
                                     'created_by' => $this->getLogInUserId(),
                                     'updated_by' => $this->getLogInUserId());
         //Credit Entry
@@ -711,8 +711,8 @@ trait UtilityHelper
                                         'credit_amount'=>$amount,
                                         'type' => 'asset',
                                         'description'=> $description,
-                                        'created_at' => $isInsert?date('Y-m-d H:i:sa'):$asset->created_at,
-                                        'updated_at' => date('Y-m-d H:i:sa'),
+                                        'created_at' => $isInsert?date('Y-m-d H:i:s'):$asset->created_at,
+                                        'updated_at' => date('Y-m-d H:i:s'),
                                         'created_by' => $this->getLogInUserId(),
                                         'updated_by' => $this->getLogInUserId());
         }
