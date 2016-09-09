@@ -22,7 +22,9 @@ class SecretQuestionSeeder extends Seeder
 			                     'Who is your childhood sports hero?');
        	$secretQuestionListToInsert = array();
     	for ($i=0; $i < count($secretQuestionList) ; $i++) { 
-    	    $secretQuestionListToInsert[] = array('secret_question' => $secretQuestionList[$i]);
+    	    $secretQuestionListToInsert[] = array('secret_question' => $secretQuestionList[$i],
+                                                    'created_at' => date('Y-m-d h:i:sa'),
+                                                    'updated_at' => date('Y-m-d h:i:sa'));
     	}
         DB::table('secret_question')->insert($secretQuestionListToInsert);
     }

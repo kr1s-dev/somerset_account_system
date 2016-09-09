@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
             				'updated_at'=>date('Y-m-d h:i:sa'),
                             'is_active'=>1,
                             'home_owner_id'=>null,
-                            'created_by'=>null,
-                            'updated_by'=>null);
+                            'created_at' => date('Y-m-d h:i:sa'),
+                            'updated_at' => date('Y-m-d h:i:sa'));
 
         $nUserList[] = array('email'=>'accountant_user@somerset.com',
                                 'first_name'=>'I',
@@ -41,8 +41,8 @@ class UserSeeder extends Seeder
                                 'updated_at'=>date('Y-m-d h:i:sa'),
                                 'home_owner_id'=>null,
                                 'is_active'=>1,
-                                'created_by'=>null,
-                                'updated_by'=>null);
+                                'created_at' => date('Y-m-d h:i:sa'),
+                                'updated_at' => date('Y-m-d h:i:sa'));
 
         $nUserList[] = array('email'=>'cashier_user@somerset.com',
                                 'first_name'=>'I',
@@ -57,8 +57,8 @@ class UserSeeder extends Seeder
                                 'created_at'=>date('Y-m-d h:i:sa'),
                                 'updated_at'=>date('Y-m-d h:i:sa'),
                                 'is_active'=>1,
-                                'created_by'=>null,
-                                'updated_by'=>null);
+                                'created_at' => date('Y-m-d h:i:sa'),
+                                'updated_at' => date('Y-m-d h:i:sa'));
 
         $nUserList[] = array('email'=>'guest_user@somerset.com',
                                 'first_name'=>'I',
@@ -73,8 +73,8 @@ class UserSeeder extends Seeder
                                 'created_at'=>date('Y-m-d h:i:sa'),
                                 'updated_at'=>date('Y-m-d h:i:sa'),
                                 'is_active'=>1,
-                                'created_by'=>null,
-                                'updated_by'=>null);
+                                'created_at' => date('Y-m-d h:i:sa'),
+                                'updated_at' => date('Y-m-d h:i:sa'));
     	DB::table('users')->insert($nUserList);
     }
 }

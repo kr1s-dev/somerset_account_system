@@ -23,7 +23,9 @@ class HomeOwnerSeeder extends Seeder
 			                        'member_address' => 'Ortigas Ave.',
 			                        'member_email_address' => 'guest_user@somerset.co',
 			                        'member_gender' => 'male',
-                                    'block_lot_id'=>1);
+                                    'block_lot_id'=>1,
+                                    'created_at' => date('Y-m-d h:i:sa'),
+                                    'updated_at' => date('Y-m-d h:i:sa'));
     	DB::table('home_owner_information')->insert($nHomeOwnerList);
     }
 }
