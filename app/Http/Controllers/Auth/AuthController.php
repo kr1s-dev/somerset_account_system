@@ -248,7 +248,7 @@ class AuthController extends Controller
         DB::table('system_logs')->insert(array('created_by'=>Auth::user()->id,
                                                 'updated_by'=>Auth::user()->id,
                                                 'action'=>$action,
-                                                'created_at' => date('Y-m-d H:i:sa'),
-                                                'updated_at' => date('Y-m-d H:i:sa')));
+                                                'created_at' => date('Y-m-d H:i:s'),
+                                                'updated_at' => date('Y-m-d H:i:s')));
     }
 }
