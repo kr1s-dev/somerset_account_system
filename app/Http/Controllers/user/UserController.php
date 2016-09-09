@@ -5,9 +5,9 @@ namespace App\Http\Controllers\user;
 use Auth;
 use Hash;
 use Bcrypt;
+use Request;
 use Validator;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
@@ -100,6 +100,7 @@ class UserController extends Controller
 
             //if(empty($input['home_owner_id'])){
             $input['home_owner_id'] = NULL;
+            $input['is_active'] = false;
             $userId = $this->insertRecord('users',$input);
             // }else{
             //     $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
@@ -118,8 +119,8 @@ class UserController extends Controller
             //return redirect('users');
             return $this->show($userId);    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
 
         
@@ -298,7 +299,8 @@ class UserController extends Controller
 
     public function postChangePassword(Request $request){
         try{
-            $validator =  Validator::make($request->all(),[
+
+            $validator =  Validator::make(Request::all(),[
                 'old_password' => 'required|min:6|max:255',
                 'new_password' => 'required|confirmed|min:6|max:255',]);
             if ($validator->fails()) {
@@ -306,12 +308,13 @@ class UserController extends Controller
             }
 
             $user = $this->getUser(Auth::user()->id);
-            if(Hash::check($request->input('old_password'), $user->password)){
-                if($request->input('old_password') === $request->input('new_password')){
+            $input = Request::all();
+            if(Hash::check($input['old_password'], $user->password)){
+                if($input['old_password'] === $input['new_password']){
                     return back()
                         ->withErrors(['new_password'=>'Can\'t used old password again']);
                 }else{
-                    $user->password = bcrypt($request->input('new_password'));
+                    $user->password = bcrypt($input['new_password']);
                     $user->save();
                     $this->createSystemLogs('User: ' . $user->first_name . ' ' , $user->last_name . ', Changed Password.');
                     flash()->success('Successfully Changed Password')->important(); 
@@ -323,8 +326,8 @@ class UserController extends Controller
             }
 
         }catch(\Exception $ex){
-            echo $ex->getMessage();  
-            //return view('errors.404'); 
+            //echo $ex->getMessage();  
+            return view('errors.404'); 
             //echo $ex->getMessage();
         }       
     }
