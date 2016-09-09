@@ -61,6 +61,8 @@ class InvoiceExpenseItemsController extends Controller
         if(!($input['subject_to_vat']))
             $input['vat_percent'] = 0;
 
+        if(array_key_exists('default_value', $input) || $input['default_value']<0 || $input['default_value']=='')
+            $input['default_value'] = 0;
         $accountTitleName = $input['account_title_name'];
         if(array_key_exists('account_title_name', $input)){
             unset($input['account_title_name']);
@@ -134,6 +136,9 @@ class InvoiceExpenseItemsController extends Controller
         if(!($input['subject_to_vat']))
             $input['vat_percent'] = 0;
 
+        if(array_key_exists('default_value', $input) || $input['default_value']<0 || $input['default_value']=='')
+            $input['default_value'] = 0;
+        
         $accountTitleName = $input['account_title_name'];
         if(array_key_exists('account_title_name', $input)){
             unset($input['account_title_name']);
