@@ -19,8 +19,8 @@ class GuestController extends Controller
             return view('guest_pending_payments.show_guest_pending_payment',
                             compact('pendingPaymentsList'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
     }
@@ -61,8 +61,8 @@ class GuestController extends Controller
                                     'transactionHistoryList',
                                     'arrayMonth'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
     }
@@ -103,8 +103,8 @@ class GuestController extends Controller
                                     'transactionHistory',
                                     'arrayMonth'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
     }

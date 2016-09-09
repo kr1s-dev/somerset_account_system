@@ -33,8 +33,8 @@ class ExpenseController extends Controller
             return view('expense.expense_list',
                             compact('eExpenseList'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
     }
@@ -65,8 +65,8 @@ class ExpenseController extends Controller
                                     'type'));    
         }catch(\Exception $ex){
             //echo $ex->getMessage();
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
     }
@@ -125,8 +125,8 @@ class ExpenseController extends Controller
                             compact('eExpense',
                                     'eExpenseId'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
 
@@ -161,8 +161,8 @@ class ExpenseController extends Controller
                                     'vendorList',
                                     'type'));    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage();
         }
         
         // }
@@ -268,8 +268,8 @@ class ExpenseController extends Controller
                 flash()->success('Record successfully deleted')->important();
                 return redirect('expense');    
             }catch(\Exception $ex){
-                //return view('errors.404'); 
-            echo $ex->getMessage();
+                return view('errors.404'); 
+            //echo $ex->getMessage();
             }
         }else{
             flash()->error('Invalid Admin Password')->important();
