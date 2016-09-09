@@ -22,6 +22,7 @@ class CreateSettingsTable extends Migration
                 $table->decimal('tax',10,2);
                 $table->integer('days_till_due_date');
                 $table->integer('cut_off_date');
+                $table->String('database_name');
                 $table->timestamps();
             });
         }

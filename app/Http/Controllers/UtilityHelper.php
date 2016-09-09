@@ -722,7 +722,7 @@ trait UtilityHelper
 
     public function getControlNo($tableName){
         return DB::table('INFORMATION_SCHEMA.TABLES')  
-                        ->where('TABLE_SCHEMA','=','somersetplaceaccountingsystem')
+                        ->where('TABLE_SCHEMA','=','hh')
                         ->where('TABLE_NAME','=',$tableName)
                         ->first();
     }

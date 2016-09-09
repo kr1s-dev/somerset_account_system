@@ -136,7 +136,8 @@ class AccountTitleController extends Controller
             flash()->success('Record successfully created');
             return redirect('accounttitle/'.$accounttileId);
         }catch(\Exception $ex){
-            return view('errors.404');
+            echo $ex->getMessage();
+            //return view('errors.404');
         }
         
     }
