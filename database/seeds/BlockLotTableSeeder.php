@@ -616,7 +616,9 @@ class BlockLotTableSeeder extends Seeder
                         );
         foreach ($coords as $key => $value) {
             $blockLotCoords[] = array('block_lot'=>$key,
-                                        'coordinates'=>$value);
+                                        'coordinates'=>$value,
+                                        'created_at' => date('Y-m-d h:i:sa'),
+                                        'updated_at' => date('Y-m-d h:i:sa'));
         }
 
         DB::table('block_lot')->insert($blockLotCoords);
