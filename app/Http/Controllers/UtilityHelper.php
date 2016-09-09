@@ -721,9 +721,9 @@ trait UtilityHelper
     }
 
     public function getControlNo($tableName){
-        $setting=$this->getSettings();
-        $query = "nextval('id') as nxt";
-        return DB::table($tableName)->selectRaw($query)->value('nxt');
+        // $setting=$this->getSettings();
+        // $query = "nextval('id') as nxt";
+        // return DB::table($tableName)->selectRaw($query)->value('nxt');
         // return DB::table('information_schema.table')  
         //                 ->where('table_schema','=',$setting->database_name)
         //                 ->where('table_name','=',$tableName)
