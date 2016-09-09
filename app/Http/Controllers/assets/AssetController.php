@@ -72,6 +72,7 @@ class AssetController extends Controller
             $journalEntryList = array();
             $input = $this->addAndremoveKey($request->all(),true);  
             $input['net_value'] =  $input['total_cost'];
+            $input['down_payment'] = $input['down_payment']==''?0:$input['down_payment'];
             $description = 'Bought item: ' . ($input['item_name']);
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
                 $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));

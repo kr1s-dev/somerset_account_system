@@ -81,7 +81,7 @@ class PDFGeneratorController extends Controller
                         echo $ex->getMessage();}
                     break;
                 default:
-                    echo $ex->getMessage();}
+                    echo $ex->getMessage();
                     //return view('errors.404');
                     break;
             }    
