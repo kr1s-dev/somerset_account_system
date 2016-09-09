@@ -32,57 +32,47 @@ class PDFGeneratorController extends Controller
                     return $this->generateInvoicePDF($recordId)->stream('invoice_'. date('m_d_y') .'.pdf');
                     break;
                 case 'expense':
-                    if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
-                        return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    return $this->generateExpensePDF($recordId)->stream('expense_'. date('m_d_y').'.pdf');
                     break;
                 case 'income_statement_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->generateIncomeStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 case 'owner_equity_statement_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->generateOwnerEquityStatementPDF($monthFilter,$yearFilter)->stream('income_statment_'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 case 'balance_sheet_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->generateBalanceSheetPDF($monthFilter,$yearFilter)->stream('balance_sheet'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 case 'subsidiary_ledger_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$type)->setPaper('a4', 'landscape')->stream('subsidiary_ledger'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 case 'asset_registry_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->genearateAssetRegistry()->setPaper('a4', 'landscape')->stream('asset_registry_report'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 case 'statement_of_cash_flow_report':
                     if(Auth::user()->userType->type==='Administrator' || Auth::user()->userType->type==='Accountant')
                         return $this->generateStatementOfCashFlow($yearFilter)->stream('statement_of_cash_flow'. date('m_d_y').'.pdf');
-                    else{
-                        //return view('errors.404');
-                        echo $ex->getMessage();}
+                    else
+                        return view('errors.404');
                     break;
                 default:
-                    echo $ex->getMessage();
-                    //return view('errors.404');
+                    //echo $ex->getMessage();
+                    return view('errors.404');
                     break;
             }    
         }catch(\Exception $ex){

@@ -117,13 +117,13 @@
                       <input name="amount_paid" type="number" step="0.01" class="form-control" required>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <!--div class="form-group">
                     <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">Upload a File:
                     </label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                       <input name="file_related" type="file" class="form-control">
                     </div>
-                  </div>
+                  </div-->
               </div>
               <!-- /.col -->
               <!-- this row will not appear when printing -->

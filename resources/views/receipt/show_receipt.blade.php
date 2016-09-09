@@ -117,9 +117,7 @@
                                     <th style="width:50%">Change:</th>
                                     <td>PHP {{number_format($receipt->amount_paid - $receipt->invoice->total_amount,2)}}</td>
                                   </tr>
-                           				<tr>
-                           					
-                           				</tr>
+                           				
 
                          				</tbody>
                        			</table>
