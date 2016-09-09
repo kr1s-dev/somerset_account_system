@@ -56,7 +56,7 @@
                    		<div class="col-sm-4 invoice-col">
                        		<label class="control-label" for="homeowner">Payment Due:</label>
                       		<div class="form-group">
-                         			<h5>{{date('Y-m-d',strtotime($receipt->invoice->payment_due_date))}}</h5>
+                         			<h5></h5>
                       		</div>
                    		</div>
                    		<!-- /.col -->
