@@ -152,6 +152,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,  //For session messages
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class, //For Captcha
         Barryvdh\DomPDF\ServiceProvider::class, //For PDF
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
     ],
 

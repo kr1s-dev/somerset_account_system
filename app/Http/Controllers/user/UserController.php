@@ -56,7 +56,8 @@ class UserController extends Controller
             return view('users.users_list',
                             compact('users_list'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -90,7 +91,8 @@ class UserController extends Controller
                                     'eHomeOwners',
                                     'isCreate'));   
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -128,7 +130,8 @@ class UserController extends Controller
             //return redirect('users');
             return $this->show($userId);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
 
         
@@ -147,7 +150,8 @@ class UserController extends Controller
             return view('users.show_user',   
                             compact('eUser'));     
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
           
     }
@@ -177,7 +181,8 @@ class UserController extends Controller
                                     'eHomeOwners',
                                     'isCreate'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -212,7 +217,8 @@ class UserController extends Controller
             //return redirect('users');
             return $this->show($id);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -228,7 +234,8 @@ class UserController extends Controller
         try{
             $this->deactivateUser($id);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
         // $todeleteId = array($id);
@@ -252,7 +259,8 @@ class UserController extends Controller
             flash()->success('User succesfully deactivated')->important();
             return redirect('users');    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -283,7 +291,8 @@ class UserController extends Controller
                     return redirect()->back()->withErrors(['email' => trans($response)]);
             }    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
     }
 
@@ -294,7 +303,8 @@ class UserController extends Controller
             return view('users.change_password',
                             compact('user'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }       
     }
 
@@ -326,7 +336,8 @@ class UserController extends Controller
 
         }catch(\Exception $ex){
             echo $ex->getMessage();  
-            //return view('errors.404');
+            ////return view('errors.404'); 
+            echo $ex->getMessage();
         }       
     }
 

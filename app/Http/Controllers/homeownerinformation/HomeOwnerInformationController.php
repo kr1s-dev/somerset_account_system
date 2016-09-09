@@ -35,7 +35,8 @@ class HomeOwnerInformationController extends Controller
             return view('homeowners.homeowners_list',
                             compact('eHomeOwnersList'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -49,7 +50,8 @@ class HomeOwnerInformationController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Cashier'){
-                return view('errors.404');
+                //return view('errors.404'); 
+            echo $ex->getMessage();
             } else {
                 $blockLotList = $this->getBlockLotAddress(null);
                 $homeOwner = $this->setHomeOwnerInformation();
@@ -59,7 +61,8 @@ class HomeOwnerInformationController extends Controller
                                         'blockLotList'));    
             }
         } catch(\Exception $ex) {
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
          
     }
@@ -93,7 +96,8 @@ class HomeOwnerInformationController extends Controller
             return redirect('homeowners/' . $homeOwnerId);    
         }catch(\Exception $ex){
             echo $ex->getMessage();
-            //return view('errors.404');
+            ////return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -120,7 +124,8 @@ class HomeOwnerInformationController extends Controller
                                     'homeOwnerMembersList',
                                     'ehomeOwnerInvoicesList'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -135,7 +140,8 @@ class HomeOwnerInformationController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Cashier'){
-                return view('errors.404');
+                //return view('errors.404'); 
+            echo $ex->getMessage();
             }else{
                 $homeOwner = $this->getHomeOwnerInformation($id);
                 $blockLotList = $this->getBlockLotAddress($homeOwner->block_lot_id);
@@ -145,7 +151,8 @@ class HomeOwnerInformationController extends Controller
             }
                
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -170,7 +177,8 @@ class HomeOwnerInformationController extends Controller
             flash()->success('Homeowner has been successfully updated');
             return redirect('homeowners/' . $id);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

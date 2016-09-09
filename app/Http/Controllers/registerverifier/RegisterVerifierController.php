@@ -14,7 +14,8 @@ class RegisterVerifierController extends Controller
     use UtilityHelper;
     public function getVerifier($confirmationCode){
         if(is_null($confirmationCode)){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
 
         try{
@@ -29,7 +30,8 @@ class RegisterVerifierController extends Controller
                                         'secretQuestions'));
             }    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
 
         
@@ -51,7 +53,8 @@ class RegisterVerifierController extends Controller
             flash()->success('User successfully verified. Log in to continue.');
             return redirect('auth/login');    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

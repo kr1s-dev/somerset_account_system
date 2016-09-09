@@ -32,7 +32,8 @@ class AssetController extends Controller
             return view('assets.show_asset_list',
                             compact('assetModelsList'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -54,7 +55,8 @@ class AssetController extends Controller
                                     'assetNumber',
                                     'fixedAssetAccountTitle'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -95,7 +97,8 @@ class AssetController extends Controller
             flash()->success('Record successfully created')->important();
             return redirect('assets/'.$assetId);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -113,7 +116,8 @@ class AssetController extends Controller
             return view('assets.show_asset',
                             compact('assetModel'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
 
@@ -133,7 +137,8 @@ class AssetController extends Controller
                             compact('assetModel',
                                     'fixedAssetAccountTitle'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -185,7 +190,8 @@ class AssetController extends Controller
             flash()->success('Record successfully Updated')->important();
             return redirect('assets/'.$id);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
         
@@ -208,7 +214,8 @@ class AssetController extends Controller
             flash()->success('Record successfully deleted')->important();
             return redirect('assets');    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

@@ -136,7 +136,8 @@ class AuthController extends Controller
                 ->withInput($request->only($this->loginUsername(), 'remember'))
                 ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -229,7 +230,8 @@ class AuthController extends Controller
             flash()->success('An email is sent to your account for verification.');
             return redirect('auth/login');    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

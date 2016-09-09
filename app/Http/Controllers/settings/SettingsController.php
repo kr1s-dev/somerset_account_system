@@ -98,7 +98,8 @@ class SettingsController extends Controller
             //                 compact('setting'));
         }catch(\Exception $ex){
             $ex->getMessage();
-            //return view('errors.404');
+            ////return view('errors.404'); 
+            echo $ex->getMessage();
         }
     }
 

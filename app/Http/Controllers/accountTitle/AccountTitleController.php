@@ -33,7 +33,8 @@ class AccountTitleController extends Controller
             return view('accountTitles.account_title_list',
                             compact('taccountGroupList'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -54,7 +55,8 @@ class AccountTitleController extends Controller
                                     'eAccountTitle',
                                     'accountTitle'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -76,7 +78,8 @@ class AccountTitleController extends Controller
                                     'eAccountTitle',
                                     'accountTitle'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }  
         
 
@@ -97,7 +100,8 @@ class AccountTitleController extends Controller
                                     'eAccountTitle',
                                     'accountTitle'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -143,7 +147,8 @@ class AccountTitleController extends Controller
             return redirect('accounttitle/'.$accounttileId);
         }catch(\Exception $ex){
             //echo $ex->getMessage();
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -166,7 +171,8 @@ class AccountTitleController extends Controller
                                     'eAccountTitle',
                                     'accountTitle')); 
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
 
@@ -191,7 +197,8 @@ class AccountTitleController extends Controller
                                     'eAccountTitle',
                                     'accountTitle'));    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -236,7 +243,8 @@ class AccountTitleController extends Controller
             flash()->success('Record successfully updated');
             return redirect('accounttitle/'.$id);    
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

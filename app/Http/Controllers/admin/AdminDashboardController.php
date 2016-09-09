@@ -69,7 +69,8 @@ class AdminDashboardController extends Controller
                                     'totalVendorAmountPerWeek',
                                     'invoiceList')); 
         }catch(\Exception $ex){
-            return view('errors.404');
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
