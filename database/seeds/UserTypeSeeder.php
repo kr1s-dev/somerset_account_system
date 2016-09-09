@@ -15,7 +15,9 @@ class UserTypeSeeder extends Seeder
         $userTypeName = array('Administrator','Accountant','Cashier','Guest');
         $userTypeList = array();
     	for ($i=0; $i < count($userTypeName) ; $i++) { 
-    	    $userTypeList[] = array('type' => $userTypeName[$i]);
+    	    $userTypeList[] = array('type' => $userTypeName[$i],
+                                    'created_at' => date('Y-m-d h:i:sa'),
+                                    'updated_at' => date('Y-m-d h:i:sa'));
     	}
     	DB::table('user_type')->insert($userTypeList);
     }
