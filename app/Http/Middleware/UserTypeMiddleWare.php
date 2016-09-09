@@ -38,7 +38,7 @@ class UserTypeMiddleware
                 return $next($request);
         }
 
-        return view('errors.503');
+        return view('errors.404');
         
     }
 }

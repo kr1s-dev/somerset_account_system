@@ -11,7 +11,8 @@
         "laracasts/flash": "^2.0",
         "anhskohbo/no-captcha": "2.*",
         "barryvdh/laravel-dompdf": "^0.6.1",
-        "fideloper/proxy": "^3.1"
+        "fideloper/proxy": "^3.1",
+        "ext-gd": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
