@@ -44,11 +44,13 @@ class SettingsController extends Controller
             $setting->tax = 1;
             $setting->days_till_due_date = 1;
             $setting->cut_off_date = 1;
-            return view('settings.create_update_system_setting',
-                        compact('setting'));
-        }else{
-            return $this->show($setting->id);
+            
         }
+        // else{
+        //     return $this->show($setting->id);
+        // }
+        return view('settings.create_update_system_setting',
+                        compact('setting'));
 
         
     }
@@ -79,8 +81,21 @@ class SettingsController extends Controller
     {
         try{
             $setting = $this->getSettings();
-            return view('settings.show_settings_info',
+            if(empty($setting)){
+                $setting = $this->setSettings();
+                $setting->id = null;
+                $setting->tax = 1;
+                $setting->days_till_due_date = 1;
+                $setting->cut_off_date = 1;
+                return view('settings.create_update_system_setting',
                             compact('setting'));
+            }else{
+                return view('settings.show_settings_info',
+                            compact('setting'));
+            }
+            // $setting = $this->getSettings();
+            // return view('settings.show_settings_info',
+            //                 compact('setting'));
         }catch(\Exception $ex){
             return view('errors.404');
         }
