@@ -28,7 +28,7 @@ class ReportController extends Controller
             $yearFilter = $request->input('year_filter');
             return $this->generateIncomeStatement($monthFilter,$yearFilter);
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
 		
 	}
@@ -37,7 +37,7 @@ class ReportController extends Controller
         try{
             return $this->generateIncomeStatement(null,null);
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
     	
 
@@ -49,7 +49,7 @@ class ReportController extends Controller
             $yearFilter = $request->input('year_filter');
             return $this->generateOwnersEquityStatement($monthFilter,$yearFilter);
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
 		
 	}
@@ -58,7 +58,7 @@ class ReportController extends Controller
         try{
             return $this->generateOwnersEquityStatement(null,null);
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
     	
 
@@ -70,7 +70,7 @@ class ReportController extends Controller
             $yearFilter = $request->input('year_filter');
             return $this->generateBalanceSheet($monthFilter,$yearFilter);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -79,7 +79,7 @@ class ReportController extends Controller
         try{
             return $this->generateBalanceSheet(null,null);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -90,7 +90,7 @@ class ReportController extends Controller
             $yearFilter = $request->input('year_filter');
             return $this->generateSubsidiaryLedger($monthFilter,$yearFilter,$request->input('type'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -99,7 +99,7 @@ class ReportController extends Controller
         try{
             return $this->generateSubsidiaryLedger(null,null,$type);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -110,7 +110,7 @@ class ReportController extends Controller
             return view('reports.asset_registry',
                             compact('assetItemList'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -120,7 +120,7 @@ class ReportController extends Controller
             return $this->generateStatementOfCashFlow(date('Y'));
         }catch(\Exception $ex){
             echo $ex->getMessage();
-            //return view('errors.503');
+            //return view('errors.404');
         }
     }
 

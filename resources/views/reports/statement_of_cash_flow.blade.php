@@ -33,23 +33,30 @@
 				                </tr>
 			              	</thead>
 			              	<tbody>
-			              		<tr>
-			              			<td colspan="2">Cash Received from Customers </td>
-			              			<td align="right"> ₱ {{number_format($incTotalSum-$arBalance,2)}}</td>
-			              		</tr>
-			              		@if(count($expenseList)>0)
+			              		@if($incTotalSum-$arBalance<=0 && count($expenseList)<=0)
 			              			<tr>
-			              				<td colspan="3">Cash Payments For: </td>
+			              				<td colspan="3" align="center"><i><strong>No Activity Found</strong></i></td>
+			              			</tr>
+			              		@else
+				              		<tr>
+				              			<td colspan="2">Cash Received from Customers </td>
+				              			<td align="right"> ₱ {{number_format($incTotalSum-$arBalance,2)}}</td>
 				              		</tr>
-				              		@foreach($expenseList as $key=>$value)
-				              			@if($value > 0)
-				              				<tr>
-					              				<td>{{str_replace(strpos($key, 'Expense')?'Expense':'Expenses', '', $key)}}</td>
-					              				<td align="right">₱ {{number_format($value,2)}}</td>
-					              				<td></td>
-					              			</tr>
-				              			@endif
-				              		@endforeach
+				              		@if(count($expenseList)>0)
+				              			<tr>
+				              				<td colspan="3">Cash Payments For: </td>
+					              		</tr>
+					              		@foreach($expenseList as $key=>$value)
+					              			@if($value > 0)
+					              				<tr>
+						              				<td>{{str_replace(strpos($key, 'Expense')?'Expense':'Expenses', '', $key)}}</td>
+						              				<td align="right">₱ {{number_format($value,2)}}</td>
+						              				<td></td>
+						              			</tr>
+					              			@endif
+					              		@endforeach
+				              		@endif
+			              		
 			              		@endif
 			              		
 			              	</tbody>
@@ -86,9 +93,15 @@
 			              				<td colspan="3" align="center"><i><strong>No Activity Found</strong></i></td>
 			              			</tr>
 			              		@else
+
 			              			@foreach($financingList as $key => $value)
-				              			@if($value != 0)
+				              			@if($value != 0 && (!strrpos($key,'Capital') || $key != 'Capital'))
 				              				<tr>
+					              				<td colspan="2">{{$key}}</td>
+					              				<td align="right">₱ {{number_format($value,2)}}</td>
+					              			</tr>
+					              		@else
+					              			<tr>
 					              				<td colspan="2">{{$key}}</td>
 					              				<td align="right">₱ {{number_format($value,2)}}</td>
 					              			</tr>

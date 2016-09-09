@@ -44,7 +44,7 @@ class HomeOwnerMemberController extends Controller
                             compact('ehomeOwnerInformation',
                                     'nHomeOwnerMember'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -64,7 +64,7 @@ class HomeOwnerMemberController extends Controller
             flash()->success('Record successfully created');
             return redirect('homeowners/'.$input['home_owner_id']);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -95,7 +95,7 @@ class HomeOwnerMemberController extends Controller
                             compact('nHomeOwnerMember',
                                     'ehomeOwnerInformation'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -116,7 +116,7 @@ class HomeOwnerMemberController extends Controller
             $this->createSystemLogs('Updated an Existing HomeOwnerMember');
             return redirect('homeowners/'.$homeOwnerMember->home_owner_id);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -138,7 +138,7 @@ class HomeOwnerMemberController extends Controller
             $this->createSystemLogs('Deleted an Existing HomeOwnerMember');
             return redirect('homeowners/'.$homeOwnerMember->home_owner_id);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }

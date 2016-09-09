@@ -41,7 +41,7 @@
   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">VAT Percent
   </label>
   <div class="col-md-9 col-sm-6 col-xs-12" >
-   <input type="number" step="0.01" min="0" name="vat_percent" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('vat_percent'):($item->vat_percent) }}">
+   <input type="number" step="0.01" min="0" max="100" name="vat_percent" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('vat_percent'):($item->vat_percent) }}">
   </div>
 </div>
 

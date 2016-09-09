@@ -34,7 +34,7 @@ class VendorController extends Controller
             return view('vendor_list.show_vendor_list',
                             compact('vendorList'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -51,7 +51,7 @@ class VendorController extends Controller
             return view('vendor_list.create_vendor',
                             compact('vendor'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -71,7 +71,7 @@ class VendorController extends Controller
             flash()->success('Record successfully created');
             return redirect('vendor/'.$vendorId);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -89,7 +89,7 @@ class VendorController extends Controller
             return view('vendor_list.show_vendor',
                             compact('vendor'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
 
@@ -108,7 +108,7 @@ class VendorController extends Controller
             return view('vendor_list.edit_vendor',
                             compact('vendor'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
 
@@ -130,7 +130,7 @@ class VendorController extends Controller
             flash()->success('Record successfully Updated');
             return redirect('vendor/'.$id);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -149,7 +149,7 @@ class VendorController extends Controller
             flash()->success('Record successfully deleted')->important();
             return redirect('vendor');    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }

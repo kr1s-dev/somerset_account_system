@@ -34,14 +34,14 @@ class AnnouncementController extends Controller
     public function index()
     {
         if(Auth::user()->userType->type==='Guest'){
-            return view('errors.503');
+            return view('errors.404');
         }else{
             try{
                 $announcementsList = $this->getAnnouncementModel(null);
                 return view('announcement.show_announcement_list',
                                 compact('announcementsList'));
             }catch(\Exception $ex){
-                return view('errors.503');
+                return view('errors.404');
             }
             
         }
@@ -55,14 +55,14 @@ class AnnouncementController extends Controller
     public function create()
     {
         if(Auth::user()->userType->type==='Guest'){
-            return view('errors.503');
+            return view('errors.404');
         }else{
             try{
                 $announcement = $this->setAnnouncementModel();
                 return view('announcement.create_announcement',
                                 compact('announcement'));
             }catch(\Exception $ex){
-                return view('errors.503');
+                return view('errors.404');
             }
             
         }
@@ -84,7 +84,7 @@ class AnnouncementController extends Controller
             flash()->success('Record successfully created')->important();
             return redirect('announcement/'.$announcementId);      
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -108,7 +108,7 @@ class AnnouncementController extends Controller
                             compact('announcement'));
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
 
@@ -124,14 +124,14 @@ class AnnouncementController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 $announcement = $this->getAnnouncementModel($id);
                 return view('announcement.edit_announcement',
                                 compact('announcement'));
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         
@@ -153,7 +153,7 @@ class AnnouncementController extends Controller
             flash()->success('Record successfully updated');
             return redirect('announcement/'.$id);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -168,7 +168,7 @@ class AnnouncementController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 $this->deleteRecordWithWhere('announcements',array('id'=>$id));
                 $this->createSystemLogs('Deleted an existing announcement');
@@ -176,7 +176,7 @@ class AnnouncementController extends Controller
                 return redirect('announcement');
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         

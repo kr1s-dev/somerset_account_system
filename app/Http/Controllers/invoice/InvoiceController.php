@@ -35,13 +35,13 @@ class InvoiceController extends Controller
         try{
             $eInvoiceModelList = $this->getHomeOwnerInvoice(null);
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 return view('invoices.invoices_list',
                             compact('eInvoiceModelList'));
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         
@@ -56,7 +56,7 @@ class InvoiceController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 $type = 'Invoice';
                 $incomeAccountItems = array();
@@ -76,7 +76,7 @@ class InvoiceController extends Controller
                                         'type'));
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         
@@ -125,7 +125,7 @@ class InvoiceController extends Controller
             echo $nInvoiceId;    
         }catch(\Exception $ex){
             echo $ex->getMessage();
-            //return view('errors.503');
+            //return view('errors.404');
         }
         
     }
@@ -160,7 +160,7 @@ class InvoiceController extends Controller
                                     'hasPenalty'));
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         
@@ -176,7 +176,7 @@ class InvoiceController extends Controller
     {
         try{
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 $type = 'Invoice';
                 $eInvoice = $this->getHomeOwnerInvoice($id);
@@ -188,7 +188,7 @@ class InvoiceController extends Controller
                     }
                 }
                 if($eInvoice->is_paid){
-                    return view('errors.503');
+                    return view('errors.404');
                 }else{
                     return view('invoices.edit_invoice',
                                 compact('eInvoice',
@@ -198,7 +198,7 @@ class InvoiceController extends Controller
                 }
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         
@@ -256,7 +256,7 @@ class InvoiceController extends Controller
             flash()->success('Record successfully updated');
             echo $id;    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -287,7 +287,7 @@ class InvoiceController extends Controller
         // $this->deleteRecord('home_owner_invoice',array($id));
         try{
             if(Auth::user()->userType->type==='Guest'){
-                return view('errors.503');
+                return view('errors.404');
             }else{
                 $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
                 $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
@@ -297,7 +297,7 @@ class InvoiceController extends Controller
                 return redirect('invoice');
             }    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
         

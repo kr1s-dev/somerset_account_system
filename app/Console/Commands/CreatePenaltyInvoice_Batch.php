@@ -112,7 +112,7 @@ class CreatePenaltyInvoice_Batch extends Command
             }
 
             $this->insertBulkRecord('journal_entry',$toInsertJournalEntry);
-            DB::table('system_logs')->insert($this->createSystemLogs('Done Inserting Bulk Invoice for HomeOwners',$userAdmin));
+            DB::table('system_logs')->insert($this->createSystemLogs('Done Inserting Penalty Invoice for HomeOwners',$userAdmin));
 
             //\Log::Info('Success');
             

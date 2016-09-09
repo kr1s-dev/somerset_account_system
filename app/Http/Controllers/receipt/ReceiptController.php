@@ -33,7 +33,7 @@ class ReceiptController extends Controller
             return view('receipt.receipt_list',
                             compact('eHomeOwnerReceiptList'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
 
         
@@ -56,7 +56,7 @@ class ReceiptController extends Controller
                                     'invoiceNumber',
                                     'receiptNumber'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
     }
 
@@ -73,7 +73,7 @@ class ReceiptController extends Controller
                                     'invoiceNumber',
                                     'receiptNumber'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
     }
 
@@ -118,7 +118,7 @@ class ReceiptController extends Controller
             return redirect('receipt/'. $receiptId);    
         }catch(\Exception $ex){
             echo $ex->getMessage();
-            //return view('errors.503');
+            //return view('errors.404');
         }
         
 
@@ -141,7 +141,7 @@ class ReceiptController extends Controller
                                     'receiptNumber',
                                     'invoiceNumber'));    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
 

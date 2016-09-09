@@ -6,6 +6,7 @@ use DB;
 use Mail;
 use App\User;
 use Validator;
+use App\SettingsModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -135,7 +136,7 @@ class AuthController extends Controller
                 ->withInput($request->only($this->loginUsername(), 'remember'))
                 ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }
@@ -172,7 +173,11 @@ class AuthController extends Controller
     public function userTypeRedirectPath(){
         $userType = Auth::user()->userType->type;
         if($userType=='Administrator'){
-            return redirect()->intended('/admin-dashboard'); 
+            $setting = SettingsModel::first();
+            if($setting == NULL)
+                return redirect()->intended('/settings/create'); 
+            else
+                return redirect()->intended('/admin-dashboard'); 
         }else if($userType=='Accountant'){
             return redirect()->intended('/account'); 
         }else if($userType=='Cashier'){
@@ -224,7 +229,7 @@ class AuthController extends Controller
             flash()->success('An email is sent to your account for verification.');
             return redirect('auth/login');    
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
         
     }

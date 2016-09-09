@@ -82,7 +82,7 @@ class SettingsController extends Controller
             return view('settings.show_settings_info',
                             compact('setting'));
         }catch(\Exception $ex){
-            return view('errors.503');
+            return view('errors.404');
         }
     }
 

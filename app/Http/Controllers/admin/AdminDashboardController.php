@@ -6,6 +6,7 @@ use DB;
 use Carbon;
 use App\ReceiptModel;
 use App\ExpenseModel;
+use App\InvoiceModel;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,54 +16,62 @@ class AdminDashboardController extends Controller
 {
     use UtilityHelper;
     public function getDashBoard(){
-    	$yearFilter = date('Y');
-    	$incomeAmountPerMonth = array();
-    	$expenseAmountPerMonth = array();
-        $homeOwnerSubsidiaryLedgerPerWeek = array(); 
-        $totalHomeOwnerAmountPerWeek = 0;
-        $homeVendorSubsidiaryLedgerPerWeek = array(); 
-        $totalVendorAmountPerWeek = 0;
-        $incTotalSum = 0;
-        $expTotalSum = 0;
+        try{
+           $yearFilter = date('Y');
+            $incomeAmountPerMonth = array();
+            $expenseAmountPerMonth = array();
+            $homeOwnerSubsidiaryLedgerPerWeek = array(); 
+            $totalHomeOwnerAmountPerWeek = 0;
+            $homeVendorSubsidiaryLedgerPerWeek = array(); 
+            $totalVendorAmountPerWeek = 0;
+            $incTotalSum = 0;
+            $expTotalSum = 0;
 
-    	$incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',null,date('Y'));
-    	$expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',null,date('Y'));
+            $incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',null,date('Y'));
+            $expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',null,date('Y'));
 
-    	if(count($incStatementItemsList)>0){
-    		$incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
-    		$incomeAmountPerMonth = $this->getAmountPerMonth($incStatementItemsList);
-            $incTotalSum = $this->getTotalSum($incomeItemsList);
-    	}else{
-            foreach(range(1, date('m')) as $month) {
-                $incomeAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
+            if(count($incStatementItemsList)>0){
+                $incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+                $incomeAmountPerMonth = $this->getAmountPerMonth($incStatementItemsList);
+                $incTotalSum = $this->getTotalSum($incomeItemsList);
+            }else{
+                foreach(range(1, date('m')) as $month) {
+                    $incomeAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
+                }
+            }   
+
+            if(count($expStatementItemsList)>0){
+                $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+                $expenseAmountPerMonth = $this->getAmountPerMonth($expStatementItemsList);
+                $expTotalSum = $this->getTotalSum($expenseItemsList);
+            }else{
+                foreach(range(1, date('m')) as $month) {
+                    $expenseAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
+                }
             }
-        }   
+            $homeOwnerSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('homeowner');
+            $totalHomeOwnerAmountPerWeek = $this->getTotalSum($homeOwnerSubsidiaryLedgerPerWeek);
 
-    	if(count($expStatementItemsList)>0){
-    		$expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
-    		$expenseAmountPerMonth = $this->getAmountPerMonth($expStatementItemsList);
-            $expTotalSum = $this->getTotalSum($expenseItemsList);
-    	}else{
-            foreach(range(1, date('m')) as $month) {
-                $expenseAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
-            }
+            $homeVendorSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('vendor');
+            $totalVendorAmountPerWeek = $this->getTotalSum($homeVendorSubsidiaryLedgerPerWeek);
+
+            $invoiceList = InvoiceModel::where('payment_due_date','<',date('Y-m-d'))
+                                         ->where('invoice_id','=',NULL)->get();
+            //print_r($homeOwnerSubsidiaryLedgerPerWeek);
+            return view('admin_dashboard.admin_dashboard',
+                            compact('incTotalSum',
+                                    'expTotalSum',
+                                    'incomeAmountPerMonth',
+                                    'expenseAmountPerMonth',
+                                    'homeOwnerSubsidiaryLedgerPerWeek',
+                                    'totalHomeOwnerAmountPerWeek',
+                                    'homeVendorSubsidiaryLedgerPerWeek',
+                                    'totalVendorAmountPerWeek',
+                                    'invoiceList')); 
+        }catch(\Exception $ex){
+            return view('errors.404');
         }
-        $homeOwnerSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('homeowner');
-        $totalHomeOwnerAmountPerWeek = $this->getTotalSum($homeOwnerSubsidiaryLedgerPerWeek);
-
-        $homeVendorSubsidiaryLedgerPerWeek = $this->generateSubsidiaryLedger('vendor');
-        $totalVendorAmountPerWeek = $this->getTotalSum($homeVendorSubsidiaryLedgerPerWeek);
-
-        //print_r($homeOwnerSubsidiaryLedgerPerWeek);
-        return view('admin_dashboard.admin_dashboard',
-        				compact('incTotalSum',
-        						'expTotalSum',
-        						'incomeAmountPerMonth',
-        						'expenseAmountPerMonth',
-                                'homeOwnerSubsidiaryLedgerPerWeek',
-                                'totalHomeOwnerAmountPerWeek',
-                                'homeVendorSubsidiaryLedgerPerWeek',
-                                'totalVendorAmountPerWeek'));
+        
     }
 
     public function postDashboard(Request $request){
@@ -105,15 +114,15 @@ class AdminDashboardController extends Controller
     // }
 
     public function getAmountPerMonth($dataList){
-    	$amountPerMonth = array();
-    	foreach(range(1, date('m')) as $month) {
-    		$amountPerMonth[trim(date('m',strtotime(date('Y').'-'.$month)),'0')] = 0;
-    	}
-		foreach ($dataList as $data) {
-			$amountPerMonth[trim(date('m',strtotime($data->created_at)),'0')] += ($data->credit_amount+$data->debit_amount);
-			//echo $data;
-		}
-		return $amountPerMonth;
+        $amountPerMonth = array();
+        foreach(range(1, date('m')) as $month) {
+            $amountPerMonth[trim(date('m',strtotime(date('Y').'-'.$month)),'0')] = 0;
+        }
+        foreach ($dataList as $data) {
+            $amountPerMonth[trim(date('m',strtotime($data->created_at)),'0')] += ($data->credit_amount+$data->debit_amount);
+            //echo $data;
+        }
+        return $amountPerMonth;
     }
 
     public function generateSubsidiaryLedger($type){
