@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\accountInformation;
 
 use Request;
-use App\Http\Controllers\Controller;
+use App\AccountTitleModel;
 use App\JournalEntryModel;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
 
 class AccountInformationController extends Controller
@@ -30,7 +31,7 @@ class AccountInformationController extends Controller
         //
         $dateToday = date('F', mktime(0, 0, 0, 1, 10)) . ' ' . date('Y');
         $dateNextYear =  date('F', mktime(0, 0, 0, 12, 10)) . ' ' . date('Y',strtotime('+1 years'));
-        $journalEntryCurrentYearList = JournalEntryModel::whereYear('created_at','=',date('Y'))->get();
+        $journalEntryCurrentYearList = JournalEntryModel::whereYear('created_at','=',date('Y'))->where('is_closed','=','0')->get();
         $accountTitleGroupList = $this->getAccountGroups(null);
         $accountTitlesList =  $this->getAccountTitles(null);
         $fBalanceSheetItemsList = array();
@@ -82,71 +83,31 @@ class AccountInformationController extends Controller
                                 'liabilitiesTotal'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AccountInformationRequest $request)
-    {
+    public function closeAccountingYear(){
+        $accountTitles = array();
+        $accountGroupsList = $this->getAccountGroups(null);
+        $currYrJourEntryList = $this->getJournalEntryRecordsWithFilter(null,null,date('Y'));
+        $fCurrJournEntList = $this->getItemsAmountList($currYrJourEntryList,null);
         
-        
-    }
+        foreach ($accountGroupsList as $acctGrp) {
+            if($acctGrp->account_group_name != 'Revenues' && $acctGrp->account_group_name != 'Expenses'){
+                foreach ($acctGrp->accountTitles as $acctTitle) {
+                    if(array_key_exists($acctTitle->account_sub_group_name, $fCurrJournEntList)){
+                        $acctTitle->opening_balance += $fCurrJournEntList[$acctTitle->account_sub_group_name];
+                        $acctTitle->save();
+                    }
+                }
+            }
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-    }
+        foreach ($currYrJourEntryList as $journEntry) {
+            $journEntry->is_closed = true;
+            $journEntry->save();
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(AccountInformationRequest $request, $id)
-    {
-       
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-       
+        $this->createSystemLogs('Closed Current Accounting Year');
+        flash()->success('Accounting Year Successfully Closed')->important();
+        return redirect('account');
     }
 
 }

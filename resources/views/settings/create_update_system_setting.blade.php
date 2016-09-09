@@ -29,7 +29,7 @@
 	                  	<div class="form-group">
 	                     	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tax (%)
 	                     	</label>
-	                     	<div class="col-md-1 col-sm-6 col-xs-12">
+	                     	<div class="col-md-2 col-sm-6 col-xs-12">
 	                        	<input type="number" name="tax" min="1" id="tax" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('tax'):($setting->tax) }}" >
 	                     	</div>
 	                 	 </div>
@@ -37,7 +37,7 @@
 	                  	<div class="form-group">
 	                     	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Number of days for due date
 	                     	</label>
-	                     	<div class="col-md-1 col-sm-6 col-xs-12">
+	                     	<div class="col-md-2 col-sm-6 col-xs-12">
 	                        	<input type="number" name="days_till_due_date" id="tax" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('days_till_due_date'):($setting->days_till_due_date) }}" >
 	                     	</div>
 	                  	</div>

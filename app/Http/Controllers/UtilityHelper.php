@@ -631,7 +631,7 @@ trait UtilityHelper
                                                             $query->whereYear('created_at','=',$yearFilter)
                                                                     ->whereMonth('created_at','=',$monthFilter);
         }
-        return $query->get();
+        return $query->where('is_closed','=',0)->get();
               
     }
 
@@ -644,14 +644,14 @@ trait UtilityHelper
                                                 ->get();
             foreach ($accountGroup as $accountGrp) {
                 foreach ($accountGrp->accountTitles as $accountTitle) {
-                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                    $data[$accountTitle->account_sub_group_name] = 0;
                 }
             }
         }else if(is_null($typeOfData)){
             $accountGroup =  $this->getAccountGroups(null);
             foreach ($accountGroup as $accountGrp) {
                 foreach ($accountGrp->accountTitles as $accountTitle) {
-                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                    $data[$accountTitle->account_sub_group_name] = 0;
                 }
             }
         }

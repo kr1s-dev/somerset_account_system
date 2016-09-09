@@ -65,7 +65,7 @@ class SettingsController extends Controller
         $settingId = $this->insertRecord('system_settings',$input);
         $this->createSystemLogs('Updated System Settings');
         flash()->success('System Settings successfully Update');
-        return redirect('settings/'.$settingId);
+        return redirect('/admin-dashboard');
 
     }
 

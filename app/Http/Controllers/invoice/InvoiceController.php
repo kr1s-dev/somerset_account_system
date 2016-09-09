@@ -219,25 +219,14 @@ class InvoiceController extends Controller
         $totalAmount = $request->input('totalAmount');
         $paymentDueDate = $request->input('paymentDueDate');
         //End of getting data from ajax request
-
+        $settings = $this->getSettings();
         //Replace all items in the database
         try{
             $eInvoice = $this->getHomeOwnerInvoice($id);
             $homeowner = $this->getObjectFirstRecord('home_owner_information',array('id'=>$eInvoice->home_owner_id));
             $this->updateRecord('home_owner_invoice',$id,array('total_amount' => $totalAmount,
-                                                                'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate))));
-            // $eInvoiceItemsList = $this->getObjectRecords('home_owner_invoice_items',array('invoice_id'=>$id));
-            // $eJournalEntries = $this->getObjectRecords('journal_entry',array('invoice_id'=>$id));
-            // foreach ($eInvoiceItemsList as $eInvoiceItem) {
-            //     $toDeleteInvItems[] = $eInvoiceItem->id;
-            // }
-
-            // foreach ($eJournalEntries as $eJournalEntry) {
-            //     $toDeleteJournalEntry[] = $eJournalEntry->id;
-            // }
-
-            // $this->deleteRecord('home_owner_invoice_items',$toDeleteInvItems);
-            // $this->deleteRecord('journal_entry',$toDeleteJournalEntry);
+                                                                'payment_due_date' => date('Y-m-d',strtotime($paymentDueDate)),
+                                                                'next_penalty_date'=>date('Y-m-d',strtotime($paymentDueDate . '+'. $settings->days_till_due_date .' days'))));
             $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
             $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
 

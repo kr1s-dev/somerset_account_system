@@ -21,39 +21,29 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="pull-right">
+                    <a href="{{route('close.accounting')}}" class="btn btn-success" onclick="return confirm('Are you sure you want to close accouting year?');"><i class="fa fa-archive" aria-hidden="true"></i> Close Current Accounting Year</a>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-12">
+                <div class="col-md-12 col-xs-12">
                   <div class="panel panel-default">
                     <div class="panel-heading">Account Details</div>
                       <div class="panel-body">
                         <div class="row">
+                          <div class="col-md-2 col-xs-12">
+                             <h5>Name:</h5>
+                          </div>
                           <div class="col-md-4 col-xs-12">
-                             <h5>Name</h5>
+                             <h6><strong>Somerset Accounting</strong></h6>
                           </div>
-                          <div class="col-md-8 col-xs-12">
-                             <h6>Somerset Accounting</h6>
+                          <div class="col-md-2 col-xs-12">
+                             <h5>Calendar Year:</h5>
                           </div>
-                       </div>
-                       <div class="ln_solid"></div>
-                       <div class="row">
                           <div class="col-md-4 col-xs-12">
-                             <h5>Calendar Year</h5>
-                          </div>
-                          <div class="col-md-8 col-xs-12">
-                             <h6>{{date('Y')}}</h6>
+                             <h6><strong>{{date('Y')}}</strong></h6>
                           </div>
                         </div>
-                         <div class="row">
-                           <div class="col-md-4 col-xs-12">
-                               <h5></h5>
-                            </div>
-                            <div class="col-md-8 col-xs-12">
-                               <h6></h6>
-                            </div>
-                         </div>
-                         <div class="ln_solid"></div>
-                        </div>
+                        <div class="ln_solid"></div>
+                      </div>
                      </div>
                   </div>
                   <!--div class="col-md-4 col-xs-12">
@@ -100,15 +90,15 @@
                       </div>
                     </div>
                   </di-->
-                  <div class="col-md-4 col-xs-12">
+                  <div class="col-md-12 col-xs-12">
                     <div class="panel panel-default">
                       <div class="panel-heading">Account Summary</div>
                       <div class="panel-body">
                         <div class="row">
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-2 col-xs-12">
                             <h5>Assets</h5>
                           </div>
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-4 col-xs-12">
                             <h6> 
                               @if($assetTotal<0)
                                 CR {{number_format(($assetTotal*-1),2)}}
@@ -117,13 +107,10 @@
                               @endif
                             </h6>
                           </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                        <div class="row">
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-2 col-xs-12">
                             <h5>Liabilities</h5>
                           </div>
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-4 col-xs-12">
                             <h6>
                               @if($liabilitiesTotal<0)
                                 DR {{number_format(($liabilitiesTotal*-1),2)}}
@@ -135,23 +122,19 @@
                         </div>
                         <div class="ln_solid"></div>
                         <div class="row">
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-2 col-xs-12">
                              <h5>Income</h5>
                           </div>
-                          <div class="col-md-6 col-xs-12">
+                          <div class="col-md-4 col-xs-12">
                              <h6>Dr {{number_format($incomeTotal,2)}}</h6>
                           </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                          <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                              <h5>Expenses</h5>
-                            </div>
-                            <div class="col-md-6 col-xs-12">
-                              <h6>Cr {{number_format($expenseTotal,2)}}</h6>
-                            </div>
+                          <div class="col-md-2 col-xs-12">
+                            <h5>Expenses</h5>
                           </div>
-                          <div class="ln_solid"></div>
+                          <div class="col-md-4 col-xs-12">
+                            <h6>Cr {{number_format($expenseTotal,2)}}</h6>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

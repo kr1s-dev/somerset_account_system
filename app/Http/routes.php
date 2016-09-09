@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('journal/create' ,['as'=>'journal','uses'=>'journal\JournalEntryController@getJournalEntry']);
     Route::post('journal/create' ,'journal\JournalEntryController@postJournalEntry');
     Route::get('adjusment/journal/create' ,['as'=>'adjustment.journal','uses'=>'journal\JournalEntryController@getAdjustmenstEntry']);
+    Route::get('accounting/closed',['as'=>'close.accounting','uses'=>'accountInformation\AccountInformationController@closeAccountingYear']);
     
     
     //Account info routes
