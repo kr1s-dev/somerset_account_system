@@ -140,8 +140,8 @@
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/guard.png')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/guard.jpg')}}" class="img-responsive" alt="Entrance">
+                    <a href="{{ URL::asset('images/guard.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/guard.JPG')}}" class="img-responsive" alt="Entrance">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -155,8 +155,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/houses.jpg')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/houses.jpg')}}" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/houses.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/houses.JPG')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -170,8 +170,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/fountain.jpg')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/fountain.jpg')}}" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/fountain.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/fountain.JPG')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -185,8 +185,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/function_hall.jpg')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/function_hall.jpg')}}" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/function_hall.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/function_hall.JPG')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -200,8 +200,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/swimming_pool.jpg')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/swimming_pool.jpg')}}" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/swimming_pool.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/swimming_pool.JPG')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -215,8 +215,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="{{ URL::asset('images/basketball_court.jpg')}}" class="portfolio-box">
-                        <img src="{{ URL::asset('images/basketball_court.jpg')}}" class="img-responsive" alt="">
+                    <a href="{{ URL::asset('images/basketball_court.JPG')}}" class="portfolio-box">
+                        <img src="{{ URL::asset('images/basketball_court.JPG')}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
