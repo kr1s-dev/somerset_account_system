@@ -722,18 +722,20 @@ trait UtilityHelper
 
     public function getControlNo($tableName){
         $setting=$this->getSettings();
-        return DB::table('INFORMATION_SCHEMA.TABLES')  
-                        ->where('TABLE_SCHEMA','=',$setting->database_name)
-                        ->where('TABLE_NAME','=',$tableName)
-                        ->first();
+        $query = "nextval('id') as nxt";
+        return DB::table($tableName)->selectRaw($query)->value('nxt');
+        // return DB::table('INFORMATION_SCHEMA.TABLES')  
+        //                 ->where('TABLE_SCHEMA','=',$setting->database_name)
+        //                 ->where('TABLE_NAME','=',$tableName)
+        //                 ->first();
     }
 
     public function createSystemLogs($action){
         $this->insertRecord('system_logs',array('created_by'=>$this->getLogInUserId(),
                                             'updated_by'=>$this->getLogInUserId(),
                                             'action'=>$action,
-                                            'created_at' => date('Y-m-d'),
-                                            'updated_at' => date('Y-m-d')));
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s')));
     }
 
 }           

@@ -70,8 +70,9 @@ class InvoiceController extends Controller
                         $incomeAccountItems[] = $item;
                     }
                 }
-                $invoiceModelList = $this->getControlNo('home_owner_invoice');
-                $invoiceNumber = $invoiceModelList->AUTO_INCREMENT;
+                //$invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
+                //$this->getControlNo('home_owner_invoice');
+                $invoiceNumber = $this->getControlNo('home_owner_invoice');
                 return view('invoices.create_invoices',
                                 compact('homeOwnerMembersList',
                                         'invoiceNumber',
