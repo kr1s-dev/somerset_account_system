@@ -26,15 +26,15 @@ class CreateUsersTable extends Migration
                 $table->foreign('updated_by')->references('id')->on('users');
                 $table->Integer('secret_question_id')->unsigned()->nullable();
                 $table->foreign('secret_question_id')->references('id')->on('secret_question');
-                $table->string('first_name',255);
-                $table->string('middle_name',255);
-                $table->string('last_name',255);
+                $table->string('first_name',255)->nullable();
+                $table->string('middle_name',255)->nullable();
+                $table->string('last_name',255)->nullable();
                 $table->string('email')->unique();
-                $table->string('password', 60);
-                $table->string('mobile_number',255);
+                $table->string('password', 60)->nullable();
+                $table->string('mobile_number',255)->nullable();
                 $table->boolean('is_active')->default(0);
                 $table->string('confirmation_code')->nullable();
-                $table->string('secret_answer', 60);
+                $table->string('secret_answer', 60)->nullable();
                 $table->rememberToken();
                 $table->timestamps();
 

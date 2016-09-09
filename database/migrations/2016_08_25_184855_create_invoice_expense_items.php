@@ -26,7 +26,7 @@ class CreateInvoiceExpenseItems extends Migration
                 $table->decimal('default_value',10,2)->default(0.00);
                 $table->Boolean('subject_to_vat')->default(0);
                 $table->Decimal('vat_percent',10,2)->default(0);
-                $table->longText('remarks');
+                $table->string('remarks')->default('No Description');
                 $table->timestamps();
             });
         }

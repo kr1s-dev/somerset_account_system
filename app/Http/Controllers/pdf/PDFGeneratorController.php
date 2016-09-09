@@ -76,8 +76,8 @@ class PDFGeneratorController extends Controller
                     break;
             }    
         }catch(\Exception $ex){
-            echo $ex->getMessage();
-            //return view('errors.404');
+            //echo $ex->getMessage();
+            return view('errors.404');
         }
     	
 	}
@@ -254,7 +254,8 @@ class PDFGeneratorController extends Controller
         foreach ($itemsList as $item) {
             $payeeName = $type=='homeowner' ? $item->invoice->homeOwner->first_name . ' ' . 
                                 $item->invoice->homeOwner->middle_name . ' ' .
-                                $item->invoice->homeOwner->last_name : $item->paid_to;
+                                $item->invoice->homeOwner->last_name : 
+                                $item->vendor_id==null?$item->paid_to?$item->vendor->vendor_name;
 
             
             foreach (($type=='homeowner'? $item->invoice->invoiceItems : $item->expenseItems)  as $val) {
