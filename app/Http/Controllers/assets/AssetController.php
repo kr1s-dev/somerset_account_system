@@ -48,8 +48,6 @@ class AssetController extends Controller
         try{
             $assetModel = $this->setAssetModel();
             $fixedAssetAccountTitle = $this->getObjectRecords('account_titles',array('account_group_id'=>2));
-            $assetModelList = $this->getControlNo('asset_items');
-            $assetNumber = $assetModelList->AUTO_INCREMENT;
             return view('assets.create_asset',
                             compact('assetModel',
                                     'assetNumber',
