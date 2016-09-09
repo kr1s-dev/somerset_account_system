@@ -173,11 +173,7 @@ class AuthController extends Controller
     public function userTypeRedirectPath(){
         $userType = Auth::user()->userType->type;
         if($userType=='Administrator'){
-            $setting = SettingsModel::first();
-            if($setting == NULL)
-                return redirect()->intended('/settings/create'); 
-            else
-                return redirect()->intended('/admin-dashboard'); 
+            return redirect()->intended('/admin-dashboard'); 
         }else if($userType=='Accountant'){
             return redirect()->intended('/account'); 
         }else if($userType=='Cashier'){
