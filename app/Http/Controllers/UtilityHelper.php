@@ -722,12 +722,12 @@ trait UtilityHelper
 
     public function getControlNo($tableName){
         $setting=$this->getSettings();
-        $query = "nextval('".$setting->database_name.".id') as nxt";
-        return DB::table($tableName)->selectRaw($query)->value('nxt');
-        // return DB::table('INFORMATION_SCHEMA.TABLES')  
-        //                 ->where('TABLE_SCHEMA','=',$setting->database_name)
-        //                 ->where('TABLE_NAME','=',$tableName)
-        //                 ->first();
+        // $query = "nextval('".$setting->database_name.".id') as nxt";
+        // return DB::table($tableName)->selectRaw($query)->value('nxt');
+        return DB::table('information_schema.table')  
+                        ->where('table_schema','=',$setting->database_name)
+                        ->where('table_name','=',$tableName)
+                        ->first();
     }
 
     public function createSystemLogs($action){
