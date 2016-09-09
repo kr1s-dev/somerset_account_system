@@ -24,7 +24,7 @@ class CreateHomeOwnerInformationTable extends Migration
                 $table->string('member_office_tel_no',13);
                 $table->string('member_mobile_no',15);
                 $table->string('member_email_address',255)->unique();
-                $table->string('member_civil_status',255);
+                //$table->string('member_civil_status',255);
                 $table->string('member_gender',255);
                 $table->string('member_date_of_birth',255);
                 $table->longText('member_address');

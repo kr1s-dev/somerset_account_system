@@ -55,19 +55,6 @@
       <input id="middle-name" required="required" name="member_email_address" class="form-control col-md-7 col-xs-12" type="email" value="{{ count($errors) > 0? old('member_email_address'):($homeOwner->member_email_address) }}">
    </div>
 </div>
-<!--div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12">Civil Status</label>
-   <div class="col-md-6 col-sm-6 col-xs-12">
-      <div id="gender" class="btn-group" data-toggle="buttons">
-         <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-         <input type="radio" name="civil_status" value="male" data-parsley-multiple="gender"> &nbsp; Single &nbsp;
-         </label>
-         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-         <input type="radio" name="civil_status" value="female" data-parsley-multiple="gender"> Married
-         </label>
-      </div>
-   </div>
-</div -->
 <div class="form-group">
    <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
    <div class="col-md-6 col-sm-6 col-xs-12">
