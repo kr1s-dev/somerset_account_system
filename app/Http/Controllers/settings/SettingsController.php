@@ -97,7 +97,8 @@ class SettingsController extends Controller
             // return view('settings.show_settings_info',
             //                 compact('setting'));
         }catch(\Exception $ex){
-            return view('errors.404');
+            $ex->getMessage();
+            //return view('errors.404');
         }
     }
 

@@ -118,7 +118,13 @@ class AccountTitleController extends Controller
 
         // if(!($input['subject_to_vat']))
         //     $input['vat_percent'] = 0;
+        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0){
+            $input['opening_balance'] = 0;
+        }
 
+        if(!array_key_exists('description', $input) || empty($input['description'])){
+            $input['description'] = 'No Description';
+        }
         
         if(array_key_exists('account_title_name', $input)){
             unset($input['account_title_name']);
@@ -136,8 +142,8 @@ class AccountTitleController extends Controller
             flash()->success('Record successfully created');
             return redirect('accounttitle/'.$accounttileId);
         }catch(\Exception $ex){
-            echo $ex->getMessage();
-            //return view('errors.404');
+            //echo $ex->getMessage();
+            return view('errors.404');
         }
         
     }
@@ -200,7 +206,13 @@ class AccountTitleController extends Controller
     public function update(AccountTitleRequest $request, $id)
     {
         $input = $this->addAndremoveKey(Request::all(),false);
-    
+        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0){
+            $input['opening_balance'] = 0;
+        }
+
+        if(!array_key_exists('description', $input) || empty($input['description'])){
+            $input['description'] = 'No Description';
+        }
         // if(array_key_exists('subject_to_vat', $input))
         //     $input['subject_to_vat'] = ($input['subject_to_vat']==='on'?1:0);
         // else

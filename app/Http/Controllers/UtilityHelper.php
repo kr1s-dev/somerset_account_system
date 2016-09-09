@@ -721,8 +721,9 @@ trait UtilityHelper
     }
 
     public function getControlNo($tableName){
+        $setting->$this->getSettings();
         return DB::table('INFORMATION_SCHEMA.TABLES')  
-                        ->where('TABLE_SCHEMA','=','hh')
+                        ->where('TABLE_SCHEMA','=',$setting->database_name)
                         ->where('TABLE_NAME','=',$tableName)
                         ->first();
     }
