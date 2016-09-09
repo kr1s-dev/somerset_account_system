@@ -122,7 +122,7 @@ class AccountTitleController extends Controller
 
         // if(!($input['subject_to_vat']))
         //     $input['vat_percent'] = 0;
-        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0){
+        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
             $input['opening_balance'] = 0;
         }
 
@@ -213,7 +213,7 @@ class AccountTitleController extends Controller
     public function update(AccountTitleRequest $request, $id)
     {
         $input = $this->addAndremoveKey(Request::all(),false);
-        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0){
+        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
             $input['opening_balance'] = 0;
         }
 
