@@ -732,8 +732,8 @@ trait UtilityHelper
         $this->insertRecord('system_logs',array('created_by'=>$this->getLogInUserId(),
                                             'updated_by'=>$this->getLogInUserId(),
                                             'action'=>$action,
-                                            'created_at' => date('Y-m-d H:i:s'),
-                                            'updated_at' => date('Y-m-d H:i:s')));
+                                            'created_at' => date('Y-m-d'),
+                                            'updated_at' => date('Y-m-d')));
     }
 
 }           
