@@ -54,7 +54,7 @@ class CreateHomeOwnerInvoice extends Command
                 $assocDuesAccountTitle = $this->getObjectFirstRecord('invoice_expense_items',array('item_name'=>'Association Dues'));
                 
                 $invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
-                $invoiceNumber = $invoiceModelList==NULL?1:$invoiceModelList->id+1;;
+                $invoiceNumber = $invoiceModelList==NULL?1:$invoiceModelList->id+1;
                 foreach ($homeOwnerList as $homeOwner) {
                     $data = $assocDuesAccountTitle->item_name.',For the month of '. date('F') .','.$assocDuesAccountTitle->default_value;
                     $invoiceToInsert[] = array('home_owner_id'=>$homeOwner->id,

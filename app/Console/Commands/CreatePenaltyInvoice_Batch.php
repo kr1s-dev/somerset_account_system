@@ -53,7 +53,7 @@ class CreatePenaltyInvoice_Batch extends Command
             $penaltyItem = InvoiceExpenseItems::where('item_name','LIKE','%Penalty%')->first();
             $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
             $invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
-            $invoiceNumber = $invoiceModelList==NULL?1:$invoiceModelList->id+1;;
+            $invoiceNumber = $invoiceModelList==NULL?1:$invoiceModelList->id+1;
             if(!(is_null($penaltyItem)) && $penaltyItem->default_value > 0){
                 foreach ($invoiceList as $inv) {
                     if($inv->is_penalty == 0){

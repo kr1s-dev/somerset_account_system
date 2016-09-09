@@ -50,8 +50,8 @@ class ReceiptController extends Controller
         try{
             $homeOwnerInvoice = $this->getHomeOwnerInvoice($id);
             $invoiceNumber = $id;
-            $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
-            $receiptNumber = $receiptList->AUTO_INCREMENT;
+            $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction',null)
+            $receiptNumber = $receiptList==NULL?1:$receiptList->id+1;
             return view('receipt.create_receipt',
                             compact('homeOwnerInvoice',
                                     'invoiceNumber',
