@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DB;
+use Auth;
 use App\InvoiceModel;
 use App\AccountGroupModel;
 use App\InvoiceExpenseItems;

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Console\Commands;
+
 use DB;
+use Auth;
 use App\AssetsModel;
 use Illuminate\Console\Command;
 use App\Http\Controllers\UtilityHelper;
@@ -45,7 +47,6 @@ class DepreciationAutomation_Batch extends Command
         $toUpdateAssets = array();
         try{
             if(Auth::check() && Auth::user()->userType->type=='Tester'){
-                $invoiceList = InvoiceModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')->get();
                 $eAssetItemsList = AssetsModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')
                                                 ->where('useful_life','>',0)
                                                 ->get();

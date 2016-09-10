@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DB;
+use Auth;
 use App\AccountGroupModel;
 use Illuminate\Console\Command;
 use App\Http\Controllers\UtilityHelper;
