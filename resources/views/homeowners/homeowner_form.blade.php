@@ -37,7 +37,7 @@
    </div>
 </div>
 <div class="form-group">
-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. 
+   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. *
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
       <input type="number" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
