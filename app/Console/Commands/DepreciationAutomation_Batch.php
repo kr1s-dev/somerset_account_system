@@ -64,7 +64,7 @@ class DepreciationAutomation_Batch extends Command
                     $eAssetItem->accumulated_depreciation = str_replace(",","", number_format($eAssetItem->accumulated_depreciation+$eAssetItem->monthly_depreciation,2)) ;
                     $eAssetItem->updated_at = date('Y-m-d');
                     $eAssetItem->save(); //Think of a better way
-                    $tJournalEntry[] = $this->createJournalEntry($eAssetItem->accountTitle->account_sub_group_name,'Asset','asset_id',$eAssetItem->id,$description,$eAssetItem->monthly_depreciation);
+                    $tJournalEntry[] = $this->createJournalEntry($eAssetItem->accountTitle,'Asset','asset_id',$eAssetItem->id,$description,$eAssetItem->monthly_depreciation);
                 }
                 //debit depreciation expense
                 //credit accumulated depreciation
@@ -94,7 +94,8 @@ class DepreciationAutomation_Batch extends Command
         $journalEntryList = array();
         $accountDepExp = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Depreciation Expense'));
         $accountAccExp = DB::table('account_titles')
-                                ->where('account_sub_group_name','LIKE','%Accumulated Depreciation - '.$accountTitleName.'%')
+                                ->where('account_title_id','=',$accountTitleName->id)
+                                ->where('account_sub_group_name','LIKE','%'.$accountTitleName.'%')
                                 ->first();
 
         if(!(is_null($accountDepExp )) && !(is_null($accountAccExp))){
