@@ -44,9 +44,16 @@ class DepreciationAutomation_Batch extends Command
         $updateIds = array();
         $toUpdateAssets = array();
         try{
-            $eAssetItemsList = AssetsModel::where('next_depreciation_date','=',date('Y-m-d'))
+            if(Auth::check() && Auth::user()->userType->type=='Tester'){
+                $invoiceList = InvoiceModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')->get();
+                $eAssetItemsList = AssetsModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')
                                                 ->where('useful_life','>',0)
                                                 ->get();
+            }else{
+                $eAssetItemsList = AssetsModel::where('next_depreciation_date','=',date('Y-m-d'))
+                                                ->where('useful_life','>',0)
+                                                ->get();
+            }
             $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
             if(!empty($eAssetItemsList)){
                 foreach ($eAssetItemsList as $eAssetItem) {
