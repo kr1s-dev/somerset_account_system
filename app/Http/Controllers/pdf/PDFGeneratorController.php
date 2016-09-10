@@ -292,6 +292,8 @@ class PDFGeneratorController extends Controller
         $incTotalSum = $this->getTotalSum($incomeItemsList);
         $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
         $arBalance = 0;
+        $tExpenseList = '';
+        $totalPayable = 0;
         $expenseList = array();
         $investmentList = array();
         $financingList = array();
@@ -307,8 +309,22 @@ class PDFGeneratorController extends Controller
                         if($actTitle->account_sub_group_name=='Accounts Receivable')
                             $arBalance = $actTitle->opening_balance;
                     }
+                }elseif(strrpos($accountGroup->account_group_name, 'Expense') || $accountGroup->account_group_name == 'Expenses'){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        $tExpenseList .= $tExpenseList==''?($actTitle->account_sub_group_name.','):(','.$actTitle->account_sub_group_name);
+                    }
                 }
             }
+
+            foreach ($accountGroupList as $accountGroup) {
+                if($accountGroup->account_group_name == 'Current Liabilities'){
+                    foreach ($accountGroup->accountTitles as $actTitle) {
+                        if(strrpos($tExpenseList,str_replace('Payable', '', $actTitle->account_sub_group_name)));
+                            $totalPayable += $eBalanceSheetItemsList[$actTitle->account_sub_group_name];
+                    }
+                }
+            }
+
             foreach ($accountGroupList as $accountGroup) {
                 if($accountGroup->account_group_name === 'Non-Current Assets'){
                     foreach ($accountGroup->accountTitles as $actTitle) {
@@ -350,7 +366,8 @@ class PDFGeneratorController extends Controller
                                         'yearFilter',
                                         'investmentList',
                                         'financingList',
-                                        'totalCashInHand'));
+                                        'totalCashInHand',
+                                        'totalPayable'));
 
     }
 
