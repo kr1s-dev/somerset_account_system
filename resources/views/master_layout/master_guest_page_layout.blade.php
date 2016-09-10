@@ -156,6 +156,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
+          @include('flash::message')
           @yield('content')
           <div class="clearfix"></div>
         </div>
