@@ -33,20 +33,20 @@
    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Residence Tel. No. 
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="number" id="last-name" name="residence_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
+      <input type="number" id="last-name" min="1" name="residence_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('residence_tel_no'):($homeOwner->residence_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel. No. *
    </label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input type="number" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
+      <input type="number" min="1" id="last-name" name="member_office_tel_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('member_office_tel_no'):($homeOwner->member_office_tel_no) }}">
    </div>
 </div>
 <div class="form-group">
    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Mobile Number <span class="required">*</span></label>
    <div class="col-md-9 col-sm-6 col-xs-12">
-      <input id="middle-name" name="member_mobile_no" class="form-control col-md-7 col-xs-12" type="number" value="{{ count($errors) > 0? old('member_mobile_no'):($homeOwner->member_mobile_no) }}">
+      <input id="middle-name" min="1" name="member_mobile_no" class="form-control col-md-7 col-xs-12" type="number" value="{{ count($errors) > 0? old('member_mobile_no'):($homeOwner->member_mobile_no) }}">
    </div>
 </div>
 <div class="form-group">
