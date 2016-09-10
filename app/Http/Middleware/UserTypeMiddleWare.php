@@ -16,7 +16,7 @@ class UserTypeMiddleware
     public function handle($request, Closure $next,$objectToAccess)
     {
         $usertype = $request->user()->userType->type;
-        if($objectToAccess == 'users' || $objectToAccess == 'usertype' 
+        if($objectToAccess == 'usertype' 
                 || $objectToAccess == 'homeownermember' || $objectToAccess == 'settings'){
             if($usertype === 'Administrator')
                 return $next($request);
@@ -30,7 +30,7 @@ class UserTypeMiddleware
                 || $objectToAccess == 'homeownerinfo') {
             if($usertype === 'Administrator' || $usertype === 'Accountant' || $usertype === 'Cashier')
                 return $next($request);
-        }elseif($objectToAccess == 'announcement' || $objectToAccess == 'map'){
+        }elseif($objectToAccess == 'announcement' || $objectToAccess == 'map' || $objectToAccess == 'users'){
             if($usertype === 'Administrator' || $usertype === 'Guest')
                 return $next($request);
         }elseif($objectToAccess == 'invoice'){
