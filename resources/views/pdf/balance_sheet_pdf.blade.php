@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   	<head>
+	  	<style type="text/css">
+	     body {
+	          font-family: "Open Sans", "Arial", "Calibri", sans-serif;
+	          font-size: 12px;
+	        }
+	        .header p{
+	          margin: 5px;
+	        }
+	        th {
+	          background: #eee;
+	        }
+	        table, th, td {
+	          border: 1px solid #000;
+	          padding: 5px;
+	        }
+	    </style>
   	</head>
   	<body>
-       	<div align="center">
+       	<div class="header" align="center">
 		     <p><strong>Somerset Homeowners Association</strong></p>
-		     <p>Balance Sheet </p>
-		     <p>For 
+		     <p><strong>Balance Sheet </strong></p>
+		     <p><strong>For 
 		     	@if(empty($monthFilter))
 		     		Year End {{$yearFilter}}
 		     	@else
 		     		Month End {{$monthArray[$monthFilter]}},{{$yearFilter}}
 		     	@endif
+		     	</strong>
 		     </p>
 		</div>
 		<hr/>

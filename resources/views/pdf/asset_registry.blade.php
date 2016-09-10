@@ -26,8 +26,8 @@
 		</div>
 		<hr/>
 		<table style="width:100%; border-collapse: collapse; text-align:center;">
-			<thead>
-                <tr>
+		        <thead>
+                 <tr>
                   	<th>Item Name</th>
                   	<th>Quantity</th>
                   	<th>Monthly Depreciation</th>
@@ -37,9 +37,6 @@
                 </tr>
           	</thead>
           	<tbody>
-              <tr>
-                <td></td>
-              </tr>
           		@if(empty($assetItemList))
     				<tr><td colspan="5" align="center"><em><strong> No Records Found </strong></em></td></tr>
     			@else
