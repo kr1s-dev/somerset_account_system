@@ -154,7 +154,7 @@ class PDFGeneratorController extends Controller
 
         $equityItemsList = $this->getItemsAmountList($ownerEquityItemsList,'Equity');
 
-        $eqTotalSum = ($this->getTotalSum($equityItemsList)) + $totalProfit ;
+        $eqTotalSum = ($this->getTotalSum($equityItemsList)) + $totalProfit;
     	//print_r($equityItemsList);
     	return PDF::loadView('pdf.owners_equity_statement_pdf',
     					compact('yearFilter',
