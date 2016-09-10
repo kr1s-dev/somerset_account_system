@@ -45,7 +45,7 @@ class CreateHomeOwnerInvoice extends Command
         try{
             //\Log::info(date('d'));
             $setting = $this->getSettings();
-            if(!(is_null($setting)) &&$setting->cut_off_date == date('d')){
+            if((!(is_null($setting)) &&$setting->cut_off_date == date('d'))|| (Auth::check() && Auth::user()->userType->type=='Tester')){
                 $invoiceToInsert = array();
                 $invoiceItemsToInsert = array();
                 $tJournalEntry = array();

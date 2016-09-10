@@ -49,7 +49,12 @@ class CreatePenaltyInvoice_Batch extends Command
             $toUpdatePenaltyInvoice = array();
             $tJournalEntry = array();
             $toInsertJournalEntry = array();
-            $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->get();
+            if(Auth::check() && Auth::user()->userType->type=='Tester'){
+                $invoiceList = InvoiceModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')->get();
+            }else{
+                $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->get();
+            }
+            
             $penaltyItem = InvoiceExpenseItems::where('item_name','LIKE','%Penalty%')->first();
             $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
             $invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
