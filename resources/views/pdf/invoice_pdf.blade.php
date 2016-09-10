@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   	<head>
+    <style type="text/css">
+       body {
+            font-family: "Open Sans", "Arial", "Calibri", sans-serif;
+            font-size: 12px;
+          }
+          .header p{
+            margin: 5px;
+          }
+          th {
+            background: #eee;
+          }
+          table, th, td {
+            border: 1px solid #000;
+            padding: 5px;
+          }
+      </style>
   	</head>
   	<body>
-       	<div style="display:inline-block; width:100%">
-      		<div>
-          		<h2><strong>Somerset Homeowners Associations</strong></h2>
-      		</div>
-      		<div style="float:right;">
-          		<h2>Invoice</h2>
-      		</div>
-  		</div>
+       	<div class="header">
+              <p><strong> Somerset Homeowners Association</strong></p>
+              <p><strong>B18 L22 Barrington, Somerset Ave, Pasig, Metro Manila</strong></p>
+              <p><strong>(02) 470 0040</strong></p>
+              <p><strong>somersetplace@gmail.com</strong></p>
+          </div>
+          <div>
+              <h3>Invoice</h3>
+          </div>
   		<hr/>
   
   		<div style="display:inline-block; width:100%">
@@ -25,7 +42,7 @@
   		<div>
       		<table>
           		<tr>
-              		<td><strong> Payee Information </strong></td>
+              		<th><strong> Payee Information </strong></th>
           		</tr>
           		<tr>
               		<td> Name:  {{$invoice->homeOwner->first_name}} {{$invoice->homeOwner->middle_name}} {{$invoice->homeOwner->last_name}}</td>

@@ -20,9 +20,9 @@
   	</head>
   	<body>
        	<div class="header" align="center">
-		     <th><strong>Somerset Homeowners Association</strong></th>
-		     <th>Asset Registry</th>
-		     <th>{{date('F')}}, {{date('Y')}} </th>
+		     <p><strong>Somerset Homeowners Association</strong></p>
+		     <p>Asset Registry</p>
+		     <p>{{date('F')}}, {{date('Y')}} </p>
 		</div>
 		<hr/>
 		<table style="width:100%; border-collapse: collapse; text-align:center;">

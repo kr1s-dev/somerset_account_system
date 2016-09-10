@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   	<head>
+    <style type="text/css">
+         body {
+              font-family: "Open Sans", "Arial", "Calibri", sans-serif;
+              font-size: 12px;
+            }
+            .header p{
+              margin: 5px;
+            }
+            th {
+              background: #eee;
+            }
+            table, th, td {
+              border: 1px solid #000;
+              padding: 5px;
+            }
+        </style>
   	</head>
   	<style>
   		
 
   	</style>
   	<body>
-       	<div style="display:inline-block; width:100%">
+       	<div class="header" style="display:inline-block; width:100%">
       		<div>
-          		<h2><strong>Somerset Homeowners Associations</strong></h2>
-      		</div>
-      		<div style="float:right;">
-          		<h2>Cash Receipt</h2>
+          		<p><strong>Somerset Homeowners Associations</strong></p>
+              <p><strong> Somerset Homeowners Association</strong></p>
+              <p><strong>B18 L22 Barrington, Somerset Ave, Pasig, Metro Manila</strong></p>
+              <p><strong>(02) 470 0040</strong></p>
+              <p><strong>somersetplace@gmail.com</strong></p>
+              <p><strong>Receipt </strong></p>
       		</div>
   		</div>
   		<hr/>
@@ -32,7 +50,7 @@
   		<div>
       		<table>
           		<tr>
-              		<td><strong> Payee Information </strong></td>
+              		<th><strong> Payee Information </strong></th>
           		</tr>
           		<tr>
               		<td> Name:  {{$receipt->invoice->homeOwner->first_name}} {{$receipt->invoice->homeOwner->middle_name}} {{$receipt->invoice->homeOwner->last_name}}</td>
@@ -52,23 +70,23 @@
   		<div>
       		<table border="1" style="width:100%; border-collapse: collapse; border: 1px solid black;">
           		<tr>
-                  <th style="padding:0px 10px 0px 10px;"> Quantity </th>
-              		<th style="padding:0px 10px 0px 10px;"> Item </th>
-              		<th style="padding:0px 10px 0px 10px;"> Description</th>
-              		<th style="padding:0px 10px 0px 10px;"> Amount </th>
+                  <th> Quantity </th>
+              		<th> Item </th>
+              		<th> Description</th>
+              		<th> Amount </th>
           		</tr>
           		@foreach($receipt->invoice->invoiceItems as $invItem)
           			<tr>
-                    <td style="padding:0px 10px 0px 10px;"> {{$invItem->quantity}}  </td>
-	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->item->item_name}}  </td>
-	              		<td style="padding:0px 10px 0px 10px;"> {{$invItem->remarks}}  </td>
-	              		<td style="padding:0px 10px 0px 10px;"> PHP {{$invItem->amount}}  </td>
+                    <td> {{$invItem->quantity}}  </td>
+	              		<td> {{$invItem->item->item_name}}  </td>
+	              		<td> {{$invItem->remarks}}  </td>
+	              		<td> PHP {{$invItem->amount}}  </td>
 	          		</tr>
           		
           		@endforeach
           		<tr>
               		<td colspan="3" align="right" style="padding-right:5px;"> Total Amount: </td>
-              		<td style="padding:0px 10px 0px 10px;">PHP {{$receipt->invoice->total_amount}}</td>
+              		<td>PHP {{$receipt->invoice->total_amount}}</td>
           		</tr>
       		</table>
   		</div>
