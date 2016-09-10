@@ -76,6 +76,21 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {   
+        $user = User::first();
+        if (view()->exists('auth.authenticate')) {
+            return view('auth.authenticate',
+                            compact('user'));
+        }
+
+        return view('auth.login'); 
+    }
 
     /**
      * Handle a login request to the application.
