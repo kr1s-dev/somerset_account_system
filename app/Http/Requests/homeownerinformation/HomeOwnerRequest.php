@@ -57,7 +57,7 @@ class HomeOwnerRequest extends Request
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information,member_email_address,' . $homeOwner->id,
                         'member_gender' => 'required',
-                        'block_lot_id'=>'required|unique:home_owner_information,block_lot_id'. $homeOwner->id,];
+                        'block_lot_id'=>'required|unique:home_owner_information,block_lot_id,'. $homeOwner->id,];
             }
             //default
             default: break;

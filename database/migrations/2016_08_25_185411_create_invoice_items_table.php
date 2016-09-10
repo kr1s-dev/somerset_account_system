@@ -26,7 +26,7 @@ class CreateInvoiceItemsTable extends Migration
                 $table->foreign('item_id')->references('id')->on('invoice_expense_items');
                 $table->Integer('quantity')->default(1);
                 $table->Boolean('is_paid')->default(0);
-                $table->decimal('default_value',10,2)->default(0);
+                $table->decimal('amount',10,2)->default(0);
                 $table->longText('remarks');
                 $table->timestamps();
             });
