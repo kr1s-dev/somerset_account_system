@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use DB;
 use Carbon;
+use App\JournalEntryModel;
 use App\ReceiptModel;
 use App\ExpenseModel;
 use App\InvoiceModel;
