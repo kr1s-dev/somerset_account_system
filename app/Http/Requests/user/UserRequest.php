@@ -34,7 +34,7 @@ class UserRequest extends Request
                 return ['first_name' => 'required|max:255',
                         'middle_name' => 'required|max:255',
                         'last_name' => 'required|max:255',
-                        'email' => 'required|email|max:255|unique:users,email,',];
+                        'email' => 'required|email|max:255|unique:users,email',];
             }
             //for update
             case 'PATCH':{
