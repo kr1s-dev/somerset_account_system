@@ -53,7 +53,7 @@
                   <td>
                     Depreciation and Amortization
                   </td>
-                  <td colspan="2" align="right">$depreciationValue</td>
+                  <td colspan="2" align="right">{{$depreciationValue}}</td>
                 </tr>
               @endif
               @foreach($accountTitleList as $key => $value)
@@ -91,7 +91,7 @@
               @endforeach
               <tr>
                 <td colspan="2"> <strong>Cash generated from operations</strong></td>
-                <td><u>PHP {{($totalProfit+$totalOperationCash)}}</u></td>
+                <td><u>PHP {{($totalProfit+$totalOperationCash+$depreciationValue)}}</u></td>
               </tr>
             </tbody>
           	<thead>
@@ -102,12 +102,14 @@
           	<tbody>
               @foreach($tThisYearsBalanceSht as $key)
                 @if($key->asset_id != NULL)
-                  <tr>
+                  
                     @if($key->credit_title_id != NULL && $key->credit->account_sub_group_name == 'Cash')
-                      <td>Purchase of {{$key->asset->accountTitle->account_sub_group_name}}</td>
-                      <td colspan="2" align="left">PHP {{$key->credit_amount}}</td>
+                      <tr>
+                        <td>Purchase of {{$key->asset->accountTitle->account_sub_group_name}}</td>
+                        <td colspan="2" align="left">PHP {{$key->credit_amount}}</td>
+                      </tr>
                     @endif
-                  </tr>
+                  
                 @endif
               @endforeach
               <tr>
@@ -167,7 +169,7 @@
           	<thead>
                 <tr>
                   <td colspan="2"><h3>Total Cash In Hand</h3></td>
-                  <td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash,2)}}</td>
+                  <td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash+$depreciationValue,2)}}</td>
               </tr>
           	</thead>
         </table>

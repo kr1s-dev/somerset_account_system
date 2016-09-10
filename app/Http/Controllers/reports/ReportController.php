@@ -332,7 +332,7 @@ class ReportController extends Controller
         }
 
         foreach ($expenseItemsList as $key => $value) {
-            if(strrpos($key,'Depreciation'))
+            if(strrpos('x'.$key,'Depreciation'))
                 $depreciationValue += $value;
         }
 

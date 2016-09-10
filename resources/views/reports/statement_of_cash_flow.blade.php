@@ -54,7 +54,7 @@
 			              				<td>
 			              					Depreciation and Amortization
 			              				</td>
-			              				<td colspan="2" align="right">$depreciationValue</td>
+			              				<td colspan="2" align="right">{{$depreciationValue}}</td>
 			              			</tr>
 		              			@endif
 		              			@foreach($accountTitleList as $key => $value)
@@ -92,7 +92,7 @@
 		              			@endforeach
 			              		<tr>
 			              			<td colspan="2"> <strong>Cash generated from operations</strong></td>
-			              			<td><u>PHP {{($totalProfit+$totalOperationCash)}}</u></td>
+			              			<td><u>PHP {{($totalProfit+$totalOperationCash+$depreciationValue)}}</u></td>
 			              		</tr>
 			              	</tbody>
 			              	<thead>
@@ -168,7 +168,7 @@
 			              	<thead>
 				                <tr>
 				                  	<td colspan="2"><h3>Total Cash In Hand</h3></td>
-				                  	<td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash,2)}}</td>
+				                  	<td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash+$depreciationValue,2)}}</td>
 				                </tr>
 			              	</thead>
 			            </table>
