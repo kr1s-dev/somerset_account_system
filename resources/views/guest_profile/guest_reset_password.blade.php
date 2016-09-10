@@ -1,41 +1,58 @@
 @extends('master_layout.master_guest_page_layout')
 @section('content')
-	<div>
-		<div>
-	      	<a class="hiddenanchor" id="signup"></a>
-	      	<a class="hiddenanchor" id="signin"></a>
-	      	<div class="login_wrapper">
-	        	<div class="animate form login_form">
-	          		<section class="login_content">
-	            		{!! Form::open(['url'=>'password/reset','method'=>'POST']) !!}
-	              			<h1>Forgot Password</h1>
-	              			@include('flash::message');
-	              			@include('errors.validator')
-	              			<input type="hidden" name="token" value="{{ $token }}">
-	              			<div>
-	                			<input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ old('email') }}"/>
-	              			</div>
-	              			<div>
-                				<input type="password" class="form-control" name="password" placeholder="Password"/>
-              				</div>
-              				<div>
-                				<input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password"/>
-              				</div>
-	              			<div>
-	              				<input type="submit" class="btn btn-default pull-right submit" value="Submit">
-	              			</div>
-	              			<div class="clearfix"></div>
-
-	              			<div class="separator">
-	                			<div>
-	                  				<h1><i class="fa fa-home"></i> Somerset Place Accounting System</h1>
-	                  				<p>©2016 All Rights Reserved. </p>
-	                			</div>
-	              			</div>
-	            		{!! Form::close() !!}
-	          		</section>
-	        	</div>
-	      	</div>
-	    </div>
-	</div>
+   <div class="">
+      	<div class="page-title">
+         	<div class="title_left">
+            	<h3><i class="fa fa-users"></i> Users</h3>
+         	</div>
+      	</div>
+      	<div class="clearfix"></div>
+      	
+      	<div class="col-md-12 col-sm-12 col-xs-12">
+         	<div class="x_panel">
+            	<div class="x_title">
+               	<h2>Change Password</h2>
+               	<ul class="nav navbar-right panel_toolbox">
+                  	<li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  	</li>
+               	</ul>
+               	<div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            	{!! Form::open(['url'=>'users/changepassword','method'=>'POST','class'=>'form-horizontal form-label-left form-wrapper']) !!}
+                  <div class="form-group" align="center">
+                     @include('errors.validator')
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Old Password <span class="required">*</span>
+                     </label>
+                     <div class="col-md-3 col-sm-6 col-xs-12">
+                        <input type="password" name="old_password" id="last_name" required="required" class="form-control col-md-7 col-xs-12">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">New Password <span class="required">*</span>
+                     </label>
+                     <div class="col-md-3 col-sm-6 col-xs-12">
+                        <input type="password" name="new_password" id="last_name" required="required" class="form-control col-md-7 col-xs-12">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Old Password <span class="required">*</span>
+                     </label>
+                     <div class="col-md-3 col-sm-6 col-xs-12">
+                        <input type="password" name="new_password_confirmation" id="last_name" required="required" class="form-control col-md-7 col-xs-12">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-md-9 col-sm-6 col-xs-12 col-md-offset-3">
+                        <a href="{{ route('users.show',$user->id) }}" class="btn btn-primary">Cancel</a>
+                        <button type="submit" class="btn btn-success"> Submit </button>
+                     </div>
+                  </div>
+            	{!! Form::close() !!}
+            </div>
+         </div>
+      </div>
+   </div>
 @endsection
