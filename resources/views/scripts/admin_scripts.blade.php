@@ -311,9 +311,17 @@
        $('#itemsTable').on( 'click', '#editTrans', function(event){
         var tr = $(this).closest('tr'); //get the parent tr
         arrayTd = $(tr).find('td'); //get data in a row
-        $("#eQuantity").val((arrayTd[0].textContent).trim());
-        $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
-        $("#ePaymentCost").val((arrayTd[3].textContent).trim());
+        var type = $('meta[name="type"]').attr('content');
+        if(type!='Expense'){
+          $("#eQuantity").val((arrayTd[0].textContent).trim());
+          $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
+          $("#ePaymentCost").val((arrayTd[3].textContent).trim());
+        }else{
+          $("#eQuantity").val((arrayTd[0].textContent).trim());
+          $("#ePaymentDesc").val((arrayTd[1].textContent).trim());
+          $("#ePaymentCost").val((arrayTd[2].textContent).trim());
+        }
+        
       });
 
       /*
@@ -324,17 +332,27 @@
       */
       $("#ePaymentBtn").click(function(e){
         e.preventDefault();
-
+        var type = $('meta[name="type"]').attr('content');
         if($('#eQuantity').val() && $('#eQuantity').val() != 0){
           arrayTd[0].textContent = $('#eQuantity').val();
         }
 
         if($('#ePaymentDesc').val()){
-          arrayTd[2].textContent = $('#ePaymentDesc').val();
+          if(type!='Expense'){
+            arrayTd[2].textContent = $('#ePaymentDesc').val();
+          }else{
+            arrayTd[1].textContent = $('#ePaymentDesc').val();
+          }
+          
         }
 
         if($('#ePaymentCost').val()){
-          arrayTd[3].textContent = arrayTd[0].textContent * $('#ePaymentCost').val();
+          if(type!='Expense'){
+            arrayTd[3].textContent = arrayTd[0].textContent * $('#ePaymentCost').val();
+          }else{
+            arrayTd[2].textContent = $('#ePaymentCost').val();
+          }
+          
         }
         calculateAmount();
       });
