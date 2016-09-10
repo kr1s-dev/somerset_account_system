@@ -373,16 +373,6 @@ class PDFGeneratorController extends Controller
             }
         }
 
-        return view('reports.statement_of_cash_flow',
-                        compact('totalProfit',
-                                'depreciationValue',
-                                'accountTitleList',
-                                'totalOperationCash',
-                                'totalInvestmentCash',
-                                'totalFinancingCash',
-                                'tThisYearsBalanceSht',
-                                'yearFilter'));
-
 
         return PDF::loadView('pdf.statement_of_cash_flow_pdf',
                                 compact('totalProfit',
