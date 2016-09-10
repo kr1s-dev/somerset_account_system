@@ -38,8 +38,8 @@
 	          			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 	            			<div class="panel-body">
 	                			<div class="actions">
-	                   				<a href="{{ route('users.resetpassword',$eUser->id) }}" class="btn btn-primary pull-right">
-	                      				<i class="fa fa-key"></i> Reset Password
+	                   				<a href="{{ route('users.changepassword',$eUser->id) }}" class="btn btn-primary pull-right">
+	                      				<i class="fa fa-key"></i> Change Password
 	                   				</a>
 	                			</div>
 	              				<table class="table table-bordered">
