@@ -34,8 +34,8 @@ class VendorRequest extends Request
                 return ['vendor_name' => 'required|min:3|max:255|unique:vendors',
                         'vendor_description' => 'required|min:3|max:255',
                         'vendor_contact_person' => 'required|min:3|max:255',
-                        'vendor_telephone_no' => 'required|min:7|max:11',
-                        'vendor_mobile_no' => 'required|min:11|max:13',
+                        'vendor_telephone_no' => 'numeric|digits_between:7,11|min:1',
+                        'vendor_mobile_no' => 'required|numeric|digits_between:11,13|min:1',
                         'vendor_email_address' => 'required|email|max:255|unique:vendors',];
             }
             //for update
@@ -43,8 +43,8 @@ class VendorRequest extends Request
                 return ['vendor_name' => 'required|min:3|max:255|unique:vendors,vendor_name,' . $vendor->id,
                         'vendor_description' => 'required|min:3|max:255',
                         'vendor_contact_person' => 'required|min:3|max:255',
-                        'vendor_telephone_no' => 'required|min:7|max:11',
-                        'vendor_mobile_no' => 'required|min:11|max:13',
+                        'vendor_telephone_no' => 'numeric|digits_between:7,11',
+                        'vendor_mobile_no' => 'required|numeric|digits_between:11,13|min:1',
                         'vendor_email_address' => 'required|email|max:255|unique:vendors,vendor_email_address,' . $vendor->id,];
             }
             //default

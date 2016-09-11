@@ -12,13 +12,13 @@ class UserTypeSeeder extends Seeder
     public function run()
     {
         //
-        $userTypeName = array('Administrator','Accountant','Cashier','Guest');
+        $userTypeName = array('Administrator','Accountant','Cashier','Guest','Tester');
         $userTypeList = array();
-    	for ($i=0; $i < count($userTypeName) ; $i++) { 
-    	    $userTypeList[] = array('type' => $userTypeName[$i],
-                                    'created_at' => date('Y-m-d h:i:sa'),
-                                    'updated_at' => date('Y-m-d h:i:sa'));
-    	}
-    	DB::table('user_type')->insert($userTypeList);
+        for ($i=0; $i < count($userTypeName) ; $i++) { 
+            $userTypeList[] = array('type' => $userTypeName[$i],
+                                    'created_at' => date('Y-m-d h:i:s'),
+                                    'updated_at' => date('Y-m-d h:i:s'));
+        }
+        DB::table('user_type')->insert($userTypeList);
     }
 }

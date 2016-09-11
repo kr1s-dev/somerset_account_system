@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use DB;
 use Carbon;
+use App\JournalEntryModel;
 use App\ReceiptModel;
 use App\ExpenseModel;
 use App\InvoiceModel;
@@ -149,5 +150,33 @@ class AdminDashboardController extends Controller
             }
         }
         return $amountPerDay;
+    }
+
+    public function getJournalEntryRecordsWithFilter($accountGroupId,$monthFilter,$yearFilter){
+        $yearFilter = $yearFilter==NULL?date('Y'):date($yearFilter);
+        $query = null;
+        if(!is_null($accountGroupId)){
+            $query = JournalEntryModel::orWhere(function($query) use ($accountGroupId){
+                                                    $query->whereHas('credit',function($q) use ($accountGroupId){
+                                                        $q->where('account_group_id', '=', $accountGroupId);
+                                                    })
+                                                    ->orWhereHas('debit',function($q) use ($accountGroupId){
+                                                        $q->where('account_group_id', '=', $accountGroupId);
+                                                    });
+                                                });
+        }
+
+        if(empty($monthFilter)){
+            $query  = $query==NULL? JournalEntryModel::whereYear('created_at','=',$yearFilter) : 
+                            $query->whereYear('created_at','=',$yearFilter);
+        }else{
+            $monthFilter = $monthFilter==NULL?date('m'):date($monthFilter); 
+            $query  = $query==NULL? JournalEntryModel::whereYear('created_at','=',$yearFilter)
+                                                        ->whereMonth('created_at','=',$monthFilter) : 
+                                                            $query->whereYear('created_at','=',$yearFilter)
+                                                                    ->whereMonth('created_at','=',$monthFilter);
+        }
+        return $query->get();
+              
     }
 }

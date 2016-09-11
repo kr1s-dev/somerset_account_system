@@ -103,7 +103,6 @@ class ReceiptController extends Controller
 
             $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
                                                                                     'receipt_no'=>$request->input('receipt_no'),
-                                                                                    'file_related'=>$request->input('file_related'),
                                                                                     'amount_paid'=>$request->input('amount_paid')));
             
             

@@ -9,7 +9,7 @@
 	          		<section class="login_content">
 	            		{!! Form::open(['url'=>'password/email','method'=>'POST']) !!}
 	              			<h1>Forgot Password</h1>
-	              			@include('flash::message');
+	              			@include('flash::message')
 	              			@include('errors.validator')
 	              			<div>
 	                			<input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ old('email') }}"/>

@@ -29,13 +29,13 @@ class AnnouncementRequest extends Request
             case 'DELETE': break;
             //for insert
             case 'POST':{
-                return ['headline' => 'required|min:10',
-                        'message' => 'required|min:10',];
+                return ['headline' => 'required|min:10|max:255',
+                        'message' => 'required|min:10|max:255',];
             }
             //for update
             case 'PATCH':{  
-                return ['headline' => 'required|min:10',
-                        'message' => 'required|min:10',];
+                return ['headline' => 'required|min:10|max:255',
+                        'message' => 'required|min:10|max:255',];
             }
             //default
             default: break;

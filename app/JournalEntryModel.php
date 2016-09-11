@@ -25,6 +25,7 @@ class JournalEntryModel extends Model
                             'expense_id',
                             'invoice_id',
                             'receipt_id',
+                            'asset_id',
                             'type'];
 
 
@@ -38,6 +39,10 @@ class JournalEntryModel extends Model
 
     public function invoice(){
         return $this->belongsTo('App\InvoiceModel');
+    }
+
+    public function asset(){
+        return $this->belongsTo('App\AssetsModel','asset_id');
     }
 
     public function credit(){

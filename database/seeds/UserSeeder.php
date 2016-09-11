@@ -37,12 +37,10 @@ class UserSeeder extends Seeder
                                 'secret_question_id'=>'1',
                                 'secret_answer'=>'somer',
                                 'user_type_id'=>2,
-                                'created_at'=>date('Y-m-d h:i:sa'),
-                                'updated_at'=>date('Y-m-d h:i:sa'),
+                                'created_at'=>date('Y-m-d h:i:s'),
+                                'updated_at'=>date('Y-m-d h:i:s'),
                                 'home_owner_id'=>null,
-                                'is_active'=>1,
-                                'created_at' => date('Y-m-d h:i:sa'),
-                                'updated_at' => date('Y-m-d h:i:sa'));
+                                'is_active'=>1);
 
         $nUserList[] = array('email'=>'cashier_user@somerset.com',
                                 'first_name'=>'I',
@@ -54,11 +52,23 @@ class UserSeeder extends Seeder
                                 'secret_answer'=>'somer',
                                 'user_type_id'=>3,
                                 'home_owner_id'=>null,
-                                'created_at'=>date('Y-m-d h:i:sa'),
-                                'updated_at'=>date('Y-m-d h:i:sa'),
-                                'is_active'=>1,
-                                'created_at' => date('Y-m-d h:i:sa'),
-                                'updated_at' => date('Y-m-d h:i:sa'));
+                                'created_at'=>date('Y-m-d h:i:s'),
+                                'updated_at'=>date('Y-m-d h:i:s'),
+                                'is_active'=>1);
+
+        $nUserList[] = array('email'=>'test_user@somerset.com',
+                                'first_name'=>'I',
+                                'middle_name'=> 'am',   
+                                'last_name'=>'Tester',
+                                'mobile_number'=>'0929819201',
+                                'password'=>bcrypt('testadmin12345'),
+                                'secret_question_id'=>'1',
+                                'secret_answer'=>'somer',
+                                'user_type_id'=>3,
+                                'home_owner_id'=>null,
+                                'created_at'=>date('Y-m-d h:i:s'),
+                                'updated_at'=>date('Y-m-d h:i:s'),
+                                'is_active'=>1);
 
         $nUserList[] = array('email'=>'guest_user@somerset.com',
                                 'first_name'=>'I',
@@ -70,11 +80,9 @@ class UserSeeder extends Seeder
                                 'secret_answer'=>'somer',
                                 'user_type_id'=>4,
                                 'home_owner_id'=>1,
-                                'created_at'=>date('Y-m-d h:i:sa'),
-                                'updated_at'=>date('Y-m-d h:i:sa'),
-                                'is_active'=>1,
-                                'created_at' => date('Y-m-d h:i:sa'),
-                                'updated_at' => date('Y-m-d h:i:sa'));
+                                'created_at'=>date('Y-m-d h:i:s'),
+                                'updated_at'=>date('Y-m-d h:i:s'),
+                                'is_active'=>1);
     	DB::table('users')->insert($nUserList);
     }
 }

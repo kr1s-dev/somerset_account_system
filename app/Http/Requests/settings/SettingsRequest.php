@@ -23,8 +23,8 @@ class SettingsRequest extends Request
      */
     public function rules()
     {
-        return ['tax' => 'required',
-                'days_till_due_date' => 'required',
-                'cut_off_date' => 'required'];
+        return ['tax' => 'required|numeric|digits_between:1,10|min:1',
+                'days_till_due_date' => 'required|numeric|digits_between:1,10|min:1|max:30',
+                'cut_off_date' => 'required|numeric|digits_between:1,10|min:1|max:30'];
     }
 }

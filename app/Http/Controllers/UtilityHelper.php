@@ -250,7 +250,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Send Email to newly created user for email verification
     */
     public function sendEmailVerification($toAddress,$name,$confirmation_code){
@@ -263,7 +263,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the table
     */
     public function getObjectRecords($tableName,$whereClause){
@@ -279,7 +279,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the table using id
     */
     public function getObjectRecordsWithId($tableName,$field,$arrayValue){
@@ -289,7 +289,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get first record in the table
     */
     public function getObjectFirstRecord($tableName,$whereClause){
@@ -305,7 +305,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get last record in the table
     */
     public function getObjectLastRecord($tableName,$whereClause){
@@ -322,7 +322,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Insert in every table
     */
     public function insertRecord($tableName,$toInsertItems){
@@ -337,7 +337,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Bulk Insert in every table
     */
     public function insertBulkRecord($tableName,$toInsertItems){
@@ -345,7 +345,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Update in every table
     */
     public function updateRecord($tableName,$idList,$toUpdateItems){
@@ -362,7 +362,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Delete in every table
     */
     public function deleteRecord($tableName,$idList){
@@ -378,7 +378,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Removing key,value pair in list
     */
     public function addAndremoveKey($arrayData,$isInsert){
@@ -392,7 +392,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: custom format string
     */
     public function formatString($stringToFormat){
@@ -406,7 +406,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all items to insert
     */
     public function populateListOfToInsertItems($data,$groupName,$foreignKeyId,$foreignValue,$tableName){
@@ -472,7 +472,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get id of login user
     */
     public function getLogInUserId(){
@@ -481,7 +481,7 @@ trait UtilityHelper
 
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Create Journal Entry
     */
     public function createJournalEntry($dataList,$typeName,$foreignKey,$foreignValue,$description,$amount){
@@ -491,7 +491,18 @@ trait UtilityHelper
         $itemList = array();
         $tDataHolder = array();
         $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
+        if(is_null($accountReceivableTitle)){
+            $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('1','Accounts Receivable',null));
+            $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
+        }
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+        
+        if(is_null($accountReceivableTitle)){
+            $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('1','Cash',null));
+            $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
+        }
         $eAccountGrp = $this->getAccountGroups($typeName=='Invoice'?'5':'6'); //get account titles
         foreach ($eAccountGrp->accountTitles as $accountTitle) {
             foreach ($accountTitle->items as $item) {
@@ -604,7 +615,7 @@ trait UtilityHelper
     }
     
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the journal table
     */
     public function getJournalEntryRecordsWithFilter($accountGroupId,$monthFilter,$yearFilter){
@@ -736,6 +747,19 @@ trait UtilityHelper
                                             'action'=>$action,
                                             'created_at' => date('Y-m-d H:i:s'),
                                             'updated_at' => date('Y-m-d H:i:s')));
+    }
+
+    public function createAccountTitle($accountGroupId,$accountTitle,$accountTItleId){
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
+        return array('account_group_id'=>$accountGroupId,
+                    'account_sub_group_name'=>$accountTitle,
+                    'account_title_id'=>$accountTitleId,
+                    'opening_balance'=>0,
+                    'description'=>'No Description',
+                    'created_by'=>Auth::check()?Auth::user()->id:$userAdmin->id,
+                    'update_by'=>Auth::check()?Auth::user()->id:$userAdmin->id,
+                    'created_at'=>date('Y-m-d h:i:sa'),
+                    'updated_at'=>date('Y-m-d h:i:sa'));
     }
 
 }           

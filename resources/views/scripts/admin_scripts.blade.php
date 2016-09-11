@@ -73,11 +73,7 @@
           allowClear: true
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Auto Populate User Fields if user have homewoner related with.
-      * @Date:        6/27/2016
-      */
+      
       $('#howeOwnersList').on('change',function(){
         var selectOptionVal = $( "#howeOwnersList option:selected" ).attr('name');
         ////console.log(selectOptionVal);
@@ -123,11 +119,7 @@
           calender_style: "picker_1"
         });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Resetting value in modal
-      * @Date:        6/29/2016
-      */
+      
       $("#addItemRow").click(function(e){
         e.preventDefault();
         $('#nPaymentItem').select2("val", "");
@@ -136,11 +128,7 @@
         $('#nPaymentCost').val('')
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Adding table data in invoice 
-      * @Date:        6/29/2016
-      */
+      
       $("#nPaymentBtn").click(function(e){
         e.preventDefault();
         var type = $('meta[name="type"]').attr('content');
@@ -154,8 +142,12 @@
 
         if(type!='Expense' && !nQuantity){
           errorMessage+='\nInvalid Quantity';
-          if(nQuantity < 0);
-            errorMessage+='\nQuantity must be greater than zero';
+          alert('Invalid Data:' + errorMessage);
+          return false;
+        }
+
+        if(nQuantity < 0){
+          errorMessage+='\nQuantity must be greater than zero';
           alert('Invalid Data:' + errorMessage);
           return false;
         }
@@ -224,13 +216,7 @@
           calculateAmount();
         });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Creating AJAX call to laravel for insertion 
-      *               of record in invoice and related items
-      * @Date:        6/29/2016
-      * @Note:        Add validation if duplicate item is inputted
-      */
+      
       $("#createInvBtn").click(function(e){
           var data='';
           var tData = '';
@@ -301,50 +287,57 @@
           
       });
       
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Get table row data in table after clicking edit button.
-      *               Transfer data to modal to update
-      * @Date:        6/29/2016
-      * @Note:        Add validation if duplicate item is inputted
-      */
+      
        $('#itemsTable').on( 'click', '#editTrans', function(event){
         var tr = $(this).closest('tr'); //get the parent tr
         arrayTd = $(tr).find('td'); //get data in a row
-        $("#eQuantity").val((arrayTd[0].textContent).trim());
-        $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
-        $("#ePaymentCost").val((arrayTd[3].textContent).trim());
+        var type = $('meta[name="type"]').attr('content');
+        if(type!='Expense'){
+          $("#eQuantity").val((arrayTd[0].textContent).trim());
+          $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
+          $("#ePaymentCost").val((arrayTd[3].textContent).trim());
+        }else{
+          $("#eQuantity").val((arrayTd[0].textContent).trim());
+          $("#ePaymentDesc").val((arrayTd[1].textContent).trim());
+          $("#ePaymentCost").val((arrayTd[2].textContent).trim());
+        }
+        
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Update data in table after clicking update in modal.
-      * @Date:        6/29/2016
-      * @Note:        If value is empty or invalid, it will revert back to its original value
-      */
+      
       $("#ePaymentBtn").click(function(e){
         e.preventDefault();
-
-        if($('#eQuantity').val() && $('#eQuantity').val() != 0){
+        var type = $('meta[name="type"]').attr('content');
+        if($('#eQuantity').val() && $('#eQuantity').val() > 0){
           arrayTd[0].textContent = $('#eQuantity').val();
+        }else{
+          alert('Invalid Data');
         }
 
         if($('#ePaymentDesc').val()){
-          arrayTd[2].textContent = $('#ePaymentDesc').val();
+          if(type!='Expense'){
+            arrayTd[2].textContent = $('#ePaymentDesc').val();
+          }else{
+            arrayTd[1].textContent = $('#ePaymentDesc').val();
+          }
+          
         }
 
         if($('#ePaymentCost').val()){
-          arrayTd[3].textContent = arrayTd[0].textContent * $('#ePaymentCost').val();
+          if(type!='Expense'){
+            if($('#ePaymentCost').val() > 0)
+              arrayTd[3].textContent = arrayTd[0].textContent * $('#ePaymentCost').val();
+            else
+              alert('Invalid Data');
+          }else{
+            arrayTd[2].textContent = $('#ePaymentCost').val();
+          }
+          
         }
         calculateAmount();
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Calculates total amount of all the items listed in the table
-      * @Date:        6/29/2016
-      * @Note:        If value is empty or invalid, it will revert back to its original value
-      */
+      
       function calculateAmount(){
         var total = 0;
         //Get all amount in the table
@@ -367,13 +360,7 @@
       }
 
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Creating AJAX call to laravel for insertion 
-      *               of record in expense and related items
-      * @Date:        6/29/2016
-      * @Note:        Add validation if duplicate item is inputted
-      */
+      
       $("#createExpBtn").click(function(e){
           var data='';
           var totalAmount = 0;
@@ -432,13 +419,7 @@
           }
       });
       
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Creating AJAX call to laravel for update 
-      *               of record in invoice and its related items
-      * @Date:        6/29/2016
-      * @Note:        Add validation if duplicate item is inputted
-      */
+      
       $("#updateInvBtn").click(function(e){
         var data='';
         var tData = '';
@@ -504,13 +485,8 @@
         
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Creating AJAX call to laravel for update 
-      *               of record in expense and its related items
-      * @Date:        6/29/2016
-      * @Note:        Add validation if duplicate item is inputted
-      */
+      
+
       $("#updateExpBtn").click(function(e){
         var data='';
         var tData = '';
@@ -581,11 +557,8 @@
         }
       });
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Hide default value if account title is not income
-      * @Date:        7/6/2016
-      */
+      
+
       $('#accountgroup').change(function(){
         var groupName = $('#accountgroup option:selected').text();
 
@@ -609,11 +582,8 @@
       $('div.alert').not('.alert-important').delay(3000).slideUp(300);
       $('#flash-overlay-modal').modal();
 
-      /*
-      * @Author:      Kristopher N. Veraces
-      * @Description: Generating a pdf
-      * @Date:        7/12/2016
-      */
+      
+
       $('#nPaymentItem').on('change',function(){
         var selectOptionVal = $( "#nPaymentItem option:selected" ).attr('name');
         if(selectOptionVal ){
@@ -629,10 +599,7 @@
       });
 
       
-      /*
-      * @author:        Kristopher Veraces
-      * @description:   Disable fields dr or cr field depending on picklist value
-      */
+      
       $(document).on('change', "select[name='cr_dr']", function(e){
         var ch = "";
         $(this).closest('tr').find("td").each(function(colIndex, c) {
@@ -752,10 +719,7 @@
         $(this).parent().parent().remove();
       });
 
-      /*
-      * @author:        Kristopher Veraces
-      * @description:   Collect all data in tables then store to database
-      */
+      
       $("#sbmt_jour_entry").click(function(e){
         e.preventDefault;
         var data= '';
@@ -823,10 +787,7 @@
       });
 
 
-      /*
-      * @author:        Kristopher Veraces
-      * @description:   Compute Total Amount
-      */
+      
       function calculateAmountJournal(){
         var drTotalAmount = 0;
         var crTotalAmount = 0;
@@ -852,12 +813,7 @@
         });
       }
 
-     /*
-     * @author:        Kristopher Veraces
-     * @description:   Validation in Journal 
-                          -Checks if duplicated account title is inputted
-                          -Checks if credit or debit amount in not zero
-     */
+     
       function checkIfDuplicate(){
         var accountTitles =  [];
         var tAccountTitle = NaN;
@@ -895,10 +851,7 @@
         return is_duplicate;
       }
 
-    /*
-     * @author:        Kristopher Veraces
-     * @description:   Shows Depreciation Information if radio button is Yes
-     */
+    
     $("input[name=mode_of_acquisition]:radio").change(function(e){
       $("input[name=downPayment]").val("");
       if($(this).val() == 'Both'){

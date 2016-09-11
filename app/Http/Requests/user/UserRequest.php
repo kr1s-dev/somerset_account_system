@@ -34,7 +34,8 @@ class UserRequest extends Request
                 return ['first_name' => 'required|max:255',
                         'middle_name' => 'required|max:255',
                         'last_name' => 'required|max:255',
-                        'email' => 'required|email|max:255|unique:users,email,',];
+                        'email' => 'required|email|max:255|unique:users,email',
+                        'mobile_number'=>'numeric|digits_between:11,13|min:1'];
             }
             //for update
             case 'PATCH':{
@@ -42,7 +43,7 @@ class UserRequest extends Request
                         'middle_name' => 'required|max:255',
                         'last_name' => 'required|max:255',
                         'email' => 'required|email|max:255|unique:users,email,'.$user->id,
-                        'home_owner_id' => 'unique:users',];
+                        'mobile_number'=>'numeric|digits_between:11,13|min:1'];
 
             }
             //default

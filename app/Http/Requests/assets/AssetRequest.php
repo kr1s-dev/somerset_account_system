@@ -24,6 +24,7 @@ class AssetRequest extends Request
      */
     public function rules()
     {
+        $asset = AssetsModel::find($this->assets);
         switch($this->method())
         {
             case 'GET': break;
@@ -31,26 +32,26 @@ class AssetRequest extends Request
             //for insert
             case 'POST':{
                 return ['account_title_id'=>'required',
-                        'item_name'=>'required|min:3|max:255',
-                        'description'=>'required|max:255',
-                        'quantity'=>'required',
-                        'total_cost'=>'required',
-                        'salvage_value'=>'required',
-                        'useful_life'=>'required',
+                        'item_name'=>'required|min:3|max:255|unique:asset_items',
+                        'description'=>'max:255',
+                        'quantity'=>'required|numeric|digits_between:1,10|min:1',
+                        'total_cost'=>'required|numeric|digits_between:1,10|min:1',
+                        'salvage_value'=>'required|numeric|digits_between:1,10|min:1',
+                        'useful_life'=>'required|numeric|digits_between:1,10|min:0',
                         'mode_of_acquisition'=>'required',
-                        'down_payment' => 'required_if:mode_of_acquisition,Both',];
+                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10|min:1',];
             }
             //for update
             case 'PATCH':{  
                 return ['account_title_id'=>'required',
-                        'item_name'=>'required|min:3|max:255',
-                        'description'=>'required|max:255',
-                        'quantity'=>'required',
-                        'total_cost'=>'required',
-                        'salvage_value'=>'required',
-                        'useful_life'=>'required',
+                        'item_name'=>'required|min:3|max:255,item_name,'.$asset->id,
+                        'description'=>'max:255',
+                        'quantity'=>'required|numeric|digits_between:1,10|min:1',
+                        'total_cost'=>'required|numeric|digits_between:1,10|min:1',
+                        'salvage_value'=>'required|numeric|digits_between:1,10|min:1',
+                        'useful_life'=>'required|numeric|digits_between:1,10|min:0',
                         'mode_of_acquisition'=>'required',
-                        'down_payment' => 'required_if:mode_of_acquisition,Both',];
+                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10|min:1',];
             }
             //default
             default: break;

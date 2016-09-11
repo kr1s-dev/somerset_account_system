@@ -1,7 +1,7 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
   <div class="menu_section">
     <ul class="nav side-menu">
-      @if(Auth::user()->userType->type == 'Administrator')
+      @if(Auth::user()->userType->type == 'Administrator' || Auth::user()->userType->type == 'Tester')
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard </a></li>
         <!--li><a href="{{route('map.somerset')}}"><i class="fa fa-dashboard"></i> Somerset Map </a></li-->
         <li><a><i class="fa fa-bullhorn"></i> Announcements <span class="fa fa-chevron-down"></span></a>
@@ -77,6 +77,12 @@
             <li><a href="{{ route('cash.flow')}}">Statement of Cash Flow</a></li>
             <!--li><a href="">Balance Sheet</a></li>
             <li><a href="">Trial Balance</a></li-->
+          </ul>
+        </li>
+        <li>
+          <a><i class="fa fa-file-text"></i> System Logs <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{{ route('system.logs') }}">View</a></li>
           </ul>
         </li>
       

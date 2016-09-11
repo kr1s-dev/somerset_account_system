@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DB;
+use Auth;
 use App\InvoiceModel;
 use App\AccountGroupModel;
 use App\InvoiceExpenseItems;
@@ -49,7 +50,12 @@ class CreatePenaltyInvoice_Batch extends Command
             $toUpdatePenaltyInvoice = array();
             $tJournalEntry = array();
             $toInsertJournalEntry = array();
-            $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->get();
+            if(Auth::check() && Auth::user()->userType->type=='Tester'){
+                $invoiceList = InvoiceModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')->where('is_paid','=',0)->get();
+            }else{
+                $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->where('is_paid','=',0)->get();
+            }
+            
             $penaltyItem = InvoiceExpenseItems::where('item_name','LIKE','%Penalty%')->first();
             $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
             $invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
@@ -88,7 +94,7 @@ class CreatePenaltyInvoice_Batch extends Command
                                                                         $addedAmount);
                             $inv->penaltyInfo->save();
                         }
-                        $inv->next_penalty_date = date('Y-m-d',strtotime($inv->next_penalty_date . '+1 month'));
+                        $inv->next_penalty_date = date('Y-m-d',strtotime($inv->next_penalty_date . ' +1 month'));
                         $inv->save();
                         $inv->homeOwner->has_penalty = 1;
                         $inv->homeOwner->save();

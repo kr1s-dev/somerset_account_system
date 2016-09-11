@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   	<head>
+	  	<style type="text/css">
+	       body {
+	            font-family: "Open Sans", "Arial", "Calibri", sans-serif;
+	            font-size: 12px;
+	          }
+	          .header p{
+	            margin: 5px;
+	          }
+	          th {
+	            background: #eee;
+	          }
+	          table, th, td {
+	            border: 1px solid #000;
+	            padding: 5px;
+	          }
+	      </style>
   	</head>
   	<body>
-       	<div align="center">
-		     <p><strong>Somerset Homeowners Association</strong></p>
-		     <p>Statement of Changes in Equity </p>
+       	<div class="header" align="center">
+		     <p><strong> Somerset Homeowners Association</strong></p>
+              <p><strong>B18 L22 Barrington, Somerset Ave, Pasig, Metro Manila</strong></p>
+              <p><strong>(02) 470 0040</strong></p>
+              <p><strong>somersetplace@gmail.com</strong></p>
+		     <p><strong>Statement of Changes in Equity </strong></p>
 		     <p>For
 		     	@if(empty($monthFilter))
 		     		Year End {{$yearFilter}}

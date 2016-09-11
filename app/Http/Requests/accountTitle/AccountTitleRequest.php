@@ -31,12 +31,16 @@ class AccountTitleRequest extends Request
             case 'DELETE': break;
             //for insert
             case 'POST':{
-                return ['account_sub_group_name' => 'unique:account_titles',
-                            'account_group_id' => 'required',];
+                return ['account_sub_group_name' => 'required|unique:account_titles',
+                            'account_group_id' => 'required',
+                            'opening_balance' => 'numeric|digits_between:1,10|min:1',
+                            'description'=>'max:255',];
             }
             //for update
             case 'PATCH':{  
-                return['account_sub_group_name' => 'unique:account_titles,account_sub_group_name,' . $accountTitle->id,];
+                return['account_sub_group_name' => 'required|unique:account_titles,account_sub_group_name,' . $accountTitle->id,
+                        'opening_balance' => 'numeric|digits_between:1,10|min:1',
+                        'description'=>'max:255',];
             }
             //default
             default: break;

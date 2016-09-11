@@ -53,8 +53,13 @@ class UserController extends Controller
             //     $eHomeOwnersList[$thomeOwner->id] = $thomeOwner;
             // }
             //Return user list view
-            return view('users.users_list',
-                            compact('users_list'));    
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.404'); 
+            }else{
+                return view('users.users_list',
+                            compact('users_list'));  
+            }   
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
@@ -70,14 +75,20 @@ class UserController extends Controller
     public function create()
     {
         try{
+
             $isCreate = TRUE;
             $nUser = $this->setUser();
             $eUserTypesList = $this->getUsersUserType(null);
             //Show create users page
-            return view('users.create_user',
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.404'); 
+            }else{
+                return view('users.create_user',
                             compact('nUser',
                                     'eUserTypesList',
                                     'isCreate'));   
+            } 
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
@@ -136,8 +147,14 @@ class UserController extends Controller
     {
         try{
             $eUser = $this->getUser($id);
-            return view('users.show_user',   
-                            compact('eUser'));     
+            if(Auth::user()->userType->type==='Guest'){
+                return view('guest_profile.guest_profile',   
+                            compact('eUser'));  
+            }else{
+                return view('users.show_user',   
+                            compact('eUser'));  
+            } 
+               
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
@@ -164,11 +181,16 @@ class UserController extends Controller
                 $eHomeOwners = $this->getHomeOwnerInformation(null);
             }
 
-            return view('users.edit_user',
+            if(Auth::user()->userType->type==='Guest'){
+                return view('errors.404'); 
+            }else{
+                return view('users.edit_user',
                             compact('nUser',
                                     'eUserTypesList',
                                     'eHomeOwners',
-                                    'isCreate'));    
+                                    'isCreate'));      
+            }
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
@@ -261,6 +283,7 @@ class UserController extends Controller
     **/
     public function resetPassword($id){
         try{
+
             $user = $this->getUser($id);
             $emails = array('email'=>$user->email);
             $response = Password::sendResetLink($emails, function (Message $message) {
@@ -289,8 +312,14 @@ class UserController extends Controller
     public function getChangePassword($id){
         try{
             $user = $this->getUser($id);
-            return view('users.change_password',
+            if(Auth::user()->userType->type==='Guest'){
+                return view('guest_profile.guest_reset_password',
                             compact('user'));
+            }else{
+                return view('users.change_password',
+                            compact('user'));
+            }
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();

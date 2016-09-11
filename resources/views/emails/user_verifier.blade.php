@@ -8,7 +8,7 @@
         <div>
             A user has been created under you email address. 
             Please follow the link below to verify your account.
-            {{ URL::to('auth/verify/' . $confirmation_code) }}.<br/>
+            {{ url('auth/verify/' . $confirmation_code) }}<br/>
         </div>
     </body>
 </html>

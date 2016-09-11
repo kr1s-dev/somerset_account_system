@@ -26,9 +26,11 @@
 	              <div class="clearfix"></div>
 
 	              <div class="separator">
-	                <p class="change_link">New to site?
-	                  <a href="#signup" class="to_register"> Create Account </a>
-	                </p>
+	                @if($user==NULL)
+		                <p class="change_link">New to site?
+		                  <a href="#signup" class="to_register"> Create Account </a>
+		                </p>
+					@endif
 
 	                <div class="clearfix"></div>
 	                <br />

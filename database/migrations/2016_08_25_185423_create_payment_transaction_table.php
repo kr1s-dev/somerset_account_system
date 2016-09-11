@@ -24,7 +24,7 @@ class CreatePaymentTransactionTable extends Migration
                 $table->foreign('updated_by')->references('id')->on('users');
                 $table->String('receipt_no',255)->unique();
                 $table->decimal('amount_paid',10,2)->default(0.00);
-                $table->binary('file_related');
+                //$table->binary('file_related');
                 $table->timestamps();
             });
         }

@@ -76,6 +76,21 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {   
+        $user = User::first();
+        if (view()->exists('auth.authenticate')) {
+            return view('auth.authenticate',
+                            compact('user'));
+        }
+
+        return view('auth.login'); 
+    }
 
     /**
      * Handle a login request to the application.
@@ -173,7 +188,7 @@ class AuthController extends Controller
     */
     public function userTypeRedirectPath(){
         $userType = Auth::user()->userType->type;
-        if($userType=='Administrator'){
+        if($userType=='Administrator' || $userType=='Tester'){
             $setting = SettingsModel::first();
             if($setting == NULL)
                 return redirect()->intended('/settings/create'); 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,7 @@ class PasswordController extends Controller
     public function postEmail(Request $request)
     {
         $this->validate($request, ['email' => 'required|email']);
+        $user = User::where('email','=' ,$request->input('email'))->first();
 
         $response = Password::sendResetLink($request->only('email'), function (Message $message) {
             $message->subject($this->getEmailSubject());
@@ -55,7 +57,7 @@ class PasswordController extends Controller
         switch ($response) {
             case Password::RESET_LINK_SENT:
                 flash()->success('A reset link is sent into you email.')->important();
-                return view('auth.authenticate');
+                return redirect('auth/login');
                 //return redirect()->back()->with('status', trans($response));
             case Password::INVALID_USER:
                 return redirect()->back()->withErrors(['email' => trans($response)]);
@@ -80,7 +82,6 @@ class PasswordController extends Controller
         $credentials = $request->only(
             'email', 'password', 'password_confirmation', 'token'
         );
-
         $response = Password::reset($credentials, function ($user, $password) {
             $this->resetPassword($user, $password);
         });
@@ -89,7 +90,7 @@ class PasswordController extends Controller
             case Password::PASSWORD_RESET:
                 flash()->success('Password Successfully Reset. Log in to continue.')->important();
                 //return redirect($this->redirectPath())->with('status', trans($response));
-                return view('auth.authenticate');
+                return redirect('auth/login');
             default:
                 return redirect()->back()
                             ->withInput($request->only('email'))

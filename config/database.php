@@ -1,22 +1,4 @@
 <?php
-$url = parse_url(getenv("DATABASE_URL"));
-$host = "";
-$username="";
-$password="";
-$database="";
-if($url!=NULL){
-    if(array_key_exists("host", $url))
-        $host = $url["host"];
-    if(array_key_exists("user", $url))
-        $username = $url["user"];
-    if(array_key_exists("pass", $url))
-        $password = $url["pass"];
-    if(array_key_exists("path", $url))
-        $database = substr($url["path"], 1);
-    
-    
-    
-}
 
 return [
     
@@ -84,10 +66,10 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => $host,
-            'database' => $database,
-            'username' => $username,
-            'password' => $password,
+            'host'      => env('DB_HOST', 'localhost'),
+            'database'  => env('DB_DATABASE', 'somersetplaceaccountingsystem'),
+            'username'  => env('DB_USERNAME', 'root'),
+            'password'  => env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
