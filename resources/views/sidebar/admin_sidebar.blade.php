@@ -79,6 +79,12 @@
             <li><a href="">Trial Balance</a></li-->
           </ul>
         </li>
+        <li>
+          <a><i class="fa fa-file-text"></i> System Logs <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{{ route('system.logs') }}">View</a></li>
+          </ul>
+        </li>
       
       @elseif(Auth::user()->userType->type == 'Cashier' || Auth::user()->userType->type == 'Administrator')
         <li><a><i class="fa fa-home"></i> Homeowners <span class="fa fa-chevron-down"></span></a>
