@@ -1,9 +1,5 @@
 <?php
-/*
-* @Author:      Kristopher N. Veraces
-* @Description: Serves as model for Homeowner Members in Database
-* @Date:        6/27/2016
-*/
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;

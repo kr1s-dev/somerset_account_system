@@ -250,7 +250,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Send Email to newly created user for email verification
     */
     public function sendEmailVerification($toAddress,$name,$confirmation_code){
@@ -263,7 +263,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the table
     */
     public function getObjectRecords($tableName,$whereClause){
@@ -279,7 +279,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the table using id
     */
     public function getObjectRecordsWithId($tableName,$field,$arrayValue){
@@ -289,7 +289,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get first record in the table
     */
     public function getObjectFirstRecord($tableName,$whereClause){
@@ -305,7 +305,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get last record in the table
     */
     public function getObjectLastRecord($tableName,$whereClause){
@@ -322,7 +322,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Insert in every table
     */
     public function insertRecord($tableName,$toInsertItems){
@@ -337,7 +337,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Bulk Insert in every table
     */
     public function insertBulkRecord($tableName,$toInsertItems){
@@ -345,7 +345,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Update in every table
     */
     public function updateRecord($tableName,$idList,$toUpdateItems){
@@ -362,7 +362,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Use for Dynamic Delete in every table
     */
     public function deleteRecord($tableName,$idList){
@@ -378,7 +378,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Removing key,value pair in list
     */
     public function addAndremoveKey($arrayData,$isInsert){
@@ -392,7 +392,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: custom format string
     */
     public function formatString($stringToFormat){
@@ -406,7 +406,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all items to insert
     */
     public function populateListOfToInsertItems($data,$groupName,$foreignKeyId,$foreignValue,$tableName){
@@ -472,7 +472,7 @@ trait UtilityHelper
     }
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get id of login user
     */
     public function getLogInUserId(){
@@ -481,7 +481,7 @@ trait UtilityHelper
 
 
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Create Journal Entry
     */
     public function createJournalEntry($dataList,$typeName,$foreignKey,$foreignValue,$description,$amount){
@@ -604,7 +604,7 @@ trait UtilityHelper
     }
     
     /*
-    * @Author:      Kristopher N. Veraces
+    * @Author:      Daryl Dangan
     * @Description: Get all records in the journal table
     */
     public function getJournalEntryRecordsWithFilter($accountGroupId,$monthFilter,$yearFilter){
