@@ -22,12 +22,8 @@
          		<table id="datatable" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
             		<thead>
                		<tr>
-                  		<th>Asset No.</th>
-                  		<th>Item Name</th>
-                  		<th style="width: 2%;">Mode of Acquisition</th>
-                  		<th style="width: 2%;">Monthly Depreciation</th>
-                  		<th>Net Amount (PHP)</th>
-                  		<th>Actions</th>
+                  		<th>Date</th>
+                  		<th>Action</th>
                		</tr>
             		</thead>
             		<tbody>

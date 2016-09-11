@@ -121,5 +121,5 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('somerset-map', ['as'=>'map.somerset','uses' => 'maps\MapController@getMap']);
 
-    Route::get('system-logs',['as'=>'system.logs','uses' => 'systemlogs\SystemLogsController@viewLogs'])
+    Route::get('system-logs',['as'=>'system.logs','uses' => 'systemlogs\SystemLogsController@viewLogs']);
 });
