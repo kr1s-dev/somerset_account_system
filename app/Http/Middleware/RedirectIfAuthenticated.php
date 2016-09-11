@@ -37,7 +37,7 @@ class RedirectIfAuthenticated
         
         if ($this->auth->check()) {
             $userType = $request->user()->userType->type;
-            if($userType=='Administrator'){
+            if($userType=='Administrator' || $userType=='Tester'){
                 return redirect()->intended('/admin-dashboard'); 
             }else if($userType=='Accountant'){
                 return redirect()->intended('/account'); 
