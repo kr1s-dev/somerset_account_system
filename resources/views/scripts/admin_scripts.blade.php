@@ -308,8 +308,10 @@
       $("#ePaymentBtn").click(function(e){
         e.preventDefault();
         var type = $('meta[name="type"]').attr('content');
-        if($('#eQuantity').val() && $('#eQuantity').val() <= 0){
+        if($('#eQuantity').val() && $('#eQuantity').val() > 0){
           arrayTd[0].textContent = $('#eQuantity').val();
+        }else{
+          alert('Invalid Data');
         }
 
         if($('#ePaymentDesc').val()){
