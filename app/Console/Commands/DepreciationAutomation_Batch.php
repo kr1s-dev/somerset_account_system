@@ -48,7 +48,7 @@ class DepreciationAutomation_Batch extends Command
         $command = $this->option('run');
         try{
             if($command=='1'){
-                $eAssetItemsList = AssetsModel::where('created_at','=',date('Y-m-d'))
+                $eAssetItemsList = AssetsModel::where('created_at','<=',date('Y-m-d'))
                                                 ->where('useful_life','>',0)
                                                 ->get();
             }else{
