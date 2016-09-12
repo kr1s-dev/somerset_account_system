@@ -753,11 +753,11 @@ trait UtilityHelper
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         return array('account_group_id'=>$accountGroupId,
                     'account_sub_group_name'=>$accountTitle,
-                    'account_title_id'=>$accountTitleId,
+                    'account_title_id'=>$accountTItleId,
                     'opening_balance'=>0,
                     'description'=>'No Description',
                     'created_by'=>Auth::check()?Auth::user()->id:$userAdmin->id,
-                    'update_by'=>Auth::check()?Auth::user()->id:$userAdmin->id,
+                    'updated_by'=>Auth::check()?Auth::user()->id:$userAdmin->id,
                     'created_at'=>date('Y-m-d h:i:sa'),
                     'updated_at'=>date('Y-m-d h:i:sa'));
     }

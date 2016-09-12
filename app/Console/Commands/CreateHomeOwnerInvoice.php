@@ -7,6 +7,8 @@ use Auth;
 use App\AccountGroupModel;
 use Illuminate\Console\Command;
 use App\Http\Controllers\UtilityHelper;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class CreateHomeOwnerInvoice extends Command
 {
@@ -16,7 +18,7 @@ class CreateHomeOwnerInvoice extends Command
      *
      * @var string
      */
-    protected $signature = 'create:homeownerinvoice';
+    protected $signature = 'create:homeownerinvoice {--run}';
 
     /**
      * The console command description.
@@ -42,12 +44,14 @@ class CreateHomeOwnerInvoice extends Command
      */
     public function handle()
     {
+        $command = $this->option('run');
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
-        // /\Log::info('test' . Auth::check());
+        //\Log::info($command);
         try{
             //\Log::info(date('d'));
             $setting = $this->getSettings();
-            if((!(is_null($setting)) &&$setting->cut_off_date == date('d'))|| (Auth::check() && Auth::user()->userType->type=='Tester')){
+            if((!(is_null($setting)) &&$setting->cut_off_date == date('d'))|| ($command=='1')){
+                //\Log::info('By Passed');
                 $invoiceToInsert = array();
                 $invoiceItemsToInsert = array();
                 $tJournalEntry = array();

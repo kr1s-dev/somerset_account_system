@@ -16,7 +16,7 @@ class DepreciationAutomation_Batch extends Command
      *
      * @var string
      */
-    protected $signature = 'compute:depreciate';
+    protected $signature = 'compute:depreciate {--run}';
 
     /**
      * The console command description.
@@ -45,9 +45,10 @@ class DepreciationAutomation_Batch extends Command
         $toInsertJournalEntry = array();
         $updateIds = array();
         $toUpdateAssets = array();
+        $command = $this->option('run');
         try{
-            if(Auth::check() && Auth::user()->userType->type=='Tester'){
-                $eAssetItemsList = AssetsModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')
+            if($command=='1'){
+                $eAssetItemsList = AssetsModel::where('created_at','=',date('Y-m-d'))
                                                 ->where('useful_life','>',0)
                                                 ->get();
             }else{
@@ -87,17 +88,31 @@ class DepreciationAutomation_Batch extends Command
             
             
         }catch(\Exception $ex){
-            DB::table('system_logs')->insert($this->createSystemLogs('Error in Updating Assets with error log: ' . $ex.getMessage(),$userAdmin));
+            DB::table('system_logs')->insert($this->createSystemLogs('Error in Updating Assets with error log: ' . $ex->getMessage() . 'in line number ' . $ex->getLine(),$userAdmin));
         }    
     }
 
     public function createJournalEntry($accountTitleName,$typeName,$foreignKey,$foreignValue,$description,$amount){
         $journalEntryList = array();
         $accountDepExp = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Depreciation Expense'));
+        if(is_null($accountDepExp)){
+            $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('6','Depreciation Expense',null));
+            $accountDepExp = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Depreciation Expense'));
+        }
         $accountAccExp = DB::table('account_titles')
                                 ->where('account_title_id','=',$accountTitleName->id)
-                                ->where('account_sub_group_name','LIKE','%'.$accountTitleName.'%')
+                                ->where('account_sub_group_name','LIKE','%'.$accountTitleName->account_sub_group_name.'%')
                                 ->first();
+
+        if(is_null($accountAccExp)){
+            $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('2','Accumulated Depreciation - '. $accountTitleName->account_sub_group_name,$accountTitleName->id));
+            $accountAccExp = DB::table('account_titles')
+                                ->where('account_title_id','=',$accountTitleName->id)
+                                ->where('account_sub_group_name','LIKE','%'.$accountTitleName->account_sub_group_name.'%')
+                                ->first();
+        }
 
         if(!(is_null($accountDepExp )) && !(is_null($accountAccExp))){
             $journalEntryList[] = $this->populateJournalEntry($foreignKey,$foreignValue,$typeName,

@@ -68,15 +68,15 @@ class ReceiptController extends Controller
                                                 ->where('is_penalty','=',1)
                                                 ->first();
             $invoiceNumber = $id;
-            $receiptList = $invoiceModelList = $this->getControlNo('home_owner_payment_transaction');
-            $receiptNumber = $receiptList->AUTO_INCREMENT;
+            $receiptList = $this->getObjectLastRecord('home_owner_payment_transaction',null);
+            $receiptNumber = $receiptList==NULL?1:$receiptList->id+1;
             return view('receipt.create_receipt',
                             compact('homeOwnerInvoice',
                                     'invoiceNumber',
                                     'receiptNumber'));    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
     }
 

@@ -18,7 +18,7 @@ class CreatePenaltyInvoice_Batch extends Command
      *
      * @var string
      */
-    protected $signature = 'create:penalty';
+    protected $signature = 'create:penalty {--run}';
 
     /**
      * The console command description.
@@ -44,20 +44,23 @@ class CreatePenaltyInvoice_Batch extends Command
      */
     public function handle()
     {
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         try{
+            $command = $this->option('run');
             $toInsertPenaltyInvoice = array();
-            $invoiceItemtoInsert = array();
+            $invoiceItemsToInsert = array();
             $toUpdatePenaltyInvoice = array();
             $tJournalEntry = array();
             $toInsertJournalEntry = array();
-            if(Auth::check() && Auth::user()->userType->type=='Tester'){
-                $invoiceList = InvoiceModel::where('created_at','LIKE','%' . date('Y-m-d') .'%')->where('is_paid','=',0)->get();
+            if($command=='1'){
+                $invoiceList = InvoiceModel::where('created_at','=',date('Y-m-d'))
+                                                ->where('is_paid','=',0)
+                                                ->get();
             }else{
                 $invoiceList = InvoiceModel::where('next_penalty_date','=', date('Y-m-d'))->where('is_paid','=',0)->get();
             }
-            
             $penaltyItem = InvoiceExpenseItems::where('item_name','LIKE','%Penalty%')->first();
-            $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
+            
             $invoiceModelList = $this->getObjectLastRecord('home_owner_invoice',null);
             $invoiceNumber = $invoiceModelList==NULL?1:$invoiceModelList->id+1;
             if(!(is_null($penaltyItem)) && $penaltyItem->default_value > 0){
@@ -109,11 +112,12 @@ class CreatePenaltyInvoice_Batch extends Command
                 }
             }
 
+            //\Log::Info($toInsertPenaltyInvoice);
             if(count($toInsertPenaltyInvoice)>0){
                 $this->insertBulkRecord('home_owner_invoice',$toInsertPenaltyInvoice);
             }
-
-            if(count($toInsertPenaltyInvoice)>0){
+            //\Log::Info($invoiceItemsToInsert);
+            if(count($invoiceItemsToInsert)>0){
                 $this->insertBulkRecord('home_owner_invoice_items',$invoiceItemsToInsert);
             }
 
@@ -135,6 +139,7 @@ class CreatePenaltyInvoice_Batch extends Command
                         'invoice_id'=>$invoice->id,
                         'total_amount'=>$item->default_value,
                         'payment_due_date'=>date('Y-m-d',strtotime('+30 days')),
+                        'next_penalty_date'=>date('Y-m-d',strtotime('+30 days')),
                         'created_at'=>date('Y-m-d'),
                         'updated_at'=>date('Y-m-d'),
                         'is_penalty'=>1);
