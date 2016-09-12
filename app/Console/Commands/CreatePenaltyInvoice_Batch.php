@@ -53,7 +53,7 @@ class CreatePenaltyInvoice_Batch extends Command
             $tJournalEntry = array();
             $toInsertJournalEntry = array();
             if($command=='1'){
-                $invoiceList = InvoiceModel::where('created_at','=',date('Y-m-d'))
+                $invoiceList = InvoiceModel::where('created_at','<=',date('Y-m-d'))
                                                 ->where('is_paid','=',0)
                                                 ->get();
             }else{
