@@ -1165,6 +1165,7 @@
 <script>
   $(document).ready(function() {
     var hSubsidiary = {!! isset($homeOwnerSubsidiaryLedgerPerWeek)?json_encode($homeOwnerSubsidiaryLedgerPerWeek):null !!};
+    console.log(hSubsidiary);
     var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
     var d1 = [];
     var ticks = [];

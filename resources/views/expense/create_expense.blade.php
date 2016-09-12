@@ -61,10 +61,10 @@
                      			<label class="control-label" for="homeowner">Vendor</label>
                         		<div class="form-group">
                            			<select style="width: 100%;" id="vendor_id" class="select2_single form-control">
-																	@foreach($vendorList as $key => $value) 
-																		<option value="{{ $key }} ">{{ $value }}</option>
-																	@endforeach
-																</select>
+										@foreach($vendorList as $key => $value) 
+											<option value="{{ $key }} ">{{ $value }}</option>
+										@endforeach
+									</select>
                         		</div>
                      		</div>
                      		<div  class="col-sm-4 invoice-col" id="non_vendor" style="display:none;">
@@ -132,8 +132,9 @@
 		                                  <!--input value="" type="text" id="nPaymentItem" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required"-->
 		                                </div>
 		                              </div>
+		                              </br></br></br>
 		                              <div class="form-group">
-		                              </br>
+		                              
 		                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description<span class="required">*</span>
 		                                </label>
 		                                <div class="col-md-9 col-sm-6 col-xs-12">

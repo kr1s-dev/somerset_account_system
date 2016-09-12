@@ -70,8 +70,8 @@ class AdminDashboardController extends Controller
                                     'totalVendorAmountPerWeek',
                                     'invoiceList')); 
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
@@ -130,18 +130,18 @@ class AdminDashboardController extends Controller
     public function generateSubsidiaryLedger($type){
         $amountPerDay = array();
         $objectToShowList;
-        $fromDate = Carbon\Carbon::now()->startOfWeek()->toDateString(); // or ->format(..)
-        $tillDate = Carbon\Carbon::now()->subDay()->startOfWeek()->addDays(6)->toDateString();
+        $startOfTheWeek = date('Y-m-d',strtotime('monday this week'));
+        $endOfTheWeek = date('Y-m-d',strtotime('sunday this week'));
 
         for ($i=0; $i <= 6; $i++) { 
-            $amountPerDay[date('d',strtotime($fromDate . '+'.$i.'day'))] = 0;
+            $amountPerDay[date('d',strtotime($startOfTheWeek . '+'.$i.'day'))] = 0;
         }
-        
+      
         if($type=='homeowner'){
-            $objectToShowList = ReceiptModel::whereBetween(DB::raw('date(created_at)'), [$fromDate, $tillDate])
+            $objectToShowList = ReceiptModel::whereBetween(DB::raw('date(created_at)'), [$startOfTheWeek, $endOfTheWeek])
                                     ->get();
         }elseif($type=='vendor'){   
-            $objectToShowList = ExpenseModel::whereBetween(DB::raw('date(created_at)'), [$fromDate, $tillDate])
+            $objectToShowList = ExpenseModel::whereBetween(DB::raw('date(created_at)'), [$startOfTheWeek, $endOfTheWeek])
                                     ->get();
         }
         if(count($objectToShowList)>0){

@@ -43,6 +43,7 @@ class CreateHomeOwnerInvoice extends Command
     public function handle()
     {
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
+        // /\Log::info('test' . Auth::check());
         try{
             //\Log::info(date('d'));
             $setting = $this->getSettings();

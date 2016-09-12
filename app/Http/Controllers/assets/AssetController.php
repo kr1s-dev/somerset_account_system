@@ -74,12 +74,34 @@ class AssetController extends Controller
             $input['net_value'] =  $input['total_cost'];
             $input['down_payment'] = $input['down_payment']==''?0:$input['down_payment'];
             $description = 'Bought item: ' . ($input['item_name']);
+            $tAccountTitle;
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
-                if($input['mode_of_acquisition'] == 'Both')
-                    $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
+                if(is_null($tAccountTitle)){
+                    $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('3','Notes Payable',null));
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
+                }
+                $creditTitleId[] = $tAccountTitle;
+
+                if($input['mode_of_acquisition'] == 'Both'){
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                    if(is_null($tAccountTitle)){
+                        $this->insertRecord('account_titles',
+                                        $this->createAccountTitle('1','Cash',null));
+                        $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                    }
+                    $creditTitleId[] = $tAccountTitle;
+                }
             }else{
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                if(is_null($tAccountTitle)){
+                    $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('1','Cash',null));
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                }
+                $creditTitleId[] = $tAccountTitle;
+                // $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
             }
             $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
             $input['next_depreciation_date'] = date('Y-m-d',strtotime('+1 Month'));
@@ -96,8 +118,8 @@ class AssetController extends Controller
             flash()->success('Record successfully created')->important();
             return redirect('assets/'.$assetId);    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

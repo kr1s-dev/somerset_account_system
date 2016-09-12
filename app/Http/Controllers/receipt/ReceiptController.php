@@ -94,12 +94,6 @@ class ReceiptController extends Controller
             //Updates Invoice Record
 
             $this->updateRecord('home_owner_invoice',array('id'=>$invoiceid),array('is_paid' => 1));
-            //get invoice
-            $eInvoice = $this->getHomeOwnerInvoice($invoiceid);
-            if($request->input('is_penalty')=='1'){
-                $eInvoice->homeOwner->has_penalty = 0;
-                $eInvoice->homeOwner->save();
-            }
 
             $receiptId = $this->insertRecord('home_owner_payment_transaction',array('payment_id'=>$invoiceid,
                                                                                     'receipt_no'=>$request->input('receipt_no'),
