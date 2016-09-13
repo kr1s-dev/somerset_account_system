@@ -47,6 +47,11 @@ class Handler extends ExceptionHandler
             return view('errors.503');
         }
 
+        // if ($e instanceof TokenMismatchEception) {
+        //     //$e = new NotFoundHttpException($e->getMessage(), $e);
+        //     return view('errors.503');
+        // }
+
         return parent::render($request, $e);
     }
 }
