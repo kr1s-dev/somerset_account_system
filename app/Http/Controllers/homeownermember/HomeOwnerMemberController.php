@@ -65,8 +65,8 @@ class HomeOwnerMemberController extends Controller
             flash()->success('Record successfully created');
             return redirect('homeowners/'.$input['home_owner_id']);    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }
