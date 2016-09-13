@@ -33,28 +33,28 @@
          </div>
       </div>
       <div class="form-group">
-         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Occupation<span class="required">*</span>
+         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Occupation
          </label>
          <div class="col-md-9 col-sm-6 col-xs-12">
             <input type="text" id="last-name" name="companion_occupation" value="{{ count($errors) > 0? old('companion_occupation'):($nHomeOwnerMember->companion_occupation) }}" class="form-control col-md-7 col-xs-12">
          </div>
       </div>
       <div class="form-group">
-         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel No.<span class="required">*</span>
+         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Office Tel No.
          </label>
          <div class="col-md-9 col-sm-6 col-xs-12">
             <input type="text" id="last-name" name="companion_office_tel_no" value="{{ count($errors) > 0? old('companion_office_tel_no'):($nHomeOwnerMember->companion_office_tel_no) }}" class="form-control col-md-7 col-xs-12">
          </div>
       </div>
       <div class="form-group">
-         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Mobile No.<span class="required">*</span>
+         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Mobile No.
          </label>
          <div class="col-md-9 col-sm-6 col-xs-12">
             <input type="text" id="last-name" name="companion_mobile_no" value="{{ count($errors) > 0? old('companion_mobile_no'):($nHomeOwnerMember->companion_mobile_no) }}" class="form-control col-md-7 col-xs-12">
          </div>
       </div>
       <div class="form-group">
-         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email Address<span class="required">*</span>
+         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email Address
          </label>
          <div class="col-md-9 col-sm-6 col-xs-12">
             <input type="text" id="last-name" name="companion_email_address" value="{{ count($errors) > 0? old('companion_email_address'):($nHomeOwnerMember->companion_email_address) }}" class="form-control col-md-7 col-xs-12">
@@ -64,36 +64,30 @@
          <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
          <div class="col-md-6 col-sm-6 col-xs-12">
             <div id="gender" class="btn-group" data-toggle="buttons">
-               @if($nHomeOwnerMember->member_gender!=NULL )
-                  @if($nHomeOwnerMember->member_gender=='Male')
+               @if($nHomeOwnerMember->companion_gender!=NULL )
+                  @if($nHomeOwnerMember->companion_gender=='Male')
                      <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                     <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender" checked> &nbsp; Male &nbsp;
+                     <input type="radio" name="companion_gender" value="Male" data-parsley-multiple="gender" checked> &nbsp; Male &nbsp;
                      </label>
                      <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                     <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
+                     <input type="radio" name="companion_gender" value="Female" data-parsley-multiple="gender"> Female
                      </label>
                   @else
                      <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                     <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
+                     <input type="radio" name="companion_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
                      </label>
                      <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                     <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender" checked> Female
+                     <input type="radio" name="companion_gender" value="Female" data-parsley-multiple="gender" checked> Female
                      </label>
                   @endif
                @else
                   <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                  <input type="radio" name="member_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
+                  <input type="radio" name="companion_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
                   </label>
                   <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                  <input type="radio" name="member_gender" value="Female" data-parsley-multiple="gender"> Female
+                  <input type="radio" name="companion_gender" value="Female" data-parsley-multiple="gender"> Female
                   </label>
                @endif
-               <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-               <input type="radio" name="companion_gender" value="Male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
-               </label>
-               <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-               <input type="radio" name="companion_gender" value="Female" data-parsley-multiple="gender"> Female
-               </label>
             </div>
          </div>
       </div>
