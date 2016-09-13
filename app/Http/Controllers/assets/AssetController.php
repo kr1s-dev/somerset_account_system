@@ -182,6 +182,7 @@ class AssetController extends Controller
             $input['net_value'] =  $input['total_cost'];
             $input['down_payment'] = $input['down_payment']==''?0:$input['down_payment'];
             $description = 'Bought item: ' . ($input['item_name']);
+            $input['down_payment'] = $input['mode_of_acquisition'] == 'Both'?$input['down_payment']:0;
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
                 // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
                 // $input['net_value'] = $input['total_cost'];
