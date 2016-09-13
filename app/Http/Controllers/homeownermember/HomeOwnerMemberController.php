@@ -60,6 +60,7 @@ class HomeOwnerMemberController extends Controller
     {
         try{
             $input = $this->addAndremoveKey(Request::all(),true);
+                    
             $homeOwnerId = $this->insertRecord('home_owner_member_information',$input);
             $this->createSystemLogs('Added a New HomeOwnerMember');
             flash()->success('Record successfully created');
