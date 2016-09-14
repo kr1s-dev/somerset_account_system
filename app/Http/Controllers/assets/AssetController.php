@@ -79,7 +79,7 @@ class AssetController extends Controller
                 $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 if(is_null($tAccountTitle)){
                     $this->insertRecord('account_titles',
-                                    $this->createAccountTitle('3','Notes Payable',null));
+                                    $this->createAccountTitle('4','Notes Payable',null));
                     $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 }
                 $creditTitleId[] = $tAccountTitle;
@@ -189,7 +189,7 @@ class AssetController extends Controller
                 $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 if(is_null($tAccountTitle)){
                     $this->insertRecord('account_titles',
-                                    $this->createAccountTitle('3','Notes Payable',null));
+                                    $this->createAccountTitle('4','Notes Payable',null));
                     $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 }
                 $creditTitleId[] = $tAccountTitle;
