@@ -552,6 +552,7 @@
                   }
                     
                 }, error: function(data){
+                  window.location.href="/expense/"+_id;
                 }
               });
             }else{
