@@ -84,10 +84,10 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => $host,
-            'database' => $database,
-            'username' => $username,
-            'password' => $password,
+            'host'     => env('DB_HOST', $host),
+            'database' => env('DB_DATABASE', $database),
+            'username' => env('DB_USERNAME', $username),
+            'password' => env('DB_PASSWORD', $password),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',

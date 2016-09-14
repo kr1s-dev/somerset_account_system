@@ -195,7 +195,7 @@ class ExpenseController extends Controller
                                         })
                                         ->get();
             foreach ($userAdminList as $userAdmin) {
-                if(Hash::check($adminPassword, $userAdmin->password)){
+                if(Hash::check($adminPassword, $userAdmin->password) && $match===false){
                     $match = true;
                     break;
                 }

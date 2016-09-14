@@ -174,6 +174,8 @@ class AssetController extends Controller
     public function update(AssetRequest $request, $id)
     {
         try{
+            $input = $this->addAndremoveKey($request->all(),false);  
+            //print_r($input);
             $creditTitleId = array();
             $journalEntryList = array();
             $toDeleteJournalEntry = array();
@@ -181,15 +183,35 @@ class AssetController extends Controller
             $input = $this->addAndremoveKey($request->all(),false);  
             $input['net_value'] =  $input['total_cost'];
             $input['down_payment'] = $input['down_payment']==''?0:$input['down_payment'];
+            $input['down_payment'] = $input['mode_of_acquisition'] == 'Both'?$input['down_payment']:0;
             $description = 'Bought item: ' . ($input['item_name']);
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
-                // $input['total_cost'] += ($input['total_cost'] * ($input['interest']/100));
-                // $input['net_value'] = $input['total_cost'];
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
-                if($input['mode_of_acquisition'] == 'Both')
-                    $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
+                if(is_null($tAccountTitle)){
+                    $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('3','Notes Payable',null));
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
+                }
+                $creditTitleId[] = $tAccountTitle;
+
+                if($input['mode_of_acquisition'] == 'Both'){
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                    if(is_null($tAccountTitle)){
+                        $this->insertRecord('account_titles',
+                                        $this->createAccountTitle('1','Cash',null));
+                        $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                    }
+                    $creditTitleId[] = $tAccountTitle;
+                }
             }else{
-                $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                if(is_null($tAccountTitle)){
+                    $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('1','Cash',null));
+                    $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+                }
+                $creditTitleId[] = $tAccountTitle;
+                // $creditTitleId[] = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
             }
             $input['monthly_depreciation'] = ($input['net_value']-$input['salvage_value']) / $input['useful_life'];  
 
@@ -213,7 +235,7 @@ class AssetController extends Controller
             return redirect('assets/'.$id);    
         }catch(\Exception $ex){
             return view('errors.404'); 
-            //echo $ex->getMessage();
+            //echo $ex->getMessage() . ' ' . $ex->getLine();
         }
         
         

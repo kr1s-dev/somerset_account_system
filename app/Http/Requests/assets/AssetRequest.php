@@ -25,6 +25,7 @@ class AssetRequest extends Request
     public function rules()
     {
         $asset = AssetsModel::find($this->assets);
+        //print_r($asset);
         switch($this->method())
         {
             case 'GET': break;
@@ -44,14 +45,14 @@ class AssetRequest extends Request
             //for update
             case 'PATCH':{  
                 return ['account_title_id'=>'required',
-                        'item_name'=>'required|min:3|max:255,item_name,'.$asset->id,
+                        'item_name'=>'required|min:3|max:255|unique:asset_items,item_name,'.$asset->id,
                         'description'=>'max:255',
                         'quantity'=>'required|numeric|digits_between:1,10|min:1',
                         'total_cost'=>'required|numeric|digits_between:1,10|min:1',
                         'salvage_value'=>'required|numeric|digits_between:1,10|min:1',
-                        'useful_life'=>'required|numeric|digits_between:1,10|min:0',
+                        'useful_life'=>'required|numeric|digits_between:1,10|min:1',
                         'mode_of_acquisition'=>'required',
-                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10|min:1',];
+                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10',];
             }
             //default
             default: break;

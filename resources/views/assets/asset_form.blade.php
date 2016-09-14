@@ -89,17 +89,17 @@
                </label>
             @elseif($assetModel->mode_of_acquisition=='Payable')
                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-               <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
+                  <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
                </label>
                <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-               <input type="radio" name="mode_of_acquisition" value="Payable" data-parsley-multiple="gender" checked> Payable
+                  <input type="radio" name="mode_of_acquisition" value="Payable" data-parsley-multiple="gender" checked> Payable
                </label>
                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                <input type="radio" name="mode_of_acquisition" value="Both" data-parsley-multiple="gender"> Both
                </label>
             @elseif($assetModel->mode_of_acquisition=='Both')
                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-               <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
+                  <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
                </label>
                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                <input type="radio" name="mode_of_acquisition" value="Payable" data-parsley-multiple="gender"> Payable
@@ -110,7 +110,7 @@
             @endif
          @else
             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-            <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
+               <input type="radio" name="mode_of_acquisition" value="Cash" data-parsley-multiple="gender">Cash
             </label>
             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
             <input type="radio" name="mode_of_acquisition" value="Payable" data-parsley-multiple="gender"> Payable
@@ -127,7 +127,7 @@
       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Down Payment (PHP)
       </label>
       <div class="col-md-3 col-sm-6 col-xs-12">
-         <input type="number" min="0" id="first-name" name="down_payment" value="{{ count($errors) > 0? old('down_payment'):($assetModel->down_payment) }}" class="form-control col-md-7 col-xs-12" >
+         <input type="number" min="1" id="first-name" name="down_payment" value="{{ count($errors) > 0? old('down_payment'):($assetModel->down_payment) }}" class="form-control col-md-7 col-xs-12" >
       </div>
    </div>
 </div>
