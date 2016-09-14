@@ -226,13 +226,13 @@ class ExpenseController extends Controller
                                                                                     $totalAmount));
                 $this->createSystemLogs('Updated an Existing Cash Voucher');
                 flash()->success('Record successfully updated');
-                echo 'success';
+                return \Response::json(['status'=>'success']);
             }else{
                 flash()->error('Invalid Admin Password.');
-                echo 'error';
+                return \Response::json(['status'=>'error']);
             }
         }catch(\Exception $ex){
-            return view('errors.404'); 
+            return response()->json(['status'=>'error']);
         }
 
     }

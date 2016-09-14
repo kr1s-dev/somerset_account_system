@@ -545,17 +545,17 @@
                         'adminPassword':adminPassword},
                 success: function(response)
                 {
-                    alert(response);
-                    //alert(response);
-                    if(response == 'success'){
-                      location.href="/expense/"+_id;
-                    }else{
-                      location.href="/expense/"+_id+'/edit?';
-                    }
+
+                    //alert(response['status'] ==);
+                  if(response['status'] == 'success'){
+                    location.href="/expense/"+_id;
+                  }else{
+                    location.href="/expense/"+_id+'/edit?';
+                  }
                     
                 }, error: function(data){
-                  var errors = data.responseJSON;
-                  alert(errors);
+                  // var errors = data.responseJSON;
+                  // alert(errors);
                   //alert(xhr.status);
                   //alert(thrownError);
                 }
