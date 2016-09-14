@@ -497,6 +497,11 @@ trait UtilityHelper
             $accountReceivableTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Accounts Receivable'));
         }
         $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+        if(is_null($cashTitle)){
+            $this->insertRecord('account_titles',
+                                    $this->createAccountTitle('1','Cash',null));
+            $cashTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Cash'));
+        }
         
         if(is_null($accountReceivableTitle)){
             $this->insertRecord('account_titles',
