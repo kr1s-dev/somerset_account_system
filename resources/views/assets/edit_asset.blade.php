@@ -18,7 +18,7 @@
                		<div class="clearfix"></div>
             	</div>
             	<div class="x_content">
-               	{!! Form::model($assetModel, ['method'=>'PATCH','action' => ['assets\AssetController@update',$assetModel->id] , 'class' => 'form-horizontal form-label-left']) !!}
+               	{!! Form::model($assetModel, ['method'=>'PATCH','action' => ['assets\AssetController@update',$assetModel->id] , 'class' => 'form-horizontal form-label-left','novalidate']) !!}
                     @include('assets.asset_form',['submitButton'=>'Update Asset']);
                   {!! Form::close() !!}
             	</div>

@@ -40,7 +40,7 @@ class AssetRequest extends Request
                         'salvage_value'=>'required|numeric|digits_between:1,10|min:1',
                         'useful_life'=>'required|numeric|digits_between:1,10|min:0',
                         'mode_of_acquisition'=>'required',
-                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10|min:1',];
+                        'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10',];
             }
             //for update
             case 'PATCH':{  

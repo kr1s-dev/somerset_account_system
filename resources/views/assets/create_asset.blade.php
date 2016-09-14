@@ -18,7 +18,7 @@
                		<div class="clearfix"></div>
             	</div>
             	<div class="x_content">
-            		{!! Form::open(['url'=>'assets','method'=>'POST','class'=>'form-horizontal form-label-left']) !!}
+            		{!! Form::open(['url'=>'assets','method'=>'POST','class'=>'form-horizontal form-label-left','novalidate']) !!}
                     @include('assets.asset_form',['submitButton'=>'Submit']);
                	{!! Form::close() !!}
             	</div>
