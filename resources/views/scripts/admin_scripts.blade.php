@@ -536,7 +536,7 @@
                     'X-CSRF-TOKEN': _token
                 },
                 url: '/expense/'+_id,
-                type: 'PUT',
+                type: 'PATCH',
                 data: { 'data':data,
                         'vendorId':vendorId,
                         'paidTo': paidTo,
@@ -545,8 +545,6 @@
                         'adminPassword':adminPassword},
                 success: function(response)
                 {
-
-                    //alert(response['status'] ==);
                   if(response['status'] == 'success'){
                     location.href="/expense/"+_id;
                   }else{
@@ -554,10 +552,6 @@
                   }
                     
                 }, error: function(data){
-                  // var errors = data.responseJSON;
-                  // alert(errors);
-                  //alert(xhr.status);
-                  //alert(thrownError);
                 }
               });
             }else{

@@ -232,7 +232,7 @@ class ExpenseController extends Controller
                 return \Response::json(['status'=>'error']);
             }
         }catch(\Exception $ex){
-            return response()->json(['status'=>'error']);
+            return \Response::json(['status'=>'error']);
         }
 
     }
