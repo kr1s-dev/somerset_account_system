@@ -33,13 +33,13 @@ class AccountTitleRequest extends Request
             case 'POST':{
                 return ['account_sub_group_name' => 'required|unique:account_titles',
                             'account_group_id' => 'required',
-                            'opening_balance' => 'numeric|digits_between:1,10|min:1',
+                            'opening_balance' => 'numeric|digits_between:1,10|min:0',
                             'description'=>'max:255',];
             }
             //for update
             case 'PATCH':{  
                 return['account_sub_group_name' => 'required|unique:account_titles,account_sub_group_name,' . $accountTitle->id,
-                        'opening_balance' => 'numeric|digits_between:1,10|min:1',
+                        'opening_balance' => 'numeric|digits_between:1,10|min:0',
                         'description'=>'max:255',];
             }
             //default
