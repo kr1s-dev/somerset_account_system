@@ -546,7 +546,7 @@
                 success: function(response)
                 {
                     //alert(response);
-                    location.href="/expense/"+response;
+                    location.href="/expense/"+_id;
                 }, error: function(data){
                   var errors = data.responseJSON;
                   alert(errors);
