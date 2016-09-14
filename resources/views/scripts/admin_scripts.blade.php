@@ -545,7 +545,6 @@
                         'type':type,
                         'adminPassword':adminPassword},
                 success: function(response){
-                  alert('success');
                   if(response['status'] == 'success'){
                     window.location.href="/expense/"+_id;
                   }else{
@@ -553,10 +552,6 @@
                   }
                     
                 }, error: function(xhr, ajaxOptions, thrownError){ 
-                  alert('error');
-                  alert(xhr.status);
-                  alert(xhr.responseText);
-                  alert(thrownError);
                 }
               });
             }else{
