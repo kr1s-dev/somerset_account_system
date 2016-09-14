@@ -546,7 +546,12 @@
                 success: function(response)
                 {
                     //alert(response);
-                    location.href="/expense/"+_id;
+                    if(response == 'success'){
+                      location.href="/expense/"+_id;
+                    }else{
+                      location.href="/expense/"+_id+'/edit?';
+                    }
+                    
                 }, error: function(data){
                   var errors = data.responseJSON;
                   alert(errors);
