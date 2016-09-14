@@ -185,6 +185,7 @@ class AssetController extends Controller
             $input['down_payment'] = $input['down_payment']==''?0:$input['down_payment'];
             $input['down_payment'] = $input['mode_of_acquisition'] == 'Both'?$input['down_payment']:0;
             $description = 'Bought item: ' . ($input['item_name']);
+            $input['down_payment'] = $input['mode_of_acquisition'] == 'Both'?$input['down_payment']:0;
             if($input['mode_of_acquisition'] == 'Both' || $input['mode_of_acquisition'] == 'Payable'){
                 $tAccountTitle = $this->getObjectFirstRecord('account_titles',array('account_sub_group_name'=>'Notes Payable'));
                 if(is_null($tAccountTitle)){
