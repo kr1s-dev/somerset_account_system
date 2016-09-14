@@ -547,7 +547,7 @@
                 {
                     //alert(response);
                     location.href="/expense/"+response;
-                }, error: function($data){
+                }, error: function(data){
                   var errors = data.responseJSON;
                   alert(errors);
                   //alert(xhr.status);
