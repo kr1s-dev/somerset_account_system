@@ -229,11 +229,10 @@ class ExpenseController extends Controller
                 echo $id;
             }else{
                 flash()->error('Invalid Admin Password.');
-                echo $id . '/edit?';
             }
                         
         }catch(\Exception $ex){
-            echo $ex->getMessage() . ' ' . $ex->getLine();
+            return view('errors.404'); 
         }
 
     }
