@@ -34,14 +34,14 @@ class InvoiceExpenseItemsRequest extends Request
                 return ['account_title_name' => 'required',
                         'item_name' => 'required|unique:invoice_expense_items',
                         'default_value' => 'required_if:subject_to_vat,on|numeric|digits_between:1,11|min:1',
-                        'vat_percent' => 'required_if:subject_to_vat,on|numeric|digits_between:1,3|min:1|max:99',];
+                        'vat_percent' => 'required_if:subject_to_vat,on|numeric|digits_between:1,2|min:1|max:99',];
             }
             //for update
             case 'PATCH':{  
                 return ['account_title_name' => 'required',
                         'item_name'=>'required|unique:invoice_expense_items,item_name,'.$item->id,
                         'default_value' => 'required_if:subject_to_vat,on|numeric|digits_between:1,11|min:1',
-                        'vat_percent' => 'required_if:subject_to_vat,on|numeric|digits_between:1,3|min:1|max:99',];
+                        'vat_percent' => 'required_if:subject_to_vat,on|numeric|digits_between:1,2|min:1|max:99',];
             }
             //default
             default: break;
