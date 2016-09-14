@@ -548,8 +548,8 @@
                     //alert(response);
                     location.href="/expense/"+response;
                 }, error: function(xhr, ajaxOptions, thrownError){
-                  alert(xhr.status);
-                  alert(thrownError);
+                  //alert(xhr.status);
+                  //alert(thrownError);
                 }
               });
             }else{
