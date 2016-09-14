@@ -545,14 +545,18 @@
                         'adminPassword':adminPassword},
                 success: function(response)
                 {
+                  alert('success');
                   if(response['status'] == 'success'){
                     window.location.href="/expense/"+_id;
                   }else{
                     window.location.href="/expense/"+_id+'/edit';
                   }
                     
-                }, error: function(data){
+                }, error: function(xhr, ajaxOptions, thrownError){ 
                   alert('error');
+                  alert(xhr.status);
+                  alert(xhr.responseText);
+                  alert(thrownError);
                 }
               });
             }else{
