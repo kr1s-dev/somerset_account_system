@@ -49,7 +49,7 @@ class AssetRequest extends Request
                         'description'=>'max:255',
                         'quantity'=>'required|numeric|digits_between:1,10|min:1',
                         'total_cost'=>'required|numeric|digits_between:1,10|min:1',
-                        'salvage_value'=>'required|numeric|digits_between:1,10|min:1|max:'.($asset->total_cost-1)',
+                        'salvage_value'=>'required|numeric|digits_between:1,10|min:1|max:'.($asset->total_cost-1),
                         'useful_life'=>'required|numeric|digits_between:1,10|min:1',
                         'mode_of_acquisition'=>'required',
                         'down_payment' => 'required_if:mode_of_acquisition,Both|numeric|digits_between:1,10',];
