@@ -545,6 +545,7 @@
                         'adminPassword':adminPassword},
                 success: function(response)
                 {
+                    alert(response);
                     //alert(response);
                     if(response == 'success'){
                       location.href="/expense/"+_id;
