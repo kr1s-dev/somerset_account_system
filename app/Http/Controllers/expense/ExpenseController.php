@@ -200,7 +200,7 @@ class ExpenseController extends Controller
                     break;
                 }
             }
-            if($match){
+            if($match === true){
                 $description = ('Created Cash Voucher for ') . (($type==='Vendor')?$vendor->vendor_name:$paidTo);
                 $this->updateRecord('expense_cash_voucher',
                                         $id,

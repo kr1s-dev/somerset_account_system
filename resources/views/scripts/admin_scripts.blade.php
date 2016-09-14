@@ -547,9 +547,11 @@
                 {
                     //alert(response);
                     location.href="/expense/"+response;
-                }, error: function(xhr, ajaxOptions, thrownError){
-                  alert(xhr.status);
-                  alert(thrownError);
+                }, error: function($data){
+                  var errors = data.responseJSON;
+                  alert(errors);
+                  //alert(xhr.status);
+                  //alert(thrownError);
                 }
               });
             }else{
