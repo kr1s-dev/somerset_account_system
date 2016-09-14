@@ -491,6 +491,7 @@
       
 
       $("#updateExpBtn").click(function(e){
+        e.preventDefault();
         var data='';
         var tData = '';
         var totalAmount = 0;
@@ -537,14 +538,13 @@
                 },
                 url: '/expense/'+_id,
                 type: 'PUT',
-                data: { 'data':data,
+                data: {'data':data,
                         'vendorId':vendorId,
                         'paidTo': paidTo,
                         'totalAmount': totalAmount,
                         'type':type,
                         'adminPassword':adminPassword},
-                success: function(response)
-                {
+                success: function(response){
                   alert('success');
                   if(response['status'] == 'success'){
                     window.location.href="/expense/"+_id;

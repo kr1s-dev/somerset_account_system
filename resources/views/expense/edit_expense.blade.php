@@ -246,7 +246,7 @@
                                     <h4 class="modal-title">Confirmation</h4>
                                   </div>
                                   <div class="modal-body">
-                                    <form id="nPaymentTrans">
+                                    <form id="nPaymentTrans" onsubmit="return false;">
                                       <div class="form-group">
                                       </br>
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Password<span class="required">*</span>
@@ -254,7 +254,7 @@
                                         <div class="col-md-9 col-sm-6 col-xs-12">
                                           <input value="" type="password" id="adminPassword" class="form-control col-md-7 col-xs-12" style="margin-bottom:2% !important" required="required">
                                         </div>
-                                        <button class="btn btn-success pull-right" id="updateExpBtn"><i class="fa fa-credit-card"></i> Submit</button>
+                                        <button type="button" class="btn btn-success pull-right" id="updateExpBtn"><i class="fa fa-credit-card"></i> Submit</button>
                                       </div>
                                     </form>
                                   </div>
