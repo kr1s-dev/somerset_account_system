@@ -19,7 +19,7 @@
 	            	<div class="clearfix"></div>
 	          	</div>
 	          	<div class="x_content">
-	            	<table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+	            	<table id="datatable" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
 		              	<thead>
 		                	<tr>
 		                  		<th>Receipt #</th>

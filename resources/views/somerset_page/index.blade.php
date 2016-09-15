@@ -122,7 +122,7 @@
                     <div class="service-box">
                         <i class="fa fa-4x fa-smile-o text-primary sr-icons"></i>
                         <h3>Amenities</h3>
-                        <p class="text-muted">Somerset place has amenities such as playground, basketball court, tennis court available for reservation.</p>
+                        <p class="text-muted">Somerset place has amenities such as playground, basketball court and function hall available for reservation.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
