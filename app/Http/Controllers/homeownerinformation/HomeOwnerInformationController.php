@@ -5,6 +5,7 @@ namespace App\Http\Controllers\homeownerinformation;
 
 use Auth;
 use Request;
+use App\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
@@ -78,26 +79,35 @@ class HomeOwnerInformationController extends Controller
         try{
             $confirmation_code = array('confirmation_code'=>str_random(30));
             $input = $this->addAndremoveKey(Request::all(),true);
-            $homeOwnerId = $this->insertRecord('home_owner_information',$input);
+            $userList = $this->getObjectRecords('users',array('email'=>$input['member_email_address']));
+            if(count($userList)>0){
+                return redirect()->back()
+                        ->withErrors(['member_email_address'=>'Duplicate Email Found'])
+                        ->withInput();
+            }else{
+                $homeOwnerId = $this->insertRecord('home_owner_information',$input);
 
-            //Create User for HomeOwner
-            $inputwithHomeOwner = array('home_owner_id'=>$homeOwnerId,
-                                            'user_type_id'=>4,
-                                            'confirmation_code'=> $confirmation_code['confirmation_code'],
-                                            'email'=> $input['member_email_address'],);
-            $userId = $this->insertRecord('users',$inputwithHomeOwner);
 
-            //Send email verification
-            $this->sendEmailVerification($input['member_email_address'],
-                                            $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
-                                            $confirmation_code);
-            $this->createSystemLogs('Added a New HomeOwner');
-            flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
-            return redirect('homeowners/' . $homeOwnerId);    
+                //Create User for HomeOwner
+                $inputwithHomeOwner = array('home_owner_id'=>$homeOwnerId,
+                                                'user_type_id'=>4,
+                                                'confirmation_code'=> $confirmation_code['confirmation_code'],
+                                                'email'=> $input['member_email_address'],);
+                $userId = $this->insertRecord('users',$inputwithHomeOwner);
+
+                //Send email verification
+                $this->sendEmailVerification($input['member_email_address'],
+                                                $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
+                                                $confirmation_code);
+                $this->createSystemLogs('Added a New HomeOwner');
+                flash()->success('Homeowner has been successfully created. An email is sent to verify the account.');
+                return redirect('homeowners/' . $homeOwnerId);      
+            }
+
+            
         }catch(\Exception $ex){
-            echo $ex->getMessage();
-            //return view('errors.404'); 
             //echo $ex->getMessage();
+            return view('errors.404'); 
         }
         
     }
@@ -167,15 +177,32 @@ class HomeOwnerInformationController extends Controller
     public function update(HomeOwnerRequest $request, $id)
     {
         try{
+            $hasDuplicate = false;
             $data = $this->addAndremoveKey(Request::all(),false);
-            $homeOwnerId = $this->updateRecord('home_owner_information',array($id),$data);
-            $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
-            if(count($user)>0){
-                $this->updateRecord('users',array($user->id),array('email'=>$data['member_email_address']));
+            $userList = $this->getObjectRecords('users',array('email'=>$data['member_email_address']));
+            foreach ($userList as $user) {
+                if($hasDuplicate==false && $user->home_owner_id != $id){
+                    $hasDuplicate = true;
+                    break;
+                }
             }
-            $this->createSystemLogs('Updated an Existing HomeOwner');
-            flash()->success('Homeowner has been successfully updated');
-            return redirect('homeowners/' . $id);    
+            //var_dump($hasDuplicate);
+            if($hasDuplicate){
+                return redirect()->back()
+                        ->withErrors(['member_email_address'=>'Duplicate Email Found'])
+                        ->withInput();
+            }else{
+                //echo 'success';
+                $homeOwnerId = $this->updateRecord('home_owner_information',array($id),$data);
+                $user = $this->getObjectFirstRecord('users',array('home_owner_id'=>$id));
+                if(count($user)>0){
+                    $this->updateRecord('users',array($user->id),array('email'=>$data['member_email_address']));
+                }
+                $this->createSystemLogs('Updated an Existing HomeOwner');
+                flash()->success('Homeowner has been successfully updated');
+                return redirect('homeowners/' . $id);     
+            }
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();

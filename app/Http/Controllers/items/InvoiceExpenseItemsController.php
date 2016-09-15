@@ -69,10 +69,17 @@ class InvoiceExpenseItemsController extends Controller
         }
 
         try{
-            $itemId = $this->insertRecord('invoice_expense_items',$input);
-            $this->createSystemLogs('Added New Item in account title ' . $accountTitleName);
-            flash()->success('Record successfully created');
-            return redirect('accounttitle/'.$input['account_title_id']);
+            if($input['subject_to_vat']==1 && ($input['vat_percent']<=0 || $input['vat_percent']>99.99)){
+                return redirect()->back()
+                        ->withErrors(['vat_percent'=>'Vat Percent must be greater than zero and less than 99.99'])
+                        ->withInput();
+            }else{
+                $itemId = $this->insertRecord('invoice_expense_items',$input);
+                $this->createSystemLogs('Added New Item in account title ' . $accountTitleName);
+                flash()->success('Record successfully created');
+                return redirect('accounttitle/'.$input['account_title_id']);
+            }
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
@@ -143,13 +150,19 @@ class InvoiceExpenseItemsController extends Controller
         if(array_key_exists('account_title_name', $input)){
             unset($input['account_title_name']);
         }
-
         try{
-            $item = $this->getItem($id);
-            $item->update($input);
-            $this->createSystemLogs('Updated an existing Account Item');
-            flash()->success('Record successfully updated');
-            return redirect('accounttitle/'.$input['account_title_id']);
+            if($input['subject_to_vat']==1 && ($input['vat_percent']<=0 || $input['vat_percent']>99.99)){
+                return redirect()->back()
+                        ->withErrors(['vat_percent'=>'Vat Percent must be greater than zero and less than 99.99'])
+                        ->withInput();
+            }else{
+                $item = $this->getItem($id);
+                $item->update($input);
+                $this->createSystemLogs('Updated an existing Account Item');
+                flash()->success('Record successfully updated');
+                return redirect('accounttitle/'.$input['account_title_id']);
+            }
+            
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();

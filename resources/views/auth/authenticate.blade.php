@@ -71,9 +71,11 @@
 	              <div>
 	                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmation Password" required="" />
 	              </div-->
-	              <div>
-	                <input type="submit" class="btn btn-primary submit register" value="Register">
-	              </div>
+	              @if($user==NULL)
+		              <div>
+		                <input type="submit" class="btn btn-primary submit register" value="Register">
+		              </div>
+	              @endif
 
 	              <div class="clearfix"></div>
 

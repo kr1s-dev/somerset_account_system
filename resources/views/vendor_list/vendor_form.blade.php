@@ -24,7 +24,7 @@
     </div>
   </div>
 <div class="form-group">
-    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Telephone Number <span class="required">*</span>
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Telephone Number
      </label>
     <div class="col-md-9 col-sm-6 col-xs-12">
         <input type="number" id="first-name" name="vendor_telephone_no" class="form-control col-md-7 col-xs-12" value="{{ count($errors) > 0? old('vendor_telephone_no'):($vendor->vendor_telephone_no) }}">

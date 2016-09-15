@@ -310,6 +310,7 @@ class ReportController extends Controller
         $totalFinancingCash = 0;
         $lastYearsBalanceSht = array();
         $thisYearsBalanceSht = array();
+        $investmentActivities = array();
         $accountTitleList = array();
         $incStatementItemsList = $this->getJournalEntryRecordsWithFilter('5',null,$yearFilter);
         $expStatementItemsList = $this->getJournalEntryRecordsWithFilter('6',null,$yearFilter);
@@ -362,15 +363,21 @@ class ReportController extends Controller
                 }
             }
         } 
+        $count = 0;
         //For Acquiring Asset via Cash
         foreach ($tThisYearsBalanceSht as $key) {
             if($key->asset_id != NULL){
                 if($key->credit_title_id != NULL && $key->credit->account_sub_group_name == 'Cash'){
+                    $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-1]->debit->account_sub_group_name;
+                    if(!array_key_exists($tKey, $investmentActivities))
+                        $investmentActivities[$tKey] = 0;
+                    $investmentActivities[$tKey] +=$key->credit_amount;
                     $totalInvestmentCash += $key->credit_amount;
                 }
             }
+            $count+=1;
         }
-
+        //print_r($investmentActivities);
         //echo '<strong>Cash flows from financing activities</strong>' . '<br/>';
         foreach ($accountTitleList as $key => $value) {
             if(strpos('x' . $key, 'Non-Current Liabilities')){
@@ -398,6 +405,7 @@ class ReportController extends Controller
                                 'totalInvestmentCash',
                                 'totalFinancingCash',
                                 'tThisYearsBalanceSht',
+                                'investmentActivities',
                                 'yearFilter'));
 
     }

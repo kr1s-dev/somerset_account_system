@@ -39,9 +39,9 @@
 		              					Total Profit
 		              				</td>
 		              				@if($totalProfit>0)
-		              					<td colspan="2" align="right">PHP {{$totalProfit}}</td>
+		              					<td colspan="2" align="right">PHP {{number_format($totalProfit,2,'.',',')}}</td>
 		              				@else
-		              					<td colspan="2" align="left">PHP {{$totalProfit}}</td>
+		              					<td colspan="2" align="left">PHP {{number_format($totalProfit,2,'.',',')}}</td>
 		              				@endif
 		              			</tr>
 		              			<tr>
@@ -54,7 +54,7 @@
 			              				<td>
 			              					Depreciation and Amortization
 			              				</td>
-			              				<td colspan="2" align="right">{{$depreciationValue}}</td>
+			              				<td colspan="2" align="right">{{number_format($depreciationValue,2,'.',',')}}</td>
 			              			</tr>
 		              			@endif
 		              			@foreach($accountTitleList as $key => $value)
@@ -65,24 +65,24 @@
 		              								@if($key == 'Current Assets')
 		              									<tr>
 		              										<td>Decrease on {{$val->account_sub_group_name}}</td>
-		              										<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+		              										<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 		              									</tr>
 		              								@else
 		              									<tr>
 		              										<td>Increase on {{$val->account_sub_group_name}}</td>
-		              										<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+		              										<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 		              									</tr>
 		              								@endif
 		              							@elseif($val->opening_balance > 0 )
 		              								@if(strrpos($key, 'Asset'))
 		              									<tr>
 		              										<td>Increase on {{$val->account_sub_group_name}}</td>
-		              										<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+		              										<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 		              									</tr>
 		              								@else
 		              									<tr>
 		              										<td>Decrease on {{$val->account_sub_group_name}}</td>
-		              										<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+		              										<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 		              									</tr>
 		              								@endif
 		              							@endif
@@ -92,7 +92,7 @@
 		              			@endforeach
 			              		<tr>
 			              			<td colspan="2"> <strong>Cash generated from operations</strong></td>
-			              			<td><u>PHP {{($totalProfit+$totalOperationCash+$depreciationValue)}}</u></td>
+			              			<td><u>PHP {{(number_format($totalProfit+$totalOperationCash+$depreciationValue,2,'.',','))}}</u></td>
 			              		</tr>
 			              	</tbody>
 			              	<thead>
@@ -101,19 +101,15 @@
 				                </tr>
 			              	</thead>
 			              	<tbody>
-			              		@foreach($tThisYearsBalanceSht as $key)
-			              			@if($key->asset_id != NULL)
-			              				<tr>
-			              					@if($key->credit_title_id != NULL && $key->credit->account_sub_group_name == 'Cash')
-			              						<td>Purchase of {{$key->asset->accountTitle->account_sub_group_name}}</td>
-			              						<td colspan="2" align="left">PHP {{$key->credit_amount}}</td>
-			              					@endif
-			              				</tr>
-			              			@endif
+			              		@foreach($investmentActivities as $key => $value)
+			              			<tr>
+				              			<td>{{$key}}</td>
+				              			<td colspan="2" align="left">PHP {{number_format($value,2,'.',',')}}</td>
+			              			</tr>
 			              		@endforeach
 			              		<tr>
 			              			<td colspan="2"> <strong>Net cash used in investing activities</strong></td>
-			              			<td><u>PHP {{($totalInvestmentCash)}}</u></td>
+			              			<td><u>PHP {{(number_format($totalInvestmentCash,2,'.',','))}}</u></td>
 			              		</tr>
 			              	</tbody>
 			              	<thead>
@@ -129,12 +125,12 @@
 			              						@if($val->opening_balance < 0 )
 				              						<tr>
 				              							<td>Paid: {{$val->account_sub_group_name}}</td>
-				              							<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+				              							<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 				              						</tr>
 				              					@elseif($val->opening_balance > 0 )
 				              						<tr>
 				              							<td>Borrowed from: {{str_replace('Loans', '', $val->account_sub_group_name)}}</td>
-				              							<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+				              							<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 				              						</tr>
 				              					@endif
 			              					@endif
@@ -149,12 +145,12 @@
 			              					@if($val->opening_balance < 0 )
 			              						<tr>
 			              							<td>Decrease: {{$val->account_sub_group_name}}</td>
-			              							<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+			              							<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 			              						</tr>
 			              					@elseif($val->opening_balance > 0 )
 			              						<tr>
 			              							<td>Increase in: {{$val->account_sub_group_name}}</td>
-			              							<td colspan="2" align="left">PHP {{$val->opening_balance}}</td>
+			              							<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 			              						</tr>
 			              					@endif
 			              				@endforeach
@@ -168,7 +164,7 @@
 			              	<thead>
 				                <tr>
 				                  	<td colspan="2"><h3>Total Cash In Hand</h3></td>
-				                  	<td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash+$depreciationValue,2)}}</td>
+				                  	<td align="right">PHP {{number_format(($totalProfit+$totalOperationCash)-$totalInvestmentCash+$totalFinancingCash+$depreciationValue,2,'.',',')}}</td>
 				                </tr>
 			              	</thead>
 			            </table>

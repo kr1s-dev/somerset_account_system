@@ -187,14 +187,15 @@
               '<td><button class="btn btn-default edit-item" id="editTrans" data-toggle="modal" data-target="#myModalEdit"><i class="fa fa-pencil"></i></button> <button class="btn btn-default delete-item"><i class="fa fa-times"></i></button></td>' +
               '</tr>');
             }
-          }else{
-            tdTableData = tdTableData.find('td');
-            if(type!='Expense'){
-              tdTableData[2].textContent = (parseFloat(tdTableData[2].textContent.trim()) + parseFloat(nPaymentCost));
-            }else{
-              tdTableData[3].textContent = (parseFloat(tdTableData[3].textContent.trim()) + parseFloat(nPaymentCost));
-            }
           }
+          // else{
+          //   tdTableData = tdTableData.find('td');
+          //   if(type!='Expense'){
+          //     tdTableData[2].textContent = (parseFloat(tdTableData[2].textContent.trim()) + parseFloat(nPaymentCost));
+          //   }else{
+          //     tdTableData[3].textContent = (parseFloat(tdTableData[3].textContent.trim()) + parseFloat(nPaymentCost));
+          //   }
+          // }
           calculateAmount();
           return true;
         }else{
@@ -312,7 +313,8 @@
           if($('#eQuantity').val() && $('#eQuantity').val() > 0){
             arrayTd[0].textContent = $('#eQuantity').val();
           }else{
-            alert('Invalid Data');
+            alert('Invalid Data: Quantity must be greater than zero');
+            return false;
           }
         }
         
@@ -326,16 +328,15 @@
           
         }
 
-        if($('#ePaymentCost').val()){
+        if($('#ePaymentCost').val() && $('#ePaymentCost').val() > 0){
           if(type!='Expense'){
-            if($('#ePaymentCost').val() > 0)
               arrayTd[3].textContent = parseFloat(arrayTd[0].textContent * $('#ePaymentCost').val()).toFixed(2);
-            else
-              alert('Invalid Data');
           }else{
             arrayTd[2].textContent = parseFloat($('#ePaymentCost').val()).toFixed(2);
           }
-          
+        }else{
+          alert('Invalid Data: Payment Cost must be greater than zero');
+          return false;
         }
         calculateAmount();
       });
@@ -1355,4 +1356,3 @@
       var plot = $.plot($("#placeholder35x"), dataset , options);
   });
 </script>
-
