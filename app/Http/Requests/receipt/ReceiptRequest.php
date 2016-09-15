@@ -23,7 +23,7 @@ class ReceiptRequest extends Request
      */
     public function rules()
     {
-        return ['receipt_no' => 'required|numeric|digits_between:7,25|unique:home_owner_payment_transaction|min:1',
+        return ['receipt_no' => 'required|numeric|digits_between:7,15|unique:home_owner_payment_transaction|min:1',
                 'amount_paid' => 'required|numeric|digits_between:1,10|min:1',];
     }
 }
