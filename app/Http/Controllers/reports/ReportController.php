@@ -212,7 +212,7 @@ class ReportController extends Controller
 
         $aTitleItemsList = $this->getJournalEntryRecordsWithFilter(null,$monthFilter,$yearFilter);
         //print_r($aTitleItemsList);
-        $eBalanceSheetItemsList = $this->getItemsAmountList($aTitleItemsList,null);
+        $eBalanceSheetItemsList = $this->getCustomItemsAmountList($aTitleItemsList,null);
 
 
         foreach ($accountTitleGroupList as $accountTitleGroup) {
@@ -410,5 +410,41 @@ class ReportController extends Controller
 
     }
 
+
+    public function getCustomItemsAmountList($arrayToProcessList,$typeOfData){
+        $data = array();
+        if($typeOfData == 'Equity'){
+            $accountGroup =  AccountGroupModel::where('account_group_name', 'like', '%'.$typeOfData.'%')
+                                                ->get();
+            foreach ($accountGroup as $accountGrp) {
+                foreach ($accountGrp->accountTitles as $accountTitle) {
+                    $data[$accountTitle->account_sub_group_name] = 0;
+                }
+            }
+        }else if(is_null($typeOfData)){
+            $accountGroup =  $this->getAccountGroups(null);
+            foreach ($accountGroup as $accountGrp) {
+                foreach ($accountGrp->accountTitles as $accountTitle) {
+                    $data[$accountTitle->account_sub_group_name] = $accountTitle->opening_balance;
+                }
+            }
+        }
+
+        if(!empty($arrayToProcessList)){
+            foreach ($arrayToProcessList as $arrayToProcess) {
+                $typeOfData = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->group->account_group_name : $arrayToProcess->credit->group->account_group_name;
+                $amount = ($arrayToProcess->debit_amount - $arrayToProcess->credit_amount);
+                $accountTitle = $arrayToProcess->credit_title_id == NULL ? $arrayToProcess->debit->account_sub_group_name : $arrayToProcess->credit->account_sub_group_name;
+
+                if(array_key_exists($accountTitle,$data)){
+                    $data[$accountTitle] += (strpos($typeOfData, 'Revenues') !== false || strpos($typeOfData, 'Equity') | strpos($typeOfData, 'Liabilities') ? 
+                                                ($amount * -1)  : $amount);
+                }else{
+                    $data[$accountTitle] = $typeOfData == 'Revenues' ? ($amount * -1)  : $amount;
+                }
+            }
+        }
+        return $data;
+    }
     
 }
