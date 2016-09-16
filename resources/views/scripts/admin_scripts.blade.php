@@ -176,7 +176,7 @@
               '<td>'+ nQuantity+'</td>' +
               '<td>'+ paymentType.trim()+'</td>' +
               '<td>'+ paymentDesc.trim() +'</td>' +
-              '<td>'+ (nQuantity * parseFloat(nPaymentCost.trim())) +'</td>' +
+              '<td>'+ parseFloat(nPaymentCost.trim()) +'</td>' +
               '<td><button class="btn btn-default edit-item" id="editTrans" data-toggle="modal" data-target="#myModalEdit"><i class="fa fa-pencil"></i></button> <button class="btn btn-default delete-item"><i class="fa fa-times"></i></button></td>' +
               '</tr>');
             }else{
@@ -244,7 +244,7 @@
                 $(this).find('td').each(function (colIndex, c) {
                   ////console.log('Enter 2nd loop' + c.textContent);
                   if(c.textContent!=' ')
-                    data+=(c.textContent+',');
+                    data+=(c.textContent+'|');
                   });
                   //data+= (tData.substring(0,tData.length - 1) + '|');
               });
@@ -330,7 +330,7 @@
 
         if($('#ePaymentCost').val() && $('#ePaymentCost').val() > 0){
           if(type!='Expense'){
-              arrayTd[3].textContent = parseFloat(arrayTd[0].textContent * $('#ePaymentCost').val()).toFixed(2);
+              arrayTd[3].textContent = parseFloat($('#ePaymentCost').val()).toFixed(2);
           }else{
             arrayTd[2].textContent = parseFloat($('#ePaymentCost').val()).toFixed(2);
           }
@@ -344,11 +344,18 @@
       
       function calculateAmount(){
         var total = 0;
+        var quant = [];
+        var count = 0;
         //Get all amount in the table
         var type = $('meta[name="type"]').attr('content');
         if(type!='Expense'){
+          $("#itemsTable tbody td:nth-child(1)").each(function() {
+            quant.push(parseFloat($(this).text()));
+          });
+
           $("#itemsTable tbody td:nth-child(4)").each(function() {
-            total += parseFloat($(this).text());
+            total += (quant[count] * parseFloat($(this).text()));
+            count+=1;
           });
         }else{
           $("#itemsTable tbody td:nth-child(3)").each(function() {
@@ -382,7 +389,7 @@
             table.find('tr').each(function(rowIndex, r){
               $(this).find('td').each(function (colIndex, c) {
                 if(c.textContent!=' ')
-                  data+=(c.textContent+',');
+                  data+=(c.textContent+'|');
                 });
                 //data+= (tData.substring(0,tData.length - 1) + '|');
             });
@@ -447,7 +454,7 @@
           $(this).find('td').each(function (colIndex, c) {
             count++;
             if(count<5){
-              data+=((c.textContent).trim()+',');
+              data+=((c.textContent).trim()+'|');
             }
             });
           //data+= (tData.substring(0,tData.length - 1) + '|');
@@ -519,7 +526,7 @@
               $(this).find('td').each(function (colIndex, c) {
                 count++;
                 if(count<4){
-                  tData+=(c.textContent+',');
+                  tData+=(c.textContent+'|');
                 }
                 });
               data+= (tData.substring(0,tData.length - 1) + '|');

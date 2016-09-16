@@ -24,7 +24,7 @@
                 <!-- title row -->
                 <div class="row">
                    <div class="col-xs-12 invoice-header">
-                      <h4>Invoice #: {{ sprintf("%'.07d\n",$invoiceNumber) }} <span class="pull-right">Date: {{ date('m/d/y') }}</span></h4>
+                      <h4><span class="pull-right">Date: {{ date('m/d/y') }}</span></h4>
                    </div>
                    <!-- /.col -->
                 </div>
