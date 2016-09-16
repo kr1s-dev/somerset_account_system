@@ -115,8 +115,9 @@ class InvoiceController extends Controller
             //Insert items in the table
             $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
             //Create journal entry
-            
-            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+            $jourEntrToInsert = $this->invoicePopulateListOfToInsertItems($data,'Revenues','invoice_id'
+                                                                            ,$nInvoiceId,'home_owner_invoice');
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($jourEntrToInsert,
                                                                                 'Invoice',
                                                                                 'invoice_id',
                                                                                 $nInvoiceId,
@@ -242,11 +243,12 @@ class InvoiceController extends Controller
             $dataToInsert = $this->populateListOfToInsertItems($data,'Revenues','invoice_id',$id,'home_owner_invoice');
             $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
             
-            //Create journal entry
-            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($dataToInsert,
+            $jourEntrToInsert = $this->invoicePopulateListOfToInsertItems($data,'Revenues','invoice_id'
+                                                                            ,$nInvoiceId,'home_owner_invoice');
+            $this->insertBulkRecord('journal_entry',$this->createJournalEntry($jourEntrToInsert,
                                                                                 'Invoice',
                                                                                 'invoice_id',
-                                                                                $id,
+                                                                                $nInvoiceId,
                                                                                 'Created invoice for homeowner ' .
                                                                                 $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
                                                                                 $totalAmount));
@@ -307,5 +309,51 @@ class InvoiceController extends Controller
             return view('errors.404'); 
             //echo $ex->getMessage();
         }
+    }
+
+
+    public function invoicePopulateListOfToInsertItems($data,$groupName,$foreignKeyId,$foreignValue,$tableName){
+        $count = 0;
+        $toInsertItems = array();
+        $eIncomeAccountTitlesList = array();
+        $eRecord = $this->getObjectFirstRecord($tableName,array('id'=> $foreignValue));
+        $incomeAccountTitleGroupId = AccountGroupModel::where('account_group_name','=',$groupName)->first();
+
+        // $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
+        // $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
+        $tArrayStringList = explode("|",$data);
+        $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
+        foreach ($incomeAccountTitleGroupId->accountTitles as $accountTitle) {
+            foreach ($accountTitle->items as $item) {
+                $eIncomeAccountTitlesList[$item->item_name] = $item->id;
+            }
+        }
+
+        foreach ($tArrayStringList as $tString) {
+            ++$count;
+            if($groupName == 'Revenues'){
+                if($count==1){
+                    $quantity = $tString;
+                }else if($count==2){
+                    $title = $tString;
+                }else if($count==3){
+                    $desc = $tString;
+                }else if($count==4){
+                    $amount = $quantity*$tString;
+                    $count = 0;
+                    $toInsertItems[] = array('item_id' => $eIncomeAccountTitlesList[trim($title)],
+                                                'quantity' => $quantity,
+                                                'remarks' => $desc,
+                                                'amount' => $amount,
+                                                $foreignKeyId => $foreignValue,
+                                                'created_at' => $eRecord!=NULL?$eRecord->created_at:date('Y-m-d'),
+                                                'updated_at'=>  date('Y-m-d'),
+                                                'created_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id,
+                                                'updated_by' => Auth::check()?$this->getLogInUserId():$userAdmin->id);
+                } 
+            }
+            
+        }
+        return $toInsertItems;
     }
 }

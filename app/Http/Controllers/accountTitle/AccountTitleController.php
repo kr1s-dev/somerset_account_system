@@ -5,6 +5,7 @@ namespace App\Http\Controllers\accountTitle;
 
 use Request;
 use App\Http\Requests;
+use App\AccountTitleModel;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UtilityHelper;
 use App\Http\Requests\accountTitle\AccountTitleRequest;
@@ -115,41 +116,45 @@ class AccountTitleController extends Controller
     public function store(AccountTitleRequest $request)
     {
         $input = $this->addAndremoveKey(Request::all(),true);
-        // if(array_key_exists('subject_to_vat', $input))
-        //     $input['subject_to_vat'] = ($input['subject_to_vat']==='on'?1:0);
-        // else
-        //     $input['subject_to_vat'] = 0;
 
-        // if(!($input['subject_to_vat']))
-        //     $input['vat_percent'] = 0;
-        if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
-            $input['opening_balance'] = 0;
+        $capitalAccountTitle = AccountTitleModel::where('account_sub_group_name','LIKE','%Capital%')
+                                                    ->first();
+        if(strrpos('x'.$input['account_sub_group_name'], 'Capital') && $capitalAccountTitle!=NULL){
+            return redirect()->back()
+                    ->withErrors(['account_sub_group_name'=>'Duplicate Capital Account Title']);
+        }else{
+            echo 'success';
+            // if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
+            //     $input['opening_balance'] = 0;
+            // }
+
+            // if(!array_key_exists('description', $input) || empty($input['description'])){
+            //     $input['description'] = 'No Description';
+            // }
+            
+            // if(array_key_exists('account_title_name', $input)){
+            //     unset($input['account_title_name']);
+            // }
+
+            // if(array_key_exists('account_group_name', $input)){
+            //     unset($input['account_group_name']);
+            // }
+            
+            // // if(empty($input['description']))
+            // //     $input['description'] = 'No Description';
+            // try{
+            //     $accounttileId = $this->insertRecord('account_titles',$input);
+            //     $this->createSystemLogs('Added New Account Title ');
+            //     flash()->success('Record successfully created');
+            //     return redirect('accounttitle/'.$accounttileId);
+            // }catch(\Exception $ex){
+            //     //echo $ex->getMessage();
+            //     return view('errors.404'); 
+            //     //echo $ex->getMessage();
+            // }
         }
 
-        if(!array_key_exists('description', $input) || empty($input['description'])){
-            $input['description'] = 'No Description';
-        }
         
-        if(array_key_exists('account_title_name', $input)){
-            unset($input['account_title_name']);
-        }
-
-        if(array_key_exists('account_group_name', $input)){
-            unset($input['account_group_name']);
-        }
-        
-        // if(empty($input['description']))
-        //     $input['description'] = 'No Description';
-        try{
-            $accounttileId = $this->insertRecord('account_titles',$input);
-            $this->createSystemLogs('Added New Account Title ');
-            flash()->success('Record successfully created');
-            return redirect('accounttitle/'.$accounttileId);
-        }catch(\Exception $ex){
-            //echo $ex->getMessage();
-            return view('errors.404'); 
-            //echo $ex->getMessage();
-        }
         
     }
 
