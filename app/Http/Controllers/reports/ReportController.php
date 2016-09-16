@@ -128,7 +128,7 @@ class ReportController extends Controller
         try{
             return $this->generateStatementOfCashFlow(date('Y'));
         }catch(\Exception $ex){
-            echo $ex->getMessage();
+            echo $ex->getMessage() . $ex->getLine();
             //return view('errors.404'); 
             //echo $ex->getMessage();
         }
@@ -377,8 +377,7 @@ class ReportController extends Controller
             }
             $count+=1;
         }
-        //print_r($investmentActivities);
-        //echo '<strong>Cash flows from financing activities</strong>' . '<br/>';
+
         foreach ($accountTitleList as $key => $value) {
             if(strpos('x' . $key, 'Non-Current Liabilities')){
                 foreach ($value as $val) {
