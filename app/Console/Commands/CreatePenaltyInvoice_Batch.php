@@ -80,7 +80,8 @@ class CreatePenaltyInvoice_Batch extends Command
                             $invoiceNumber+=1;
                         }else{
                             //\Log::Info('Has an Existing Penalty');
-                            $addedAmount = $inv->penaltyInfo->total_amount/$penaltyItem->default_value <=6 ? 
+                            $max = $penaltyItem->default_value*6;
+                            $addedAmount = $inv->penaltyInfo->total_amount<$max ? 
                                                                 $penaltyItem->default_value : number_format($inv->total_amount * .2,2);
                             $inv->penaltyInfo->total_amount += $addedAmount;
                             $inv->penaltyInfo->payment_due_date = date('Y-m-d',strtotime($inv->penaltyInfo->payment_due_date . ' +1 month'));
@@ -88,7 +89,7 @@ class CreatePenaltyInvoice_Batch extends Command
                                 $invItems->amount += $addedAmount;
                                 $invItems->save();
                             }
-
+                            $data = $penaltyItem->item_name.',For the month of '. date('F') .','.$addedAmount;
                             $tJournalEntry[] = $this->createJournalEntry($this->populateListOfToInsertItems($data,'Revenues','invoice_id',$invoiceNumber,'home_owner_invoice'),
                                                                         'Invoice',
                                                                         'invoice_id',

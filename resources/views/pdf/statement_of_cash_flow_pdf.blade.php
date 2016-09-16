@@ -54,7 +54,7 @@
             <td>
               Depreciation and Amortization
             </td>
-            <td colspan="2" align="right">{{number_format($depreciationValue,2,'.',',')}}</td>
+            <td colspan="2" align="right">PHP {{number_format($depreciationValue,2,'.',',')}}</td>
           </tr>
         @endif
         @foreach($accountTitleList as $key => $value)
