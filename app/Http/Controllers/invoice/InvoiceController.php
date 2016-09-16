@@ -244,11 +244,12 @@ class InvoiceController extends Controller
             $this->insertBulkRecord('home_owner_invoice_items',$dataToInsert);
             
             $jourEntrToInsert = $this->invoicePopulateListOfToInsertItems($data,'Revenues','invoice_id'
-                                                                            ,$nInvoiceId,'home_owner_invoice');
+                                                                            ,$id,'home_owner_invoice');
+            //Create journal entry
             $this->insertBulkRecord('journal_entry',$this->createJournalEntry($jourEntrToInsert,
                                                                                 'Invoice',
                                                                                 'invoice_id',
-                                                                                $nInvoiceId,
+                                                                                $id,
                                                                                 'Created invoice for homeowner ' .
                                                                                 $homeowner->first_name . ' ' . $homeowner->middle_name . ' ' . $homeowner->last_name,
                                                                                 $totalAmount));
