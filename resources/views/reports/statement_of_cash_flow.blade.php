@@ -121,7 +121,7 @@
 			              		@foreach($accountTitleList as $key => $value)
 			              			@if(strpos('x' . $key, 'Non-Current Liabilities'))
 			              				@foreach($value as $val)
-			              					@if(strrpos('x'.$val->account_sub_group_name,'Loans'))
+			              					@if(strrpos('x'.$val->account_sub_group_name,'Loan'))
 			              						@if($val->opening_balance < 0 )
 				              						<tr>
 				              							<td>Paid: {{$val->account_sub_group_name}}</td>
@@ -129,7 +129,7 @@
 				              						</tr>
 				              					@elseif($val->opening_balance > 0 )
 				              						<tr>
-				              							<td>Borrowed from: {{str_replace('Loans', '', $val->account_sub_group_name)}}</td>
+				              							<td>Borrowed from: {{str_replace('Loan', '', $val->account_sub_group_name)}}</td>
 				              							<td colspan="2" align="left">PHP {{number_format($val->opening_balance,2,'.',',')}}</td>
 				              						</tr>
 				              					@endif
@@ -158,7 +158,7 @@
 			              		@endforeach
 			              		<tr>
 			              			<td colspan="2"> <strong>Net cash used in financing activities</strong></td>
-			              			<td><u>PHP {{($totalFinancingCash)}}</u></td>
+			              			<td><u>PHP {{(number_format($totalFinancingCash,2,'.',','))}}</u></td>
 			              		</tr>
 			              	</tbody>
 			              	<thead>
