@@ -368,7 +368,12 @@ class ReportController extends Controller
         foreach ($tThisYearsBalanceSht as $key) {
             if($key->asset_id != NULL){
                 if($key->credit_title_id != NULL && $key->credit->account_sub_group_name == 'Cash'){
-                    $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-1]->debit->account_sub_group_name;
+                    if($tThisYearsBalanceSht[$count-1]->debit_title_id!=NULL){
+                        $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-1]->debit->account_sub_group_name;
+                    }else{
+                        $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-2]->debit->account_sub_group_name;
+                    }
+                    
                     if(!array_key_exists($tKey, $investmentActivities))
                         $investmentActivities[$tKey] = 0;
                     $investmentActivities[$tKey] +=$key->credit_amount;
