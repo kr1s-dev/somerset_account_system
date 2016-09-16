@@ -60,7 +60,7 @@
 		              			@foreach($accountTitleList as $key => $value)
 		              				@if($key == 'Current Assets')
 		              					@foreach($value as $val)
-		              						@if($val->account_sub_group_name != 'Cash')
+		              						@if(strrpos('x'. $val->account_sub_group_name, 'Cash')===false)
 		              							@if($val->opening_balance < 0 )
 		              								@if($key == 'Current Assets')
 		              									<tr>

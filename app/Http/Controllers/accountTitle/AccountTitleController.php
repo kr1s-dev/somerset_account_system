@@ -123,35 +123,34 @@ class AccountTitleController extends Controller
             return redirect()->back()
                     ->withErrors(['account_sub_group_name'=>'Duplicate Capital Account Title']);
         }else{
-            echo 'success';
-            // if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
-            //     $input['opening_balance'] = 0;
-            // }
+            if(!array_key_exists('opening_balance', $input) || $input['opening_balance']<0 || $input['opening_balance']==''){
+                $input['opening_balance'] = 0;
+            }
 
-            // if(!array_key_exists('description', $input) || empty($input['description'])){
+            if(!array_key_exists('description', $input) || empty($input['description'])){
+                $input['description'] = 'No Description';
+            }
+            
+            if(array_key_exists('account_title_name', $input)){
+                unset($input['account_title_name']);
+            }
+
+            if(array_key_exists('account_group_name', $input)){
+                unset($input['account_group_name']);
+            }
+            
+            // if(empty($input['description']))
             //     $input['description'] = 'No Description';
-            // }
-            
-            // if(array_key_exists('account_title_name', $input)){
-            //     unset($input['account_title_name']);
-            // }
-
-            // if(array_key_exists('account_group_name', $input)){
-            //     unset($input['account_group_name']);
-            // }
-            
-            // // if(empty($input['description']))
-            // //     $input['description'] = 'No Description';
-            // try{
-            //     $accounttileId = $this->insertRecord('account_titles',$input);
-            //     $this->createSystemLogs('Added New Account Title ');
-            //     flash()->success('Record successfully created');
-            //     return redirect('accounttitle/'.$accounttileId);
-            // }catch(\Exception $ex){
-            //     //echo $ex->getMessage();
-            //     return view('errors.404'); 
-            //     //echo $ex->getMessage();
-            // }
+            try{
+                $accounttileId = $this->insertRecord('account_titles',$input);
+                $this->createSystemLogs('Added New Account Title ');
+                flash()->success('Record successfully created');
+                return redirect('accounttitle/'.$accounttileId);
+            }catch(\Exception $ex){
+                //echo $ex->getMessage();
+                return view('errors.404'); 
+                //echo $ex->getMessage();
+            }
         }
 
         

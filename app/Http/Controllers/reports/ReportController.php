@@ -349,11 +349,10 @@ class ReportController extends Controller
             }
         }
         
-
         foreach ($accountTitleList as $key => $value) {
             if($key == 'Current Assets'){
                 foreach ($value as $val) {
-                    if(!(strrpos('x'.$val->account_sub_group_name, 'Cash'))){
+                    if(strrpos('x'. $val->account_sub_group_name, 'Cash')===false){
                         if(strrpos($key, 'Asset')){
                             $totalOperationCash-=$val->opening_balance;
                         }else{

@@ -332,11 +332,10 @@ class PDFGeneratorController extends Controller
             }
         }
         
-
         foreach ($accountTitleList as $key => $value) {
             if($key == 'Current Assets'){
                 foreach ($value as $val) {
-                    if($val->account_sub_group_name != 'Cash'){
+                    if(strrpos('x'. $val->account_sub_group_name, 'Cash')===false){
                         if(strrpos($key, 'Asset')){
                             $totalOperationCash-=$val->opening_balance;
                         }else{
@@ -351,7 +350,12 @@ class PDFGeneratorController extends Controller
         foreach ($tThisYearsBalanceSht as $key) {
             if($key->asset_id != NULL){
                 if($key->credit_title_id != NULL && $key->credit->account_sub_group_name == 'Cash'){
-                    $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-1]->debit->account_sub_group_name;
+                    if($tThisYearsBalanceSht[$count-1]->debit_title_id!=NULL){
+                        $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-1]->debit->account_sub_group_name;
+                    }else{
+                        $tKey = 'Purchase of ' . $tThisYearsBalanceSht[$count-2]->debit->account_sub_group_name;
+                    }
+                    
                     if(!array_key_exists($tKey, $investmentActivities))
                         $investmentActivities[$tKey] = 0;
                     $investmentActivities[$tKey] +=$key->credit_amount;
@@ -360,12 +364,11 @@ class PDFGeneratorController extends Controller
             }
             $count+=1;
         }
-        //print_r($investmentActivities);
-        //echo '<strong>Cash flows from financing activities</strong>' . '<br/>';
+
         foreach ($accountTitleList as $key => $value) {
             if(strpos('x' . $key, 'Non-Current Liabilities')){
                 foreach ($value as $val) {
-                    if(strrpos('x'.$val->account_sub_group_name,'Loans')){
+                    if(strrpos('x'.$val->account_sub_group_name,'Loan')){
                         $totalFinancingCash+=$val->opening_balance;
                     }
                 }
