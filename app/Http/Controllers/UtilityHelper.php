@@ -418,7 +418,7 @@ trait UtilityHelper
 
         // $this->getObjectFirstRecord('account_groups',array('account_group_name'=> $groupName));
         // $tIncomeAccountTitlesList = $this->getObjectRecords('account_titles',array('account_group_id'=>$incomeAccountTitleGroupId->id));
-        $tArrayStringList = explode(",",$data);
+        $tArrayStringList = explode("|",$data);
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         foreach ($incomeAccountTitleGroupId->accountTitles as $accountTitle) {
             foreach ($accountTitle->items as $item) {

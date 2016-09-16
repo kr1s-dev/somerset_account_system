@@ -289,18 +289,23 @@ class InvoiceController extends Controller
                 return view('errors.404'); 
             //echo $ex->getMessage();
             }else{
-                $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
-                $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
-                $this->deleteRecordWithWhere('home_owner_invoice_items',array('id'=>$id));
-                $this->createSystemLogs('Deleted an Existing Invoice');
-                flash()->success('Record successfully deleted')->important();
-                return redirect('invoice');
+                $invoice =$this->getHomeOwnerInvoice($id);
+                if($invoice->is_paid == 1){
+                    return redirect()->back()
+                            ->withErrors(['message'=>'Cannot delete paid invoice']);
+                }else{
+                    $this->deleteRecordWithWhere('home_owner_invoice_items',array('invoice_id'=>$id));
+                    $this->deleteRecordWithWhere('journal_entry',array('invoice_id'=>$id));
+                    $this->deleteRecordWithWhere('home_owner_invoice',array('id'=>$id));
+                    $this->createSystemLogs('Deleted an Existing Invoice');
+                    flash()->success('Record successfully deleted')->important();
+                    return redirect('invoice');
+                }
+                
             }    
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();
         }
-        
-        
     }
 }

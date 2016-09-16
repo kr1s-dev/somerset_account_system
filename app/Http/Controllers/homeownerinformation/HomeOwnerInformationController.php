@@ -124,7 +124,7 @@ class HomeOwnerInformationController extends Controller
             //Show details of homeowner
             $homeOwner = $this->getHomeOwnerInformation($id);
             $homeOwnerMembersList = $this->getHomeOwnerMembers($id);
-            $ehomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0));
+            $ehomeOwnerInvoicesList = $this->getObjectRecords('home_owner_invoice',array('is_paid' => 0,'home_owner_id'=>$id));
             // $ehomeOwnerInvoicesList = array();
             // foreach ($thomeOwnerInvoicesList as $thomeOwnerInvoice) {
             //     $ehomeOwnerInvoicesList[$this->formatString($thomeOwnerInvoice->id)] = $thomeOwnerInvoice;

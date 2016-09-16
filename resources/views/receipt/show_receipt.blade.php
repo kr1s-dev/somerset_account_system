@@ -68,14 +68,16 @@
                       		<table class="table table-striped">
                          			<thead>
                               <tr>
-                                  <th style="width: 30%">Payment Type</th>
-                                 <th style="width: 59%">Covering Month/s</th>
-                                 <th>Amount (PHP)</th>
+                                <th style="width: 5%">Quantity</th>
+                                <th style="width: 30%">Payment Type</th>
+                                <th style="width: 54%">Covering Month/s</th>
+                                <th>Amount (PHP)</th>
                               </tr>
                             </thead>
                             <tbody>
                               @foreach($receipt->invoice->invoiceItems as $pendingPayment)
                                 <tr>
+                                  <td>{{$pendingPayment->quantity}}</td>
                                   <td>{{$pendingPayment->item->item_name}}</td>
                                   <td>{{$pendingPayment->remarks}}</td>
                                   <td>{{$pendingPayment->amount}}</td>
