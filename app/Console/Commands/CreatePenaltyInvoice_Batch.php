@@ -80,7 +80,7 @@ class CreatePenaltyInvoice_Batch extends Command
                             $invoiceNumber+=1;
                         }else{
                             //\Log::Info('Has an Existing Penalty');
-                            $max = $penaltyItem->default_value*6;
+                            $max = $penaltyItem->default_value*5;
                             $addedAmount = $inv->penaltyInfo->total_amount<$max ? 
                                                                 $penaltyItem->default_value : number_format($inv->total_amount * .2,2);
                             $inv->penaltyInfo->total_amount += $addedAmount;

@@ -15,8 +15,6 @@
 <script src="{{ URL::asset('vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{ URL::asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- Custom Theme Scripts -->
-<!-- Image Mapster -->
-<script src="{{URL::asset('vendors/imagemapster/dist/jquery.imagemapster.min.js')}}"></script>
 <script src="{{ URL::asset('js/custom.js')}}"></script>
 <!-- Chart.js -->
 <script src="{{ URL::asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>
@@ -233,9 +231,10 @@
 
           //Retrieving homeownerid for insertion of record
           var homeOwnerId = $("#homeowners option:selected" ).val();
-          
+          var dueDate = paymentDueDate.split('/');
+          dueDate = new Date(Date.parse(dueDate[1] + '/' + dueDate[0] + '/' + dueDate[2]));
           if(homeOwnerId){
-            if(paymentDueDate >=  getTodaysDate()){
+            if(dueDate >=  new Date().setDate(new Date().getDate()-1)){
               var table = $('#itemsTable tbody');
               //Get all data in the table
               table.find('tr').each(function(rowIndex, r){
@@ -466,7 +465,9 @@
           totalAmount = parseFloat(($(this).text().replace('PHP ','').trim()));
         });
         //console.log(totalAmount);
-        if(paymentDueDate >=  getTodaysDate()){
+        var dueDate = paymentDueDate.split('/');
+        dueDate = new Date(Date.parse(dueDate[1] + '/' + dueDate[0] + '/' + dueDate[2]));
+        if(dueDate >=  new Date().setDate(new Date().getDate()-1)){
           if(data){
             //Creating an ajax request to the server
             $.ajax({
@@ -925,34 +926,6 @@
 </script>
 
 <script>
-  var block = '';
-  var lot;
-  var status = '';
-   $(document).ready(function(){
-       $('#somerset').mapster({
-          fillColor: 'ff0000',
-          fillOpacity: 0.3,
-          stroke: true,
-          singleSelect: true,
-          showToolTip: true,
-          toolTipClose: ["tooltip-click", "area-click"],
-          onClick: function(e) {
-              if(e.key == 0) {
-
-              }
-          }
-       });
-      $('area').on('click', function(){
-          $('#myModal').modal('show');
-          block = $(this).attr('data-block');
-          lot = $(this).attr('data-lot');
-          status = $(this).attr('data-status');
-          console.log('Block: ' + block + '\n' + 'Lot: ' + lot + '\n' + 'Status: ' + status);
-      });
-   });
-</script>
-
-<script>
   $(document).ready(function() {
     var dataIncome = {!! isset($incomeAmountPerMonth)?json_encode($incomeAmountPerMonth):null !!};
     var expenseIncome = {!! isset($expenseAmountPerMonth)?json_encode($expenseAmountPerMonth):null !!};
@@ -1055,7 +1028,7 @@
         // minTickSize: tickSize,
         // timeformat: tformat,
         min: (new Date(new Date().getFullYear() - 1, 11, 18)).getTime(),
-        max: (new Date(new Date().getFullYear(), new Date().getMonth(), 15)).getTime(),
+        max: (new Date(new Date().getFullYear(), new Date().getMonth()+1, 15)).getTime(),
       }
     };
     var plot = $.plot($("#placeholder33x"), dataset , options);

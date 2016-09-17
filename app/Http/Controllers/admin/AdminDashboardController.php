@@ -57,7 +57,9 @@ class AdminDashboardController extends Controller
             $totalVendorAmountPerWeek = $this->getTotalSum($homeVendorSubsidiaryLedgerPerWeek);
 
             $invoiceList = InvoiceModel::where('payment_due_date','<',date('Y-m-d'))
-                                         ->where('invoice_id','=',NULL)->get();
+                                         ->where('invoice_id','=',NULL)
+                                         ->where('is_paid','=','0')
+                                         ->get();
             //print_r($homeOwnerSubsidiaryLedgerPerWeek);
             return view('admin_dashboard.admin_dashboard',
                             compact('incTotalSum',
