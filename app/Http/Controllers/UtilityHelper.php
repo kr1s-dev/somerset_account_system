@@ -422,7 +422,7 @@ trait UtilityHelper
         $userAdmin = $this->getObjectFirstRecord('users',array('user_type_id'=>1));
         foreach ($incomeAccountTitleGroupId->accountTitles as $accountTitle) {
             foreach ($accountTitle->items as $item) {
-                $eIncomeAccountTitlesList[$item->item_name] = $item->id;
+                $eIncomeAccountTitlesList[trim($item->item_name)] = $item->id;
             }
         }
 
