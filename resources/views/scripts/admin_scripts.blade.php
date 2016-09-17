@@ -38,6 +38,7 @@
   $(document).ready(function(){
       var exTableRowIndex;
       var arrayTd;
+      var expense_id;
 
       if($('#accountgroup option:selected').text() == 'Revenues' || $('input[name="account_group_name"]').val() == 'Revenues'){
         $('#subject_to_vat_chckbox').show();
@@ -921,7 +922,59 @@
       $("#non_vendor").hide();
     }
 
+    $('#datatable').on( 'click', '#deLbtn', function(event){
+      var tr = $(this).closest('tr'); //get the parent tr
+      arrayTd = $(tr).find('td'); //get data in a row
+      expense_id = arrayTd[0].textContent.replace('#','').replace(/^0+/, '');
+      console.log(expense_id);
+      $("#confirm").modal('show');
+    });
 
+    $("#conDel").click(function(e){
+      e.preventDefault();
+      console.log(expense_id);
+      var _token = $("#_token").val();
+      console.log(_token);
+      var adminPassword = $("#adminPassword").val();
+      console.log(adminPassword);
+      if(adminPassword){
+        $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': _token
+          },
+          url: 'expense/delete/'+expense_id,
+          type: 'POST',
+          data: { 'id':expense_id,
+                    'adminPassword':adminPassword},
+          success: function(response)
+          {
+              //alert(response);
+              location.href="/expense";
+          }, error: function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(thrownError);
+          }
+        });
+      }else{
+        alert('Please input password for confirmation');
+        return false;
+      }
+    });
+    // $('#itemsTable').on( 'click', '#editTrans', function(event){
+    //     var tr = $(this).closest('tr'); //get the parent tr
+    //     arrayTd = $(tr).find('td'); //get data in a row
+    //     var type = $('meta[name="type"]').attr('content');
+    //     if(type!='Expense'){
+    //       $("#eQuantity").val((arrayTd[0].textContent).trim());
+    //       $("#ePaymentDesc").val((arrayTd[2].textContent).trim());
+    //       $("#ePaymentCost").val((arrayTd[3].textContent).trim());
+    //     }else{
+    //       $("#eQuantity").val((arrayTd[0].textContent).trim());
+    //       $("#ePaymentDesc").val((arrayTd[1].textContent).trim());
+    //       $("#ePaymentCost").val((arrayTd[2].textContent).trim());
+    //     }
+        
+    //   });
   });
 </script>
 

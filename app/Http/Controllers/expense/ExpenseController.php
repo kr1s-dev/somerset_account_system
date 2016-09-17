@@ -243,9 +243,9 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request)
     {
-
+        $id = $request->input('id');
         $adminPassword = $request->input('adminPassword');
         $match = false;
         $userAdminList = User::whereHas('userType',function($q) use ($adminPassword){
@@ -265,14 +265,11 @@ class ExpenseController extends Controller
                 $this->deleteRecordWithWhere('expense_cash_voucher',array('id'=>$id));
                 $this->createSystemLogs('Deleted an Existing Cash Voucher');
                 flash()->success('Record successfully deleted')->important();
-                return redirect('expense');    
             }catch(\Exception $ex){
-                return view('errors.404'); 
-            //echo $ex->getMessage();
+                return view('errors.404');
             }
         }else{
             flash()->error('Invalid Admin Password')->important();
-            return redirect('expense');    
         }
     }
 }

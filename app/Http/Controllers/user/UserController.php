@@ -243,7 +243,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try{
-            $this->deactivateUser($id);    
+            return $this->deactivateUser($id);    
         }catch(\Exception $ex){
             return view('errors.404'); 
             //echo $ex->getMessage();

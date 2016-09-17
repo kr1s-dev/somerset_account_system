@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Expense routes
     Route::resource('expense','expense\ExpenseController');
-    Route::get('expense/delete/{id}',['as'=>'expense.delete' ,'uses'=>'expense\ExpenseController@destroy']);
+    // Route::get('expense/delete/{id}',['as'=>'expense.delete' ,'uses'=>'expense\ExpenseController@destroy']);
     Route::post('expense/delete/{id}','expense\ExpenseController@destroy');
 
     //Asset routes
