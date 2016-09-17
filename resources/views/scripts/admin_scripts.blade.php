@@ -232,7 +232,6 @@
 
           //Retrieving homeownerid for insertion of record
           var homeOwnerId = $("#homeowners option:selected" ).val();
-          console.log(homeOwnerId);
           var dueDate = paymentDueDate.split('/');
           dueDate = new Date(Date.parse(dueDate[1] + '/' + dueDate[0] + '/' + dueDate[2]));
           if(homeOwnerId){
@@ -258,25 +257,25 @@
               ////console.log(totalAmount + ' ' + homeOwnerId + ' ' + paymentDueDate);
               if(data){
                 //Creating an ajax request to the server
-                // $.ajax({
-                //   headers: {
-                //       'X-CSRF-TOKEN': _token
-                //   },
-                //   url: '/invoice',
-                //   type: 'POST',
-                //   data: { 'data':data,
-                //           'homeownerid': homeOwnerId,
-                //           'totalAmount': totalAmount,
-                //           'paymentDueDate': paymentDueDate},
-                //   success: function(response)
-                //   {
-                //     //alert(response);
-                //     location.href="/invoice/"+response;
-                //   }, error: function(xhr, ajaxOptions, thrownError){
-                //     alert(xhr.status);
-                //     alert(thrownError);
-                //   }
-                // });
+                $.ajax({
+                  headers: {
+                      'X-CSRF-TOKEN': _token
+                  },
+                  url: '/invoice',
+                  type: 'POST',
+                  data: { 'data':data,
+                          'homeownerid': homeOwnerId,
+                          'totalAmount': totalAmount,
+                          'paymentDueDate': paymentDueDate},
+                  success: function(response)
+                  {
+                    //alert(response);
+                    location.href="/invoice/"+response;
+                  }, error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.status);
+                    alert(thrownError);
+                  }
+                });
               }else{
                 alert('Please Input data into table.');
               }
