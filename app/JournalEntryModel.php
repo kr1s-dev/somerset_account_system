@@ -26,7 +26,7 @@ class JournalEntryModel extends Model
                             'invoice_id',
                             'receipt_id',
                             'asset_id',
-                            'type'];
+                            'type']; 
 
 
     public function expense(){
