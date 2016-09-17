@@ -50,7 +50,7 @@
                          <select id="homeowners" class="select2_single form-control" tabindex="-1">
                              <option></option>
                              @foreach($homeOwnerMembersList as $homeOwnerMember)
-                              <option value="{{ $homeOwnerMember -> id }}"> {{ $homeOwnerMember -> first_name }} {{ $homeOwnerMember -> middle_name }} {{ $homeOwnerMember -> last_name }}</option>
+                              <option value="{{ $homeOwnerMember->id }}"> {{ $homeOwnerMember -> first_name }} {{ $homeOwnerMember -> middle_name }} {{ $homeOwnerMember -> last_name }}</option>
                              @endforeach
                          </select>
                       </div>

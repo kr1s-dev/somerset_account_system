@@ -6,6 +6,7 @@ use DB;
 use Mail;
 use App\User;
 use Validator;
+use App\InvoiceModel;
 use App\SettingsModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -133,7 +134,21 @@ class AuthController extends Controller
                 $name  = (Auth::user()->first_name==null?
                             (Auth::user()->homeOwner->first_name . ' ' . Auth::user()->homeOwner->last_name):
                             (Auth::user()->first_name . ' ' . Auth::user()->last_name));
-                flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');
+                if(Auth::user()->userType->type=='Guest'){
+                    $ehomeOwnerInvoicesList = InvoiceModel::where('is_paid' ,'=', 0)
+                                                            ->where('home_owner_id','=',Auth::user()->home_owner_id)
+                                                            ->where('payment_due_date','<',date('Y-m-d'))
+                                                            ->get();
+                    if(count($ehomeOwnerInvoicesList)>0){
+                        flash()->overlay('Welcome Back <strong>' . $name  . '</strong>' . '<br/>' . 'You have ' . count($ehomeOwnerInvoicesList) . ' invoice/s that exceeded payment due date.','Welcome');
+                    }else{
+                        flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');
+                    }
+                     
+                }else{
+                  flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');  
+                }
+                
                 $this->createSystemLogs('User '. $name .' has logged in');
                 return $this->handleUserWasAuthenticated($request, $throttles);
             }
@@ -151,8 +166,8 @@ class AuthController extends Controller
                 ->withInput($request->only($this->loginUsername(), 'remember'))
                 ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
         
     }

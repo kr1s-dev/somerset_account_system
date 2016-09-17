@@ -9,23 +9,27 @@
 
     <title>Somerset Homeowners Management System | </title>
 
+    <link rel="shortcut icon" href="{{ URL::asset('images/favicon.png')}}">
     <!-- Bootstrap -->
-    <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- iCheck -->
-    <link href="../../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
     <!-- Datatables -->
-    <link href="../../../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../../../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../../../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     <!-- Fontawesome -->
-    <link rel="stylesheet" href="../../../vendors/fontawesome/css/font-awesome.min.css">
-
+    <link href="{{ URL::asset('vendors/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="{{ URL::asset('vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Bootstrap Daterangepicker -->
+    <link rel="stylesheet" href="{{URL::asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}">
     <!-- Custom Theme Style -->
-    <link href="../../css/custom.css" rel="stylesheet">
+    <link href="{{ URL::asset('css/custom.css')}}" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -174,24 +178,23 @@
     </div>  
 
    <!-- jQuery -->
-    <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="../../../vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../../../vendors/nprogress/nprogress.js"></script>
-    
-    <!-- Data Tables -->
-    <script src="../../../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script></script>
-    <!-- Custom Theme Scripts -->
-    <script src="../../js/custom.js"></script>
+  <script src="{{ URL::asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+  <!-- Bootstrap -->
+  <script src="{{ URL::asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  <!-- FastClick -->
+  <script src="{{ URL::asset('vendors/fastclick/lib/fastclick.js')}}"></script>
+  <!-- NProgress -->
+  <script src="{{ URL::asset('vendors/nprogress/nprogress.js')}}"></script>
+  <!-- Data Tables -->
+  <script src="{{ URL::asset('vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ URL::asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="{{ URL::asset('js/custom.js')}}"></script>
     
     <script>
       $(document).ready(function(){
           $('#datatable').dataTable();
+          $('#flash-overlay-modal').modal();
       });
     </script>
   </body>
