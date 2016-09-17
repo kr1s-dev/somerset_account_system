@@ -57,7 +57,7 @@ class AdminDashboardController extends Controller
             $totalVendorAmountPerWeek = $this->getTotalSum($homeVendorSubsidiaryLedgerPerWeek);
 
             $invoiceList = InvoiceModel::where('payment_due_date','<',date('Y-m-d'))
-                                         ->where('invoice_id','=',NULL)
+                                         ->where('invoice_id','=',NULL) 
                                          ->where('is_paid','=','0')
                                          ->get();
             //print_r($homeOwnerSubsidiaryLedgerPerWeek);
@@ -78,44 +78,6 @@ class AdminDashboardController extends Controller
         
     }
 
-    public function postDashboard(Request $request){
-        $startDate;
-        $endDate = Date('Y-m-d' ,strtotime('+1 days'));
-        $incomePerMonth = array();
-        $expensePerMonth = array();
-        switch ($request->input('category')) {
-            case 'Last 7 Days':
-                $startDate = Date('Y-m-d',strtotime('-6 days'));
-                break;
-            case 'Last 30 Days':
-                $startDate = Date('Y-m-d',strtotime('-29 days'));
-                break;
-            case 'This Month':
-                $startDate = Date('Y-m-01', strtotime($endDate));
-                $endDate = Date('Y-m-t',strtotime($startDate));
-                break;
-            case 'Last Month':
-                $startDate = Date('Y-m-01', strtotime($endDate . '-1 Month'));
-                $endDate = Date('Y-m-t',strtotime($startDate));
-                break;
-            case 'Custom':
-                $startDate = $request->input('start_date');
-                $endDate = $request->input('end_date');
-                break;
-            case 'Current Year':
-                //return $this->generateIncomeStatement(null,null);
-                break;
-            case 'Last Year':
-                //return $this->generateIncomeStatement(null,date('Y',strtotime('-1 year')));
-                break;
-            default:
-                break;
-        }
-    }
-
-    // public function generateIncomeStatement(){
-
-    // }
 
     public function getAmountPerMonth($dataList){
         $amountPerMonth = array();
