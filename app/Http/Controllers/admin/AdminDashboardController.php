@@ -40,6 +40,7 @@ class AdminDashboardController extends Controller
                     $incomeAmountPerMonth[date('m',strtotime(date('Y').'-'.$month))] = 0;
                 }
             }   
+            //print_r('test' . $incomeAmountPerMonth);
 
             if(count($expStatementItemsList)>0){
                 $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
@@ -72,8 +73,8 @@ class AdminDashboardController extends Controller
                                     'totalVendorAmountPerWeek',
                                     'invoiceList')); 
         }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+            return view('errors.404'); 
+            //echo $ex->getMessage() . ' ' . $ex->getLine();
         }
         
     }
@@ -82,10 +83,12 @@ class AdminDashboardController extends Controller
     public function getAmountPerMonth($dataList){
         $amountPerMonth = array();
         foreach(range(1, date('m')) as $month) {
-            $amountPerMonth[trim(date('m',strtotime(date('Y').'-'.$month)),'0')] = 0;
+            $amountPerMonth[ltrim(date('m',strtotime(date('Y').'-'.$month)),'0')] = 0;
         }
+
         foreach ($dataList as $data) {
-            $amountPerMonth[trim(date('m',strtotime($data->created_at)),'0')] += ($data->credit_amount+$data->debit_amount);
+            //print_r($data->created_at);
+            $amountPerMonth[ltrim(date('m',strtotime($data->created_at)),'0')] += ($data->credit_amount+$data->debit_amount);
             //echo $data;
         }
         return $amountPerMonth;
