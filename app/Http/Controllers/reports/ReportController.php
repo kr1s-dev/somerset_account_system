@@ -299,6 +299,7 @@ class ReportController extends Controller
     }
 
 
+    /*
     public function generateStatementOfCashFlow($yearFilter){
         $yearFilter = $yearFilter==NULL?date('Y'):$yearFilter;
         $accountGroupList = $this->getAccountGroups(null);
@@ -448,6 +449,31 @@ class ReportController extends Controller
             }
         }
         return $data;
+    }
+    */
+
+    /*
+    * @Description: Get Statement of Cash Flow using 'Indirect Method'
+    */
+    public function generateStatementOfCashFlow($yearFilter){
+        $yearFilter = $yearFilter==NULL?date('Y'):$yearFilter;
+
+        //Storage for cash flow activities
+        $operatingActivities = array();
+        $investingActivities = array();
+        $financingActivities = array();
+
+        //Start - Get Income Statement
+        $incomeItemsList = $this->getItemsAmountList($incStatementItemsList,'Income');
+        $expenseItemsList = $this->getItemsAmountList($expStatementItemsList,'Expense');
+        $totalProfit = $this->getTotalSum($incomeItemsList) - $this->getTotalSum($expenseItemsList);
+        //End - Get Income Statement
+
+        //Start - Get operating activities
+        
+        //End  - Get Operating Activities
+
+        
     }
     
 }
