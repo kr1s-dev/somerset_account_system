@@ -102,73 +102,68 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        try{
-            $this->validate($request, [
-                $this->loginUsername() => 'required', 'password' => 'required',
-            ]);
+        
+        $this->validate($request, [
+            $this->loginUsername() => 'required', 'password' => 'required',
+        ]);
 
-            // If the class is using the ThrottlesLogins trait, we can automatically throttle
-            // the login attempts for this application. We'll key this by the username and
-            // the IP address of the client making these requests into this application.
-            $throttles = $this->isUsingThrottlesLoginsTrait();
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
 
-            if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-                return $this->sendLockoutResponse($request);
-            }
-
-            $credentials = array('email'=>'','password'=>'');
-            $userCred = array('email'=>$request->input('email'));
-            //Check if user is active
-            $userCredential = DB::table('users')
-                                ->where($userCred)
-                                ->first();
-
-            if(count($userCredential) && $userCredential->is_active){
-                $credentials = $this->getCredentials($request);
-            }
-          
-
-            // //
-
-            if (Auth::attempt($credentials, $request->has('remember'))) {
-                $name  = (Auth::user()->first_name==null?
-                            (Auth::user()->homeOwner->first_name . ' ' . Auth::user()->homeOwner->last_name):
-                            (Auth::user()->first_name . ' ' . Auth::user()->last_name));
-                if(Auth::user()->userType->type=='Guest'){
-                    $ehomeOwnerInvoicesList = InvoiceModel::where('is_paid' ,'=', 0)
-                                                            ->where('home_owner_id','=',Auth::user()->home_owner_id)
-                                                            ->where('payment_due_date','<',date('Y-m-d'))
-                                                            ->get();
-                    if(count($ehomeOwnerInvoicesList)>0){
-                        flash()->overlay('Welcome Back <strong>' . $name  . '</strong>' . '<br/>' . 'You have ' . count($ehomeOwnerInvoicesList) . ' invoice/s that exceeded payment due date.','Welcome');
-                    }else{
-                        flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');
-                    }
-                     
-                }else{
-                  flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');  
-                }
-                
-                $this->createSystemLogs('User '. $name .' has logged in');
-                return $this->handleUserWasAuthenticated($request, $throttles);
-            }
-
-            // If the login attempt was unsuccessful we will increment the number of attempts
-            // to login and redirect the user back to the login form. Of course, when this
-            // user surpasses their maximum number of attempts they will get locked out.
-            if ($throttles) {
-                $this->incrementLoginAttempts($request);
-            }
-
-
-
-            return redirect($this->loginPath())
-                ->withInput($request->only($this->loginUsername(), 'remember'))
-                ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
-        }catch(\Exception $ex){
-            //return view('errors.404'); 
-            echo $ex->getMessage();
+        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+            return $this->sendLockoutResponse($request);
         }
+
+        //Store temporary username and password
+        $credentials = array('email'=>'','password'=>'');
+        $userCred = array('email'=>$request->input('email'),'is_active'=>1);
+        //Check if logged-in user is active
+        $userCredential = DB::table('users')
+                            ->where($userCred)
+                            ->first();
+
+        if(!empty($userCredential)){
+            $credentials = $this->getCredentials($request);
+        }
+
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $name  = (Auth::user()->first_name==null?
+                        (Auth::user()->homeOwner->first_name . ' ' . Auth::user()->homeOwner->last_name):
+                        (Auth::user()->first_name . ' ' . Auth::user()->last_name));
+
+            //Check if user is a homeowner
+            if(Auth::user()->userType->type=='Guest'){
+                //Check if there are invoices that exceeded payment due date
+                $ehomeOwnerInvoicesList = InvoiceModel::where('is_paid' ,'=', 0)
+                                                        ->where('home_owner_id','=',Auth::user()->home_owner_id)
+                                                        ->where('payment_due_date','<',date('Y-m-d'))
+                                                        ->get();
+                if(!empty($ehomeOwnerInvoicesList)){
+                    flash()->overlay('Welcome Back <strong>' . $name  . '</strong>' . '<br/>' . 'You have ' . count($ehomeOwnerInvoicesList) . ' invoice/s that exceeded payment due date.','Welcome');
+                }else{
+                    flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');
+                }  
+            }else{
+              flash()->overlay('Welcome Back <strong>' . $name  . '</strong>','Welcome');  
+            }
+            
+            $this->createSystemLogs('User '. $name .' has logged in');
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles) {
+            $this->incrementLoginAttempts($request);
+        }
+
+        return redirect($this->loginPath())
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);    
+        
         
     }
 
@@ -196,14 +191,13 @@ class AuthController extends Controller
     }
 
     /**
-    * @Author:       Kristopher Veraces
     * @Date:         7/3/2016
     * @Description:  Redirect path for login user based in Usertype 
     * @return        string
     */
     public function userTypeRedirectPath(){
         $userType = Auth::user()->userType->type;
-        if($userType=='Administrator' || $userType=='Tester'){
+        if($userType=='Administrator'){
             $setting = SettingsModel::first();
             if($setting == NULL)
                 return redirect()->intended('/settings/create'); 

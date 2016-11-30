@@ -11,6 +11,7 @@ class HomeOwnerSeeder extends Seeder
      */
     public function run()
     {
+        //Insert test data for homeowners
         $nHomeOwnerList = array();
         $nHomeOwnerList[] = array('first_name' => 'I',
 			                        'middle_name' => 'am',

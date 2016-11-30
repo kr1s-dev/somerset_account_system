@@ -11,7 +11,7 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        //Set of usertypes needed in the system
         $userTypeName = array('Administrator','Accountant','Cashier','Guest');
         $userTypeList = array();
         for ($i=0; $i < count($userTypeName) ; $i++) { 

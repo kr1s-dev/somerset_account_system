@@ -11,6 +11,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        //Insert default user in system
         $nUserList = array();
         $nUserList[] = array('email'=>'admin_user@somerset.com',
             				'first_name'=>'I',

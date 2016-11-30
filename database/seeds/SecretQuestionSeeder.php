@@ -11,6 +11,7 @@ class SecretQuestionSeeder extends Seeder
      */
     public function run()
     {
+        //Set of secret questions - default by the systems
         $secretQuestionList = array('What was your childhood nickname?',
 			                     'What is the name of your favorite childhood friend?',
 			                     'What is your favorite team?',

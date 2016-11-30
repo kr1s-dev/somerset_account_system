@@ -11,7 +11,7 @@ class AccountGroupSeeder extends Seeder
      */
     public function run()
     {
-        //
+        //Set of default account groups in accounting
         $accountGoupNames = array('Current Assets',
                                     'Non-Current Assets',
                                     'Current Liabilities',
@@ -25,26 +25,11 @@ class AccountGroupSeeder extends Seeder
                                             'created_at' => date('Y-m-d h:i:sa'),
                                             'updated_at' => date('Y-m-d h:i:sa'));
     	}
+
     	DB::table('account_groups')->insert($accountGroupsList);
         
-        //insert account titles
+        //Insert default account titles needed by the systems
         $accountAssetTitles = array();
-        // $accountAssetTitles[] = array('account_group_id'=>1,
-        //                                 'account_sub_group_name'=>'Accounts Receivable',
-        //                                 'created_at' => date('Y-m-d h:i:sa'),
-        //                                 'updated_at' => date('Y-m-d h:i:sa'));
-        // $accountAssetTitles[] = array('account_group_id'=>1,
-        //                                 'account_sub_group_name'=>'Cash',
-        //                                 'created_at' => date('Y-m-d h:i:sa'),
-        //                                 'updated_at' => date('Y-m-d h:i:sa'));
-        // $accountAssetTitles[] = array('account_group_id'=>5,
-        //                                 'account_sub_group_name'=>'Association Dues',
-        //                                 'created_at' => date('Y-m-d h:i:sa'),
-        //                                 'updated_at' => date('Y-m-d h:i:sa'));
-        // $accountAssetTitles[] = array('account_group_id'=>3,
-        //                                 'account_sub_group_name'=>'Notes Payable',
-        //                                 'created_at' => date('Y-m-d h:i:sa'),
-        //                                 'updated_at' => date('Y-m-d h:i:sa'));
         $accountAssetTitles[] = array('account_group_id'=>7,
                                         'account_sub_group_name'=>'Somerset Capital',
                                         'created_at' => date('Y-m-d h:i:sa'),

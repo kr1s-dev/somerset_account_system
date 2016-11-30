@@ -469,8 +469,8 @@ class ReportController extends Controller
         $totalProfit = $this->getTotalSum($incomeItemsList) - $this->getTotalSum($expenseItemsList);
         //End - Get Income Statement
 
-        //Start - Get operating activities
-        
+        //Start - Get Operating Activities
+
         //End  - Get Operating Activities
 
         
