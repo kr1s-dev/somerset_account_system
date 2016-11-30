@@ -33,71 +33,54 @@ class UserController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * Display list of active and inactive users
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //Get all Users
         try{
             $users_list = $this->getUser(null);
-            // $temp_user_type_list = $this->getUserType(null);
-            // $user_type_list = array();
-            // foreach ($temp_user_type_list as $userType) {
-            //     $user_type_list[$userType->id] =  $userType->type;
-            // }
-            // $thomeOwnersList = $this->getHomeOwnerInformation(null);
-            // $eHomeOwnersList = array();
-            // foreach ($thomeOwnersList as $thomeOwner) {
-            //     $eHomeOwnersList[$thomeOwner->id] = $thomeOwner;
-            // }
-            //Return user list view
+            //Check usertype of current logged in user 
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.404'); 
             }else{
                 return view('users.users_list',
                             compact('users_list'));  
             }   
-            
         }catch(\Exception $ex){
             return view('errors.404'); 
-            //echo $ex->getMessage();
         }
         
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new user
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
         try{
-
-            $isCreate = TRUE;
             $nUser = $this->setUser();
-            $eUserTypesList = $this->getUsersUserType(null);
-            //Show create users page
+            $eUserTypesList = $this->getUserType(null);
+            //Check usertype of current logged in user 
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.404'); 
             }else{
                 return view('users.create_user',
                             compact('nUser',
-                                    'eUserTypesList',
-                                    'isCreate'));   
+                                    'eUserTypesList'));   
             } 
-            
         }catch(\Exception $ex){
-            return view('errors.404'); 
             //echo $ex->getMessage();
+            return view('errors.404'); 
         }
         
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created user in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -108,30 +91,22 @@ class UserController extends Controller
             $confirmation_code = array('confirmation_code'=>str_random(30));
             $input = $this->addAndremoveKey(Request::all(),true);
             $input['confirmation_code'] = $confirmation_code['confirmation_code'];
-
-            //if(empty($input['home_owner_id'])){
             $input['home_owner_id'] = NULL;
             $input['is_active'] = false;
             $userId = $this->insertRecord('users',$input);
-            // }else{
-            //     $inputwithHomeOwner = array('home_owner_id'=>$input['home_owner_id'],
-            //                                 'user_type_id'=>$input['user_type_id'],
-            //                                 'confirmation_code'=> $confirmation_code['confirmation_code'],
-            //                                 'email'=> $input['email'],);
-            //     $userId = $this->insertRecord('users',$inputwithHomeOwner);
-            // }
             
-            //Send email verification
+            //Send email verification for newly created user
             $this->sendEmailVerification($input['email'],
                                             $input['first_name'] . ' ' . $input['middle_name'] . ' ' . $input['last_name'],
                                             $confirmation_code);
+
+            //Insert system log
             $this->createSystemLogs('Created a New User');
             flash()->success('Record succesfully created. An email is sent to verify the account.')->important();
-            //return redirect('users');
             return $this->show($userId);    
         }catch(\Exception $ex){
-            //return view('errors.404'); 
             echo $ex->getMessage();
+            //return view('errors.404');
         }
 
         
@@ -173,7 +148,7 @@ class UserController extends Controller
         try{
             $isCreate = False;
             $nUser = $this->getUser($id);
-            $eUserTypesList = $this->getUsersUserType($nUser->user_type_id);
+            $eUserTypesList = $this->getUserType($nUser->user_type_id);
             if($nUser->home_owner_id != NULL){
                 $thomeOwner = $this->getHomeOwnerInformation($nUser->home_owner_id);
                 $eHomeOwners = array($thomeOwner->id => $thomeOwner);
@@ -266,7 +241,7 @@ class UserController extends Controller
             $user = $this->getUser($id);
             $user->is_active = 0;
             $user->save();
-            $this->createSystemLogs('Deactivated an Active User');
+            $this->createSystemLogs('Deactivated an active user');
             flash()->success('User succesfully deactivated')->important();
             return redirect('users');    
         }catch(\Exception $ex){
@@ -303,8 +278,8 @@ class UserController extends Controller
                     return redirect()->back()->withErrors(['email' => trans($response)]);
             }    
         }catch(\Exception $ex){
-            return view('errors.404'); 
-            //echo $ex->getMessage();
+            //return view('errors.404'); 
+            echo $ex->getMessage();
         }
     }
 

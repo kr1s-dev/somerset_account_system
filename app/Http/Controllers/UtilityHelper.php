@@ -34,16 +34,71 @@ use Illuminate\Support\Facades\Auth;
  */
 trait UtilityHelper
 {
+    //Setter for announcement object
+    public function setAnnouncementModel(){
+        return new AnnouncementModel;
+    }
+
+    //Getter for announcement object
+    public function getAnnouncementModel($id){
+        //If id is not null, get specific record else get all records
+        return $id==null?AnnouncementModel::all():AnnouncementModel::findOrFail($id);
+    }
+
+    //Setter for user object
     public function setUser(){
         return new User;
     }
 
-    public function setUserType(){
-        return new UserTypeModel;
+    //Getter for user object
+    public function getUser($id){
+        //If id is not null, get specific record else get all records
+        return $id==null?User::all():User::findOrFail($id);
     }
 
+
+    //Getter for usertype object
+    public function getUserType($id){
+        $eUserTypesList = array();
+        //If id is null, get all usertype else get usertype according to order (1st is usertype of given id)
+        if($id==null){
+            $tUserTypesList = DB::table('user_type')
+                            ->get();
+            foreach($tUserTypesList as $tUserType){
+                $eUserTypesList[$tUserType->id] = $tUserType->type;
+            }
+        }else{
+            $tUserType = UserTypeModel::findOrFail($id);
+            $eUserTypesList[$tUserType->id] = $tUserType->type;
+            $tUserTypesList = DB::table('user_type')
+                            ->where('id','!=',$id)
+                            ->get();
+            foreach($tUserTypesList as $tUserType){
+                $eUserTypesList[$tUserType->id] = $tUserType->type;
+            }
+        }
+        return $eUserTypesList;
+    }
+
+    //Send Email to newly created user for email verification
+    public function sendEmailVerification($toAddress,$name,$confirmation_code){
+        Mail::send('emails.user_verifier',$confirmation_code, function($message) use ($toAddress, $name){
+            $message->from('SomersetAccountingSystem@noreply.com','User Verification');
+            $message->to($toAddress, $name)
+                        ->subject('Verify your Account');
+        });
+
+    }
+
+    //Setter for HomeOwner object
     public function setHomeOwnerInformation(){
         return new HomeOwnerInformationModel;
+    }
+
+    //Getter for HomeOwner object
+    public function getHomeOwnerInformation($id){
+        //If id is not null, get specific record else get all records
+        return $id==null?HomeOwnerInformationModel::all():HomeOwnerInformationModel::findOrFail($id);   
     }
 
     public function setHomeOwnerMemberInformation(){
@@ -58,26 +113,8 @@ trait UtilityHelper
         return new AssetsModel;
     }
 
-    public function setAnnouncementModel(){
-        return new AnnouncementModel;
-    }
-
-    //Get List of Users/ A certain user
-    public function getUser($id){
-        return $id==null?User::all():User::findOrFail($id);
-        
-    }
-
-    //Get List of User Types/ A certain user type
-    public function getUserType($id){
-        return $id==null?UserTypeModel::all():UserTypeModel::findOrFail($id);
-        
-    }
-
     //Get List of HomeOwners/ or certain HomeOwner
-    public function getHomeOwnerInformation($id){
-        return $id==null?HomeOwnerInformationModel::all():HomeOwnerInformationModel::findOrFail($id);   
-    }
+    
 
     //Get List of HomeOwnerInvoice/ or certain HomeOwnerInvoice
     public function getHomeOwnerInvoice($id){
@@ -119,9 +156,7 @@ trait UtilityHelper
     }
 
     //Get List of Announcements / or certain Announcement
-    public function getAnnouncementModel($id){
-        return $id==null?AnnouncementModel::all():AnnouncementModel::findOrFail($id);
-    }
+    
 
     public function setVendor(){
         return new VendorModel;
@@ -206,27 +241,7 @@ trait UtilityHelper
         return $eHomeOwnerMembers;
     }
 
-    //Get List of User Types/ or certain User Type for User
-    public function getUsersUserType($id){
-        $eUserTypesList = array();
-        if($id==null){
-            $tUserTypesList = DB::table('user_type')
-                            ->get();
-            foreach($tUserTypesList as $tUserType){
-                $eUserTypesList[$tUserType->id] = $tUserType->type;
-            }
-        }else{
-            $tUserType = UserTypeModel::findOrFail($id);
-            $eUserTypesList[$tUserType->id] = $tUserType->type;
-            $tUserTypesList = DB::table('user_type')
-                            ->where('id','!=',$id)
-                            ->get();
-            foreach($tUserTypesList as $tUserType){
-                $eUserTypesList[$tUserType->id] = $tUserType->type;
-            }
-        }
-        return $eUserTypesList;
-    }
+    
 
     //Get List of User Types/ or certain User Type for User
     public function getAccountTitleGroup($id){
@@ -249,18 +264,7 @@ trait UtilityHelper
         return $eAccountTitleGroupList;
     }
 
-    /*
-    * @Author:      Daryl Dangan
-    * @Description: Send Email to newly created user for email verification
-    */
-    public function sendEmailVerification($toAddress,$name,$confirmation_code){
-        Mail::send('emails.user_verifier',$confirmation_code, function($message) use ($toAddress, $name){
-            $message->from('SomersetAccountingSystem@noreply.com','User Verification');
-            $message->to($toAddress, $name)
-                        ->subject('Verify your Account');
-        });
-
-    }
+    
 
     /*
     * @Author:      Daryl Dangan
@@ -326,8 +330,6 @@ trait UtilityHelper
     * @Description: Use for Dynamic Insert in every table
     */
     public function insertRecord($tableName,$toInsertItems){
-        $toInsertItems['created_at'] = date('Y-m-d');
-        $toInsertItems['updated_at'] = date('Y-m-d');
         if($tableName != 'home_owner_information'){
             $toInsertItems['created_by'] = $this->getLogInUserId();
             $toInsertItems['updated_by'] = $this->getLogInUserId();

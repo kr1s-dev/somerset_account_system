@@ -76,7 +76,7 @@
 						                @if(Auth::user()->id != $user->id)
 						                	@if($user->is_active)
 						                		{!! Form::model($user, ['method'=>'DELETE','action' => ['user\UserController@destroy',$user->id] , 'class' => 'form-horizontal form-label-left form-wrapper']) !!}
-							                    	<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to lock this user?');"><i class="fa fa-lock"></i> </button>
+							                    	<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to deactivate this user?');"><i class="fa fa-lock"></i> </button>
 							               		{!! Form::close() !!}
 							               	@else
 							               		<a href="{{route('users.resetpassword',$user->id)}}" class="btn btn-default"><i class="fa fa-unlock"></i></a>

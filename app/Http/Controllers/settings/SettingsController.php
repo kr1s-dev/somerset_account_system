@@ -65,7 +65,7 @@ class SettingsController extends Controller
         $input = $this->addAndremoveKey(Request::all(),true);
         $settingId = $this->insertRecord('system_settings',$input);
         $this->createSystemLogs('Updated System Settings');
-        flash()->success('System Settings successfully Update');
+        flash()->success('System Settings successfully updated');
         return redirect('/admin-dashboard');
 
     }

@@ -41,4 +41,16 @@ class AnnouncementRequest extends Request
             default: break;
         }
     }
+
+
+    //Message
+    public function messages(){
+        return ['headline.required' => 'Announcement headline is required',
+                'headline.min'=>'Announcement headline must be greater than 10 characters',
+                'headline.max'=>'Announcement headline must be less than 255 characters',
+                'message.required' => 'Announcement message is required',
+                'message.min'=>'Announcement message must be greater than 10 characters',
+                'message.max'=>'Announcement message must be less than 255 characters',
+                ];
+    }
 }
