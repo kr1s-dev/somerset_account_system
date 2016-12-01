@@ -51,7 +51,7 @@ trait UtilityHelper
     }
 
     //Getter for user object
-    public function getUser($id){
+    public function getUsers($id){
         //If id is not null, get specific record else get all records
         return $id==null?User::all():User::findOrFail($id);
     }
@@ -99,6 +99,26 @@ trait UtilityHelper
     public function getHomeOwnerInformation($id){
         //If id is not null, get specific record else get all records
         return $id==null?HomeOwnerInformationModel::all():HomeOwnerInformationModel::findOrFail($id);   
+    }
+
+    //Show custom error message
+    public function errMessage($typeOfErr,$field,$charNum,$addMessage){
+        if($typeOfErr=='required')
+            return $field . ' is required';
+        elseif ($typeOfErr=='min') {
+            return $field . ' must be greater than '. $charNum .' characters';
+        }elseif ($typeOfErr=='max') {
+            return $field . ' must be less than '. $charNum .' characters';
+        }elseif ('digits_between') {
+            return $field . ' must be between '. $addMessage .' digits';
+        }elseif ($typeOfErr=='numeric') {
+            return $field . ' must have digits only';
+        }
+    }
+
+    //Determine type of error
+    public function typeOfErr($typeOfErr,$field){
+        return $field . '.' . $typeOfErr;
     }
 
     public function setHomeOwnerMemberInformation(){

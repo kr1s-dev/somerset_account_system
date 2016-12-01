@@ -4,10 +4,12 @@ namespace App\Http\Requests\homeownerInformation;
 
 use App\HomeOwnerInformationModel;
 use App\Http\Requests\Request;
+use App\Http\Controllers\UtilityHelper;
 
 
 class HomeOwnerRequest extends Request
 {
+    use UtilityHelper;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,9 +38,9 @@ class HomeOwnerRequest extends Request
                         'middle_name' => 'max:255',
                         'last_name' => 'required|min:3|max:255',
                         'member_occupation' => 'required|min:3|max:255',
-                        'residence_tel_no' => 'required|numeric|digits_between:7,11|min:1',
-                        'member_office_tel_no' => 'required|numeric|digits_between:7,11|min:1',
-                        'member_mobile_no' => 'required|numeric|digits_between:11,13|min:1',
+                        'residence_tel_no' => 'required|numeric|digits_between:7,11',
+                        'member_office_tel_no' => 'required|numeric|digits_between:7,11',
+                        'member_mobile_no' => 'required|numeric|digits_between:11,13',
                         'member_date_of_birth' => 'required|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information',
@@ -51,9 +53,9 @@ class HomeOwnerRequest extends Request
                         'middle_name' => 'max:255',
                         'last_name' => 'required|min:3|max:255',
                         'member_occupation' => 'required|min:3|max:255',
-                        'residence_tel_no' => 'required|numeric|digits_between:7,11|min:1',
-                        'member_office_tel_no' => 'required|numeric|digits_between:7,11|min:1',
-                        'member_mobile_no' => 'required|numeric|digits_between:11,13|min:1',
+                        'residence_tel_no' => 'required|numeric|digits_between:7,11',
+                        'member_office_tel_no' => 'required|numeric|digits_between:7,11',
+                        'member_mobile_no' => 'required|numeric|digits_between:11,13',
                         'member_date_of_birth' => 'required|date|before:today',
                         'member_address' => 'required|min:3|max:255',
                         'member_email_address' => 'required|email|max:255|unique:home_owner_information,member_email_address,' . $homeOwner->id,
@@ -66,27 +68,30 @@ class HomeOwnerRequest extends Request
     }
 
     public function messages(){
-        return ['first_name.required'=> $this->errMessage('required','First Name',null,null),
-                'first_name.min'=>$this->errMessage('min','First Name',2,null),
-                'first_name.max'=>$this->errMessage('max','First Name',255,null),
-                'last_name.required'=> $this->errMessage('required','Last Name',null,null),
-                'last_name.min'=>$this->errMessage('min','Last Name',2,null),
-                'last_name.max'=>$this->errMessage('max','Last Name',255,null),
-                'middle_name.max'=>$this->errMessage('max','Middle Name',255,null),
-                'member_email_address.required'=>$this->errMessage('required','Email',null,null),
-                'member_email_address.max'=>$this->errMessage('max','Email',255,null),
-                'mobile_number.digits_between'=>$this->errMessage('digits_between','Mobile Number',null,'11 to 13'),];
+        return [$this->typeOfErr('required','first_name') =>$this->errMessage('required','Homeowner First Name',null,null),
+                $this->typeOfErr('min','first_name')=>$this->errMessage('min','Homeowner First Name',2,null),
+                $this->typeOfErr('max','first_name')=>$this->errMessage('max','Homeowner First Name',255,null),
+                $this->typeOfErr('required','last_name')=> $this->errMessage('required','Homeowner Last Name',null,null),
+                $this->typeOfErr('min','last_name')=>$this->errMessage('min','Homeowner Last Name',2,null),
+                $this->typeOfErr('max','last_name')=>$this->errMessage('max','Homeowner Last Name',255,null),
+                $this->typeOfErr('max','middle_name')=>$this->errMessage('max','Homeowner Middle Name',255,null),
+                $this->typeOfErr('required','member_occupation')=>$this->errMessage('required','Homeowner Occupation',null,null),
+                $this->typeOfErr('min','member_occupation')=>$this->errMessage('min','Homeowner Occupation',2,null),
+                $this->typeOfErr('max','member_occupation')=>$this->errMessage('max','Homeowner Occupation',255,null),
+                $this->typeOfErr('required','residence_tel_no')=>$this->errMessage('required','Homeowner Residence Tel. No.',null,null),
+                $this->typeOfErr('digits_between','residence_tel_no')=>$this->errMessage('digits_between','Homeowner Residence Tel. No.',null,'7 to 11'),
+                $this->typeOfErr('numeric','residence_tel_no')=>$this->errMessage('numeric','Homeowner Residence Tel. No.',null,null),
+                $this->typeOfErr('required','member_office_tel_no')=>$this->errMessage('required','Homeowner Office Tel. No.',null,null),
+                $this->typeOfErr('digits_between','member_office_tel_no')=>$this->errMessage('digits_between','Homeowner Office Tel. No.',null,'7 to 11'),
+                $this->typeOfErr('numeric','member_office_tel_no')=>$this->errMessage('numeric','Homeowner Office Tel. No',null,null),
+                $this->typeOfErr('required','member_mobile_no')=>$this->errMessage('required','Homeowner Mobile No',null,null),
+                $this->typeOfErr('digits_between','member_mobile_no')=>$this->errMessage('digits_between','Homeowner Mobile No.',null,'11 to 13'),
+                $this->typeOfErr('numeric','member_mobile_no')=>$this->errMessage('numeric','Homeowner Mobile No.',null,null),
+                $this->typeOfErr('required','member_email_address')=>$this->errMessage('required','Homeowner Email',null,null),
+                $this->typeOfErr('max','member_email_address')=>$this->errMessage('max','Homeowner Email',255,null),
+                $this->typeOfErr('digits_between','mobile_number')=>$this->errMessage('digits_between','Mobile Number',null,'11 to 13'),];
+
     }
 
-    public function errMessage($typeOfErr,$field,$charNum,$addMessage){
-        if($typeOfErr=='required')
-            return $field . ' is required';
-        elseif ($typeOfErr=='min') {
-            return $field . ' must be greater than '. $charNum .' characters';
-        }elseif ($typeOfErr=='max') {
-            return $field . ' must be less than '. $charNum .' characters';
-        }elseif ('digits_between') {
-            return $field . ' must be between '. $addMessage .' digits';
-        }
-    }
+    
 }

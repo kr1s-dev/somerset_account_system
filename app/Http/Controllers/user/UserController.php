@@ -40,7 +40,7 @@ class UserController extends Controller
     public function index()
     {
         try{
-            $users_list = $this->getUser(null);
+            $users_list = $this->getUsers(null);
             //Check usertype of current logged in user 
             if(Auth::user()->userType->type==='Guest'){
                 return view('errors.404'); 
@@ -121,7 +121,7 @@ class UserController extends Controller
     public function show($id)
     {
         try{
-            $eUser = $this->getUser($id);
+            $eUser = $this->getUsers($id);
             if(Auth::user()->userType->type==='Guest'){
                 return view('guest_profile.guest_profile',   
                             compact('eUser'));  
@@ -147,7 +147,7 @@ class UserController extends Controller
     {
         try{
             $isCreate = False;
-            $nUser = $this->getUser($id);
+            $nUser = $this->getUsers($id);
             $eUserTypesList = $this->getUserType($nUser->user_type_id);
             if($nUser->home_owner_id != NULL){
                 $thomeOwner = $this->getHomeOwnerInformation($nUser->home_owner_id);
@@ -183,7 +183,7 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         try{
-            $user = $this->getUser($id);
+            $user = $this->getUsers($id);
             $data = $this->addAndremoveKey(Request::all(),false);
             if($user->home_owner_id == NULL){
                 $user->update($request->all());
@@ -238,7 +238,7 @@ class UserController extends Controller
     **/
     public function deactivateUser($id){
         try{
-            $user = $this->getUser($id);
+            $user = $this->getUsers($id);
             $user->is_active = 0;
             $user->save();
             $this->createSystemLogs('Deactivated an active user');
@@ -259,7 +259,7 @@ class UserController extends Controller
     public function resetPassword($id){
         try{
 
-            $user = $this->getUser($id);
+            $user = $this->getUsers($id);
             $emails = array('email'=>$user->email);
             $response = Password::sendResetLink($emails, function (Message $message) {
                 $message->subject($this->getEmailSubject());
@@ -286,7 +286,7 @@ class UserController extends Controller
 
     public function getChangePassword($id){
         try{
-            $user = $this->getUser($id);
+            $user = $this->getUsers($id);
             if(Auth::user()->userType->type==='Guest'){
                 return view('guest_profile.guest_reset_password',
                             compact('user'));
@@ -311,7 +311,7 @@ class UserController extends Controller
                 return back()->withErrors($validator);
             }
 
-            $user = $this->getUser(Auth::user()->id);
+            $user = $this->getUsers(Auth::user()->id);
             $input = Request::all();
             if(Hash::check($input['old_password'], $user->password)){
                 if($input['old_password'] === $input['new_password']){

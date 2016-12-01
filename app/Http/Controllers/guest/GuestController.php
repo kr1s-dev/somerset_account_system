@@ -111,7 +111,7 @@ class GuestController extends Controller
 
 
     public function getHomeOwner(){
-        $eUser = $this->getUser($this->getLogInUserId());
+        $eUser = $this->getUsers($this->getLogInUserId());
         //$homeOwner = $this->getHomeOwnerInformation($eUser->home_owner_id);
         return $eUser->home_owner_id;
     }
